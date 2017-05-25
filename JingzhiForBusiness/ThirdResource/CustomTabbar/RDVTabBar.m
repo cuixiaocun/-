@@ -85,6 +85,7 @@
                                   roundf(frameSize.height - itemHeight) - self.contentEdgeInsets.top,
                                   self.itemWidth, itemHeight - self.contentEdgeInsets.bottom)];
         [item setNeedsDisplay];
+        item.backgroundColor =[UIColor colorWithRed:index*100/255.00 green:index*100/255.00 blue:index*100/255.00 alpha:1];
         
         index++;
     }

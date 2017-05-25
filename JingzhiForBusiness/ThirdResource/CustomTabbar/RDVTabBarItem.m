@@ -43,6 +43,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self commonInitialization];
+        
     }
     return self;
 }
@@ -121,10 +122,9 @@
     // Draw image and title
     
     if (![_title length]) {
-        [image drawInRect:CGRectMake(roundf(frameSize.width / 2 - imageSize.width / 2) +
-                                     _imagePositionAdjustment.horizontal,
+        [image drawInRect:CGRectMake(CXCWidth/6-50*Width,
                                      roundf(0),
-                                     imageSize.width/2, imageSize.height/2)];
+                                    100*Width, 100*Width)];
     } else {
         
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) {
@@ -135,17 +135,15 @@
             
             imageStartingY = roundf((frameSize.height - imageSize.height - titleSize.height) / 2);
             
-            [image drawInRect:CGRectMake(roundf(frameSize.width / 2 - imageSize.width / 2) +
-                                         _imagePositionAdjustment.horizontal,
+            [image drawInRect:CGRectMake(CXCWidth/6-50*Width ,
                                          imageStartingY + _imagePositionAdjustment.vertical,
-                                         imageSize.width, imageSize.height)];
+                                          100*Width, 100*Width)];
             
             CGContextSetFillColorWithColor(context, [titleAttributes[NSForegroundColorAttributeName] CGColor]);
             
-            [_title drawInRect:CGRectMake(roundf(frameSize.width / 2 - titleSize.width / 2) +
-                                          _titlePositionAdjustment.horizontal,
+            [_title drawInRect:CGRectMake(CXCWidth/6-50*Width ,
                                           imageStartingY + imageSize.height + _titlePositionAdjustment.vertical,
-                                          titleSize.width, titleSize.height)
+                                           100*Width, 100*Width)
                 withAttributes:titleAttributes];
         } else {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
@@ -260,12 +258,10 @@
     if (selectedImage && (selectedImage != [self selectedImage])) {
         [self setSelectedImage:selectedImage];
     }
-    
     if (unselectedImage && (unselectedImage != [self unselectedImage])) {
         [self setUnselectedImage:unselectedImage];
     }
 }
-
 - (void)setBadgeValue:(NSString *)badgeValue {
     _badgeValue = badgeValue;
     
@@ -273,11 +269,9 @@
 }
 
 #pragma mark - Background configuration
-
 - (UIImage *)backgroundSelectedImage {
     return [self selectedBackgroundImage];
 }
-
 - (UIImage *)backgroundUnselectedImage {
     return [self unselectedBackgroundImage];
 }
