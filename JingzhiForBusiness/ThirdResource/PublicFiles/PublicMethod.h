@@ -16,15 +16,13 @@
 #import "AppDelegate.h"
 #import "DDMenuController.h" 
 #import "EGOImageView.h"
-#import "EGOImageButton.h"
-#import "CycleScrollView.h"
 #import "DesSecret.h"
 
 //服务器地址
-
 #define IMAGEURL  @"https://www.lianqunwuye.com:4432/SmartCommunity/"
 #define SERVERURL @"https://www.lianqunwuye.com:4432/SmartCommunity_API"
-
+//是否为空
+#define IsNilString(__String)   (__String==nil || [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqual:[NSNull null]]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"])
 
 
 #define TextBlueColor ([UIColor colorWithRed:20/255.0 green:138/255.0 blue:246/255.0 alpha:1])
@@ -43,6 +41,7 @@
 
 #define Frame_Y ([[[UIDevice currentDevice] systemVersion] floatValue]>=7.0 ? 20 : 0.0)
 
+#define KEYOFMD5 @"123456"
 
 
 
@@ -72,5 +71,19 @@
 +(void)setAlertInfo:(NSString *)info andSuperview:(UIView *)view;
 + (AFSecurityPolicy*)customSecurityPolicy;//验证证书
 +(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
++ (NSDictionary*)ASCIIwithDic:(NSDictionary *)dict;
+//存取字典
++ (void) saveData:(NSDictionary *)dict withKey:(NSString *)key;
++ (NSDictionary *) getDataKey:(NSString *)key;
+
+//存取字符串
++ (void) saveDataString:(NSString *)string withKey:(NSString *)key;
++ (NSString *) getDataStringKey:(NSString *)key;
+
+//存取数组
++ (void) saveArrData:(NSArray *)array withKey:(NSString *)key;
++ (NSArray *) getArrData:(NSString *)key;
+//删除数据
++(void)removeObjectForKey:(NSString *)key;
 
 @end

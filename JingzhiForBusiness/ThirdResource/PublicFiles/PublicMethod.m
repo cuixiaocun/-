@@ -12,7 +12,7 @@
 static NSDictionary *dict;
 
 @implementation PublicMethod
-
+//md5加密
 +(NSString *)md5:(NSString *)str
 {
     const char *cStr = [str UTF8String];
@@ -29,36 +29,12 @@ static NSDictionary *dict;
 
 
 
-+(void)setObject:(id)object key:(NSString *)key
-{
-    [[NSUserDefaults standardUserDefaults] setObject:object forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-
-}
-
-
-+(id)getObjectForKey:(NSString *)key
-{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:key]) {
-        return [[NSUserDefaults standardUserDefaults] objectForKey:key];
-    }else{
-        return NULL;
-    }
-}
-
-
-+(void)removeObjectForKey:(NSString *)key{
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:key]) {
-        return [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
-    }
-}
-
 //获取手机唯一标识
 +(NSString *)getAppKey{
-    //手机唯一标识
-    NSString *appkey =[self getObjectForKey:@"appKey"];
-    return appkey;
+    NSString *identifierForVendor = [[UIDevice currentDevice].identifierForVendor UUIDString];
+    NSLog(@"%@",identifierForVendor);
+    
+    return identifierForVendor;
 }
 
 
@@ -100,7 +76,7 @@ static NSDictionary *dict;
     return securityPolicy;
 }
 
-//urlString+SERVERURL
+//urlString+SERVERURL（post）请求网络
 +(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -108,7 +84,7 @@ static NSDictionary *dict;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
     NSString *url=[NSString stringWithFormat:@"%@%@",SERVERURL,urlString];
     NSDictionary *parameter =dic;
-    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
+//    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
 
     [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -116,13 +92,125 @@ static NSDictionary *dict;
         
         if (success) {
             success(responseObject);
+            
+            
+            
+            
         }
     }
           failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
               NSLog(@"网络连接失败");
-              
+              [ProgressHUD showError:@"网络连接失败，请检查网络"];
+
     }];
     
+}
+
+//把字典放进来，通过key的ASCII重新排列，根据重新排列的key数组拼接Key=value@key=value&...最后加上秘钥拼接成为新的字符串，将此字符串加到刚进来时候的字典里，返回
++ (NSMutableDictionary*)ASCIIwithDic:(NSMutableDictionary *)dict
+{
+    NSMutableString *contentString  =[NSMutableString string];
+
+    NSArray *keys = [dict allKeys];
+    //按字母顺序排序
+    NSArray *sortedArray = [keys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1 compare:obj2 options:NSNumericSearch];
+    }];
+    
+    for (int i=0; i<sortedArray.count; i++) {
+        if (i==sortedArray.count-1) {
+            [contentString appendFormat:@"%@=%@&key=%@", sortedArray[i], [dict valueForKey:sortedArray[i]],KEYOFMD5];
+        }else
+        {
+            [contentString appendFormat:@"%@=%@&", sortedArray[i], [dict valueForKey:sortedArray[i]]];
+            
+        }
+        
+    }
+    [dict setValue:[PublicMethod md5:contentString] forKey:@"sign"];
+    NSLog(@"%@",dict);
+    
+    
+    //
+    //
+    //    //拼接字符串
+    //    for (NSString *categoryId in sortedArray) {
+    //        [contentString appendFormat:@"%@=%@&", categoryId, [dict valueForKey:categoryId]];
+    //
+    //        if (![categoryId isEqualToString:@"sign"] && ![categoryId isEqualToString:@"timestamp"]){
+    //            if([categoryId isEqualToString:@"biz_content"]){
+    //                NSError *error = nil;
+    //                NSDictionary* bizDict = [dict objectForKey:@"biz_content"];
+    //                NSData *jsonData = [NSJSONSerialization dataWithJSONObject:bizDict options:NSJSONWritingPrettyPrinted error: &error];
+    //                NSMutableData *tempJsonData = [NSMutableData dataWithData:jsonData];
+    //                NSString* jsonString1 = [[NSString alloc] initWithData:tempJsonData encoding:NSUTF8StringEncoding];
+    //                NSString *jsonString2 = [jsonString1 stringByReplacingOccurrencesOfString:@" : " withString:@":"];
+    //                [contentString appendFormat:@"biz_content=%@&",jsonString2];
+    //            }else{
+    //                [contentString appendFormat:@"%@=%@&", categoryId, [dict valueForKey:categoryId]];
+    //            }
+    //
+    //
+    //        }
+    //    }
+    //    //添加key字段
+    //    [contentString appendFormat:@"timestamp=%@", [dict objectForKey:@"timestamp"]];
+    //    NSString *strUrl1 = [contentString stringByReplacingOccurrencesOfString:@"  " withString:@""];
+    //    //    NSString *strUrl2 = [strUrl1 stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    //    NSString *strUrl3 = [strUrl1 stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    return dict;
+    
+}
+
+//存数组
++ (void) saveArrData:(NSArray *)array withKey:(NSString *)key
+{
+    NSUserDefaults *saveDefaults = [NSUserDefaults standardUserDefaults];
+    [saveDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:array] forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+//取数组
++ (NSArray *) getArrData:(NSString *)key
+{
+    NSUserDefaults *getDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [getDefaults objectForKey:key];
+    NSArray *retrievedArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return retrievedArray;
+}
+//存字典数据
++ (void) saveData:(NSDictionary *)dict withKey:(NSString *)key
+{
+    NSUserDefaults *saveDefaults = [NSUserDefaults standardUserDefaults];
+    [saveDefaults setObject:[NSKeyedArchiver archivedDataWithRootObject:dict] forKey:key];
+    [saveDefaults synchronize];
+}
+//取字典
++ (NSDictionary *) getDataKey:(NSString *)key
+{
+    NSUserDefaults *getDefaults = [NSUserDefaults standardUserDefaults];
+    //    NSDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:[getDefaults objectForKey:_captureView.videoPathKey]];
+    NSData *data = [getDefaults objectForKey:key];
+    NSDictionary *retrievedDictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return retrievedDictionary;
+}
+//存字符串
++ (void) saveDataString:(NSString *)string withKey:(NSString *)key
+{
+    NSUserDefaults *saveDefaults = [NSUserDefaults standardUserDefaults];
+    [saveDefaults setObject:string forKey:key];
+}
+//取字符串
++ (NSString *) getDataStringKey:(NSString *)key
+{
+    NSUserDefaults *saveDefaults = [NSUserDefaults standardUserDefaults];
+    return [saveDefaults objectForKey:key];
+}
+//删除数据
++(void)removeObjectForKey:(NSString *)key{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:key]) {
+        return [[NSUserDefaults standardUserDefaults] removeObjectForKey:key];
+    }
 }
 
 @end
