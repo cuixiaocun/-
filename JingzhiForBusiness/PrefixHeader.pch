@@ -18,3 +18,6 @@
 #import "UIViewExt.h"
 #import "PublicMethod.h"
 #import "SDCycleScrollView.h"
+#import "RDVTabBarController.h"
+#import "RDVTabBar.h"
+#import "RDVTabBarItem.h"

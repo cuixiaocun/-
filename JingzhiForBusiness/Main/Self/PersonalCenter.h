@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PublicMethod.h"
 
-@interface PersonalCenter : UIViewController
+@interface PersonalCenter : UIViewController<NSURLSessionDelegate>
+@property(nonatomic,retain)NSURLConnection *connection;
 
 @end

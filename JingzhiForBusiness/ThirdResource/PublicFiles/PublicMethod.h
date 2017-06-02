@@ -17,7 +17,8 @@
 #import "DDMenuController.h" 
 #import "EGOImageView.h"
 #import "DesSecret.h"
-
+#import "MBProgressHUD.h"
+#import "MBProgressHUD+MP.h"
 //服务器地址
 #define IMAGEURL  @"https://www.lianqunwuye.com:4432/SmartCommunity/"
 #define SERVERURL @"https://www.lianqunwuye.com:4432/SmartCommunity_API"
@@ -25,42 +26,34 @@
 #define IsNilString(__String)   (__String==nil || [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqual:[NSNull null]]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"])
 
 
-#define TextBlueColor ([UIColor colorWithRed:20/255.0 green:138/255.0 blue:246/255.0 alpha:1])
-#define TextGrayColor ([UIColor colorWithRed:81/255.0 green:99/255.0 blue:119/255.0 alpha:1])
-#define BGColor ([UIColor colorWithRed:241/255.0 green:242/255.0 blue:243/255.0 alpha:1])
-#define NavColor ([UIColor colorWithRed:241/255.0 green:44/255.0 blue:66/255.0 alpha:1])
-#define NomalBtnBg ([UIColor colorWithRed:127/255.0 green:173/255.0 blue:206/255.0 alpha:1])
-#define HightBtnBg ([UIColor colorWithRed:51/255.0 green:127/255.0 blue:179/255.0 alpha:1])
+#define TextBlueColor ([UIColor colorWithRed:20/255.0 green:138/255.0 blue:246/255.0 alpha:1])//
+#define TextColor ([UIColor colorWithRed:77/255.0 green:77/255.0 blue:77/255.0 alpha:1])//黑色的字
+#define BlackColor ([UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1])//黑色的字
+
+#define TextGrayColor ([UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1])//灰色的字
+#define TextGrayGrayColor ([UIColor colorWithRed:190/255.0 green:190/255.0 blue:190/255.0 alpha:1])//灰色的字
+
+#define BGColor ([UIColor colorWithRed:241/255.0 green:242/255.0 blue:243/255.0 alpha:1])//背景颜色
+#define NavColor ([UIColor colorWithRed:242/255.0 green:55/255.0 blue:59/255.0 alpha:1])//导航栏颜色
+#define NomalBtnBg ([UIColor colorWithRed:127/255.0 green:173/255.0 blue:206/255.0 alpha:1])//按钮普通颜色
+#define SelectBtnBg ([UIColor colorWithRed:51/255.0 green:127/255.0 blue:179/255.0 alpha:1])//按钮选中颜色
 #define Version ([[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey])
+#define IOS7 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? YES : NO)
 
 #define CXCHeight ([[UIScreen mainScreen] bounds].size.height)/1.0
 #define CXCWidth ([[UIScreen mainScreen] bounds].size.width)/1.0
 #define Width [UIScreen mainScreen].bounds.size.width/750.0
+#define navBackarrow @"register_btn_goBack_white"//返回箭头
+#define yuanjiao 4
 
 #define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
 
-#define Frame_Y ([[[UIDevice currentDevice] systemVersion] floatValue]>=7.0 ? 20 : 0.0)
-
 #define KEYOFMD5 @"123456"
 
-
-
-
-
-
-
-
-
 @interface PublicMethod : NSObject
-
-
-
+//md5加密
 +(NSString *)md5:(NSString *)str;
-
-+(void)setObject:(id)object key:(NSString *)key;
-
-+(id)getObjectForKey:(NSString *)key;
-
++(BOOL)isMobileNumber:(NSString *)mobile;
 +(void)removeObjectForKey:(NSString *)key;
 
 +(id)getTabber;//tabber
@@ -84,6 +77,6 @@
 + (void) saveArrData:(NSArray *)array withKey:(NSString *)key;
 + (NSArray *) getArrData:(NSString *)key;
 //删除数据
-+(void)removeObjectForKey:(NSString *)key;
++ (BOOL)judgeIdentityStringValid:(NSString *)identityString;
 
 @end

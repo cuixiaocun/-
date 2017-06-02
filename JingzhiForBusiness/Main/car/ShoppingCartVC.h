@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "RDVTabBarController.h"
+#import "RDVTabBar.h"
+#import "RDVTabBarItem.h"
 @interface ShoppingCartVC : UIViewController
 
 @end

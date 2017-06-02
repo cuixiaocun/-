@@ -56,6 +56,14 @@
 - (void)commonInitialization {
     _backgroundView = [[UIView alloc] init];
     [self addSubview:_backgroundView];
+    //线
+    UIImageView*xian =[[UIImageView alloc]init];
+    xian.backgroundColor =BGColor;
+    [self addSubview:xian];
+    xian.frame =CGRectMake(0*Width,-2*Width, CXCWidth, 2*Width);
+
+    
+    
     
     [self setTranslucent:NO];
 }

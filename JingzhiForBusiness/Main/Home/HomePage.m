@@ -8,6 +8,12 @@
 
 #import "HomePage.h"
 #import "Harpy.h"
+#import "RDVTabBarController.h"
+#import "RDVTabBar.h"
+#import "RDVTabBarItem.h"
+#import "ShoppingCartVC.h"
+#import "LoginPage.h"
+#import "PersonalCenter.h"
 @interface HomePage ()<SDCycleScrollViewDelegate>
 {
 
@@ -26,7 +32,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden =YES;
-    
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+
 }
 //首页
 - (void)viewDidLoad {
@@ -37,11 +44,11 @@
             //图片
             UIImageView *imageview =[[UIImageView alloc] init];
             [imageview setBackgroundColor:NavColor];
-            [imageview setFrame:CGRectMake(0, 0, CXCWidth, 44+Frame_Y)];
+            [imageview setFrame:CGRectMake(0, 0, CXCWidth, 64)];
             [self.view addSubview:imageview];
             [self.view sendSubviewToBack:imageview];
             //标题
-            UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(0, Frame_Y, CXCWidth, 44)];
+            UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(0, 20, CXCWidth, 44)];
             [navTitle setText:@"心体荟控价管理系统"];
             [navTitle setTextAlignment:NSTextAlignmentCenter];
             [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -58,7 +65,7 @@
 -(void)makeThisView
 {
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 44+Frame_Y, CXCWidth, CXCHeight-44-Frame_Y-49)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 44+20, CXCWidth, CXCHeight-44-20-49)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:bgScrollView];
@@ -191,4 +198,5 @@
     }];
 
 }
+
 @end

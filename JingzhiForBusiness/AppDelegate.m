@@ -5,14 +5,12 @@
 //  Created by Admin on 2017/3/21.
 //  Copyright © 2017年 cuixiaocun. All rights reserved.
 //
-
 #import "AppDelegate.h"
 #import "HomePage.h"
 #import "PersonalCenter.h"
 #import "OtherVC.h"
 #import "ShoppingCartVC.h"
 #import "LoginPage.h"
-
 #import "RDVTabBarController.h"
 #import "RDVTabBar.h"
 #import "RDVTabBarItem.h"
@@ -27,13 +25,16 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self setupViewControllers];
+    [self customizeInterface];
+    _mapManager = [[BMKMapManager alloc]init];
+    // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
+    BOOL ret = [_mapManager start:@"XGHQHyG1dAOZMEr8Ri0INK7vUtYMmabz"  generalDelegate:nil];
+    if (!ret) {
+        NSLog(@"manager start failed!");
+    }
     [self.window setRootViewController:self.viewController];
     [self.window makeKeyAndVisible];
-    
-    [self customizeInterface];
-    
 
-    
     return YES;
 }
 
@@ -42,14 +43,10 @@
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
 }
-
-
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
-
-
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
 }
@@ -112,27 +109,42 @@
     }
 }
 - (void)setupViewControllers {
+//    if ([[PublicMethod getDataStringKey:@"WetherFirstInput"]isEqualToString:@"1"]) {//若为1，表示登录了
+//        [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
+//    
     UIViewController *firstViewController = [[HomePage alloc] init];
-    UIViewController *firstNavigationController = [[UINavigationController alloc]
-                                                   initWithRootViewController:firstViewController];
-    
+    UINavigationController *firstNavigationController = [[UINavigationController alloc]initWithRootViewController:firstViewController];
+        [firstNavigationController setNavigationBarHidden:YES];
+
     UIViewController *secondViewController = [[ShoppingCartVC alloc] init];
-    UIViewController *secondNavigationController = [[UINavigationController alloc]
+    UINavigationController *secondNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:secondViewController];
-    
+        [secondNavigationController setNavigationBarHidden:YES];
+
     UIViewController *threeViewController = [[PersonalCenter alloc] init];
-    UIViewController *threeNavigationController = [[UINavigationController alloc]
+    UINavigationController *threeNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:threeViewController];
+        [threeNavigationController setNavigationBarHidden:YES];
+        
     RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
     [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
     self.viewController = tabBarController;
-    
     [self customizeTabBarForController:tabBarController];
+        
+//    }else//若不为1表示没登录
+//    {
+//        LoginPage *rootViewController = [[LoginPage alloc] init];
+//        UINavigationController* _navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+//        self.viewController =_navigationController;
+//        [_navigationController setNavigationBarHidden:YES];
+//
+//    }
+//
 }
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    NSArray *tabBarItemImages = @[@"tab_home", @"tab_card",@"tab_card"];
+    NSArray *tabBarItemImages = @[@"proxy_icon_baodan", @"proxy_icon_order",@"proxy_icon_me"];
     
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
@@ -164,7 +176,6 @@
     } else {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
         backgroundImage = [UIImage imageNamed:@"navigationbar_background"];
-        
         textAttributes = @{
                            UITextAttributeFont: [UIFont boldSystemFontOfSize:18],
                            UITextAttributeTextColor: [UIColor blackColor],

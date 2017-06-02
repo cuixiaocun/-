@@ -122,9 +122,9 @@
     // Draw image and title
     
     if (![_title length]) {
-        [image drawInRect:CGRectMake(CXCWidth/6-50*Width,
-                                     roundf(0),
-                                    100*Width, 100*Width)];
+        [image drawInRect:CGRectMake(CXCWidth/6-41*Width,
+                                     roundf(12*Width),
+                                    82*Width, 77*Width)];
     } else {
         
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) {
@@ -137,13 +137,13 @@
             
             [image drawInRect:CGRectMake(CXCWidth/6-50*Width ,
                                          imageStartingY + _imagePositionAdjustment.vertical,
-                                          100*Width, 100*Width)];
+                                          80*Width, 80*Width)];
             
             CGContextSetFillColorWithColor(context, [titleAttributes[NSForegroundColorAttributeName] CGColor]);
             
             [_title drawInRect:CGRectMake(CXCWidth/6-50*Width ,
                                           imageStartingY + imageSize.height + _titlePositionAdjustment.vertical,
-                                           100*Width, 100*Width)
+                                           80*Width, 80*Width)
                 withAttributes:titleAttributes];
         } else {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0

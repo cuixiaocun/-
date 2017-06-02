@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7815247DCF9B151F1A143539 /* libPods-JingzhiForBusiness.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D61EB91D0ED7E1622B7DB1F8 /* libPods-JingzhiForBusiness.a */; };
+		842097931EE0E31F00DE5C77 /* RegisterAndGoods.m in Sources */ = {isa = PBXBuildFile; fileRef = 842097921EE0E31F00DE5C77 /* RegisterAndGoods.m */; };
+		8420979A1EE0F2A600DE5C77 /* GoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 842097991EE0F2A600DE5C77 /* GoodsModel.m */; };
+		8420979D1EE0F2C300DE5C77 /* GoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8420979C1EE0F2C300DE5C77 /* GoodsCell.m */; };
+		842F5BB51EDE659900D90833 /* MyCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F5BB21EDE659900D90833 /* MyCustomCell.m */; };
+		842F5BB61EDE659900D90833 /* GoodsInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F5BB41EDE659900D90833 /* GoodsInfoModel.m */; };
+		842F5BBE1EDE669D00D90833 /* img6.png in Resources */ = {isa = PBXBuildFile; fileRef = 842F5BB81EDE669D00D90833 /* img6.png */; };
+		842F5BBF1EDE669D00D90833 /* 复选框-未选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 842F5BB91EDE669D00D90833 /* 复选框-未选中.png */; };
+		842F5BC01EDE669D00D90833 /* 复选框-选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 842F5BBA1EDE669D00D90833 /* 复选框-选中.png */; };
+		842F5BC11EDE669D00D90833 /* 按钮+.png in Resources */ = {isa = PBXBuildFile; fileRef = 842F5BBB1EDE669D00D90833 /* 按钮+.png */; };
+		842F5BC21EDE669D00D90833 /* 按钮-.png in Resources */ = {isa = PBXBuildFile; fileRef = 842F5BBC1EDE669D00D90833 /* 按钮-.png */; };
+		842F5BC31EDE669D00D90833 /* 购物车空.png in Resources */ = {isa = PBXBuildFile; fileRef = 842F5BBD1EDE669D00D90833 /* 购物车空.png */; };
 		844391F91ED6672500FA4927 /* ShoppingCartVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 844391F81ED6672500FA4927 /* ShoppingCartVC.m */; };
 		844391FC1ED6675D00FA4927 /* OtherVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 844391FB1ED6675D00FA4927 /* OtherVC.m */; };
 		844392021ED667B600FA4927 /* PersonalCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 844392011ED667B600FA4927 /* PersonalCenter.m */; };
@@ -152,9 +164,30 @@
 		84E532651E80F3D2009E63E6 /* RDVTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E532601E80F3D2009E63E6 /* RDVTabBarItem.m */; };
 		84E532661E80F3D2009E63E6 /* RDVTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E532621E80F3D2009E63E6 /* RDVTabBar.m */; };
 		84E532671E80F3D2009E63E6 /* RDVTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E532641E80F3D2009E63E6 /* RDVTabBarController.m */; };
+		84F6DAE11EDF943B001C80AE /* RegisteredVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F6DAE01EDF943B001C80AE /* RegisteredVC.m */; };
+		84F6DAE41EDFB3B0001C80AE /* SetIDNumberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F6DAE31EDFB3B0001C80AE /* SetIDNumberVC.m */; };
+		84F6DAE71EDFB505001C80AE /* UIScrollView+Myscrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F6DAE61EDFB505001C80AE /* UIScrollView+Myscrollview.m */; };
+		84F6DAEA1EDFF73B001C80AE /* PhotoSampleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F6DAE91EDFF73B001C80AE /* PhotoSampleVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		18700DC1B696DE926241E2C4 /* Pods-JingzhiForBusiness.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingzhiForBusiness.release.xcconfig"; path = "Pods/Target Support Files/Pods-JingzhiForBusiness/Pods-JingzhiForBusiness.release.xcconfig"; sourceTree = "<group>"; };
+		842097911EE0E31F00DE5C77 /* RegisterAndGoods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterAndGoods.h; path = ../RegisterAndGoods.h; sourceTree = "<group>"; };
+		842097921EE0E31F00DE5C77 /* RegisterAndGoods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterAndGoods.m; path = ../RegisterAndGoods.m; sourceTree = "<group>"; };
+		842097981EE0F2A600DE5C77 /* GoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsModel.h; sourceTree = "<group>"; };
+		842097991EE0F2A600DE5C77 /* GoodsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsModel.m; sourceTree = "<group>"; };
+		8420979B1EE0F2C300DE5C77 /* GoodsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsCell.h; sourceTree = "<group>"; };
+		8420979C1EE0F2C300DE5C77 /* GoodsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsCell.m; sourceTree = "<group>"; };
+		842F5BB11EDE659900D90833 /* MyCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCustomCell.h; sourceTree = "<group>"; };
+		842F5BB21EDE659900D90833 /* MyCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCustomCell.m; sourceTree = "<group>"; };
+		842F5BB31EDE659900D90833 /* GoodsInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoModel.h; sourceTree = "<group>"; };
+		842F5BB41EDE659900D90833 /* GoodsInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoModel.m; sourceTree = "<group>"; };
+		842F5BB81EDE669D00D90833 /* img6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img6.png; sourceTree = "<group>"; };
+		842F5BB91EDE669D00D90833 /* 复选框-未选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "复选框-未选中.png"; sourceTree = "<group>"; };
+		842F5BBA1EDE669D00D90833 /* 复选框-选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "复选框-选中.png"; sourceTree = "<group>"; };
+		842F5BBB1EDE669D00D90833 /* 按钮+.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "按钮+.png"; sourceTree = "<group>"; };
+		842F5BBC1EDE669D00D90833 /* 按钮-.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "按钮-.png"; sourceTree = "<group>"; };
+		842F5BBD1EDE669D00D90833 /* 购物车空.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "购物车空.png"; sourceTree = "<group>"; };
 		844391F71ED6672500FA4927 /* ShoppingCartVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartVC.h; sourceTree = "<group>"; };
 		844391F81ED6672500FA4927 /* ShoppingCartVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCartVC.m; sourceTree = "<group>"; };
 		844391FA1ED6675D00FA4927 /* OtherVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherVC.h; sourceTree = "<group>"; };
@@ -424,6 +457,16 @@
 		84E532621E80F3D2009E63E6 /* RDVTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDVTabBar.m; sourceTree = "<group>"; };
 		84E532631E80F3D2009E63E6 /* RDVTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDVTabBarController.h; sourceTree = "<group>"; };
 		84E532641E80F3D2009E63E6 /* RDVTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDVTabBarController.m; sourceTree = "<group>"; };
+		84F6DADF1EDF943B001C80AE /* RegisteredVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisteredVC.h; sourceTree = "<group>"; };
+		84F6DAE01EDF943B001C80AE /* RegisteredVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisteredVC.m; sourceTree = "<group>"; };
+		84F6DAE21EDFB3B0001C80AE /* SetIDNumberVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetIDNumberVC.h; sourceTree = "<group>"; };
+		84F6DAE31EDFB3B0001C80AE /* SetIDNumberVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetIDNumberVC.m; sourceTree = "<group>"; };
+		84F6DAE51EDFB505001C80AE /* UIScrollView+Myscrollview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+Myscrollview.h"; path = "../UIScrollView+Myscrollview.h"; sourceTree = "<group>"; };
+		84F6DAE61EDFB505001C80AE /* UIScrollView+Myscrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+Myscrollview.m"; path = "../UIScrollView+Myscrollview.m"; sourceTree = "<group>"; };
+		84F6DAE81EDFF73B001C80AE /* PhotoSampleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoSampleVC.h; sourceTree = "<group>"; };
+		84F6DAE91EDFF73B001C80AE /* PhotoSampleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSampleVC.m; sourceTree = "<group>"; };
+		D61EB91D0ED7E1622B7DB1F8 /* libPods-JingzhiForBusiness.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JingzhiForBusiness.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F5653D27A4384D6C85214FA4 /* Pods-JingzhiForBusiness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingzhiForBusiness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JingzhiForBusiness/Pods-JingzhiForBusiness.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -431,17 +474,66 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7815247DCF9B151F1A143539 /* libPods-JingzhiForBusiness.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		157573E27C7B2C9C043E5A56 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D61EB91D0ED7E1622B7DB1F8 /* libPods-JingzhiForBusiness.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4A3B82C069D511806CBA78DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F5653D27A4384D6C85214FA4 /* Pods-JingzhiForBusiness.debug.xcconfig */,
+				18700DC1B696DE926241E2C4 /* Pods-JingzhiForBusiness.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		842097941EE0F24300DE5C77 /* goods */ = {
+			isa = PBXGroup;
+			children = (
+				842097911EE0E31F00DE5C77 /* RegisterAndGoods.h */,
+				842097921EE0E31F00DE5C77 /* RegisterAndGoods.m */,
+				842097981EE0F2A600DE5C77 /* GoodsModel.h */,
+				842097991EE0F2A600DE5C77 /* GoodsModel.m */,
+				8420979B1EE0F2C300DE5C77 /* GoodsCell.h */,
+				8420979C1EE0F2C300DE5C77 /* GoodsCell.m */,
+			);
+			path = goods;
+			sourceTree = "<group>";
+		};
+		842F5BB71EDE664B00D90833 /* img */ = {
+			isa = PBXGroup;
+			children = (
+				842F5BB81EDE669D00D90833 /* img6.png */,
+				842F5BB91EDE669D00D90833 /* 复选框-未选中.png */,
+				842F5BBA1EDE669D00D90833 /* 复选框-选中.png */,
+				842F5BBB1EDE669D00D90833 /* 按钮+.png */,
+				842F5BBC1EDE669D00D90833 /* 按钮-.png */,
+				842F5BBD1EDE669D00D90833 /* 购物车空.png */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
 		844391F51ED666BD00FA4927 /* Shopping Cart  */ = {
 			isa = PBXGroup;
 			children = (
+				842F5BB71EDE664B00D90833 /* img */,
 				844391F71ED6672500FA4927 /* ShoppingCartVC.h */,
 				844391F81ED6672500FA4927 /* ShoppingCartVC.m */,
+				842F5BB11EDE659900D90833 /* MyCustomCell.h */,
+				842F5BB21EDE659900D90833 /* MyCustomCell.m */,
+				842F5BB31EDE659900D90833 /* GoodsInfoModel.h */,
+				842F5BB41EDE659900D90833 /* GoodsInfoModel.m */,
 			);
 			name = "Shopping Cart ";
 			path = car;
@@ -506,6 +598,8 @@
 			children = (
 				84E530231E80C79A009E63E6 /* JingzhiForBusiness */,
 				84E530221E80C79A009E63E6 /* Products */,
+				4A3B82C069D511806CBA78DB /* Pods */,
+				157573E27C7B2C9C043E5A56 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -796,6 +890,8 @@
 		84E5311D1E80C8D3009E63E6 /* PublicFiles */ = {
 			isa = PBXGroup;
 			children = (
+				84F6DAE51EDFB505001C80AE /* UIScrollView+Myscrollview.h */,
+				84F6DAE61EDFB505001C80AE /* UIScrollView+Myscrollview.m */,
 				84E5311E1E80C8D3009E63E6 /* GTMBase64.h */,
 				84E5311F1E80C8D3009E63E6 /* GTMBase64.m */,
 				84E531201E80C8D3009E63E6 /* GTMDefines.h */,
@@ -1044,8 +1140,15 @@
 		84E532461E80D102009E63E6 /* login */ = {
 			isa = PBXGroup;
 			children = (
+				842097941EE0F24300DE5C77 /* goods */,
 				84E532591E80D47D009E63E6 /* LoginPage.h */,
 				84E5325A1E80D47D009E63E6 /* LoginPage.m */,
+				84F6DADF1EDF943B001C80AE /* RegisteredVC.h */,
+				84F6DAE01EDF943B001C80AE /* RegisteredVC.m */,
+				84F6DAE21EDFB3B0001C80AE /* SetIDNumberVC.h */,
+				84F6DAE31EDFB3B0001C80AE /* SetIDNumberVC.m */,
+				84F6DAE81EDFF73B001C80AE /* PhotoSampleVC.h */,
+				84F6DAE91EDFF73B001C80AE /* PhotoSampleVC.m */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -1057,9 +1160,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 84E5303B1E80C79A009E63E6 /* Build configuration list for PBXNativeTarget "JingzhiForBusiness" */;
 			buildPhases = (
+				288B8F28E8782E92863DD1A1 /* [CP] Check Pods Manifest.lock */,
 				84E5301D1E80C79A009E63E6 /* Sources */,
 				84E5301E1E80C79A009E63E6 /* Frameworks */,
 				84E5301F1E80C79A009E63E6 /* Resources */,
+				502C719F0A007118992B22E5 /* [CP] Embed Pods Frameworks */,
+				F799119774EC29C97B623EAA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1109,6 +1215,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				842F5BC11EDE669D00D90833 /* 按钮+.png in Resources */,
 				84E531EC1E80C8D4009E63E6 /* ProgressHUD.bundle in Resources */,
 				84E5323A1E80C8D4009E63E6 /* 86.jpg in Resources */,
 				84E5322C1E80C8D4009E63E6 /* left_arrow.png in Resources */,
@@ -1126,6 +1233,7 @@
 				84E5322E1E80C8D4009E63E6 /* right_arrow.png in Resources */,
 				84E531BA1E80C8D4009E63E6 /* DemoTableFooterView.xib in Resources */,
 				84E532301E80C8D4009E63E6 /* Info.plist in Resources */,
+				842F5BBF1EDE669D00D90833 /* 复选框-未选中.png in Resources */,
 				84E5322B1E80C8D4009E63E6 /* error.png in Resources */,
 				84E5322F1E80C8D4009E63E6 /* right_arrow@2x.png in Resources */,
 				84E531B11E80C8D4009E63E6 /* city.plist in Resources */,
@@ -1134,17 +1242,69 @@
 				84E5321A1E80C8D4009E63E6 /* YBImgPickerViewCell.xib in Resources */,
 				84E531E71E80C8D4009E63E6 /* loading_02.jpg in Resources */,
 				84E531E81E80C8D4009E63E6 /* loading_03.jpg in Resources */,
+				842F5BC21EDE669D00D90833 /* 按钮-.png in Resources */,
 				84E531EA1E80C8D4009E63E6 /* loading_05.jpg in Resources */,
+				842F5BBE1EDE669D00D90833 /* img6.png in Resources */,
 				84E5323C1E80C8D4009E63E6 /* star_huang.png in Resources */,
 				84E5302F1E80C79A009E63E6 /* Main.storyboard in Resources */,
 				84E531CE1E80C8D4009E63E6 /* placeholder@2x.png in Resources */,
+				842F5BC01EDE669D00D90833 /* 复选框-选中.png in Resources */,
 				84E532171E80C8D4009E63E6 /* YBImgPickerTableViewCell.xib in Resources */,
 				84E5321C1E80C8D4009E63E6 /* YBImgPickerViewController.xib in Resources */,
 				84E5322D1E80C8D4009E63E6 /* left_arrow@2x.png in Resources */,
+				842F5BC31EDE669D00D90833 /* 购物车空.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		288B8F28E8782E92863DD1A1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		502C719F0A007118992B22E5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JingzhiForBusiness/Pods-JingzhiForBusiness-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F799119774EC29C97B623EAA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JingzhiForBusiness/Pods-JingzhiForBusiness-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		84E5301D1E80C79A009E63E6 /* Sources */ = {
@@ -1158,6 +1318,7 @@
 				84E531BD1E80C8D4009E63E6 /* STableViewController.m in Sources */,
 				84E531C71E80C8D4009E63E6 /* FileDetail.m in Sources */,
 				84E531AA1E80C8D4009E63E6 /* AFSecurityPolicy.m in Sources */,
+				842F5BB61EDE659900D90833 /* GoodsInfoModel.m in Sources */,
 				84E531AC1E80C8D4009E63E6 /* AFURLResponseSerialization.m in Sources */,
 				84E531DD1E80C8D4009E63E6 /* SDWebImageManager.m in Sources */,
 				84E5302C1E80C79A009E63E6 /* ViewController.m in Sources */,
@@ -1204,6 +1365,7 @@
 				84E532201E80C8D4009E63E6 /* UIView+Extension.m in Sources */,
 				84E531E11E80C8D4009E63E6 /* UIImage+MultiFormat.m in Sources */,
 				84E531CB1E80C8D4009E63E6 /* SBJsonBase.m in Sources */,
+				8420979D1EE0F2C300DE5C77 /* GoodsCell.m in Sources */,
 				84570CD81ED80356005F893B /* mask.c in Sources */,
 				84E531DF1E80C8D4009E63E6 /* UIButton+WebCache.m in Sources */,
 				84E531B41E80C8D4009E63E6 /* HZLocation.m in Sources */,
@@ -1214,6 +1376,8 @@
 				84E531C51E80C8D4009E63E6 /* EGOImageView.m in Sources */,
 				84E532111E80C8D4009E63E6 /* PublicMethod.m in Sources */,
 				84E531D91E80C8D4009E63E6 /* SDWebImageCompat.m in Sources */,
+				84F6DAE11EDF943B001C80AE /* RegisteredVC.m in Sources */,
+				84F6DAE41EDFB3B0001C80AE /* SetIDNumberVC.m in Sources */,
 				84E532331E80C8D4009E63E6 /* MASConstraintMaker.m in Sources */,
 				84E531AD1E80C8D4009E63E6 /* AFURLSessionManager.m in Sources */,
 				84E532271E80C8D4009E63E6 /* AKGalleryList.m in Sources */,
@@ -1230,6 +1394,7 @@
 				84E530291E80C79A009E63E6 /* AppDelegate.m in Sources */,
 				84E532321E80C8D4009E63E6 /* MASConstraint.m in Sources */,
 				84E531C31E80C8D4009E63E6 /* EGOImageLoadConnection.m in Sources */,
+				84F6DAEA1EDFF73B001C80AE /* PhotoSampleVC.m in Sources */,
 				84E531C01E80C8D4009E63E6 /* DesSecret.m in Sources */,
 				84E531AE1E80C8D4009E63E6 /* AsyncSocket.m in Sources */,
 				84570CD91ED80356005F893B /* QRCodeGenerator.m in Sources */,
@@ -1239,10 +1404,13 @@
 				84E531D11E80C8D4009E63E6 /* TADotView.m in Sources */,
 				84E5320F1E80C8D4009E63E6 /* GTMBase64.m in Sources */,
 				84E531CD1E80C8D4009E63E6 /* SBJsonWriter.m in Sources */,
+				84F6DAE71EDFB505001C80AE /* UIScrollView+Myscrollview.m in Sources */,
 				84E531B21E80C8D4009E63E6 /* HZAreaPickerView.m in Sources */,
 				84E531DC1E80C8D4009E63E6 /* SDWebImageDownloaderOperation.m in Sources */,
 				84E532161E80C8D4009E63E6 /* YBImgPickerTableViewCell.m in Sources */,
+				8420979A1EE0F2A600DE5C77 /* GoodsModel.m in Sources */,
 				84E532241E80C8D4009E63E6 /* DDMenuController.m in Sources */,
+				842097931EE0E31F00DE5C77 /* RegisterAndGoods.m in Sources */,
 				84E530261E80C79A009E63E6 /* main.m in Sources */,
 				84E531E51E80C8D4009E63E6 /* UIView+WebCacheOperation.m in Sources */,
 				84E5321B1E80C8D4009E63E6 /* YBImgPickerViewController.m in Sources */,
@@ -1259,6 +1427,7 @@
 				84E5321F1E80C8D4009E63E6 /* STPhotoBroswer.m in Sources */,
 				84E532211E80C8D4009E63E6 /* PNLineChartView.m in Sources */,
 				84E531C81E80C8D4009E63E6 /* NSObject+SBJSON.m in Sources */,
+				842F5BB51EDE659900D90833 /* MyCustomCell.m in Sources */,
 				844392141ED6D40300FA4927 /* XYMScanViewController.m in Sources */,
 				84E531D81E80C8D4009E63E6 /* SDImageCache.m in Sources */,
 				84E5322A1E80C8D4009E63E6 /* AKInterativeDismissToList.m in Sources */,
@@ -1379,6 +1548,7 @@
 		};
 		84E5303C1E80C79A009E63E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5653D27A4384D6C85214FA4 /* Pods-JingzhiForBusiness.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -1396,6 +1566,7 @@
 		};
 		84E5303D1E80C79A009E63E6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 18700DC1B696DE926241E2C4 /* Pods-JingzhiForBusiness.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;

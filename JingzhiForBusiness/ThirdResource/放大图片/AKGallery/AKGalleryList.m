@@ -44,7 +44,7 @@ NSString* identifier  = @"AKGalleryListCell";
     
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(5, Frame_Y, 44, 44);
+    returnBtn.frame = CGRectMake(5, 20, 44, 44);
     //    [returnBtn setImageEdgeInsets:UIEdgeInsetsMake(6, 10,6, 90)];    //    returnBtn.backgroundColor = [UIColor cyanColor];
     [returnBtn setImage:[UIImage imageNamed:@"nav_backarrow.png"] forState:UIControlStateNormal];
     //    [returnBtn setTitle:@"返回" forState:UIControlStateNormal];
@@ -53,7 +53,7 @@ NSString* identifier  = @"AKGalleryListCell";
     
 
     //登录标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(55, 0+Frame_Y, 210, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(55, 20, 210, 44)];
     [navTitle setText:self.gallery.custUI.listTitle];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
