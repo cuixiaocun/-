@@ -19,7 +19,7 @@
 {
   self.backgroundColor = [UIColor clearColor];
     
-   self.infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+   self.infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CXCWidth, 50)];
     self.infoLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.infoLabel setText:@""];
     self.infoLabel.font = [UIFont boldSystemFontOfSize:13.0f];

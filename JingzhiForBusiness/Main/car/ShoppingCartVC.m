@@ -76,7 +76,8 @@
     _MyTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
     _MyTableView.dataSource = self;
     _MyTableView.delegate = self;
-    
+    _MyTableView .showsVerticalScrollIndicator = NO;
+
     //给表格添加一个尾部视图
     
     _MyTableView.tableFooterView = [self creatFootView];

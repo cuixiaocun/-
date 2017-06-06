@@ -11,11 +11,9 @@
 #import "RegisterAndGoods.h"
 @interface RegisteredVC ()<UITextFieldDelegate,UIActionSheetDelegate,SetIDNumberVCDelegate>
 {
-
     //底部scrollview
     UIScrollView *bgScrollView;
     NSString *levelString;
-
 }
 @end
 
@@ -98,7 +96,7 @@
         }
         [inputText setPlaceholder:rightArr[i]];
         [inputText setDelegate:self];
-        [inputText setFont:[UIFont systemFontOfSize:18]];
+        [inputText setFont:[UIFont systemFontOfSize:16]];
         [inputText setTextColor:[UIColor blackColor]];
         [inputText setFrame:CGRectMake(290*Width, 0,580*Width,106*Width)];
         [inputText setClearButtonMode:UITextFieldViewModeWhileEditing];
@@ -115,7 +113,7 @@
             UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,580*Width , 106*Width)];
             wzlabe.text = rightArr[i];
             wzlabe.tag =20+i;
-            wzlabe.font = [UIFont systemFontOfSize:18];
+            wzlabe.font = [UIFont systemFontOfSize:16];
             wzlabe.textColor = TextGrayGrayColor;
             [chooseBtn addSubview:wzlabe];
             //箭头
@@ -241,6 +239,7 @@
 //    }
     RegisterAndGoods *registerAndGoods =[[RegisterAndGoods alloc]init];
     registerAndGoods.levelString=levelString;
+    registerAndGoods.navTitle =@"注册提报";
     [self.navigationController pushViewController:registerAndGoods animated:YES];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
@@ -264,7 +263,7 @@
         //选择代理
         UIActionSheet *sheet;
 
-        sheet  = [[UIActionSheet alloc] initWithTitle:@"选择" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"一级代理",@"二级代理",@"三级代理",@"四级代理",@"五级代理",@"六级代理", nil];
+        sheet  = [[UIActionSheet alloc] initWithTitle:@"选择代理级别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"一级代理",@"二级代理",@"三级代理",@"四级代理",@"五级代理",@"六级代理", nil];
         [sheet showInView:self.view];
         
         
@@ -284,6 +283,54 @@
 
 
 }
+-(void)willPresentActionSheet:(UIActionSheet *)actionSheet
+
+{
+    
+    SEL selector = NSSelectorFromString(@"_alertController");
+    
+    if ([actionSheet respondsToSelector:selector])//ios8 以后采用UIAlertController来代替uiactionsheet和UIAlertView
+        
+    {
+        
+        UIAlertController *alertController = [actionSheet valueForKey:@"_alertController"];
+        
+        if ([alertController isKindOfClass:[UIAlertController class]])
+            
+        {
+            
+            alertController.view.tintColor = TextColor;
+            
+        }
+        
+    }
+    
+    else//ios7 之前采用这样的方式
+        
+    {
+        
+        for( UIView * subView in actionSheet.subviews )
+            
+        {
+            
+            if( [subView isKindOfClass:[UIButton class]] )
+                
+            {
+                
+                UIButton * btn = (UIButton*)subView;
+                
+                
+                
+                [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     UILabel *labelOne  =[self.view viewWithTag:25];
@@ -361,6 +408,7 @@
     {
         
         if (existedLength - selectedLength + replaceLength >= 17) {
+            [MBProgressHUD showError:@"密码为8-16位" ToView:self.view];
             
             [textField resignFirstResponder];
             return NO;

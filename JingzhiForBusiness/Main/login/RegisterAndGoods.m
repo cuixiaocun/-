@@ -9,6 +9,8 @@
 #import "RegisterAndGoods.h"
 #import "GoodsModel.h"
 #import "GoodsCell.h"
+
+//两个页面进入这里！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！一个是注册，一个是个人中心升级！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 @interface RegisterAndGoods ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,GoodsCellDelegate>
 {
 
@@ -32,30 +34,26 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
-    
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(0, 20, 44, 44);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
-    
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"注册提报"];
+    [navTitle setText:[NSString stringWithFormat:@"%@",_navTitle]];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
-    
     [self mainView];
 }
 - (void)mainView
@@ -95,7 +93,34 @@
             [bgview addSubview:displayLabel];
             displayLabel.textAlignment =NSTextAlignmentCenter  ;
             [displayLabel setTextColor:TextColor];
-            displayLabel.text =@"一级";
+            if ([_levelString isEqualToString:@"0"]) {
+                displayLabel.text =@"一级";
+
+            }else if ([_levelString isEqualToString:@"1"])
+            {
+                displayLabel.text =@"二级";
+
+            }else if ([_levelString isEqualToString:@"2"])
+            {
+                displayLabel.text =@"三级";
+                
+            }
+            else if ([_levelString isEqualToString:@"3"])
+            {
+                displayLabel.text =@"四级";
+                
+            }
+            else if ([_levelString isEqualToString:@"4"])
+            {
+                displayLabel.text =@"五级";
+                
+            }
+            else if ([_levelString isEqualToString:@"5"])
+            {
+                displayLabel.text =@"六级";
+                
+            }
+
 
         }
         else
@@ -149,6 +174,8 @@
     //中间的tableview
     goodsTableview   =[[UITableView alloc]init];
     [goodsTableview setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+    goodsTableview .showsVerticalScrollIndicator = NO;
+
     [goodsTableview setFrame:CGRectMake(0,bgScrollView.bottom,CXCWidth,CXCHeight-bgScrollView.height-64-100*Width )];
     [goodsTableview setDelegate:self];
     [goodsTableview setDataSource:self];
@@ -165,7 +192,6 @@
     [bottomBgview addSubview:xianBottom];
     xianBottom.frame =CGRectMake(0*Width,0*Width, CXCWidth, 1.5*Width);
 
-    
     UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0, 100*Width, 100*Width)];
     [subPromLabel setText:@"合计:"];
     [subPromLabel  setFont:[UIFont systemFontOfSize:17]];
@@ -187,7 +213,6 @@
     [confirmBtn.titleLabel setTextColor:[UIColor whiteColor]];
     [confirmBtn addTarget:self action:@selector(confirmButtonAction) forControlEvents:UIControlEventTouchUpInside];
     [bottomBgview addSubview:confirmBtn];
-
 }
 //确认提交按钮
 - (void)confirmButtonAction

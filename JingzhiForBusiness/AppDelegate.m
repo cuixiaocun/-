@@ -5,15 +5,26 @@
 //  Created by Admin on 2017/3/21.
 //  Copyright © 2017年 cuixiaocun. All rights reserved.
 //
+
 #import "AppDelegate.h"
-#import "HomePage.h"
-#import "PersonalCenter.h"
-#import "OtherVC.h"
-#import "ShoppingCartVC.h"
-#import "LoginPage.h"
+//第三方tabbar
 #import "RDVTabBarController.h"
 #import "RDVTabBar.h"
 #import "RDVTabBarItem.h"
+
+//会员代理登录是一个界面
+#import "LoginPage.h"
+
+/*如下是会员的的*/
+#import "HomePage.h"
+#import "HYPersonalCenterVC.h"
+#import "ShoppingCartVC.h"
+
+/*如下是代理的*/
+#import "DeclarationCenterVC.h"
+#import "OrderCenterVC.h"
+#import "PersonalCenter.h"
+
 @interface AppDelegate ()
 
 @end
@@ -34,6 +45,7 @@
     }
     [self.window setRootViewController:self.viewController];
     [self.window makeKeyAndVisible];
+    [PublicMethod removeObjectForKey: @"IsLogin"];
 
     return YES;
 }
@@ -121,7 +133,7 @@
                                                     initWithRootViewController:secondViewController];
         [secondNavigationController setNavigationBarHidden:YES];
 
-    UIViewController *threeViewController = [[PersonalCenter alloc] init];
+    UIViewController *threeViewController = [[HYPersonalCenterVC alloc] init];
     UINavigationController *threeNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:threeViewController];
         [threeNavigationController setNavigationBarHidden:YES];
@@ -144,7 +156,7 @@
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    NSArray *tabBarItemImages = @[@"proxy_icon_baodan", @"proxy_icon_order",@"proxy_icon_me"];
+    NSArray *tabBarItemImages = @[@"huiyuan_icon_home", @"huiyuan_icon_cart",@"proxy_icon_me"];
     
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {

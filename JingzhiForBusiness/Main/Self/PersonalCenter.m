@@ -13,10 +13,25 @@
 #import "RDVTabBarController.h"
 #import "RDVTabBar.h"
 #import "RDVTabBarItem.h"
-@interface PersonalCenter ()
+#import "NextDelegateVC.h"//下级代理
+#import "DelegateExamineVC.h"//代理审核
+#import "StockTableviewVC.h"//库存
+#import "ManageAddressTableVC.h"
+#import "ChangePasswordVC.h"
+#import "RegisterAndGoods.h"
+#import "MyCustomerVC.h"
+#import "WithDrawlsMoneyVC.h"
+#import "CirculationRecordVC.h"
+#import "CirculationRecordVC.h"
+#import "MemberOrderVC.h"
+#import "BankCardVC.h"
+#import "RebateVC.h"
+#import "MyAuthorizationVC.h"
+@interface PersonalCenter ()<UIActionSheetDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
+    NSString *levelString;//代理升级的时候选择的代理
 
 }
 @end
@@ -26,11 +41,13 @@
 {
 
 [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
-
+    if (![PublicMethod getDataStringKey:@"IsLogin"]) {//若没登录请登录
+        LoginPage*logP =[[LoginPage alloc]init];
+        [self.navigationController pushViewController:logP animated:YES];
+    }
 
 }
 - (void)viewDidLoad {
-    [super viewDidLoad];
     
     [super viewDidLoad];
     [self.view setBackgroundColor:BGColor];
@@ -136,7 +153,7 @@
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),bgImageV.bottom+20*Width+187.5*Width*(i/4),186*Width,186*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
-        btn.tag =i+330;
+        btn.tag =i+300;
         btn.backgroundColor =[UIColor whiteColor];
         [bgScrollView addSubview:btn];
         //上边图片
@@ -170,10 +187,182 @@
 -(void)myBtnAciton:(UIButton *)btn
 {
 
+    if (btn.tag==300) {//库存
+        StockTableviewVC*stockVC =[[StockTableviewVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController  pushViewController:stockVC animated:YES];
+     
+    }else if (btn.tag==301)//下级代理
+    {
+        NextDelegateVC*next =[[NextDelegateVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+        [self.navigationController  pushViewController:next animated:YES];
+
+    
+    }else if (btn.tag==302)//我的客户
+    {
+        MyCustomerVC *myCustomerVC =[[MyCustomerVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController  pushViewController:myCustomerVC animated:YES];
+        
+    }
+    else if (btn.tag==303)//收货地址
+    {
+        ManageAddressTableVC *manageAdd =[[ManageAddressTableVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+        [self.navigationController pushViewController:manageAdd animated:YES];
+        
+    }
+    else if (btn.tag==304)//修改密码
+    {
+        ChangePasswordVC *changeVC =[[ChangePasswordVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController pushViewController:changeVC animated:YES];
+        
+    }
+    else if (btn.tag==305)//申请升级
+    {
+        
+        //选择代理
+        UIActionSheet *sheet;
+
+        sheet  = [[UIActionSheet alloc] initWithTitle:@"选择代理级别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"一级代理",@"二级代理",@"三级代理",@"四级代理",@"五级代理",@"六级代理", nil];
+        [sheet setActionSheetStyle:UIActionSheetStyleDefault];
+        
+
+        [sheet showInView:self.view];
+        
+
+        
+    }
+    else if (btn.tag==306)//提现管理
+    {
+        WithDrawlsMoneyVC *withdrawlsVC =[[WithDrawlsMoneyVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController pushViewController:withdrawlsVC animated:YES];
+        
+    }
+    else if (btn.tag==307)//流转记录
+    {
+        CirculationRecordVC *withdrawlsVC =[[CirculationRecordVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController pushViewController:withdrawlsVC animated:YES];
+        
+    }
+    else if (btn.tag==308)//会员订单
+    {
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        MemberOrderVC *memberVC =[[MemberOrderVC alloc]init];
+        [self.navigationController pushViewController:memberVC animated:YES];
+        
+
+        
+    }
+    else if (btn.tag==309)//银行卡
+    {
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        BankCardVC *bankCard =[[BankCardVC alloc]init];
+        [self.navigationController pushViewController:bankCard animated:YES];
+        
+        
+    }
+    else if (btn.tag==310)//返佣
+    {
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        RebateVC *rebateVC =[[RebateVC alloc]init];
+        [self.navigationController pushViewController:rebateVC animated:YES];
+        
+    }
+    else if (btn.tag==311)//代理审核
+    {
+        DelegateExamineVC *delegateEx =[[DelegateExamineVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController pushViewController:delegateEx animated:YES];
+        
+    }
+    else if (btn.tag==312)//我的授权
+    {
+        MyAuthorizationVC *myAuth =[[MyAuthorizationVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+        [self.navigationController pushViewController:myAuth animated:YES];
+        
+    }
 
 
 
 }
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex==6) {
+        return;
+    }
+    levelString =[NSString stringWithFormat:@"%ld",buttonIndex];
+    [self upLevel];
+}
+- (void)upLevel
+{
+    RegisterAndGoods*changeVC =[[RegisterAndGoods alloc]init];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    changeVC.levelString =levelString;
+    changeVC.navTitle =@"代理升级";
+    [self.navigationController pushViewController:changeVC animated:YES];
+}
+-(void)willPresentActionSheet:(UIActionSheet *)actionSheet
+
+{
+    
+    SEL selector = NSSelectorFromString(@"_alertController");
+    
+    if ([actionSheet respondsToSelector:selector])//ios8 以后采用UIAlertController来代替uiactionsheet和UIAlertView
+        
+    {
+        
+        UIAlertController *alertController = [actionSheet valueForKey:@"_alertController"];
+        
+        if ([alertController isKindOfClass:[UIAlertController class]])
+            
+        {
+            
+            alertController.view.tintColor = TextColor;
+
+        }
+        
+    }
+    
+    else//ios7 之前采用这样的方式
+        
+    {
+        
+        for( UIView * subView in actionSheet.subviews )
+            
+        {
+            
+            if( [subView isKindOfClass:[UIButton class]] )
+                
+            {
+                
+                UIButton * btn = (UIButton*)subView;
+                
+                
+                
+                [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
+
 -(void)startScan{
 //画二维码
 //    CGFloat w=[UIScreen mainScreen].bounds.size.width;
@@ -200,7 +389,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+// 取消按钮
+-(void)addCancelActionTarget:(UIAlertController*)alertController title:(NSString *)title
+{
+    UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        
+    }];
+    [action setValue:[UIColor purpleColor] forKey:@"_titleTextColor"];
+    [alertController addAction:action];
+}
 /*
 #pragma mark - Navigation
 

@@ -22,7 +22,7 @@
 {
     self.backgroundColor = [UIColor clearColor];
     
-    self.title = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, 320, 20)];
+    self.title = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, CXCWidth, 20)];
     self.title.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.title.font = [UIFont boldSystemFontOfSize:13.0f];
     self.title.textColor = [UIColor colorWithRed:87.0/255.0 green:108.0/255.0 blue:137.0/255.0 alpha:1.0];
@@ -34,7 +34,7 @@
     
     
     
-    self.time = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 320, 20)];
+    self.time = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, CXCWidth, 20)];
     self.time.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.time.font = [UIFont boldSystemFontOfSize:10.0f];
     self.time.textColor = [UIColor colorWithRed:87.0/255.0 green:108.0/255.0 blue:137.0/255.0 alpha:1.0];

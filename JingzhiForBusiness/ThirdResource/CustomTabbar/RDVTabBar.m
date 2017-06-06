@@ -52,19 +52,14 @@
 - (id)init {
     return [self initWithFrame:CGRectZero];
 }
-
 - (void)commonInitialization {
     _backgroundView = [[UIView alloc] init];
     [self addSubview:_backgroundView];
     //线
     UIImageView*xian =[[UIImageView alloc]init];
-    xian.backgroundColor =BGColor;
+    xian.backgroundColor =TextGrayGrayColor;
     [self addSubview:xian];
-    xian.frame =CGRectMake(0*Width,-2*Width, CXCWidth, 2*Width);
-
-    
-    
-    
+    xian.frame =CGRectMake(0*Width,0*Width, CXCWidth, 2*Width);
     [self setTranslucent:NO];
 }
 
@@ -79,7 +74,6 @@
                                [self contentEdgeInsets].right) / [[self items] count])];
     
     NSInteger index = 0;
-    
     // Layout items
     
     for (RDVTabBarItem *item in [self items]) {

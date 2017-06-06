@@ -33,7 +33,7 @@
 #define TextGrayColor ([UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1])//灰色的字
 #define TextGrayGrayColor ([UIColor colorWithRed:190/255.0 green:190/255.0 blue:190/255.0 alpha:1])//灰色的字
 
-#define BGColor ([UIColor colorWithRed:241/255.0 green:242/255.0 blue:243/255.0 alpha:1])//背景颜色
+#define BGColor ([UIColor colorWithRed:246/255.0 green:246/255.0 blue:246/255.0 alpha:1])//背景颜色
 #define NavColor ([UIColor colorWithRed:242/255.0 green:55/255.0 blue:59/255.0 alpha:1])//导航栏颜色
 #define NomalBtnBg ([UIColor colorWithRed:127/255.0 green:173/255.0 blue:206/255.0 alpha:1])//按钮普通颜色
 #define SelectBtnBg ([UIColor colorWithRed:51/255.0 green:127/255.0 blue:179/255.0 alpha:1])//按钮选中颜色

@@ -14,10 +14,13 @@
 #import "PersonalCenter.h"
 #import "HomePage.h"
 #import "RegisteredVC.h"
+#import "DeclarationCenterVC.h"
+#import "OrderCenterVC.h"
+#import "HYPersonalCenterVC.h"
 @interface LoginPage ()
 {
-
     UIButton *loginBtn;
+    NSString *isLeveler;//yes==代理 no==会员
 }
 @end
 
@@ -25,8 +28,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
-    
     
 }
 - (void)viewDidLoad
@@ -36,7 +37,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    isLeveler =@"NO";
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -206,9 +207,6 @@
 {
     RegisteredVC *registeredVC =[[RegisteredVC alloc]init];
     [self.navigationController   pushViewController:registeredVC animated:YES];
-    
-    
-    
 }
 - (void)forgetBtn
 {
@@ -218,23 +216,38 @@
 }
 -(void)loginAdmin
 {
-    [self setupViewControllers];
     
-    
-    [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];
-    
-    UITextField *admin = (UITextField *)[self.view viewWithTag:1];
-    UITextField *password = (UITextField *)[self.view viewWithTag:2];
-    if (admin.text.length!=18&&admin.text.length!=11) {
-        [ProgressHUD showError:@"请输入正确的用户名"];
-        return;
+    if ([isLeveler isEqualToString:@"NO"]) {
+        [PublicMethod saveDataString:@"0" withKey:@"IsLogin"];
+        [self rdv_tabBarController].selectedIndex=2;
+
+        [self setupViewControllersHY];
+        [self.navigationController popViewControllerAnimated:YES];
+
         
-    }
-    if (password.text.length<8) {
-        [ProgressHUD showError:@"密码长度不得小于6位"];
-        return;
+        
+        
+        
+    }else if ([isLeveler isEqualToString:@"YES"])
+    {
+        [self rdv_tabBarController].selectedIndex=2;
+        [self setupViewControllers];
+        [PublicMethod saveDataString:@"1" withKey:@"IsLogin"];
 
     }
+    
+//    [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];
+//    UITextField *admin = (UITextField *)[self.view viewWithTag:1];
+//    UITextField *password = (UITextField *)[self.view viewWithTag:2];
+//    if (admin.text.length!=18&&admin.text.length!=11) {
+//        [ProgressHUD showError:@"请输入正确的用户名"];
+//        return;
+//        
+//    }
+//    if (password.text.length<8) {
+//        [ProgressHUD showError:@"密码长度不得小于6位"];
+//        return;
+//    }
     
 //    [ProgressHUD show:@"加载中"];
 //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -344,6 +357,21 @@
     
     if (textField.tag == 1) {
         
+        
+        
+        
+        NSInteger existedLength = textField.text.length;
+        NSInteger selectedLength = range.length;
+        NSInteger replaceLength = string.length;
+            if (existedLength - selectedLength + replaceLength >= 12) {
+                
+                [textField resignFirstResponder];
+                return NO;
+                
+        }
+        
+        
+        
         }
     return YES;
 }
@@ -448,17 +476,21 @@
     //    if ([[PublicMethod getDataStringKey:@"WetherFirstInput"]isEqualToString:@"1"]) {//若为1，表示登录了
     [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
     
-    UIViewController *firstViewController = [[HomePage alloc] init];
-    UIViewController *firstNavigationController = [[UINavigationController alloc]
+    UIViewController *firstViewController = [[DeclarationCenterVC alloc] init];
+    UINavigationController *firstNavigationController = [[UINavigationController alloc]
                                                    initWithRootViewController:firstViewController];
-    
-    UIViewController *secondViewController = [[ShoppingCartVC alloc] init];
-    UIViewController *secondNavigationController = [[UINavigationController alloc]
+    [firstNavigationController setNavigationBarHidden:YES];
+
+    UIViewController *secondViewController = [[OrderCenterVC alloc] init];
+    UINavigationController *secondNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:secondViewController];
-    
+    [secondNavigationController setNavigationBarHidden:YES];
+
     UIViewController *threeViewController = [[PersonalCenter alloc] init];
-    UIViewController *threeNavigationController = [[UINavigationController alloc]
+    UINavigationController *threeNavigationController = [[UINavigationController alloc]
                                                    initWithRootViewController:threeViewController];
+    [threeNavigationController setNavigationBarHidden:YES];
+
     RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
     [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
     [UIApplication sharedApplication].keyWindow.rootViewController =tabBarController ;
@@ -476,7 +508,7 @@
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    NSArray *tabBarItemImages = @[@"tab_home", @"tab_card",@"tab_card"];
+    NSArray *tabBarItemImages = @[@"proxy_icon_baodan", @"proxy_icon_order",@"proxy_icon_me"];
     
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
@@ -491,17 +523,22 @@
         index++;
     }
 }
-- (void)login:(UIButton *)btn
+- (void)login:(UIButton *)btn//判断是会员还是代理
 {
     for (int i=0; i<2; i++) {
-        
         UIButton *btnAll =[self.view viewWithTag:120+i];
         btnAll.selected =NO;
         [btnAll setBackgroundColor:[UIColor redColor]];
-
+    }
+    if(btn.tag==120)
+    {
+        isLeveler=@"NO";//会员登录
+        
+    }else
+    {
+        isLeveler=@"YES";//代理登录
     }
     [btn setBackgroundColor:[UIColor whiteColor]];
-    
     btn.selected =YES;
     
 
@@ -513,6 +550,9 @@
 
     [self.navigationController   popViewControllerAnimated:YES];
     
+    [self setupViewControllersHY];
+    [self rdv_tabBarController].selectedIndex=2;
+
 
 }
 /*
@@ -524,5 +564,56 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (void)setupViewControllersHY {
+    //    if ([[PublicMethod getDataStringKey:@"WetherFirstInput"]isEqualToString:@"1"]) {//若为1，表示登录了
+    //        [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
+    //
+    UIViewController *firstViewController = [[HomePage alloc] init];
+    UINavigationController *firstNavigationController = [[UINavigationController alloc]initWithRootViewController:firstViewController];
+    [firstNavigationController setNavigationBarHidden:YES];
+    
+    UIViewController *secondViewController = [[ShoppingCartVC alloc] init];
+    UINavigationController *secondNavigationController = [[UINavigationController alloc]
+                                                          initWithRootViewController:secondViewController];
+    [secondNavigationController setNavigationBarHidden:YES];
+    
+    UIViewController *threeViewController = [[HYPersonalCenterVC alloc] init];
+    UINavigationController *threeNavigationController = [[UINavigationController alloc]
+                                                         initWithRootViewController:threeViewController];
+    [threeNavigationController setNavigationBarHidden:YES];
+    
+    RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
+    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
+    [UIApplication sharedApplication].keyWindow.rootViewController =tabBarController ;
+    [self customizeTabBarForControllerHY:tabBarController];
+    
+    //    }else//若不为1表示没登录
+    //    {
+    //        LoginPage *rootViewController = [[LoginPage alloc] init];
+    //        UINavigationController* _navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    //        self.viewController =_navigationController;
+    //        [_navigationController setNavigationBarHidden:YES];
+    //
+    //    }
+    //
+}
+- (void)customizeTabBarForControllerHY:(RDVTabBarController *)tabBarController {
+    UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
+    UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
+    NSArray *tabBarItemImages = @[@"huiyuan_icon_home", @"huiyuan_icon_cart",@"proxy_icon_me"];
+    
+    NSInteger index = 0;
+    for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
+        [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
+        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_pre.png",
+                                                      [tabBarItemImages objectAtIndex:index]]];
+        UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@",
+                                                        [tabBarItemImages objectAtIndex:index]]];
+        [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
+        NSLog(@"%@",[NSString stringWithFormat:@"%@_pre",
+                     [tabBarItemImages objectAtIndex:index]]);
+        index++;
+    }
+}
 
 @end

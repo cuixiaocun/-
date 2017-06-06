@@ -122,9 +122,9 @@
     // Draw image and title
     
     if (![_title length]) {
-        [image drawInRect:CGRectMake(CXCWidth/6-41*Width,
-                                     roundf(12*Width),
-                                    82*Width, 77*Width)];
+        [image drawInRect:CGRectMake(CXCWidth/6-18.5,
+                                     roundf(7.2),
+                                    36.9, 34.65)];
     } else {
         
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) {
@@ -135,9 +135,9 @@
             
             imageStartingY = roundf((frameSize.height - imageSize.height - titleSize.height) / 2);
             
-            [image drawInRect:CGRectMake(CXCWidth/6-50*Width ,
+            [image drawInRect:CGRectMake(CXCWidth/6-20 ,
                                          imageStartingY + _imagePositionAdjustment.vertical,
-                                          80*Width, 80*Width)];
+                                          40, 40)];
             
             CGContextSetFillColorWithColor(context, [titleAttributes[NSForegroundColorAttributeName] CGColor]);
             

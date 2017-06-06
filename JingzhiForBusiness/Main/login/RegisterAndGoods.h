@@ -10,4 +10,6 @@
 
 @interface RegisterAndGoods : UIViewController
 @property(nonatomic,retain)NSString *levelString;
+@property(nonatomic,retain)NSString *navTitle;
+
 @end
