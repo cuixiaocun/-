@@ -8,7 +8,7 @@
 
 #import "MOFSToolbar.h"
 
-#define BAR_COLOR [UIColor colorWithRed:0.090  green:0.463  blue:0.906 alpha:1]
+#define BAR_COLOR [UIColor colorWithRed:242/255.0 green:55/255.0 blue:59/255.0 alpha:1]
 #define LINE_COLOR [UIColor colorWithRed:0.804  green:0.804  blue:0.804 alpha:1]
 #define UISCREEN_WIDTH  [UIScreen mainScreen].bounds.size.width
 #define UISCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -23,7 +23,7 @@
         self.commitBar.tintColor = BAR_COLOR;
         
         self.cancelBar = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction)];
-        self.cancelBar.tintColor = BAR_COLOR;
+        self.cancelBar.tintColor = [UIColor grayColor];
         
         self.titleBar = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleDone target:self action:nil];
         self.titleBar.enabled = NO;

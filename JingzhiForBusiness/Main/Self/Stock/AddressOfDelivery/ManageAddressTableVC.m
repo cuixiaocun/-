@@ -9,7 +9,8 @@
 #import "ManageAddressTableVC.h"
 #import "ManageAddCell.h"
 #import "AddAddressVC.h"
-@interface ManageAddressTableVC ()<ManageAddCellDelegate>
+#import "IsTureAlterView.h"
+@interface ManageAddressTableVC ()<ManageAddCellDelegate,IsTureAlterViewDelegate>
 
 @end
 
@@ -134,10 +135,17 @@
             break;
         case 112://删除
         {
-            NSLog(@"删除");
-            UIAlertView *delAlertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@",@"您确定要删除此地址？"] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-            [delAlertView show];
+            
 
+            IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要删除此地址吗？"];
+            isture.delegate =self;
+            isture.tag =180;
+            [self.view addSubview:isture];
+            
+            NSLog(@"showalert");
+            return;
+            
+            
 
             //做加法
 //            GoodsModel *model = infoArr[index.row];
@@ -157,18 +165,28 @@
     
        
 }
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+
+#pragma mark - IsTureAlterViewDelegate
+
+-(void)cancelBtnActin
 {
-    if (buttonIndex==0) {
-        
-        return;
-        
-    }else
-    {
-        //删除地址
-      
-    }
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    NSLog(@"取消");
+    
 }
+-(void)tureBtnAction
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    
+    [isture removeFromSuperview];
+    NSLog(@"确认");
+    //删除
+    
+}
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

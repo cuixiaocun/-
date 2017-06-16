@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol XYMScanViewControllerDelegate <NSObject>
+
+-(void)getScanString:(NSString*)scanDataString;
+
+@end
+
+
 @interface XYMScanViewController : UIViewController
+@property (nonatomic,assign) id<XYMScanViewControllerDelegate> delegate;
 
 //扫码框的宽（正方形）
 @property(nonatomic,assign)int scanViewW;

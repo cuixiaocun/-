@@ -38,7 +38,7 @@
 }
 
 -(NSArray *)componentArray{
-
+    
     if (_componentArray==nil) {
         _componentArray=[[NSMutableArray alloc] init];
     }
@@ -138,12 +138,14 @@
     
     UIPickerView *pickView=[[UIPickerView alloc] init];
     pickView.backgroundColor=[UIColor lightGrayColor];
-    _pickerView=pickView;
     pickView.delegate=self;
     pickView.dataSource=self;
-    pickView.frame=CGRectMake(0, ZHToobarHeight, pickView.frame.size.width, pickView.frame.size.height);
+    pickView.frame=CGRectMake(0, ZHToobarHeight, CXCWidth, pickView.frame.size.height);
+    
     _pickeviewHeight=pickView.frame.size.height;
     [self addSubview:pickView];
+    _pickerView=pickView;
+    
 }
 
 -(void)setUpDatePickerWithdatePickerMode:(UIDatePickerMode)datePickerMode{
@@ -155,7 +157,7 @@
         [datePicker setDate:_defaulDate];
     }
     _datePicker=datePicker;
-    datePicker.frame=CGRectMake(0, ZHToobarHeight, datePicker.frame.size.width, datePicker.frame.size.height);
+    datePicker.frame=CGRectMake(0, ZHToobarHeight, CXCWidth, datePicker.frame.size.height);
     _pickeviewHeight=datePicker.frame.size.height;
     [self addSubview:datePicker];
 }
@@ -206,12 +208,12 @@
         NSInteger pIndex = [pickerView selectedRowInComponent:0];
         NSDictionary *dic=_plistArray[pIndex];
         for (id dicValue in [dic allValues]) {
-                if ([dicValue isKindOfClass:[NSArray class]]) {
-                    if (component%2==1) {
-                        rowArray=dicValue;
-                    }else{
-                        rowArray=_plistArray;
-                    }
+            if ([dicValue isKindOfClass:[NSArray class]]) {
+                if (component%2==1) {
+                    rowArray=dicValue;
+                }else{
+                    rowArray=_plistArray;
+                }
             }
         }
     }
@@ -233,7 +235,7 @@
             rowTitle=_dicKeyArray[row][component];
         }
         for (id aa in [dic allValues]) {
-           if ([aa isKindOfClass:[NSArray class]]&&component%2==1){
+            if ([aa isKindOfClass:[NSArray class]]&&component%2==1){
                 NSArray *bb=aa;
                 if (bb.count>row) {
                     rowTitle=aa[row];
@@ -266,11 +268,11 @@
                 _resultString=[NSString stringWithFormat:@"%@%@",_resultString,_plistArray[i][cIndex]];
             }else{
                 _resultString=[NSString stringWithFormat:@"%@%@",_resultString,_plistArray[i][0]];
-                          }
+            }
         }
     }else if (_isLevelDic){
         if (component==0) {
-          _state =_dicKeyArray[row][0];
+            _state =_dicKeyArray[row][0];
         }else{
             NSInteger cIndex = [pickerView selectedRowInComponent:0];
             NSDictionary *dicValueDic=_plistArray[cIndex];
@@ -285,8 +287,8 @@
 -(void)remove{
     
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"yichu" object:nil];
-
+    [self.delegate toobarDonBtnHaveClick:self resultString:@"0"];
+    
     [self removeFromSuperview];
 }
 -(void)show{
@@ -299,7 +301,7 @@
     if (_pickerView) {
         
         if (_resultString) {
-           
+            
         }else{
             if (_isLevelString) {
                 _resultString=[NSString stringWithFormat:@"%@",_plistArray[0]];
@@ -311,7 +313,7 @@
             }else if (_isLevelDic){
                 
                 if (_state==nil) {
-                     _state =_dicKeyArray[0][0];
+                    _state =_dicKeyArray[0][0];
                     NSDictionary *dicValueDic=_plistArray[0];
                     _city=[dicValueDic allValues][0][0];
                 }
@@ -321,8 +323,8 @@
                     _city=[dicValueDic allValues][0][0];
                     
                 }
-              _resultString=[NSString stringWithFormat:@"%@%@",_state,_city];
-           }
+                _resultString=[NSString stringWithFormat:@"%@%@",_state,_city];
+            }
         }
     }else if (_datePicker) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -362,4 +364,4 @@
 
 // 版权属于原作者
 // http://code4app.com (cn) http://code4app.net (en)
-// 发布代码于最专业的源码分享网站: Code4App.com 
+// 发布代码于最专业的源码分享网站: Code4App.com

@@ -57,7 +57,9 @@
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
+    bgScrollView.showsVerticalScrollIndicator =
+    NO;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
     NSArray*leftArr =@[@"原密码：",@"新密码：",@"确认密码：",@"",@"",@"",@"",] ;
     NSArray *rightArr =@[@"请输入原密码",@"请输入新密码",@"确认密码",@"",];
     //列表

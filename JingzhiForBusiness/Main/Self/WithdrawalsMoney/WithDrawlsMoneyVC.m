@@ -8,6 +8,7 @@
 
 #import "WithDrawlsMoneyVC.h"
 #import "WithDrawlsCell.h"
+#import "WithDrawDetail.h"
 @interface WithDrawlsMoneyVC ()
 
 @end
@@ -33,7 +34,7 @@
     [topImageView addSubview:returnBtn];
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"提现管理"];
+    [navTitle setText:@"提现记录"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
@@ -51,20 +52,12 @@
     [topImageView addSubview:withDrawlsBtn];
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
     [self mainView];
 }
 - (void)withDrawlsBtnAction
 {
-
+    WithDrawDetail *withDraw =[[WithDrawDetail alloc]init];
+    [self.navigationController pushViewController:withDraw animated:YES];
 
 
 }

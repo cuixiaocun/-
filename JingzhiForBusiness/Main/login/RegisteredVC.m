@@ -9,7 +9,7 @@
 #import "RegisteredVC.h"
 #import "SetIDNumberVC.h"
 #import "RegisterAndGoods.h"
-@interface RegisteredVC ()<UITextFieldDelegate,UIActionSheetDelegate,SetIDNumberVCDelegate>
+@interface RegisteredVC ()<UITextFieldDelegate,SRActionSheetDelegate,SetIDNumberVCDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
@@ -261,10 +261,29 @@
     }
     if (btn.tag==15) {
         //选择代理
-        UIActionSheet *sheet;
+        SRActionSheet *actionSheet = [SRActionSheet sr_actionSheetViewWithTitle:@"请选择代理级别"
+                                                                    cancelTitle:@"取消"
+                                                               destructiveTitle:nil
+                                                                     withNumber:@"7" withLineNumber:@"1"
+                                                                    otherTitles:@[@"一级代理",@"二级代理",@"三级代理",@"四级代理",@"五级代理",@"六级代理"]
+                                                                    otherImages:nil
+                                                              selectActionBlock:^(SRActionSheet *actionSheet, NSInteger index) {
+                                                                  
+                                                                  if (index<0||index>5) {
+                                                                      return;
+                                                                  }
+                                                                  [self actionSheetButtonAtIndex:index];
+                                                                  
+                                                                  
+                                                                  NSLog(@"%zd", index);
+                                                              }];
+        actionSheet.number=@"7";
+        actionSheet.lineNumber=@"1";
+        
 
-        sheet  = [[UIActionSheet alloc] initWithTitle:@"选择代理级别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"一级代理",@"二级代理",@"三级代理",@"四级代理",@"五级代理",@"六级代理", nil];
-        [sheet showInView:self.view];
+        [actionSheet show];
+        
+        
         
         
         
@@ -283,59 +302,11 @@
 
 
 }
--(void)willPresentActionSheet:(UIActionSheet *)actionSheet
-
-{
-    
-    SEL selector = NSSelectorFromString(@"_alertController");
-    
-    if ([actionSheet respondsToSelector:selector])//ios8 以后采用UIAlertController来代替uiactionsheet和UIAlertView
-        
-    {
-        
-        UIAlertController *alertController = [actionSheet valueForKey:@"_alertController"];
-        
-        if ([alertController isKindOfClass:[UIAlertController class]])
-            
-        {
-            
-            alertController.view.tintColor = TextColor;
-            
-        }
-        
-    }
-    
-    else//ios7 之前采用这样的方式
-        
-    {
-        
-        for( UIView * subView in actionSheet.subviews )
-            
-        {
-            
-            if( [subView isKindOfClass:[UIButton class]] )
-                
-            {
-                
-                UIButton * btn = (UIButton*)subView;
-                
-                
-                
-                [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                
-            }
-            
-        }
-        
-    }
-    
-}
-
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+-(void) actionSheetButtonAtIndex:(NSInteger)buttonIndex
 {
     UILabel *labelOne  =[self.view viewWithTag:25];
     labelOne.textColor =[UIColor blackColor];
-    levelString =[NSString stringWithFormat:@"%ld",buttonIndex];
+    levelString =[NSString stringWithFormat:@"%d",buttonIndex];
 
     switch (buttonIndex) {
         case 0:

@@ -218,7 +218,8 @@
 - (void)confirmButtonAction
 {
 
-
+    [MBProgressHUD showSuccess:@"注册成功,请登录" ToView:self.view];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 //系统计算
 - (void)calculateTheGoods
@@ -619,6 +620,7 @@
 //确认
 - (void)tureBtn
 {
+   
     blackBgView.hidden=YES;
     
     alterView.hidden =YES;
@@ -649,6 +651,7 @@
     alterView.hidden =YES;
     
 }
+
 
 /*
 #pragma mark - Navigation

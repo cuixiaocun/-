@@ -25,9 +25,10 @@
 #import "CirculationRecordVC.h"
 #import "MemberOrderVC.h"
 #import "BankCardVC.h"
+#import "BankCardListVC.h"
 #import "RebateVC.h"
 #import "MyAuthorizationVC.h"
-@interface PersonalCenter ()<UIActionSheetDelegate>
+@interface PersonalCenter ()<SRActionSheetDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
@@ -88,7 +89,9 @@
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
+    bgScrollView.showsVerticalScrollIndicator =
+    NO;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
     
     //上面的image
     UIImageView *bgImageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Width*300)];
@@ -148,7 +151,7 @@
     
     NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
 
-    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现管理",@"流转记录",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"",@"",] ;
+    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"流转记录",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"",@"",] ;
     for (int i=0; i<13; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),bgImageV.bottom+20*Width+187.5*Width*(i/4),186*Width,186*Width)];
@@ -228,13 +231,28 @@
     {
         
         //选择代理
-        UIActionSheet *sheet;
-
-        sheet  = [[UIActionSheet alloc] initWithTitle:@"选择代理级别" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"一级代理",@"二级代理",@"三级代理",@"四级代理",@"五级代理",@"六级代理", nil];
-        [sheet setActionSheetStyle:UIActionSheetStyleDefault];
+        SRActionSheet *actionSheet = [SRActionSheet sr_actionSheetViewWithTitle:@"选择代理级别"
+                                                                    cancelTitle:@"取消"
+                                                               destructiveTitle:nil
+                                                                     withNumber:@"7"
+                                                                 withLineNumber:@"1"
+                                                                    otherTitles:@[@"一级代理",@"二级代理",@"三级代理",@"四级代理",@"五级代理",@"六级代理"]
+                                                                    otherImages:nil
+                                                              selectActionBlock:^(SRActionSheet *actionSheet, NSInteger index) {
+                                                                  
+                                                                  if (index>5||index<0) {
+                                                                      return;
+                                                                  }
+                                                                  levelString =[NSString stringWithFormat:@"%ld",index];
+                                                                  [self upLevel];
+                                                                  
+                                                                  
+                                                                  NSLog(@"%zd", index);
+                                                              }];
+        actionSheet.number=@"7";
+        actionSheet.lineNumber=@"1";
         
-
-        [sheet showInView:self.view];
+        [actionSheet show];
         
 
         
@@ -266,10 +284,14 @@
     }
     else if (btn.tag==309)//银行卡
     {
+//        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+//        BankCardListVC *bankCard =[[BankCardListVC alloc]init];
+//        [self.navigationController pushViewController:bankCard animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         BankCardVC *bankCard =[[BankCardVC alloc]init];
         [self.navigationController pushViewController:bankCard animated:YES];
         
+
         
     }
     else if (btn.tag==310)//返佣
@@ -298,13 +320,9 @@
 
 
 }
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)actionSheet:(SRActionSheet *)actionSheet didSelectSheet:(NSInteger)buttonIndex
 {
-    if (buttonIndex==6) {
-        return;
-    }
-    levelString =[NSString stringWithFormat:@"%ld",buttonIndex];
-    [self upLevel];
+    
 }
 - (void)upLevel
 {
@@ -313,53 +331,6 @@
     changeVC.levelString =levelString;
     changeVC.navTitle =@"代理升级";
     [self.navigationController pushViewController:changeVC animated:YES];
-}
--(void)willPresentActionSheet:(UIActionSheet *)actionSheet
-
-{
-    
-    SEL selector = NSSelectorFromString(@"_alertController");
-    
-    if ([actionSheet respondsToSelector:selector])//ios8 以后采用UIAlertController来代替uiactionsheet和UIAlertView
-        
-    {
-        
-        UIAlertController *alertController = [actionSheet valueForKey:@"_alertController"];
-        
-        if ([alertController isKindOfClass:[UIAlertController class]])
-            
-        {
-            
-            alertController.view.tintColor = TextColor;
-
-        }
-        
-    }
-    
-    else//ios7 之前采用这样的方式
-        
-    {
-        
-        for( UIView * subView in actionSheet.subviews )
-            
-        {
-            
-            if( [subView isKindOfClass:[UIButton class]] )
-                
-            {
-                
-                UIButton * btn = (UIButton*)subView;
-                
-                
-                
-                [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-                
-            }
-            
-        }
-        
-    }
-    
 }
 
 
@@ -389,15 +360,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-// 取消按钮
--(void)addCancelActionTarget:(UIAlertController*)alertController title:(NSString *)title
-{
-    UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        
-    }];
-    [action setValue:[UIColor purpleColor] forKey:@"_titleTextColor"];
-    [alertController addAction:action];
-}
+
 /*
 #pragma mark - Navigation
 

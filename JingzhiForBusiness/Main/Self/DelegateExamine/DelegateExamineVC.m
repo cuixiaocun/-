@@ -47,8 +47,43 @@
 }
 - (void)mainView
 {
+    
+    UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
+    topView.backgroundColor =[UIColor whiteColor];
+    [self.view addSubview:topView];
+    NSArray *btnArr =@[@"全部",@"待审核",@"已完成"];
+    for (int i=0; i<3; i++) {
+        UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        statuBtn.frame = CGRectMake(CXCWidth/3*i, 0,CXCWidth/3-2*Width ,100*Width);
+        if (i==0) {
+            statuBtn.selected =YES;
+        }
+        if (i<4) {
+            //横线
+            UIImageView*xian =[[UIImageView alloc]init];
+            xian.backgroundColor =BGColor;
+            [topView addSubview:xian];
+            xian.frame =CGRectMake(statuBtn.right,25*Width, Width, 50*Width);
+            
+        }
+        //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+        statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
+        [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
+        [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+        [statuBtn setTitleColor:NavColor forState:UIControlStateSelected];
+        statuBtn.tag =220+i;
+        [statuBtn addTarget:self action:@selector(changeStatuBtn:) forControlEvents:UIControlEventTouchUpInside];
+        [topView addSubview:statuBtn];
+    }
+    //横线
+    UIImageView*xian =[[UIImageView alloc]init];
+    xian.backgroundColor =BGColor;
+    [topView addSubview:xian];
+    xian.frame =CGRectMake(0,98*Width, CXCWidth, 2*Width);
+    
+
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-20)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -71,8 +106,21 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+   
     // Dispose of any resources that can be recreated.
 }
+- (void)changeStatuBtn:(UIButton *)btn
+{
+    for (int i=0; i<5; i++) {
+        UIButton *statuBtn =[self.view viewWithTag:220+i];
+        statuBtn.selected=NO;
+    }
+    btn.selected =YES;
+    
+    
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //    return infoArray.count ;
@@ -126,7 +174,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-20)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;

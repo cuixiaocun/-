@@ -14,16 +14,21 @@
 #import "ShoppingCartVC.h"
 #import "LoginPage.h"
 #import "PersonalCenter.h"
-@interface HomePage ()<SDCycleScrollViewDelegate>
+#import "ViewController.h"
+#import "ComMallView.h"
+#import "SearchPage.h"
+@interface HomePage ()<SDCycleScrollViewDelegate,OnClickCMallDelegate>
 {
-
     UIScrollView *bgScrollView;//最底下的背景
     NSMutableArray *imagesArray;//滚动图片数组
     NSArray *picArr;
     NSString *sharePhone;//传到广告页面的图片
     SDCycleScrollView *cycleScrollView2;//这个是轮播
-       
+    UIView * bottomView;
+    UIView *topview ;
 }
+@property (nonatomic,strong) ComMallView *comMallView;//按钮视图
+
 @end
 
 @implementation HomePage
@@ -64,55 +69,229 @@
 ////首页页面布局
 -(void)makeThisView
 {
+    topview =[[UIView alloc]initWithFrame:CGRectMake(0, 64,CXCWidth , 58*Width)];
+    topview.backgroundColor = [UIColor colorWithRed:253/255.0 green:239/255.0 blue:212/255.0 alpha:1];
+    [self.view addSubview:topview];
+    UILabel *prelabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 0, CXCWidth*0.8, 58*Width)];
+    prelabel.text =@"公告：心体荟商城上线大促销即将开始";
+    prelabel.font =[UIFont systemFontOfSize:14];
+    prelabel.textColor =[UIColor colorWithRed:249/255.0 green:98/255.0 blue:48/255.0 alpha:1];
+    [topview  addSubview:prelabel ];
+    
+    UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(700*Width, 19*Width, 20*Width, 20*Width)];
+    
+    [btn setImage:[UIImage imageNamed:@"vip_btn_close"] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(hiddenTheTopView) forControlEvents:UIControlEventTouchUpInside];
+    
+    [topview addSubview:btn];
+    
+    
+    
+    
+    
+    
+    
+    
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 44+20, CXCWidth, CXCHeight-44-20-49)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, topview.bottom, CXCWidth, CXCHeight-64-49)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:bgScrollView];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 570)];
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 5700)];
     //顶部广告图
     cycleScrollView2 =[SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CXCWidth, 310*Width) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder@2x"]];
     cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
-    cycleScrollView2.currentPageDotColor = [UIColor whiteColor]; // 自定义分页控件小圆标颜色
+    cycleScrollView2.currentPageDotColor = [UIColor whiteColor];
+    cycleScrollView2.localizationImageNamesGroup =@[@"vip_banner_01",@"vip_banner_01"];
+//    cycleScrollView2.imageURLStringsGroup = imagesArray;//放上图片
+// 自定义分页控件小圆标颜色
     [bgScrollView addSubview:cycleScrollView2];
     
-    //商品腰线
+    
+    UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0,cycleScrollView2.bottom ,CXCWidth ,230*Width )];
+    [btnView setBackgroundColor:[UIColor whiteColor ]];
+    [bgScrollView addSubview:btnView];
+      NSArray *topArr =@[@"vip_icon_nearby",@"vip_icon_search",@"vip_icon_notice",@"vip_icon_qa",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+     NSArray*bottomArr =@[@"附近代理",@"代理查询",@"公告",@"常见问题",@"密码修改",@"申请升级",@"提现",@"流转记录",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"",@"",] ;
+    [btnView setBackgroundColor:[UIColor whiteColor]];
+    for (int i=0; i<4; i++) {
+        //大按钮
+        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),187.5*Width*(i/4),186*Width,230*Width)];
+        [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
+        btn.tag =i+300;
+        btn.backgroundColor =[UIColor whiteColor];
+        [btnView addSubview:btn];
+        //上边图片
+        UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(40.5*Width,25*Width,105*Width,105*Width)];
+        topImgV.image=[UIImage imageNamed:[NSString stringWithFormat:@"%@",topArr[i]]];
+        topImgV.tag =1100+i;
+        [btn addSubview:topImgV];
+        //下边文字
+        UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom+10*Width,187*Width,90*Width)];
+        botLabel.textAlignment=NSTextAlignmentCenter;
+        botLabel.font =[UIFont systemFontOfSize:14];
+        botLabel.textColor =BlackColor;
+        botLabel.text =[NSString stringWithFormat:@"%@",bottomArr[i]];
+        [btn addSubview:botLabel];
+    }
+    
+    //商品
+    UIView *goodsXian =[[UIView alloc]initWithFrame:CGRectMake(0, btnView.bottom, CXCWidth, 68*Width)];
+    goodsXian.backgroundColor =BGColor;
+    
+    [bgScrollView addSubview:goodsXian];
+    
+    UIImageView *rightXian =[[UIImageView alloc]initWithFrame:CGRectMake(25*Width, 43*Width, 270*Width, 2*Width)];
+    [rightXian setBackgroundColor:TextGrayGray3Color];
+    [goodsXian addSubview:rightXian];
+    
+    UIImageView *zanImgv =[[UIImageView alloc]initWithFrame:CGRectMake(rightXian.right, 21.5*Width, 43*Width, 43*Width)];
+    [zanImgv setBackgroundColor:BGColor];
+    zanImgv.image =[UIImage imageNamed:@"vip_icon_good"];
+    [goodsXian addSubview:zanImgv];
+
+    UILabel*label =[[UILabel alloc]initWithFrame:CGRectMake(zanImgv.right+20*Width, 0, 200*Width, 88*Width)];
+    label.text =@"商品";
+    label.textColor =[UIColor colorWithRed:240/255.0 green:89/255.0 blue:42/255.0 alpha:1];
+    label.font =[UIFont systemFontOfSize:17];
+    [goodsXian addSubview:label];
+    
+    UIImageView *leftXian =[[UIImageView alloc]initWithFrame:CGRectMake(460*Width, 43*Width, 270*Width, 2*Width)];
+    [leftXian setBackgroundColor:TextGrayGray3Color];
+    [goodsXian addSubview:leftXian];
     
     
     
     
+    if (self.comMallView == nil)
+    {
+        self.comMallView = [[ComMallView alloc] initWithFrame:CGRectMake(0, goodsXian.bottom, CXCWidth, 880*Width)];
+        self.comMallView.CMallDelegate = self;
+        self.comMallView.backgroundColor = BGColor;
+        [bgScrollView addSubview:self.comMallView];
+    }
     
     
     
-//    
-//    //顶部功能选择按钮
-//    NSArray *gnBtnArray1 = @[@"home_jiaofei.png",@"home_linli.png",@"home_yiliao.png",@"home_yanglao.png",@"home_baoxiu.png",@"home_fangke.png",@"home_anbao.png",@"home_fuwu.png",@"",@"",@"",@"",@""];
-//    NSArray *wzBtnArray1 = @[@"乐购",@"邻里圈",@"健康管家",@"居家养老",@"我要报修",@"访客授权",@"智能安保",@"生活服务",@""];
-//    for (int i =0; i<4; i++) {
-//        UIButton *gnBtn =[UIButton buttonWithType:UIButtonTypeCustom];
-//        [gnBtn setFrame:CGRectMake(25*Width+337.5*Width*(i%2), , 337.5*Width, 92.5)];
-//        [gnBtn setBackgroundColor:[UIColor whiteColor]];
-//        [gnBtn setTag:i+10];
-//        [gnBtn addTarget:self action:@selector(gnBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [bgScrollView addSubview:gnBtn];
-//        UIImageView *imgV = [[UIImageView alloc]initWithFrame:CGRectMake(50/2, 12.5, 30, 30)];
-//        [imgV setImage:[UIImage   imageNamed:[NSString stringWithFormat:@"%@",gnBtnArray1[i]]]];
-//        [gnBtn addSubview:imgV];
-//        UILabel *labe = [[UILabel alloc]initWithFrame:CGRectMake(0,imgV.bottom+10, 80, 20)];
-//        labe.textColor = TextGrayColor;
-//        labe.text = wzBtnArray1[i];
-//        labe.textAlignment = NSTextAlignmentCenter;
-//        labe.font = [UIFont boldSystemFontOfSize:14];
-//        [gnBtn addSubview:labe];
-//        
-//    }
-//    
-//    
-//    [self getInforBanner];
     
+    bottomView =[[UIView alloc]initWithFrame:CGRectMake(0,  _comMallView.bottom, CXCWidth, 1000*Width)];
+    bottomView.backgroundColor =[UIColor redColor];
+    [bgScrollView addSubview:bottomView];
+    
+    //商品
+    UIView *companyXian =[[UIView alloc]initWithFrame:CGRectMake(0,0, CXCWidth, 88*Width)];
+    companyXian.backgroundColor =BGColor;
+    
+    [bottomView addSubview:companyXian];
+    
+    UIImageView *crightXian =[[UIImageView alloc]initWithFrame:CGRectMake(25*Width, 43*Width, 230*Width, 2*Width)];
+    [crightXian setBackgroundColor:TextGrayGray3Color];
+    [companyXian addSubview:crightXian];
+    
+    UIImageView *biaoImgv =[[UIImageView alloc]initWithFrame:CGRectMake(crightXian.right+10*Width, 21.5*Width, 45*Width, 45*Width)];
+    [biaoImgv setBackgroundColor:BGColor];
+    biaoImgv.image =[UIImage imageNamed:@"vip_icon_company_profile"];
+    [companyXian addSubview:biaoImgv];
+    
+    UILabel*compLabel =[[UILabel alloc]initWithFrame:CGRectMake(biaoImgv.right+14*Width, 0, 200*Width, 88*Width)];
+    compLabel.text =@"公司简介";
+    compLabel.textColor =[UIColor colorWithRed:33/255.0 green:144/255.0 blue:244/255.0 alpha:1]   ;
+    compLabel.font =[UIFont systemFontOfSize:17];
+    [companyXian addSubview:compLabel];
+    
+    UIImageView *cleftXian =[[UIImageView alloc]initWithFrame:CGRectMake(490*Width, 43*Width, 230*Width, 2*Width)];
+    [cleftXian setBackgroundColor:TextGrayGray3Color];
+    [companyXian addSubview:cleftXian];
+    
+    UIView *bgView =[[UIView alloc]initWithFrame:CGRectMake(0, companyXian.bottom, CXCWidth, 500)];
+    bgView.backgroundColor =[UIColor whiteColor];
+    [bottomView addSubview:bgView];
+    
+    //头像
+    EGOImageView *touImageV = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@""]];
+    [touImageV setFrame:CGRectMake(24*Width, 32*Width, 72*Width, 72*Width)];
+    //    [touImageV setImageURL:[NSURL URLWithString:headString]];
+    [touImageV setImage:[UIImage imageNamed:@"proxy_icon_header"]];
+    
+    touImageV.tag =3330;
+    touImageV.userInteractionEnabled =YES;
+    [touImageV.layer setMasksToBounds:YES];
+    [bgView addSubview:touImageV];
+    
+    //代理
+    UILabel *levelLabel = [[UILabel alloc]initWithFrame:CGRectMake(touImageV.right+20*Width,touImageV.top-2*Width, 600*Width, 40*Width)];
+    levelLabel.textColor = [UIColor whiteColor];
+    levelLabel.tag =3331;
+    levelLabel.text =@"广州市乔美华妆品有限公司";
+    levelLabel.textAlignment = NSTextAlignmentLeft;
+    levelLabel.font = [UIFont boldSystemFontOfSize:16];
+    levelLabel.textColor = BlackColor;
+    [bgView   addSubview:levelLabel];
+    
+    //电话
+    UILabel *telphoneL = [[UILabel alloc]initWithFrame:CGRectMake(touImageV.right+24*Width,levelLabel.bottom, 600*Width, 40*Width)];
+    telphoneL.textColor = [UIColor whiteColor];
+    telphoneL.tag =3332;
+    telphoneL.text=@"广州市奎文区家离得近撒委屈热无广州市乔美华妆品有限公司";
+    telphoneL.textAlignment = NSTextAlignmentLeft;
+    telphoneL.font = [UIFont boldSystemFontOfSize:13];
+    telphoneL.textColor = TextGrayColor;
+    [bgView addSubview:telphoneL];
+    NSArray *imgArr =@[@"1.jpg",@"2.jpg",@"3.jpg"];
+    for (int i=0; i<3; i++) {
+        UIImageView *imgvOfcompany =[[UIImageView alloc]init];
+        if (i==0)
+        {
+            imgvOfcompany.frame =CGRectMake(24*Width,touImageV.bottom+28*Width,  440*Width, 400*Width);
+ 
+        }else if (i==1)
+        {
+            imgvOfcompany.frame =CGRectMake(476*Width,touImageV.bottom+28*Width,  250*Width, 194*Width);
+
+        
+        }else
+        {
+            imgvOfcompany.frame =CGRectMake(476*Width,touImageV.bottom+28*Width+206*Width,  250*Width, 194*Width);
+
+        }
+        [imgvOfcompany setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",imgArr[i]]]];
+        
+        [bgView addSubview:imgvOfcompany];
+        
+    }
+    
+    
+    
+    
+
 }
-//
-////的获取bannar，若一张就用EGOImageButton，若多张就用CycleScrollView  ads--上面的广告  ads2--下面的热门推荐
+- (void)hiddenTheTopView
+{
+    topview.hidden=YES;
+    bgScrollView.top =64;
+
+}
+- (void)myBtnAciton:(UIButton *)btn
+{
+    if (btn.tag ==300) {
+        
+    }else if (btn.tag==301)
+    {
+        SearchPage  *search =[[SearchPage alloc]init];
+        [self.navigationController pushViewController:search animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+    
+    }else if (btn.tag==302)
+    {
+        
+    }else if (btn.tag==303)
+    {
+        
+    }
+
+}
+
 //- (void)getInforBanner
 //{
 //    

@@ -8,6 +8,7 @@
 
 #import "StockTableviewVC.h"
 #import "StockCell.h"
+#import "GotoOrderVC.h"
 @interface StockTableviewVC ()
 
 @end
@@ -90,7 +91,8 @@
 {
 
     
-    
+    GotoOrderVC *gotoOrder =[[GotoOrderVC alloc]init];
+    [self.navigationController pushViewController:gotoOrder animated:YES];
     
     
 

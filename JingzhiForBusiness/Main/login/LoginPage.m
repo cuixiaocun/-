@@ -17,6 +17,7 @@
 #import "DeclarationCenterVC.h"
 #import "OrderCenterVC.h"
 #import "HYPersonalCenterVC.h"
+#import "HYRegisteredVC.h"
 @interface LoginPage ()
 {
     UIButton *loginBtn;
@@ -54,12 +55,14 @@
     UIImageView*bgImg =[[UIImageView alloc]init];
     bgImg.backgroundColor=[UIColor whiteColor];
     [topImageView addSubview:bgImg];
-    bgImg.layer.cornerRadius=4;
-    [bgImg   setFrame:CGRectMake(183*Width, 19, 386*Width, 60*Width)];
+    bgImg.userInteractionEnabled = YES;
+
+    bgImg.layer.cornerRadius=2;
+    [bgImg setFrame:CGRectMake(183*Width, 20+(44-56*Width)/2-1, 384*Width, 60*Width)];
     
 
     //会员
-    UIButton *hyBtn =[[UIButton alloc]initWithFrame:CGRectMake(185*Width, 20, 190*Width, 56*Width)];
+    UIButton *hyBtn =[[UIButton alloc]initWithFrame:CGRectMake(2*Width, 2*Width, 190*Width, 56*Width)];
     [hyBtn setBackgroundColor:[UIColor whiteColor]];
     hyBtn.selected=YES;
 
@@ -75,16 +78,16 @@
     [hyBtn setTitle:@"会员登录" forState:UIControlStateSelected];
     hyBtn.tag =120;
     hyBtn.titleLabel.font =[UIFont systemFontOfSize:15];
-    hyBtn.layer.cornerRadius=4;
+//    hyBtn.layer.cornerRadius=4;
 
     [hyBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
-    [topImageView addSubview:hyBtn];
+    [bgImg addSubview:hyBtn];
 
     //代理
-    UIButton *dlBtn =[[UIButton alloc]initWithFrame:CGRectMake(hyBtn.right, 20, 190*Width, 56*Width)];
+    UIButton *dlBtn =[[UIButton alloc]initWithFrame:CGRectMake(hyBtn.right,2*Width, 190*Width, 56*Width)];
     [dlBtn setBackgroundColor:[UIColor whiteColor]];
     dlBtn.selected=NO;
-    dlBtn.layer.cornerRadius=4;
+//    dlBtn.layer.cornerRadius=4;
 
     if (dlBtn.selected==YES) {
         [dlBtn setBackgroundColor:[UIColor whiteColor]];
@@ -101,32 +104,27 @@
     dlBtn.tag =121;
     [dlBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
 
-    [topImageView addSubview:dlBtn];
+    [bgImg addSubview:dlBtn];
     [self  mainView];
 }
 - (void)mainView
 {
-
-    
     //底部scrollview
     UIScrollView *bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64 )];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1000)];
-    
+    bgScrollView.showsVerticalScrollIndicator =
+    NO;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
     UIImageView *titleImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 194)];
     [titleImage setImage:[UIImage imageNamed:@"login_title.png"]];
     [bgScrollView addSubview:titleImage];
-    
     NSArray *rightArr =@[@"请输入账号",@"请输入密码"];
     NSArray *leftArr =@[@"账号",@"密码"];
-    
-    
     for (int i =0; i<2; i++) {
         
         UIImageView *textBg = [[UIImageView alloc] init];
-        
         [textBg setUserInteractionEnabled:YES];
         [textBg setFrame:CGRectMake(0, 20*Width+106*Width*i, CXCWidth,106*Width )];
         [bgScrollView addSubview:textBg];
@@ -136,7 +134,6 @@
         labe.font = [UIFont boldSystemFontOfSize:15];
         labe.textColor = [UIColor grayColor];
         [textBg addSubview:labe];
-        
         UITextField *inputText = [[UITextField alloc] init];
         [inputText setTag:i+1];
         if (i==0) {
@@ -149,7 +146,6 @@
         [inputText setDelegate:self];
         [inputText setFont:[UIFont systemFontOfSize:18]];
         [inputText setTextColor:[UIColor blackColor]];
-        
         [inputText setFrame:CGRectMake(140*Width, 0,580*Width,106*Width)];
         [inputText setClearButtonMode:UITextFieldViewModeWhileEditing];
         [textBg addSubview:inputText];
@@ -205,8 +201,19 @@
 }
 - (void)registerBtnPressed
 {
-    RegisteredVC *registeredVC =[[RegisteredVC alloc]init];
-    [self.navigationController   pushViewController:registeredVC animated:YES];
+    if ([isLeveler isEqualToString:@"NO"]) {
+        
+        HYRegisteredVC *hyRegisteredVC =[[HYRegisteredVC alloc]init];
+        [self.navigationController pushViewController:hyRegisteredVC animated:YES];
+        
+        
+    }else if ([isLeveler isEqualToString:@"YES"])
+    {
+        RegisteredVC *registeredVC =[[RegisteredVC alloc]init];
+        [self.navigationController   pushViewController:registeredVC animated:YES];
+    }
+
+   
 }
 - (void)forgetBtn
 {
@@ -585,6 +592,8 @@
     RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
     [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
     [UIApplication sharedApplication].keyWindow.rootViewController =tabBarController ;
+//    [[self rdv_tabBarController].tabBar.delegate tabBar: [self rdv_tabBarController].tabBar didSelectItemAtIndex:2];
+
     [self customizeTabBarForControllerHY:tabBarController];
     
     //    }else//若不为1表示没登录
@@ -614,6 +623,7 @@
                      [tabBarItemImages objectAtIndex:index]]);
         index++;
     }
+
 }
 
 @end

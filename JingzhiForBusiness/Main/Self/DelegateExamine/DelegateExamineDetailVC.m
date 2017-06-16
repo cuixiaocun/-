@@ -7,8 +7,8 @@
 //
 
 #import "DelegateExamineDetailVC.h"
-
-@interface DelegateExamineDetailVC ()
+#import "IsTureAlterView.h"
+@interface DelegateExamineDetailVC ()<IsTureAlterViewDelegate>
 {
 
     //底部scrollview
@@ -278,34 +278,20 @@
     
 -(void)examinePass
 {
-    NSLog(@"审核通过");
-    UIAlertView *delAlertView = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"%@",@"确定要通过审核？"] message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [delAlertView show];
+    IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要通过审核吗？"];
+    isture.delegate =self;
+    isture.tag =180;
+    [self.view addSubview:isture];
+    
+    NSLog(@"驳回");
+    return;
+
     
 
 
 
 }
 
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
 //    //横线
 //    UIImageView*xian =[[UIImageView alloc]init];
@@ -349,19 +335,37 @@
 //    
 //    
 //
+#pragma mark - IsTureAlterViewDelegate
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+-(void)cancelBtnActin
 {
-    if (buttonIndex==0) {
-        
-        return;
-        
-    }else
-    {
-        //审核通过
-        
-    }
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    NSLog(@"取消");
+    
 }
+-(void)tureBtnAction
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    
+    [isture removeFromSuperview];
+    NSLog(@"确认");
+    //删除
+    
+}
+
+//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex==0) {
+//        
+//        return;
+//        
+//    }else
+//    {
+//        //审核通过
+//        
+//    }
+//}
 
 
 - (void)returnBtnAction

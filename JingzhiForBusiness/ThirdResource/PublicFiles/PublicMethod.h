@@ -19,11 +19,12 @@
 #import "DesSecret.h"
 #import "MBProgressHUD.h"
 #import "MBProgressHUD+MP.h"
+#import "SRActionSheet.h"
 //服务器地址
 #define IMAGEURL  @"https://www.lianqunwuye.com:4432/SmartCommunity/"
 #define SERVERURL @"https://www.lianqunwuye.com:4432/SmartCommunity_API"
 //是否为空
-#define IsNilString(__String)   (__String==nil || [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqual:[NSNull null]]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"])
+#define IsNilString(__String)   (__String==nil || [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqual:[NSNull null]]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"]||[__String isEqualToString:@""])
 
 
 #define TextBlueColor ([UIColor colorWithRed:20/255.0 green:138/255.0 blue:246/255.0 alpha:1])//
@@ -32,6 +33,7 @@
 
 #define TextGrayColor ([UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1])//灰色的字
 #define TextGrayGrayColor ([UIColor colorWithRed:190/255.0 green:190/255.0 blue:190/255.0 alpha:1])//灰色的字
+#define TextGrayGray3Color ([UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1])//灰色的字
 
 #define BGColor ([UIColor colorWithRed:246/255.0 green:246/255.0 blue:246/255.0 alpha:1])//背景颜色
 #define NavColor ([UIColor colorWithRed:242/255.0 green:55/255.0 blue:59/255.0 alpha:1])//导航栏颜色
@@ -42,7 +44,7 @@
 
 #define CXCHeight ([[UIScreen mainScreen] bounds].size.height)/1.0
 #define CXCWidth ([[UIScreen mainScreen] bounds].size.width)/1.0
-#define Width [UIScreen mainScreen].bounds.size.width/750.0
+#define Width [UIScreen mainScreen].bounds.size.width/750.000
 #define navBackarrow @"register_btn_goBack_white"//返回箭头
 #define yuanjiao 4
 

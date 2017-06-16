@@ -57,6 +57,7 @@
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
+    
     NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
     
     NSArray*bottomArr =@[@"我的推荐",@"我的订单",@"收货地址",@"资金记录",@"推广二维码",@"代理商",@"流转记录",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"",@"",] ;
