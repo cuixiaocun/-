@@ -17,6 +17,7 @@
         self.goodsPrice = dict[@"goodsPrice"];
         self.goodsNum = [dict[@"goodsNum"]intValue];
         self.selectState = [dict[@"selectState"]boolValue];
+        self.goodsTotalPrice=dict[@"goodsTotalPrice"];
     }
     return  self;
 }

@@ -17,64 +17,93 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
+        
+        self.backgroundColor =BGColor;
+        
         //布局界面
-        UIView * bgView = [[UIView alloc]initWithFrame:CGRectMake(5, 5, WIDTH-10, 95)];
+        UIView * bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
         bgView.backgroundColor = [UIColor whiteColor];
+        [self addSubview:bgView];
         
-        //添加商品图片
-        _goodsImgV = [[UIImageView alloc]initWithFrame:CGRectMake(5, 10, 80, 80)];
-        _goodsImgV.backgroundColor = [UIColor greenColor];
-        [bgView addSubview:_goodsImgV];
+        UIButton *selectBtn =[[UIButton alloc]initWithFrame:CGRectMake(12.5*Width, (200*Width-50*Width)/2, 50*Width, 50*Width)];
+        [bgView addSubview:selectBtn];
+        [selectBtn setImageEdgeInsets:UIEdgeInsetsMake(7.5*Width, 7.5*Width, 7.5*Width, 7.5*Width)];
+        selectBtn.tag =9;
+        [selectBtn setImage:[UIImage imageNamed:@"adress_btn_radio"] forState:UIControlStateNormal];
+        [selectBtn setImage:[UIImage imageNamed:@"adress_btn_radio_sel"] forState:UIControlStateSelected];
+
+        [selectBtn addTarget:self action:@selector(numBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         
-        //添加商品标题
-        _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 5, 200, 30)];
-        _goodsTitleLab.text = @"afadsfa fa";
+        
+        
+        
+        _goodsImgView =[[EGOImageView alloc]initWithImage:[UIImage imageNamed:@"timg.png"]];
+        _goodsImgView.backgroundColor =[UIColor redColor];
+        _goodsImgView.frame=CGRectMake(80*Width, 20*Width, 160*Width, 160*Width);
+        [bgView addSubview:_goodsImgView];
+        
+        //商品名称
+        _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+30*Width,10*Width, 360*Width, 100*Width)];
+        _goodsTitleLab.text = @"商品A-几万块合法";
+        _goodsTitleLab.textColor=BlackColor;
+        _goodsTitleLab.numberOfLines =0;
+        _goodsTitleLab.font =[UIFont systemFontOfSize:15];
         _goodsTitleLab.backgroundColor = [UIColor clearColor];
         [bgView addSubview:_goodsTitleLab];
         
-        //促销价
-        _priceTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 35, 70, 30)];
-        _priceTitleLab.text = @"促销价:";
-        _priceTitleLab.backgroundColor = [UIColor clearColor];
-        [bgView addSubview:_priceTitleLab];
+        //价格
+        UILabel* priceLabel =[[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+30*Width, 140*Width, 360*Width, 60*Width)];
+        priceLabel.text =@"¥400.00";
+        priceLabel.font =[UIFont systemFontOfSize:16];
+        priceLabel.textColor =NavColor;
+        [bgView addSubview:priceLabel];
+        _priceLab =priceLabel;
         
-        //商品价格
-        _priceLab = [[UILabel alloc]initWithFrame:CGRectMake(160, 35, 100, 30)];
-        _priceLab.text = @"1990";
-        _priceLab.textColor = [UIColor redColor];
-        [bgView addSubview:_priceLab];
+
         
-        //购买数量
-        _goodsNumLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 65, 90, 30)];
-        _goodsNumLab.text = @"购买数量：";
-        [bgView addSubview:_goodsNumLab];
+        
+        UIButton *numBtn =[[UIButton alloc]initWithFrame:CGRectMake(578*Width, 130*Width, 78*Width, 48*Width)];
+        //        numBtn.backgroundColor =[UIColor redColor];
+        [bgView addSubview:numBtn];
+        numBtn.tag =10;
+        [numBtn.layer setBorderWidth:1.0*Width];
+        numBtn.layer.borderColor =BGColor.CGColor;
+        
+        [numBtn addTarget:self action:@selector(numBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        //购买商品的数量
+        _numCountLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0*Width, 78*Width, 48*Width)];
+        _numCountLab.textAlignment = NSTextAlignmentCenter;
+        [numBtn addSubview:_numCountLab];
         
         //减按钮
         _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _deleteBtn.frame = CGRectMake(180, 65, 30, 30);
-        [_deleteBtn setImage:[UIImage imageNamed:@"按钮-.png"] forState:UIControlStateNormal];
+        _deleteBtn.frame = CGRectMake(530*Width, 130*Width, 48*Width, 48*Width);
+        [_deleteBtn setImage:[UIImage imageNamed:@"register_btn_reduce_modify_black"] forState:UIControlStateNormal];
+        _deleteBtn.imageEdgeInsets = UIEdgeInsetsMake(8*Width, 8*Width,8*Width, 8*Width);
+        [_deleteBtn.layer setBorderWidth:1.0*Width];
+        _deleteBtn.layer.borderColor =BGColor.CGColor;
         [_deleteBtn addTarget:self action:@selector(deleteBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         _deleteBtn.tag = 11;
         [bgView addSubview:_deleteBtn];
         
-        //购买商品的数量
-        _numCountLab = [[UILabel alloc]initWithFrame:CGRectMake(210, 65, 50, 30)];
-        _numCountLab.textAlignment = NSTextAlignmentCenter;
-        [bgView addSubview:_numCountLab];
         
         //加按钮
         _addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _addBtn.frame = CGRectMake(260, 65, 30, 30);
-        [_addBtn setImage:[UIImage imageNamed:@"按钮+.png"] forState:UIControlStateNormal];
+        _addBtn.frame = CGRectMake(656*Width, 130*Width, 48*Width, 48*Width);
+        _addBtn.imageEdgeInsets = UIEdgeInsetsMake(8*Width, 8*Width,8*Width, 8*Width);
+        
+        [_addBtn.layer setBorderWidth:1.0*Width];
+        _addBtn.layer.borderColor =BGColor.CGColor;
+        [_addBtn setImage:[UIImage imageNamed:@"register_btn_add_modify_black"] forState:UIControlStateNormal];
         [_addBtn addTarget:self action:@selector(addBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         _addBtn.tag = 12;
         [bgView addSubview:_addBtn];
         
-        //是否选中图片
-        _isSelectImg = [[UIImageView alloc]initWithFrame:CGRectMake(WIDTH - 50, 10, 30, 30)];
-        [bgView addSubview:_isSelectImg];
         
-        [self addSubview:bgView];
+        
+        
+        
+        
     }
     return self;
 }
@@ -86,19 +115,15 @@
  */
 -(void)addTheValue:(GoodsInfoModel *)goodsModel
 {
-    _goodsImgV.image = [UIImage imageNamed:goodsModel.imageName];
-    _goodsTitleLab.text = goodsModel.goodsTitle;
-    _priceLab.text = goodsModel.goodsPrice;
-    _numCountLab.text = [NSString stringWithFormat:@"%d",goodsModel.goodsNum];
-    
-    if (goodsModel.selectState)
-    {
-        _selectState = YES;
-        _isSelectImg.image = [UIImage imageNamed:@"复选框-选中"];
-    }else{
-        _selectState = NO;
-        _isSelectImg.image = [UIImage imageNamed:@"复选框-未选中"];
-    }
+    _goodsTitleLab.text = goodsModel.goodsTitle;//名字
+    _priceLab.text = [NSString stringWithFormat:@"¥%@",goodsModel.goodsPrice];//单价
+    _numCountLab.text = [NSString stringWithFormat:@"%d",goodsModel.goodsNum];//数量
+    NSString *totalString =[NSString stringWithFormat:@"小计：¥%@",goodsModel.goodsTotalPrice];//总和
+    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
+    NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
+    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+    UIButton *brtn =[self viewWithTag:9];
+    brtn.selected =goodsModel.selectState;
     
 }
 
@@ -109,13 +134,9 @@
  */
 -(void)deleteBtnAction:(UIButton *)sender
 {
-    //判断是否选中，选中才能点击
-    if (_selectState == YES)
-    {
-        //调用代理
-        [self.delegate btnClick:self andFlag:(int)sender.tag];
-    }
-
+    //调用代理
+    [self.delegate btnClick:self andFlag:(int)sender.tag];
+    
 }
 /**
  *  点击加按钮实现数量的增加
@@ -124,23 +145,22 @@
  */
 -(void)addBtnAction:(UIButton *)sender
 {
-    //判断是否选中，选中才能点击
-    if (_selectState == YES)
-    {
-        //调用代理
-        [self.delegate btnClick:self andFlag:(int)sender.tag];
-    }
-
+    
+    //调用代理
+    [self.delegate btnClick:self andFlag:(int)sender.tag];
+    
 }
-
-
-- (void)awakeFromNib {
-    // Initialization code
+- (void)numBtnAction:(UIButton *)sender
+{
+    
+    //调用代理
+    [self.delegate btnClick:self andFlag:(int)sender.tag];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

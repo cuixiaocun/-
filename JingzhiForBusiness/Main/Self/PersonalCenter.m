@@ -28,19 +28,19 @@
 #import "BankCardListVC.h"
 #import "RebateVC.h"
 #import "MyAuthorizationVC.h"
-@interface PersonalCenter ()<SRActionSheetDelegate>
+#import "HomePage.h"
+@interface PersonalCenter ()<SRActionSheetDelegate,RDVTabBarControllerDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
     NSString *levelString;//代理升级的时候选择的代理
-
 }
 @end
-
 @implementation PersonalCenter
 - (void)viewWillAppear:(BOOL)animated
 {
-
+    
+    
 [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     if (![PublicMethod getDataStringKey:@"IsLogin"]) {//若没登录请登录
         LoginPage*logP =[[LoginPage alloc]init];

@@ -118,6 +118,7 @@
             NSLog(@"编辑");
 
             AddAddressVC *addVC =[[AddAddressVC alloc]init];
+            addVC.dic =@{@"name":@"孙健",@"telphone":@"18363671722",@"address":@"山东省潍坊市高新区",@"addDetail":@"东风东街5147号潍坊学院"};
             [self.navigationController pushViewController:addVC animated:YES];
             
 

@@ -10,11 +10,8 @@
 #import "ComMallCollectionViewCell.h"
 //协议
 @protocol OnClickCMallDelegate <NSObject>
-- (void) TakeOutFood;//外卖
-- (void) supermarketFunction;//超市
-- (void) microShop;//微店
-- (void) groupPurchase;//团购
-- (void) foodMarket;//菜市场
+
+-(void)btnClickPush:(NSString *)str;
 @end
 @interface ComMallView : UIView<UICollectionViewDataSource,UICollectionViewDelegate>
 {

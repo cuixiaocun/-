@@ -8,9 +8,13 @@
 
 #import "SearchPage.h"
 #import "SearchCellTableViewCell.h"
-//#import "LinliquanDetailVC.h"
 
 @interface SearchPage ()
+{
+
+    UIView *nilBgView;
+
+}
 
 @end
 
@@ -69,7 +73,7 @@
     bigShowImgV.image =[UIImage imageNamed:@"viporder_icon_search"];
     [navBgView addSubview:bigShowImgV];
     UITextField *searchTextField = [[UITextField alloc] init];
-    [searchTextField setPlaceholder:@"订单号、会员账号"];
+    [searchTextField setPlaceholder:@"代理编号,微信号,手机号"];
     [searchTextField setDelegate:self];
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
@@ -87,6 +91,25 @@
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:searchBtn];
+    
+    
+    
+    nilBgView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, CXCHeight-64)];
+    nilBgView.backgroundColor =BGColor;
+    [self.view addSubview:nilBgView];
+    
+    UIImageView *nilImgV =[[UIImageView alloc]initWithFrame:CGRectMake(200*Width, CXCHeight*0.25, 350*Width,CXCHeight*0.2 )];
+    nilImgV.image =[UIImage imageNamed:@"daili_icon_search_empty"];
+    [nilBgView addSubview:nilImgV];
+    
+    UILabel *nilLabel =[[UILabel alloc]initWithFrame:CGRectMake(0, nilImgV.bottom, CXCWidth, 120*Width)];
+    nilLabel.textColor =[UIColor colorWithRed:173/255.0 green:173/255.0 blue:173/255.0 alpha:1];
+    nilLabel.textAlignment =NSTextAlignmentCenter;
+    nilLabel.text =@"暂无搜索记录";
+    nilLabel.font =[UIFont systemFontOfSize:15];
+    [nilBgView addSubview:nilLabel];
+    nilBgView.hidden = YES;
+    
     
     
     //添加tableview
@@ -424,9 +447,17 @@
 
 //请求列表数据
 -(void)getInfoList{
-
+   
     UITextField *textfield =(UITextField *)[self.view viewWithTag:30];
     
+    //当数据为空的时候
+    nilBgView.hidden = NO;
+    self.tableView.hidden=YES;
+    //当数据不为空的时候
+    nilBgView.hidden = YES;
+    self.tableView.hidden=NO;
+
+
 }
 
 

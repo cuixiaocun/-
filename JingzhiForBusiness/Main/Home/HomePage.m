@@ -17,6 +17,13 @@
 #import "ViewController.h"
 #import "ComMallView.h"
 #import "SearchPage.h"
+#import <MLLabel/MLLabel.h>
+#import <MLLabel/MLLinkLabel.h>
+#import <MLLabel/NSString+MLExpression.h>
+#import <MLLabel/NSAttributedString+MLExpression.h>
+#import "NoticeVC.h"
+#import "GoodsDetailVC.h"
+
 @interface HomePage ()<SDCycleScrollViewDelegate,OnClickCMallDelegate>
 {
     UIScrollView *bgScrollView;//最底下的背景
@@ -97,7 +104,7 @@
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:bgScrollView];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 5700)];
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2800*Width)];
     //顶部广告图
     cycleScrollView2 =[SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CXCWidth, 310*Width) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder@2x"]];
     cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
@@ -260,8 +267,22 @@
         
     }
     
+    MLLabel* textLabel=[[MLLabel    alloc]initWithFrame:CGRectMake(24*Width, touImageV.bottom+510*Width, 700*Width, 50*Width)];
     
-    
+    textLabel.textColor = TextGrayColor;
+    textLabel.font = [UIFont systemFontOfSize:14.0f];
+   textLabel.numberOfLines = 0;
+//    textLabel.adjustsFontSizeToFitWidth = YES;
+    textLabel.textInsets = UIEdgeInsetsZero;
+    textLabel.lineSpacing = 10.0f;
+    NSString *str =@"山东桥通天下网络科技公司是一家集设计、研发、营销为一体的互联网软件开发综合服务商我们的团队年轻、朝气、充满活力！我们的梦想是：致力于成为国内一流的软件开发服务商注重创新坚持高效，做中国最具有创新精神的软件开发商";
+    textLabel.text =str ;
+    [textLabel setDoBeforeDrawingTextBlock:nil];
+    [textLabel setTextColor:TextGrayColor];
+    [bottomView addSubview:textLabel];
+//    textLabel.backgroundColor =[UIColor yellowColor];
+    NSAttributedString*string2 =[[NSAttributedString alloc] initWithString:str];
+   textLabel.height= [self heightForExpressionText:string2 width:700*Width];
     
 
 }
@@ -284,6 +305,11 @@
     
     }else if (btn.tag==302)
     {
+        NoticeVC  *notice =[[NoticeVC alloc]init];
+        [self.navigationController pushViewController:notice animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+
         
     }else if (btn.tag==303)
     {
@@ -377,5 +403,37 @@
     }];
 
 }
+static MLLinkLabel * kProtypeLabel() {
+    static MLLinkLabel *_protypeLabel = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _protypeLabel = [MLLinkLabel new];
+        _protypeLabel.font = [UIFont systemFontOfSize:16.0f];
+        
+        _protypeLabel.numberOfLines = 0;
+        _protypeLabel.textInsets = UIEdgeInsetsMake(10, 10, 10, 10);
+        _protypeLabel.lineHeightMultiple = 1.1f;
+    });
+    return _protypeLabel;
+}
 
+
+- (CGFloat)heightForExpressionText:(NSAttributedString*)expressionText width:(CGFloat)width
+{
+    //nib里左右边距是10
+    width-=10.0f*2;
+    
+    MLLinkLabel *label = kProtypeLabel();
+    label.attributedText = expressionText;
+    return [label preferredSizeWithMaxWidth:width].height + 5.0f*2; //上下间距
+}
+-(void)btnClickPush:(NSString *)str
+{
+    GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+    [self.navigationController  pushViewController:goode animated:YES];
+    
+
+}
 @end

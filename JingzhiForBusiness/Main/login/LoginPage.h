@@ -18,6 +18,7 @@
 {
 }
 @property(assign,nonatomic)id<LoginDelegate>delegate;
+@property(strong,nonatomic)NSString * status;//页面
 
 + (BOOL)isMobileNumber:(NSString *)mobileNum;
 

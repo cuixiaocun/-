@@ -56,6 +56,18 @@
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
+    NSArray *rightArr =[[NSArray alloc]init];
+    
+    if (_dic) {
+        
+     rightArr =@[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"telphone"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"addDetail"]]];
+    }else
+    {
+        rightArr =@[@"",@"",@"",@"",@"",@"",@"",@""];
+
+    
+    
+    }
     NSArray*leftArr =@[@"姓名：",@"手机号：",@"所在地区：",@"详细地址：",@"",@"",@"",@"",] ;
     //列表
     for (int i=0; i<4; i++) {
@@ -78,20 +90,21 @@
             [inputText setDelegate:self];
             [inputText setFont:[UIFont systemFontOfSize:16]];
             [inputText setTextColor:[UIColor blackColor]];
+            [inputText setText:[NSString stringWithFormat:@"%@",rightArr[i]]];
+            
             [inputText setFrame:CGRectMake(200*Width, 0,520*Width,99*Width)];
             [inputText setClearButtonMode:UITextFieldViewModeWhileEditing];
             [bgview addSubview:inputText];
             
         }else
         {
-            //代理级别与上传身份证
             UIButton *chooseBtn =[[UIButton alloc]initWithFrame:CGRectMake(200*Width, 0,520*Width,99*Width)];
             [bgview addSubview:chooseBtn];
             chooseBtn.tag =10+i;
             [chooseBtn addTarget:self action:@selector(addressChoose) forControlEvents:UIControlEventTouchUpInside];
             //文字
             UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,580*Width , 99*Width)];
-            wzlabe.text = @"";
+            wzlabe.text =[NSString stringWithFormat:@"%@",rightArr[i]] ;
             wzlabe.tag =111;
             wzlabe.font = [UIFont systemFontOfSize:14];
             wzlabe.textColor = [UIColor blackColor];
@@ -177,7 +190,7 @@
     
 
     [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:@"河南省-郑州市" numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
-        label.text = address;
+       label.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@""];
     } cancelBlock:^{
         
     }];

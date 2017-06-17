@@ -17,6 +17,7 @@
 
 @interface XYMScanViewController : UIViewController
 @property (nonatomic,assign) id<XYMScanViewControllerDelegate> delegate;
+@property(nonatomic,assign)NSString *whichView;
 
 //扫码框的宽（正方形）
 @property(nonatomic,assign)int scanViewW;

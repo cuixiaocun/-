@@ -8,8 +8,14 @@
 
 #import "HYPersonalCenterVC.h"//会员的个人中心
 #import "LoginPage.h"
-#import "DelegateofHYVC.h"
-@interface HYPersonalCenterVC ()<LoginDelegate>
+#import "ManageAddressTableVC.h"
+#import "ChangePasswordVC.h"
+#import "FundrecordVC.h"
+#import "PersonalDetail.h"
+#import "HYQRCodeVC.h"
+#import "XYMScanViewController.h"
+#import "IsTureAlterView.h"
+@interface HYPersonalCenterVC ()<LoginDelegate,IsTureAlterViewDelegate  >
 {
     //底部scrollview
     UIScrollView *bgScrollView;
@@ -68,7 +74,7 @@
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1200*Width)];
     
     //上面的image
     UIImageView *bgImageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Width*300)];
@@ -126,40 +132,45 @@
     [jiantou setImage:[UIImage imageNamed:@"proxy_btn_me_next"]];
     
     
-    NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+    NSArray *topArr =@[@"vip_wo_icon_tuijian",@"vip_wo_icon_order",@"vip_wo_icon_adress",@"vip_wo_icon_cash",@"vip_wo_icon_qrcode",@"vip_wo_icon_pwd",@"vip_wo_icon_true",@"vip_wo_icon_exit",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
     
-    NSArray*bottomArr =@[@"我的推荐",@"我的订单",@"收货地址",@"资金记录",@"推广二维码",@"代理商",@"流转记录",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"",@"",] ;
-    for (int i=0; i<6; i++) {
+    NSArray*bottomArr =@[@"我的推荐",@"我的订单",@"收货地址",@"资金记录",@"推广二维码",@"修改密码",@"防伪查询",@"退出登录",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"",@"",] ;
+    for (int i=0; i<9; i++) {
         //大按钮
-        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(250*Width*(i%3),bgImageV.bottom+20*Width+325*Width*(i/3),249*Width,323*Width)];
+        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(250*Width*(i%3),bgImageV.bottom+20*Width+250*Width*(i/3),249*Width,249*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
         btn.tag =i+300;
         btn.backgroundColor =[UIColor whiteColor];
         [bgScrollView addSubview:btn];
-        //上边图片
-        UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(75*Width,90*Width,100*Width,100*Width)];
-        topImgV.image=[UIImage imageNamed:[NSString stringWithFormat:@"%@",topArr[i]]];
-        topImgV.tag =1100+i;
-        [btn addSubview:topImgV];
-        //下边文字
-        UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom,250*Width,100*Width)];
-        botLabel.textAlignment=NSTextAlignmentCenter;
-        botLabel.font =[UIFont systemFontOfSize:13];
-        botLabel.textColor =BlackColor;
-        botLabel.text =[NSString stringWithFormat:@"%@",bottomArr[i]];
-        [btn addSubview:botLabel];
+        if(i<8)
+        {
+            //上边图片
+            UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(87.5*Width,66*Width,75*Width,64*Width)];
+            topImgV.image=[UIImage imageNamed:[NSString stringWithFormat:@"%@",topArr[i]]];
+            topImgV.tag =1100+i;
+            [btn addSubview:topImgV];
+            //下边文字
+            UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom,250*Width,85*Width)];
+            botLabel.textAlignment=NSTextAlignmentCenter;
+            botLabel.font =[UIFont systemFontOfSize:13];
+            botLabel.textColor =BlackColor;
+            botLabel.text =[NSString stringWithFormat:@"%@",bottomArr[i]];
+            [btn addSubview:botLabel];
+            [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
+
+        }
+        
+
     }
-    
-    
-    
-    
+        
     
     
 }
 - (void)selfCenter
 {
-
-
+    PersonalDetail *viewController =[[PersonalDetail alloc]init];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 - (void)myBtnAciton:(UIButton *)btn
 {
@@ -168,21 +179,77 @@
         
     }else if (btn.tag ==301) {
         
-    }else if (btn.tag ==302) {
         
+        
+    }else if (btn.tag ==302) {
+        ManageAddressTableVC *viewController =[[ManageAddressTableVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController pushViewController:viewController animated:YES];
     }else if (btn.tag ==303) {
+        FundrecordVC *viewController =[[FundrecordVC alloc]init];
+        
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController pushViewController:viewController animated:YES];
+
         
     }else if (btn.tag ==304) {
         
-    }else if (btn.tag ==305) {
-        DelegateofHYVC *delegateVC =[[DelegateofHYVC alloc]init];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
-        [self.navigationController pushViewController:delegateVC animated:YES];
+        HYQRCodeVC *viewController =[[HYQRCodeVC alloc]init];
         
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController pushViewController:viewController animated:YES];
+    }else if (btn.tag ==305) {
+        
+        ChangePasswordVC *viewController =[[ChangePasswordVC alloc]init];
+        
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController pushViewController:viewController animated:YES];
+    }else if (btn.tag ==306) {
+        
+        XYMScanViewController *viewController =[[XYMScanViewController alloc]init];
+        
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        viewController.whichView =@"防伪查询";
+        [self.navigationController pushViewController:viewController animated:YES];
+        
+    }else if (btn.tag ==307) {
+
+        
+        IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要退出吗？"];
+        isture.delegate =self;
+        isture.tag =180;
+        [self.view addSubview:isture];
+        
+        NSLog(@"showalert");
+
     }
 
 }
+-(void)cancelBtnActin
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    NSLog(@"取消");
+    
+}
+-(void)tureBtnAction
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    
+    [isture removeFromSuperview];
+    NSLog(@"确认");
+    [[self rdv_tabBarController] setSelectedIndex:0];
+
+    //删除
+    [PublicMethod removeObjectForKey: @"IsLogin"];
+
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

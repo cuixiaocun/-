@@ -12,7 +12,7 @@
 #import "XYMScanViewController.h"
 #import "XYMScanView.h"
 #import <AVFoundation/AVFoundation.h>
-
+#import "AntiFakeVC.h"
 @interface XYMScanViewController ()<XYMScanViewDelegate>
 {
     int line_tag;
@@ -28,6 +28,24 @@
 @implementation XYMScanViewController
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
+    if(CXCHeight<500)
+    {
+        XYMScanView *scanV = [[XYMScanView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        scanV.delegate = self;
+        [self.view addSubview:scanV];
+        _scanV = scanV;
+    
+    }else
+    {
+        XYMScanView *scanV = [[XYMScanView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight)];
+        scanV.delegate = self;
+        [self.view addSubview:scanV];
+        _scanV = scanV;
+    
+    }
+    
+
     [self.view setBackgroundColor:[UIColor whiteColor]];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -56,13 +74,7 @@
     
 
     
-    [super viewDidLoad];;
-    XYMScanView *scanV = [[XYMScanView alloc]initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight)];
-    scanV.delegate = self;
-    [self.view addSubview:scanV];
-    _scanV = scanV;
-
-}
+   }
 -(void)returnBtnAction
 {
     
@@ -78,7 +90,14 @@
 //    scanResultVC.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
 //    scanResultVC.scanDataString = scanDataString;
 //    [self.navigationController pushViewController:scanResultVC animated:YES];
-    
+    if ([_whichView isEqualToString:@"防伪查询"]) {
+        AntiFakeVC *antifack =[[AntiFakeVC alloc]init];
+        antifack.dic=@{@"image":@"",@"name":@"温碧泉透白莹润护肤霜套装",@"prices":@"400",@"isTure":@"YES",@"isAuthentication":@"YES"};
+        
+        [self.navigationController pushViewController:antifack animated:YES];
+        return;
+        
+    }
     [self.delegate getScanString:scanDataString];
     [self.navigationController popViewControllerAnimated:YES];
 }

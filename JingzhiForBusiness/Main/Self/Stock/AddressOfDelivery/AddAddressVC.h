@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface AddAddressVC : UIViewController
+@property(nonatomic,retain)NSDictionary *dic;
 
 @end

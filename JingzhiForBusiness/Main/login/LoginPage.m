@@ -225,10 +225,10 @@
 {
     
     if ([isLeveler isEqualToString:@"NO"]) {
-        [PublicMethod saveDataString:@"0" withKey:@"IsLogin"];
+        [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
         [self rdv_tabBarController].selectedIndex=2;
 
-        [self setupViewControllersHY];
+        [self setupViewControllersHYwithIsBack:@"NO"];
         [self.navigationController popViewControllerAnimated:YES];
 
         
@@ -239,7 +239,7 @@
     {
         [self rdv_tabBarController].selectedIndex=2;
         [self setupViewControllers];
-        [PublicMethod saveDataString:@"1" withKey:@"IsLogin"];
+        [PublicMethod saveDataString:@"DL" withKey:@"IsLogin"];
 
     }
     
@@ -502,6 +502,7 @@
     [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
     [UIApplication sharedApplication].keyWindow.rootViewController =tabBarController ;
     [self customizeTabBarForController:tabBarController];
+   
     
     //    }else//若不为1表示没登录
     //    {
@@ -557,8 +558,7 @@
 
     [self.navigationController   popViewControllerAnimated:YES];
     
-    [self setupViewControllersHY];
-    [self rdv_tabBarController].selectedIndex=2;
+    [self setupViewControllersHYwithIsBack:@"YES"];
 
 
 }
@@ -571,7 +571,7 @@
     // Pass the selected object to the new view controller.
 }
 */
-- (void)setupViewControllersHY {
+- (void)setupViewControllersHYwithIsBack:(NSString *)isBackString{
     //    if ([[PublicMethod getDataStringKey:@"WetherFirstInput"]isEqualToString:@"1"]) {//若为1，表示登录了
     //        [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
     //
@@ -594,7 +594,7 @@
     [UIApplication sharedApplication].keyWindow.rootViewController =tabBarController ;
 //    [[self rdv_tabBarController].tabBar.delegate tabBar: [self rdv_tabBarController].tabBar didSelectItemAtIndex:2];
 
-    [self customizeTabBarForControllerHY:tabBarController];
+    [self customizeTabBarForControllerHY:tabBarController andBackString:isBackString] ;
     
     //    }else//若不为1表示没登录
     //    {
@@ -606,7 +606,7 @@
     //    }
     //
 }
-- (void)customizeTabBarForControllerHY:(RDVTabBarController *)tabBarController {
+- (void)customizeTabBarForControllerHY:(RDVTabBarController *)tabBarController andBackString:(NSString*)isBackString {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
     NSArray *tabBarItemImages = @[@"huiyuan_icon_home", @"huiyuan_icon_cart",@"proxy_icon_me"];
@@ -622,6 +622,14 @@
         NSLog(@"%@",[NSString stringWithFormat:@"%@_pre",
                      [tabBarItemImages objectAtIndex:index]]);
         index++;
+    }
+    if ([isBackString isEqualToString:@"YES"]) {
+        [tabBarController setSelectedIndex:0];//若果是返回按钮
+        
+    }else
+    {
+        [tabBarController setSelectedIndex:2];//若果是登录按钮
+        
     }
 
 }

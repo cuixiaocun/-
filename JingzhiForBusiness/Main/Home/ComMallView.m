@@ -7,7 +7,6 @@
 //
 
 #import "ComMallView.h"
-
 @implementation ComMallView
 
 -(instancetype)initWithFrame:(CGRect)frame
@@ -68,12 +67,12 @@
 //设置水平间距
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 25*Width;
+    return 20*Width;
 }
 //设置每个item四周的边距
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(25*Width, 25*Width,25*Width,25*Width);
+    return UIEdgeInsetsMake(22*Width, 22*Width,22*Width,22*Width);
 }
 
 //每个cell的数据
@@ -86,7 +85,8 @@
 //点击方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%ld,%ld",indexPath.section,indexPath.row);
+    
+    [self.CMallDelegate btnClickPush:[NSString stringWithFormat:@"%d",indexPath.row]];
     
     
 }
