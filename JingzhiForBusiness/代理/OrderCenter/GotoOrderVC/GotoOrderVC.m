@@ -304,26 +304,6 @@
 
 
 
-#pragma mark - IsTureAlterViewDelegate
-
-//-(void)cancelBtnActin
-//{
-//    IsTureAlterView *isture = [self.view viewWithTag:180];
-//    [isture removeFromSuperview];
-//    NSLog(@"取消");
-//    
-//}
-//-(void)tureBtnAction
-//{
-//    IsTureAlterView *isture = [self.view viewWithTag:180];
-//    
-//    [isture removeFromSuperview];
-//    NSLog(@"确认");
-//    //删除
-//    
-//}
-
-
 
 
 /*

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 @protocol IsTureAlterViewDelegate <NSObject>
--(void)tureBtnAction;
--(void)cancelBtnActin;
+//-(void)tureBtnAction;
+//-(void)cancelBtnActin;
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter;
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter;
 
 @end
 

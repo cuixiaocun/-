@@ -33,12 +33,9 @@
         [selectBtn setImage:[UIImage imageNamed:@"adress_btn_radio_sel"] forState:UIControlStateSelected];
 
         [selectBtn addTarget:self action:@selector(numBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-        
-        
+        //图片
         _goodsImgView =[[EGOImageView alloc]initWithImage:[UIImage imageNamed:@"timg.png"]];
-        _goodsImgView.backgroundColor =[UIColor redColor];
+        _goodsImgView.backgroundColor =BGColor;
         _goodsImgView.frame=CGRectMake(80*Width, 20*Width, 160*Width, 160*Width);
         [bgView addSubview:_goodsImgView];
         
@@ -47,7 +44,7 @@
         _goodsTitleLab.text = @"商品A-几万块合法";
         _goodsTitleLab.textColor=BlackColor;
         _goodsTitleLab.numberOfLines =0;
-        _goodsTitleLab.font =[UIFont systemFontOfSize:15];
+        _goodsTitleLab.font =[UIFont systemFontOfSize:14];
         _goodsTitleLab.backgroundColor = [UIColor clearColor];
         [bgView addSubview:_goodsTitleLab];
         
@@ -113,17 +110,17 @@
  *
  *  @param goodsModel 里面存放各个控件需要的数值
  */
--(void)addTheValue:(GoodsInfoModel *)goodsModel
+-(void)addTheValue:(NSDictionary *)goodsModel
 {
-    _goodsTitleLab.text = goodsModel.goodsTitle;//名字
-    _priceLab.text = [NSString stringWithFormat:@"¥%@",goodsModel.goodsPrice];//单价
-    _numCountLab.text = [NSString stringWithFormat:@"%d",goodsModel.goodsNum];//数量
-    NSString *totalString =[NSString stringWithFormat:@"小计：¥%@",goodsModel.goodsTotalPrice];//总和
+    _goodsTitleLab.text = [goodsModel objectForKey:@"goodsTitle" ];//名字
+    _priceLab.text = [NSString stringWithFormat:@"¥%@",[goodsModel objectForKey:@"goodsPrice" ]];//单价
+    _numCountLab.text = [NSString stringWithFormat:@"%@",[goodsModel objectForKey:@"goodsNum" ]];//数量
+    NSString *totalString =[NSString stringWithFormat:@"小计：¥%@",[goodsModel objectForKey:@"goodsTotalPrice" ]];//总和
     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
     NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
     [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
     UIButton *brtn =[self viewWithTag:9];
-    brtn.selected =goodsModel.selectState;
+    brtn.selected =[[goodsModel objectForKey:@"selectState" ] boolValue];
     
 }
 

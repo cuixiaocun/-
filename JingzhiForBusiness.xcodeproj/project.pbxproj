@@ -42,6 +42,7 @@
 		840CE62A1EE2B57E0016D82F /* HYPersonalCenterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 840CE6291EE2B57E0016D82F /* HYPersonalCenterVC.m */; };
 		840CE62D1EE2B5C30016D82F /* OrderCenterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 840CE62C1EE2B5C30016D82F /* OrderCenterVC.m */; };
 		840CE6301EE2B5E10016D82F /* DeclarationCenterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 840CE62F1EE2B5E10016D82F /* DeclarationCenterVC.m */; };
+		841364A21EF8B17100DA74B4 /* HYConfirmOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 841364A11EF8B17100DA74B4 /* HYConfirmOrderCell.m */; };
 		842097931EE0E31F00DE5C77 /* RegisterAndGoods.m in Sources */ = {isa = PBXBuildFile; fileRef = 842097921EE0E31F00DE5C77 /* RegisterAndGoods.m */; };
 		8420979A1EE0F2A600DE5C77 /* GoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 842097991EE0F2A600DE5C77 /* GoodsModel.m */; };
 		8420979D1EE0F2C300DE5C77 /* GoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8420979C1EE0F2C300DE5C77 /* GoodsCell.m */; };
@@ -50,11 +51,13 @@
 		842E43BF1EE7D62B00912AFD /* CXCTwoLableSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 842E43BE1EE7D62B00912AFD /* CXCTwoLableSheet.m */; };
 		842E43C21EE7F48700912AFD /* RebateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 842E43C11EE7F48700912AFD /* RebateCell.m */; };
 		842F5BB51EDE659900D90833 /* MyCustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F5BB21EDE659900D90833 /* MyCustomCell.m */; };
-		842F5BB61EDE659900D90833 /* GoodsInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 842F5BB41EDE659900D90833 /* GoodsInfoModel.m */; };
 		8431E4AC1EF4B8B500039749 /* AntiFakeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8431E4AB1EF4B8B500039749 /* AntiFakeVC.m */; };
 		8431E4AF1EF4C00800039749 /* AntiFakeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8431E4AE1EF4C00800039749 /* AntiFakeCell.m */; };
 		8431E4B31EF5107900039749 /* GoodsDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8431E4B21EF5107900039749 /* GoodsDetailVC.m */; };
 		8431E4B61EF5304A00039749 /* HYConfirmOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8431E4B51EF5304A00039749 /* HYConfirmOrderVC.m */; };
+		8441C1BB1EF75C85002537A0 /* HYMyOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8441C1BA1EF75C85002537A0 /* HYMyOrderVC.m */; };
+		8441C1BE1EF75CA0002537A0 /* HYMyOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8441C1BD1EF75CA0002537A0 /* HYMyOrderCell.m */; };
+		8441C1C11EF77694002537A0 /* CashierVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8441C1C01EF77694002537A0 /* CashierVC.m */; };
 		844391F91ED6672500FA4927 /* ShoppingCartVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 844391F81ED6672500FA4927 /* ShoppingCartVC.m */; };
 		844391FC1ED6675D00FA4927 /* OtherVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 844391FB1ED6675D00FA4927 /* OtherVC.m */; };
 		844392021ED667B600FA4927 /* PersonalCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 844392011ED667B600FA4927 /* PersonalCenter.m */; };
@@ -95,6 +98,12 @@
 		84B0DC771EE67D830010303B /* SRActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B0DC761EE67D830010303B /* SRActionSheet.m */; };
 		84B0DC7A1EE682020010303B /* MemberDeliverVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B0DC791EE682020010303B /* MemberDeliverVC.m */; };
 		84B0DC7D1EE687F30010303B /* IsTureAlterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B0DC7C1EE687F30010303B /* IsTureAlterView.m */; };
+		84E0A18B1EFA075B00213A0E /* NoticeDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A18A1EFA075B00213A0E /* NoticeDetailVC.m */; };
+		84E0A18E1EFA25B400213A0E /* DelegateCenterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A18D1EFA25B400213A0E /* DelegateCenterVC.m */; };
+		84E0A1981EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A1911EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.m */; };
+		84E0A1991EFA43BB00213A0E /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A1931EFA43BB00213A0E /* TPKeyboardAvoidingScrollView.m */; };
+		84E0A19A1EFA43BB00213A0E /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A1951EFA43BB00213A0E /* TPKeyboardAvoidingTableView.m */; };
+		84E0A19B1EFA43BB00213A0E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A1971EFA43BB00213A0E /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		84E530261E80C79A009E63E6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E530251E80C79A009E63E6 /* main.m */; };
 		84E530291E80C79A009E63E6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E530281E80C79A009E63E6 /* AppDelegate.m */; };
 		84E5302C1E80C79A009E63E6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5302B1E80C79A009E63E6 /* ViewController.m */; };
@@ -223,6 +232,10 @@
 		84E532651E80F3D2009E63E6 /* RDVTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E532601E80F3D2009E63E6 /* RDVTabBarItem.m */; };
 		84E532661E80F3D2009E63E6 /* RDVTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E532621E80F3D2009E63E6 /* RDVTabBar.m */; };
 		84E532671E80F3D2009E63E6 /* RDVTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E532641E80F3D2009E63E6 /* RDVTabBarController.m */; };
+		84E803701EF7B7D400ECE8B9 /* HYOrderDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E8036F1EF7B7D400ECE8B9 /* HYOrderDetailVC.m */; };
+		84E803741EF7CCB100ECE8B9 /* SelfDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E803731EF7CCB100ECE8B9 /* SelfDetailVC.m */; };
+		84E803771EF7D0CA00ECE8B9 /* HYMyRecommendVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E803761EF7D0CA00ECE8B9 /* HYMyRecommendVC.m */; };
+		84E8037A1EF7D19C00ECE8B9 /* HYMyRecommendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E803791EF7D19C00ECE8B9 /* HYMyRecommendCell.m */; };
 		84EA70C21EE8DCD300F9A4D2 /* BankCardListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA70C11EE8DCD300F9A4D2 /* BankCardListVC.m */; };
 		84EA70C51EE8DD0200F9A4D2 /* BankCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA70C41EE8DD0200F9A4D2 /* BankCardCell.m */; };
 		84EAD9E71EF366E8001C041D /* NoticeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EAD9E61EF366E8001C041D /* NoticeVC.m */; };
@@ -334,6 +347,8 @@
 		840CE62C1EE2B5C30016D82F /* OrderCenterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCenterVC.m; sourceTree = "<group>"; };
 		840CE62E1EE2B5E10016D82F /* DeclarationCenterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeclarationCenterVC.h; sourceTree = "<group>"; };
 		840CE62F1EE2B5E10016D82F /* DeclarationCenterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeclarationCenterVC.m; sourceTree = "<group>"; };
+		841364A01EF8B17100DA74B4 /* HYConfirmOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYConfirmOrderCell.h; sourceTree = "<group>"; };
+		841364A11EF8B17100DA74B4 /* HYConfirmOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYConfirmOrderCell.m; sourceTree = "<group>"; };
 		842097911EE0E31F00DE5C77 /* RegisterAndGoods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterAndGoods.h; path = ../RegisterAndGoods.h; sourceTree = "<group>"; };
 		842097921EE0E31F00DE5C77 /* RegisterAndGoods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterAndGoods.m; path = ../RegisterAndGoods.m; sourceTree = "<group>"; };
 		842097981EE0F2A600DE5C77 /* GoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsModel.h; sourceTree = "<group>"; };
@@ -350,8 +365,6 @@
 		842E43C11EE7F48700912AFD /* RebateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RebateCell.m; sourceTree = "<group>"; };
 		842F5BB11EDE659900D90833 /* MyCustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCustomCell.h; sourceTree = "<group>"; };
 		842F5BB21EDE659900D90833 /* MyCustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCustomCell.m; sourceTree = "<group>"; };
-		842F5BB31EDE659900D90833 /* GoodsInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsInfoModel.h; sourceTree = "<group>"; };
-		842F5BB41EDE659900D90833 /* GoodsInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsInfoModel.m; sourceTree = "<group>"; };
 		8431E4AA1EF4B8B500039749 /* AntiFakeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AntiFakeVC.h; sourceTree = "<group>"; };
 		8431E4AB1EF4B8B500039749 /* AntiFakeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AntiFakeVC.m; sourceTree = "<group>"; };
 		8431E4AD1EF4C00800039749 /* AntiFakeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AntiFakeCell.h; sourceTree = "<group>"; };
@@ -360,6 +373,12 @@
 		8431E4B21EF5107900039749 /* GoodsDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodsDetailVC.m; sourceTree = "<group>"; };
 		8431E4B41EF5304A00039749 /* HYConfirmOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYConfirmOrderVC.h; sourceTree = "<group>"; };
 		8431E4B51EF5304A00039749 /* HYConfirmOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYConfirmOrderVC.m; sourceTree = "<group>"; };
+		8441C1B91EF75C85002537A0 /* HYMyOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMyOrderVC.h; sourceTree = "<group>"; };
+		8441C1BA1EF75C85002537A0 /* HYMyOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYMyOrderVC.m; sourceTree = "<group>"; };
+		8441C1BC1EF75CA0002537A0 /* HYMyOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMyOrderCell.h; sourceTree = "<group>"; };
+		8441C1BD1EF75CA0002537A0 /* HYMyOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYMyOrderCell.m; sourceTree = "<group>"; };
+		8441C1BF1EF77694002537A0 /* CashierVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CashierVC.h; sourceTree = "<group>"; };
+		8441C1C01EF77694002537A0 /* CashierVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CashierVC.m; sourceTree = "<group>"; };
 		844391F71ED6672500FA4927 /* ShoppingCartVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartVC.h; sourceTree = "<group>"; };
 		844391F81ED6672500FA4927 /* ShoppingCartVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCartVC.m; sourceTree = "<group>"; };
 		844391FA1ED6675D00FA4927 /* OtherVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherVC.h; sourceTree = "<group>"; };
@@ -435,6 +454,18 @@
 		84B0DC791EE682020010303B /* MemberDeliverVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberDeliverVC.m; sourceTree = "<group>"; };
 		84B0DC7B1EE687F30010303B /* IsTureAlterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IsTureAlterView.h; sourceTree = "<group>"; };
 		84B0DC7C1EE687F30010303B /* IsTureAlterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IsTureAlterView.m; sourceTree = "<group>"; };
+		84E0A1891EFA075B00213A0E /* NoticeDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeDetailVC.h; sourceTree = "<group>"; };
+		84E0A18A1EFA075B00213A0E /* NoticeDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeDetailVC.m; sourceTree = "<group>"; };
+		84E0A18C1EFA25B400213A0E /* DelegateCenterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateCenterVC.h; sourceTree = "<group>"; };
+		84E0A18D1EFA25B400213A0E /* DelegateCenterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelegateCenterVC.m; sourceTree = "<group>"; };
+		84E0A1901EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingCollectionView.h; sourceTree = "<group>"; };
+		84E0A1911EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingCollectionView.m; sourceTree = "<group>"; };
+		84E0A1921EFA43BB00213A0E /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		84E0A1931EFA43BB00213A0E /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		84E0A1941EFA43BB00213A0E /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
+		84E0A1951EFA43BB00213A0E /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
+		84E0A1961EFA43BB00213A0E /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		84E0A1971EFA43BB00213A0E /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		84E530211E80C79A009E63E6 /* 心体荟.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "心体荟.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E530251E80C79A009E63E6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		84E530271E80C79A009E63E6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -672,6 +703,14 @@
 		84E532621E80F3D2009E63E6 /* RDVTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDVTabBar.m; sourceTree = "<group>"; };
 		84E532631E80F3D2009E63E6 /* RDVTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDVTabBarController.h; sourceTree = "<group>"; };
 		84E532641E80F3D2009E63E6 /* RDVTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDVTabBarController.m; sourceTree = "<group>"; };
+		84E8036E1EF7B7D400ECE8B9 /* HYOrderDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYOrderDetailVC.h; sourceTree = "<group>"; };
+		84E8036F1EF7B7D400ECE8B9 /* HYOrderDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYOrderDetailVC.m; sourceTree = "<group>"; };
+		84E803721EF7CCB100ECE8B9 /* SelfDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfDetailVC.h; sourceTree = "<group>"; };
+		84E803731EF7CCB100ECE8B9 /* SelfDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfDetailVC.m; sourceTree = "<group>"; };
+		84E803751EF7D0CA00ECE8B9 /* HYMyRecommendVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMyRecommendVC.h; sourceTree = "<group>"; };
+		84E803761EF7D0CA00ECE8B9 /* HYMyRecommendVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYMyRecommendVC.m; sourceTree = "<group>"; };
+		84E803781EF7D19C00ECE8B9 /* HYMyRecommendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMyRecommendCell.h; sourceTree = "<group>"; };
+		84E803791EF7D19C00ECE8B9 /* HYMyRecommendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYMyRecommendCell.m; sourceTree = "<group>"; };
 		84EA70C01EE8DCD300F9A4D2 /* BankCardListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardListVC.h; sourceTree = "<group>"; };
 		84EA70C11EE8DCD300F9A4D2 /* BankCardListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardListVC.m; sourceTree = "<group>"; };
 		84EA70C31EE8DD0200F9A4D2 /* BankCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardCell.h; sourceTree = "<group>"; };
@@ -1029,6 +1068,10 @@
 				8431E4B21EF5107900039749 /* GoodsDetailVC.m */,
 				8431E4B41EF5304A00039749 /* HYConfirmOrderVC.h */,
 				8431E4B51EF5304A00039749 /* HYConfirmOrderVC.m */,
+				841364A01EF8B17100DA74B4 /* HYConfirmOrderCell.h */,
+				841364A11EF8B17100DA74B4 /* HYConfirmOrderCell.m */,
+				8441C1BF1EF77694002537A0 /* CashierVC.h */,
+				8441C1C01EF77694002537A0 /* CashierVC.m */,
 			);
 			path = GoodsDetail;
 			sourceTree = "<group>";
@@ -1040,8 +1083,6 @@
 				844391F81ED6672500FA4927 /* ShoppingCartVC.m */,
 				842F5BB11EDE659900D90833 /* MyCustomCell.h */,
 				842F5BB21EDE659900D90833 /* MyCustomCell.m */,
-				842F5BB31EDE659900D90833 /* GoodsInfoModel.h */,
-				842F5BB41EDE659900D90833 /* GoodsInfoModel.m */,
 			);
 			name = "Shopping Cart ";
 			path = ../Main/car;
@@ -1178,6 +1219,21 @@
 			path = login;
 			sourceTree = "<group>";
 		};
+		84E0A18F1EFA43BB00213A0E /* TPKeyboardAvoiding */ = {
+			isa = PBXGroup;
+			children = (
+				84E0A1901EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.h */,
+				84E0A1911EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.m */,
+				84E0A1921EFA43BB00213A0E /* TPKeyboardAvoidingScrollView.h */,
+				84E0A1931EFA43BB00213A0E /* TPKeyboardAvoidingScrollView.m */,
+				84E0A1941EFA43BB00213A0E /* TPKeyboardAvoidingTableView.h */,
+				84E0A1951EFA43BB00213A0E /* TPKeyboardAvoidingTableView.m */,
+				84E0A1961EFA43BB00213A0E /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				84E0A1971EFA43BB00213A0E /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+			);
+			path = TPKeyboardAvoiding;
+			sourceTree = "<group>";
+		};
 		84E530181E80C79A009E63E6 = {
 			isa = PBXGroup;
 			children = (
@@ -1229,6 +1285,7 @@
 		84E5303E1E80C8D3009E63E6 /* ThirdResource */ = {
 			isa = PBXGroup;
 			children = (
+				84E0A18F1EFA43BB00213A0E /* TPKeyboardAvoiding */,
 				84075D6C1EE50B8300139636 /* 地理选择 */,
 				8443920A1ED6D33200FA4927 /* QRCode */,
 				84E5303F1E80C8D3009E63E6 /* AFNetworking */,
@@ -1736,6 +1793,7 @@
 		84E532451E80D0DC009E63E6 /* Self */ = {
 			isa = PBXGroup;
 			children = (
+				84E803711EF7CC8A00ECE8B9 /* delegateDetail */,
 				84075DA81EE584F500139636 /* Authorization */,
 				84075DA71EE584C900139636 /* Rebate */,
 				84075DA61EE584AA00139636 /* BankCard */,
@@ -1772,6 +1830,17 @@
 			path = login;
 			sourceTree = "<group>";
 		};
+		84E803711EF7CC8A00ECE8B9 /* delegateDetail */ = {
+			isa = PBXGroup;
+			children = (
+				84E803721EF7CCB100ECE8B9 /* SelfDetailVC.h */,
+				84E803731EF7CCB100ECE8B9 /* SelfDetailVC.m */,
+				84E0A18C1EFA25B400213A0E /* DelegateCenterVC.h */,
+				84E0A18D1EFA25B400213A0E /* DelegateCenterVC.m */,
+			);
+			path = delegateDetail;
+			sourceTree = "<group>";
+		};
 		84EAD9E11EF36695001C041D /* nearly */ = {
 			isa = PBXGroup;
 			children = (
@@ -1788,6 +1857,8 @@
 				84EAD9E61EF366E8001C041D /* NoticeVC.m */,
 				84EAD9E81EF36703001C041D /* NoticeCell.h */,
 				84EAD9E91EF36703001C041D /* NoticeCell.m */,
+				84E0A1891EFA075B00213A0E /* NoticeDetailVC.h */,
+				84E0A18A1EFA075B00213A0E /* NoticeDetailVC.m */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -1836,6 +1907,12 @@
 		84EAD9F21EF3CE21001C041D /* HYMyOrder */ = {
 			isa = PBXGroup;
 			children = (
+				8441C1B91EF75C85002537A0 /* HYMyOrderVC.h */,
+				8441C1BA1EF75C85002537A0 /* HYMyOrderVC.m */,
+				8441C1BC1EF75CA0002537A0 /* HYMyOrderCell.h */,
+				8441C1BD1EF75CA0002537A0 /* HYMyOrderCell.m */,
+				84E8036E1EF7B7D400ECE8B9 /* HYOrderDetailVC.h */,
+				84E8036F1EF7B7D400ECE8B9 /* HYOrderDetailVC.m */,
 			);
 			path = HYMyOrder;
 			sourceTree = "<group>";
@@ -1843,6 +1920,10 @@
 		84EAD9F31EF3CE21001C041D /* HYMyRecommend */ = {
 			isa = PBXGroup;
 			children = (
+				84E803751EF7D0CA00ECE8B9 /* HYMyRecommendVC.h */,
+				84E803761EF7D0CA00ECE8B9 /* HYMyRecommendVC.m */,
+				84E803781EF7D19C00ECE8B9 /* HYMyRecommendCell.h */,
+				84E803791EF7D19C00ECE8B9 /* HYMyRecommendCell.m */,
 			);
 			path = HYMyRecommend;
 			sourceTree = "<group>";
@@ -2088,7 +2169,6 @@
 				84E531BD1E80C8D4009E63E6 /* STableViewController.m in Sources */,
 				84E531C71E80C8D4009E63E6 /* FileDetail.m in Sources */,
 				84E531AA1E80C8D4009E63E6 /* AFSecurityPolicy.m in Sources */,
-				842F5BB61EDE659900D90833 /* GoodsInfoModel.m in Sources */,
 				84075DAE1EE58A8300139636 /* BankCardVC.m in Sources */,
 				84E531AC1E80C8D4009E63E6 /* AFURLResponseSerialization.m in Sources */,
 				84E531DD1E80C8D4009E63E6 /* SDWebImageManager.m in Sources */,
@@ -2099,6 +2179,7 @@
 				84A3B3A21EF2275B0084817E /* HYRegisteredVC.m in Sources */,
 				84E531C21E80C8D4009E63E6 /* EGOImageButton.m in Sources */,
 				849F14AB1EEA9D8500EA65C6 /* GoodsAndNumCell.m in Sources */,
+				84E803701EF7B7D400ECE8B9 /* HYOrderDetailVC.m in Sources */,
 				84E531DA1E80C8D4009E63E6 /* SDWebImageDecoder.m in Sources */,
 				84E531AF1E80C8D4009E63E6 /* AsyncUdpSocket.m in Sources */,
 				84EAD9FA1EF3CF46001C041D /* FundRecordCell.m in Sources */,
@@ -2133,6 +2214,7 @@
 				84075D961EE5762F00139636 /* MyCustomerCell.m in Sources */,
 				84E531E31E80C8D4009E63E6 /* UIImageView+HighlightedWebCache.m in Sources */,
 				84075D9A1EE5794A00139636 /* WithDrawlsMoneyVC.m in Sources */,
+				84E803741EF7CCB100ECE8B9 /* SelfDetailVC.m in Sources */,
 				84E531D71E80C8D4009E63E6 /* NSData+ImageContentType.m in Sources */,
 				84E532381E80C8D4009E63E6 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				84075D7E1EE50B9100139636 /* GDataXMLNode.m in Sources */,
@@ -2140,6 +2222,7 @@
 				84075D841EE50B9100139636 /* MOFSToolbar.m in Sources */,
 				84E531D51E80C8D4009E63E6 /* UIView+SDExtension.m in Sources */,
 				84B0DC711EE6515E0010303B /* MemberOrderCell.m in Sources */,
+				84E0A1991EFA43BB00213A0E /* TPKeyboardAvoidingScrollView.m in Sources */,
 				84075DB41EE58AD000139636 /* MyAuthorizationVC.m in Sources */,
 				84075D681EE4ECC000139636 /* ManageAddCell.m in Sources */,
 				84E531C61E80C8D4009E63E6 /* EGORefreshTableHeaderView.m in Sources */,
@@ -2147,6 +2230,7 @@
 				84075DB11EE58A9800139636 /* RebateVC.m in Sources */,
 				84E531EE1E80C8D4009E63E6 /* WXY_ActiveView.m in Sources */,
 				844392111ED6D33200FA4927 /* XYMScanView.m in Sources */,
+				8441C1C11EF77694002537A0 /* CashierVC.m in Sources */,
 				840CE61F1EE28FF40016D82F /* DelegateExamineDetailVC.m in Sources */,
 				84E532401E80C8D4009E63E6 /* WBImageViewItem.m in Sources */,
 				844392081ED6BCB200FA4927 /* MBProgressHUD.m in Sources */,
@@ -2163,11 +2247,13 @@
 				84E531E41E80C8D4009E63E6 /* UIImageView+WebCache.m in Sources */,
 				84EADA011EF3DCEA001C041D /* HYQRCodeVC.m in Sources */,
 				840CE6221EE2AD1F0016D82F /* DelegateDetailVC.m in Sources */,
+				84E0A19B1EFA43BB00213A0E /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				84E531ED1E80C8D4009E63E6 /* ProgressHUD.m in Sources */,
 				84E532371E80C8D4009E63E6 /* NSArray+MASAdditions.m in Sources */,
 				840CE61C1EE25F2B0016D82F /* DelegateExamineVC.m in Sources */,
 				84EAD9EA1EF36703001C041D /* NoticeCell.m in Sources */,
 				849F149F1EEA748700EA65C6 /* MyDeclarationCell.m in Sources */,
+				84E8037A1EF7D19C00ECE8B9 /* HYMyRecommendCell.m in Sources */,
 				84F299561EEE17B100F66FD7 /* ManageDeclarCell.m in Sources */,
 				8431E4B31EF5107900039749 /* GoodsDetailVC.m in Sources */,
 				84E532201E80C8D4009E63E6 /* UIView+Extension.m in Sources */,
@@ -2193,6 +2279,7 @@
 				840CE62A1EE2B57E0016D82F /* HYPersonalCenterVC.m in Sources */,
 				84E532111E80C8D4009E63E6 /* PublicMethod.m in Sources */,
 				84A3B3A71EF264B80084817E /* ComMallCollectionViewCell.m in Sources */,
+				84E803771EF7D0CA00ECE8B9 /* HYMyRecommendVC.m in Sources */,
 				84075D5E1EE4E57900139636 /* StockTableviewVC.m in Sources */,
 				84EA70C51EE8DD0200F9A4D2 /* BankCardCell.m in Sources */,
 				84B0DC7D1EE687F30010303B /* IsTureAlterView.m in Sources */,
@@ -2215,6 +2302,7 @@
 				849F14A71EEA99B300EA65C6 /* DeclarationManageViewController.m in Sources */,
 				84E532361E80C8D4009E63E6 /* MASViewConstraint.m in Sources */,
 				84E532341E80C8D4009E63E6 /* MASLayoutConstraint.m in Sources */,
+				84E0A18B1EFA075B00213A0E /* NoticeDetailVC.m in Sources */,
 				844392021ED667B600FA4927 /* PersonalCenter.m in Sources */,
 				84E532251E80C8D4009E63E6 /* AKGallery.m in Sources */,
 				84A3B3A81EF264B80084817E /* ComMallView.m in Sources */,
@@ -2227,6 +2315,7 @@
 				84EAD9F71EF3CE52001C041D /* FundrecordVC.m in Sources */,
 				84F6DAEA1EDFF73B001C80AE /* PhotoSampleVC.m in Sources */,
 				84075D831EE50B9100139636 /* MOFSPickerView.m in Sources */,
+				84E0A1981EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.m in Sources */,
 				849F14A41EEA7DAE00EA65C6 /* GoToDeclarVC.m in Sources */,
 				84E531C01E80C8D4009E63E6 /* DesSecret.m in Sources */,
 				84F299811EEEB3A500F66FD7 /* SendGoodsVC.m in Sources */,
@@ -2234,6 +2323,7 @@
 				84E531AE1E80C8D4009E63E6 /* AsyncSocket.m in Sources */,
 				84570CD91ED80356005F893B /* QRCodeGenerator.m in Sources */,
 				8498DEF01EEBDCE900BEFFFF /* MydeclarNewListVC.m in Sources */,
+				84E0A19A1EFA43BB00213A0E /* TPKeyboardAvoidingTableView.m in Sources */,
 				84075D801EE50B9100139636 /* MOFSAddressPickerView.m in Sources */,
 				84E5325E1E80D48F009E63E6 /* HomePage.m in Sources */,
 				84E531A91E80C8D4009E63E6 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2245,6 +2335,7 @@
 				84E531D11E80C8D4009E63E6 /* TADotView.m in Sources */,
 				84E5320F1E80C8D4009E63E6 /* GTMBase64.m in Sources */,
 				84E531CD1E80C8D4009E63E6 /* SBJsonWriter.m in Sources */,
+				84E0A18E1EFA25B400213A0E /* DelegateCenterVC.m in Sources */,
 				84EAD9FE1EF3D988001C041D /* PersonalDetail.m in Sources */,
 				84F6DAE71EDFB505001C80AE /* UIScrollView+Myscrollview.m in Sources */,
 				84E531B21E80C8D4009E63E6 /* HZAreaPickerView.m in Sources */,
@@ -2253,7 +2344,9 @@
 				84E532161E80C8D4009E63E6 /* YBImgPickerTableViewCell.m in Sources */,
 				8420979A1EE0F2A600DE5C77 /* GoodsModel.m in Sources */,
 				84E532241E80C8D4009E63E6 /* DDMenuController.m in Sources */,
+				8441C1BB1EF75C85002537A0 /* HYMyOrderVC.m in Sources */,
 				842097931EE0E31F00DE5C77 /* RegisterAndGoods.m in Sources */,
+				841364A21EF8B17100DA74B4 /* HYConfirmOrderCell.m in Sources */,
 				84EA70C21EE8DCD300F9A4D2 /* BankCardListVC.m in Sources */,
 				84E530261E80C79A009E63E6 /* main.m in Sources */,
 				84E531E51E80C8D4009E63E6 /* UIView+WebCacheOperation.m in Sources */,
@@ -2266,6 +2359,7 @@
 				8431E4AC1EF4B8B500039749 /* AntiFakeVC.m in Sources */,
 				84570CD71ED80356005F893B /* bitstream.c in Sources */,
 				84E531AB1E80C8D4009E63E6 /* AFURLRequestSerialization.m in Sources */,
+				8441C1BE1EF75CA0002537A0 /* HYMyOrderCell.m in Sources */,
 				84EAD9ED1EF3672B001C041D /* NearlyDelegateVC.m in Sources */,
 				84E532191E80C8D4009E63E6 /* YBImgPickerViewCell.m in Sources */,
 				84570CDB1ED80356005F893B /* qrinput.c in Sources */,

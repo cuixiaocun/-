@@ -182,7 +182,7 @@
     
     
     bottomView =[[UIView alloc]initWithFrame:CGRectMake(0,  _comMallView.bottom, CXCWidth, 1000*Width)];
-    bottomView.backgroundColor =[UIColor redColor];
+    bottomView.backgroundColor =[UIColor grayColor];
     [bgScrollView addSubview:bottomView];
     
     //商品

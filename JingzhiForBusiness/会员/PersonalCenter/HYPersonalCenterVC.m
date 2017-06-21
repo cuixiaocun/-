@@ -15,6 +15,8 @@
 #import "HYQRCodeVC.h"
 #import "XYMScanViewController.h"
 #import "IsTureAlterView.h"
+#import "HYMyOrderVC.h"
+#import "HYMyRecommendVC.h"
 @interface HYPersonalCenterVC ()<LoginDelegate,IsTureAlterViewDelegate  >
 {
     //底部scrollview
@@ -175,12 +177,16 @@
 - (void)myBtnAciton:(UIButton *)btn
 {
     if (btn.tag ==300) {
-        
+        HYMyRecommendVC *viewController=[[HYMyRecommendVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController pushViewController:viewController animated:YES];
         
     }else if (btn.tag ==301) {
         
-        
-        
+        HYMyOrderVC *viewController =[[HYMyOrderVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController pushViewController:viewController animated:YES];
+
     }else if (btn.tag ==302) {
         ManageAddressTableVC *viewController =[[ManageAddressTableVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
@@ -229,14 +235,14 @@
     }
 
 }
--(void)cancelBtnActin
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter
 {
     IsTureAlterView *isture = [self.view viewWithTag:180];
     [isture removeFromSuperview];
     NSLog(@"取消");
     
 }
--(void)tureBtnAction
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
     IsTureAlterView *isture = [self.view viewWithTag:180];
     

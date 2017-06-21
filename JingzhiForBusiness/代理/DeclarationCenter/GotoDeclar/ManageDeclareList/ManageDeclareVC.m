@@ -40,7 +40,7 @@
     [topImageView addSubview:returnBtn];
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"报单管理"];
+    [navTitle setText:@"我的订单"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
@@ -78,7 +78,6 @@
             xian.frame =CGRectMake(statuBtn.right,25*Width, Width, 50*Width);
             
         }
-        //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
         statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
         [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
         [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
@@ -259,14 +258,14 @@
 }
 #pragma mark - IsTureAlterViewDelegate
 
--(void)cancelBtnActin
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter
 {
     IsTureAlterView *isture = [self.view viewWithTag:180];
     [isture removeFromSuperview];
     NSLog(@"取消");
     
 }
--(void)tureBtnAction
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
     IsTureAlterView *isture = [self.view viewWithTag:180];
     

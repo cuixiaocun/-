@@ -224,99 +224,59 @@
 -(void)loginAdmin
 {
     
-    if ([isLeveler isEqualToString:@"NO"]) {
-        [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
-        [self rdv_tabBarController].selectedIndex=2;
-
-        [self setupViewControllersHYwithIsBack:@"NO"];
-        [self.navigationController popViewControllerAnimated:YES];
-
-        
-        
-        
-        
-    }else if ([isLeveler isEqualToString:@"YES"])
-    {
-        [self rdv_tabBarController].selectedIndex=2;
-        [self setupViewControllers];
-        [PublicMethod saveDataString:@"DL" withKey:@"IsLogin"];
-
-    }
-    
-//    [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];
 //    UITextField *admin = (UITextField *)[self.view viewWithTag:1];
 //    UITextField *password = (UITextField *)[self.view viewWithTag:2];
 //    if (admin.text.length!=18&&admin.text.length!=11) {
-//        [ProgressHUD showError:@"请输入正确的用户名"];
-//        return;
-//        
-//    }
-//    if (password.text.length<8) {
-//        [ProgressHUD showError:@"密码长度不得小于6位"];
+//        [MBProgressHUD showError:@"请输入正确的用户名" ToView:self.view];
 //        return;
 //    }
+//    if (password.text.length<6) {
+//        [MBProgressHUD showError:@"密码长度不得小于6位" ToView:self.view];
+//        return;
+//    }
+    NSString *statustring ;//判断状态
+    if ([isLeveler isEqualToString:@"YES"]) {
+        statustring =@"2";
+    }else if([isLeveler isEqualToString:@"NO"]){
+        statustring =@"1";
+    }
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{@"logintype":@"1",@"account":[NSString stringWithFormat:@"%@",@"15610280531"],@"password":@"111111"}];
+//    [dic1 setDictionary:@{@"logintype":statustring ,@"account":[NSString stringWithFormat:@"%@",admin.text],@"password":[NSString stringWithFormat:@"%@",password.text]}];
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"Home/Login/login" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            if ([isLeveler isEqualToString:@"NO"]) {
+                if ([_status isEqualToString:@"present"]) {
+                    [self.navigationController popViewControllerAnimated:NO];
+                    
+                }else
+                {
+                    
+                    [self rdv_tabBarController].selectedIndex=2;
+                    [self setupViewControllersHYwithIsBack:@"NO"];
+                    [self.navigationController popViewControllerAnimated:YES];
+
+                }
+                [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
+                [PublicMethod saveData:dict withKey:@"member"];
+
+                
+            }else if ([isLeveler isEqualToString:@"YES"])
+            {
+                [self rdv_tabBarController].selectedIndex=2;
+                [self setupViewControllers];
+                [PublicMethod saveDataString:@"DL" withKey:@"IsLogin"];
+                
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
-//    [ProgressHUD show:@"加载中"];
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
-//    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
-//
-//    //你的接口地址
-//    NSString *url=[NSString stringWithFormat:@"%@/user/login",SERVERURL];
-//    NSDictionary *parameter = @{@"uname":admin.text,@"password":password.text,@"deviceType":@"2"};
-//    
-//    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-//        NSLog(@"请求成功JSON:%@", dict);
-//        
-//        if (dict) {
-//            if ([[dict objectForKey:@"result"] boolValue]) {
-//                [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"resident"] objectForKey:@"communityId"] ]withKey:@"cid"];
-//                [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"resident"] objectForKey:@"idno"] ]withKey:@"idno"];
-//                [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"resident"] objectForKey:@"id"] ]withKey:@"id"];
-//                [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",admin.text ]withKey:@"uname"];
-//                
-//                [PublicMethod saveDataString:[NSString stringWithFormat:@"YES"]withKey:@"isLogin"];
-//                
-//                
-//                [self setupViewControllers];
-//                
-//                
-//                [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];
-//                [ProgressHUD showSuccess:@"登陆成功！"];
-//                
-//                
-//                
-//                
-//            }else if([[dict objectForKey:@"code"] isEqualToString:@"E001"]){
-//
-//                [ProgressHUD showError:@"账号已在别处登录！"];
-//                [PublicMethod saveDataString:@"0" withKey:@"WetherFirstInput"];
-//
-//            }else{
-//                [ProgressHUD showError:@"用户名密码错误！"];
-//                [PublicMethod saveDataString:@"0" withKey:@"WetherFirstInput"];
-//
-//            }
-//            
-//        }
-//        
-//        
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        [PublicMethod saveDataString:@"0" withKey:@"WetherFirstInput"];
-//
-//        [ProgressHUD showError:@"网络连接失败"];
-//        NSLog(@"网络连接失败");
-//
-//    }];
-//    
-//
-//    
-//    
    
 }
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
@@ -536,7 +496,7 @@
     for (int i=0; i<2; i++) {
         UIButton *btnAll =[self.view viewWithTag:120+i];
         btnAll.selected =NO;
-        [btnAll setBackgroundColor:[UIColor redColor]];
+        [btnAll setBackgroundColor:NavColor];
     }
     if(btn.tag==120)
     {
@@ -555,10 +515,16 @@
 }
 - (void)returnBtnAction
 {
+    if ([_status isEqualToString:@"present"]) {
+        [self.navigationController popViewControllerAnimated:NO];
+        return;
+    }else
+    {
+        [self setupViewControllersHYwithIsBack:@"YES"];
 
-    [self.navigationController   popViewControllerAnimated:YES];
+    }
+
     
-    [self setupViewControllersHYwithIsBack:@"YES"];
 
 
 }
@@ -624,11 +590,11 @@
         index++;
     }
     if ([isBackString isEqualToString:@"YES"]) {
-        [tabBarController setSelectedIndex:0];//若果是返回按钮
+        [tabBarController setSelectedIndex:0];//若是返回按钮
         
     }else
     {
-        [tabBarController setSelectedIndex:2];//若果是登录按钮
+        [tabBarController setSelectedIndex:2];//若是登录按钮
         
     }
 

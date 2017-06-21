@@ -10,6 +10,8 @@
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>
 #import <BaiduMapAPI_Base/BMKUserLocation.h>
 #import <BaiduMapAPI_Location/BMKLocationService.h>
+#import "LoginPage.h"
+#import "SelfDetailVC.h"
 @interface HYRegisteredVC ()<UITextFieldDelegate,SRActionSheetDelegate,BMKLocationServiceDelegate>
 {
     //底部scrollview
@@ -85,7 +87,7 @@
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
     NSArray*leftArr =@[@"推荐人",@"手机号",@"密码",@"确认密码",@"代理",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"推荐人账号",@"手机号",@"8-16位数字、字母或字符",@"确认密码",@"选择代理",@"身份证号",@"上传身份证件",@"",@"",@"",@"",];
+    NSArray *rightArr =@[@"推荐人账号",@"手机号",@"6-16位数字、字母或字符",@"确认密码",@"选择代理",@"身份证号",@"上传身份证件",@"",@"",@"",@"",];
     //列表
     for (int i=0; i<5; i++) {
         UIView *bgview =[[UIView alloc]init];
@@ -185,8 +187,60 @@
 }
 - (void)nextStep
 {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+    UITextField *account =[self.view viewWithTag:11];
+    UITextField *password =[self.view viewWithTag:12];
+    UITextField *password2 =[self.view viewWithTag:13];
+    [ProgressHUD show:@"正在请求。。。"];
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{@"account":[NSString stringWithFormat:@"%@",account.text],@"password":[NSString stringWithFormat:@"%@",password.text],@"password2":[NSString stringWithFormat:@"%@",password2.text]}];
+        //        NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];
+        NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"Home/login/regMember" paraments:dic1 addView:self.view success:^(id responseDic) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+                for (UIViewController *controller in self.navigationController.viewControllers) {
+
+                    [ProgressHUD  showSuccess:@"注册成功"];
+                    
+                    if ([controller isKindOfClass:[LoginPage  class]]) {
+                        [self.navigationController popToViewController:controller animated:YES];
+                    }else if ([controller isKindOfClass:[SelfDetailVC  class]])
+                    {
+                        LoginPage*loginPage =[[LoginPage alloc]init];
+                        [self.navigationController pushViewController:loginPage animated:YES];
+                        
+                    }
+ 
+               }
+          }
+            
+        } fail:^(NSError *error) {
+            
+        }];
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     //点击其他地方收起键盘

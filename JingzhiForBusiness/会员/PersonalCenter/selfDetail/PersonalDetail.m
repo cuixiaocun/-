@@ -20,7 +20,6 @@
 @implementation PersonalDetail
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
     
     [super viewDidLoad];
     [self.view setBackgroundColor:BGColor];

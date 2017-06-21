@@ -16,7 +16,7 @@
     {
         self.backgroundColor =[UIColor whiteColor];
         self.topMCImage = [[UIImageView alloc] initWithFrame:CGRectMake(15*Width,15*Width,307.5*Width,225*Width)];
-        self.topMCImage.backgroundColor = [UIColor redColor];
+        self.topMCImage.backgroundColor = BGColor;
         self.topMCImage.userInteractionEnabled = YES;
         [self.contentView addSubview:self.topMCImage];
         self.promtpmcLabel = [[UILabel alloc] initWithFrame:CGRectMake(15*Width,_topMCImage.bottom,307*Width,100*Width)];

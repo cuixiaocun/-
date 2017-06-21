@@ -8,14 +8,12 @@
 
 #import "HYConfirmOrderVC.h"
 #import "CXCThreeLabelSheet.h"
-
-@interface HYConfirmOrderVC ()<CXCThreeLabelSheetDelegate>
+#import "CashierVC.h"
+#import "HYConfirmOrderCell.h"
+@interface HYConfirmOrderVC ()<CXCThreeLabelSheetDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
-    
-    
-    
 }
 
 
@@ -30,6 +28,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    self.view.backgroundColor =BGColor;
     
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
@@ -58,158 +57,62 @@
 }
 - (void)mainView
 {
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64)];
-    [bgScrollView setUserInteractionEnabled:YES];
-    [bgScrollView setBackgroundColor:BGColor];
-    [self.view addSubview:bgScrollView];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
-    
-    UIButton *topView =[[UIButton alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
-    [topView setBackgroundColor:[UIColor whiteColor]];
-    [topView addTarget:self action:@selector(chooseAdress) forControlEvents:UIControlEventTouchUpInside];
-    
-    [bgScrollView addSubview:topView];
-    
-    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 260*Width, 50*Width)];
-    nameLabel.text =@"孙磊";
-    nameLabel.tag=450;
-    nameLabel.font =[UIFont systemFontOfSize:16];
-    [topView addSubview:nameLabel];
     
     
-    UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    numberLabel.text =@"18373781822";
-    numberLabel.font =[UIFont systemFontOfSize:16];
-    [topView addSubview:numberLabel];
-    numberLabel.tag=451;
-    //箭头
-    UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 80*Width,40*Width , 40*Width)];
-    [topView addSubview:jiantou];
-    [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
+    UITableView *declarTabel = [[UITableView alloc]initWithFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)style:UITableViewStyleGrouped];
+    [declarTabel setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [declarTabel setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-100*Width-20*Width)];
+    [declarTabel setDelegate:self];
+    [declarTabel setDataSource:self];
+    [declarTabel setBackgroundColor:[UIColor clearColor]];
+    declarTabel .showsVerticalScrollIndicator = NO;
+    [self.view addSubview:declarTabel];
+    
+    //底部
+    UIView *bottomBgview =[[UIView alloc]initWithFrame:CGRectMake(0, CXCHeight-100*Width, CXCWidth, 100*Width)];
+    [bottomBgview setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:bottomBgview];
+    //线
+    UIImageView*xianBottom =[[UIImageView alloc]init];
+    xianBottom.backgroundColor =BGColor;
+    [bottomBgview addSubview:xianBottom];
+    xianBottom.frame =CGRectMake(0*Width,0*Width, CXCWidth, 1.5*Width);
+    
+    UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0, 450*Width, 100*Width)];
+    NSString*str =@"实付款：¥2700.00";
+    [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
+    
+    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
+    NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
+    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+    [subPromLabel setAttributedText:textColor];
+    [subPromLabel  setFont:[UIFont systemFontOfSize:14]];
+    [bottomBgview   addSubview:subPromLabel];
+    //确认提交按钮
+    UIButton * confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [confirmBtn setFrame:CGRectMake(550*Width,0 , 200*Width, 100*Width)];
+    [confirmBtn setBackgroundColor:NavColor];
+    confirmBtn.layer.borderColor =[UIColor blueColor].CGColor;
+    [confirmBtn setTitle:@"立即下单" forState:UIControlStateNormal];
+    [confirmBtn.titleLabel setTextColor:[UIColor whiteColor]];
+    [confirmBtn addTarget:self action:@selector(confirmButtonAction) forControlEvents:UIControlEventTouchUpInside];
+    [bottomBgview addSubview:confirmBtn];
     
     
-    UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20*Width, nameLabel.bottom+46*Width,24*Width, 32*Width)];
-    [imgView setImage:[UIImage imageNamed:@"wuliu_icon_location"]];
-    [topView addSubview:imgView];
-    
-    
-    
-    UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
-    [topView addSubview:addressLabel];
-    addressLabel.text =@"山东省潍坊市高新区胜利东街新华路中天下潍坊国际";
-    addressLabel.font =[UIFont systemFontOfSize:13];
-    addressLabel.numberOfLines= 0;
-    addressLabel.textColor =TextGrayColor;
-    addressLabel.tag=452;
-    
-    //布局界面
-    UIView * bgView = [[UIView alloc]initWithFrame:CGRectMake(0,topView.bottom+ 20*Width, CXCWidth, 220*Width)];
-    bgView.backgroundColor = [UIColor whiteColor];
-    [bgScrollView addSubview:bgView];
-    
-    
-    
-    _goodsImgView =[[EGOImageView alloc]initWithImage:[UIImage imageNamed:@""]];
-    _goodsImgView.backgroundColor =[UIColor redColor];
-    _goodsImgView.frame=CGRectMake(50*Width, 30*Width, 160*Width, 160*Width);
-    [bgView addSubview:_goodsImgView];
-    
-    //商品名称
-    _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+60*Width,10*Width, 310*Width, 100*Width)];
-    _goodsTitleLab.text = @"商品A-几万块合法";
-    _goodsTitleLab.textColor=BlackColor;
-    _goodsTitleLab.numberOfLines =0;
-    _goodsTitleLab.font =[UIFont systemFontOfSize:14];
-    _goodsTitleLab.backgroundColor = [UIColor clearColor];
-    [bgView addSubview:_goodsTitleLab];
-    
-       //描述
-    _promptLabel = [[UILabel alloc]initWithFrame:CGRectMake(_goodsTitleLab.left,_goodsTitleLab.bottom,500*Width,40*Width)];
-    [bgView addSubview:_promptLabel];
-    _promptLabel.textColor  =[UIColor colorWithRed:128/255.0 green:128/255.0 blue:128/255.0 alpha:1];
-    _promptLabel.font =[UIFont systemFontOfSize:12];
-    _promptLabel.text = @"此产品为本公司产品，请放心使用";
-    //价格
-    UILabel* priceLabel =[[UILabel alloc]initWithFrame:CGRectMake(_promptLabel.right+60*Width, 100*Width, 360*Width, 60*Width)];
-    priceLabel.text =@"¥400.00";
-    priceLabel.font =[UIFont systemFontOfSize:16];
-    priceLabel.textColor =NavColor;
-    [bgView addSubview:priceLabel];
-    _priceLab =priceLabel;
+}
+- (void)confirmButtonAction
+{
+
+    CashierVC *cashVC =[[CashierVC alloc]init];
+    [self.navigationController  pushViewController:cashVC animated:YES];
     
 
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    NSArray*leftArr =@[@"商品",@"数量",@"运单号",@"官方电话",@"",@"",@"",@"",] ;
-    NSArray*rightArr =@[@"商品12",@"123",@"123948347398535789",@"11185",@"100000万",@"",@"",@"",] ;
-    
-    for (int i=0; i<2; i++) {
-        //背景
-        UIView *bgview =[[UIView alloc]init];
-        bgview.backgroundColor =[UIColor whiteColor];
-        [bgScrollView addSubview:bgview];
-        bgview.frame =CGRectMake(0, bgView.bottom+i*82*Width+20*Width, CXCWidth, 82*Width);
-        //左边提示
-        UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
-        labe.text = leftArr[i];
-        //            labe.textAlignment=NSTextAlignmentLeft;
-        labe.font = [UIFont systemFontOfSize:14];
-        labe.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
-        [bgview addSubview:labe];
-        //右边显示
-        UILabel* rightLabel = [[UILabel alloc]init];
-        rightLabel.text = rightArr[i];
-        rightLabel.frame =CGRectMake(250*Width ,0, 475*Width,82*Width );
-        rightLabel.textAlignment=NSTextAlignmentRight;
-        rightLabel.tag =200+i;
-        rightLabel.font = [UIFont systemFontOfSize:14];
-        rightLabel.textColor = BlackColor;
-        [bgview addSubview:rightLabel];
-        //分割线
-        UIImageView*xian =[[UIImageView alloc]init];
-        xian.backgroundColor =BGColor;
-        [bgview addSubview:xian];
-        xian.frame =CGRectMake(0,80.5*Width, CXCWidth, 1.5*Width);
-        
-    }
-    
-    //下一步按钮
-//    UIButton*nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [nextBtn setFrame:CGRectMake(40*Width,520*Width , 670*Width, 88*Width)];
-//    [nextBtn setBackgroundColor:NavColor];
-//    [nextBtn.layer setCornerRadius:4];
-//    [nextBtn.layer setMasksToBounds:YES];
-//    [nextBtn setTitle:@"确认下单" forState:UIControlStateNormal];
-//    [nextBtn.titleLabel setTextColor:[UIColor whiteColor]];
-//    [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
-//    [nextBtn addTarget:self action:@selector(confirmOrder) forControlEvents:UIControlEventTouchUpInside];
-//    [bgScrollView addSubview:nextBtn];
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+}
+-(void)isSelectedBtnAction:(UIButton *)btn
+{
+    btn.selected =!btn.selected;
     
     
     
@@ -265,6 +168,202 @@
     
     
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth,220*Width)];
+    [bgScrollView setUserInteractionEnabled:YES];
+    [bgScrollView setBackgroundColor:BGColor];
+    [self.view addSubview:bgScrollView];
+    
+    UIButton *topView =[[UIButton alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
+    [topView setBackgroundColor:[UIColor whiteColor]];
+    [topView addTarget:self action:@selector(chooseAdress) forControlEvents:UIControlEventTouchUpInside];
+    
+    [bgScrollView addSubview:topView];
+    
+    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 150*Width, 50*Width)];
+    nameLabel.text =@"孙磊开";
+    nameLabel.tag=450;
+    nameLabel.font =[UIFont systemFontOfSize:16];
+    [topView addSubview:nameLabel];
+    
+    
+    UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
+    numberLabel.text =@"18373781822";
+    numberLabel.font =[UIFont systemFontOfSize:16];
+    [topView addSubview:numberLabel];
+    numberLabel.tag=451;
+    
+    UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(490*Width, nameLabel.top+5*Width, 80*Width, 40*Width)];
+    defaultLabel.textColor =NavColor;
+    defaultLabel.text =@"默认";
+    defaultLabel.font =[UIFont systemFontOfSize:12];
+    [topView addSubview:defaultLabel];
+    [defaultLabel.layer setCornerRadius:2*Width];
+    [defaultLabel.layer setBorderWidth:1.5*Width];
+    [defaultLabel.layer setMasksToBounds:YES];
+    defaultLabel.textAlignment =NSTextAlignmentCenter;
+    defaultLabel.layer.borderColor =NavColor.CGColor;
+    //箭头
+    UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 80*Width,40*Width , 40*Width)];
+    [topView addSubview:jiantou];
+    [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
+    UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20*Width, nameLabel.bottom+46*Width,24*Width, 32*Width)];
+    [imgView setImage:[UIImage imageNamed:@"wuliu_icon_location"]];
+    [topView addSubview:imgView];
+    
+    UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
+    [topView addSubview:addressLabel];
+    addressLabel.text =@"山东省潍坊市高新区胜利东街新华路中天下潍坊国际";
+    addressLabel.font =[UIFont systemFontOfSize:13];
+    addressLabel.numberOfLines= 0;
+    addressLabel.textColor =TextGrayColor;
+    addressLabel.tag=452;
+    return bgScrollView ;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+          return 220*Width;
+        
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    return 240*Width;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+            static NSString *CellIdentifier = @"Cell";
+        
+        HYConfirmOrderCell  *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[HYConfirmOrderCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                            reuseIdentifier:CellIdentifier ];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+        }
+        return cell;
+        
+        
+    //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
+    //    [cell setDic:dict];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    
+    return 750*Width;
+    
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    
+    UIView *bottomBgView =[[UIView alloc]init];
+    bottomBgView.backgroundColor =BGColor;
+    NSArray*leftArray =@[@"支付方式",@"配送方式",@"",@"",@"",] ;
+    NSArray*rightArray =@[@"在线支付",@"快递包邮"] ;
+    
+    for (int i=0; i<2; i++) {
+        //背景
+        UIView *bgview =[[UIView alloc]init];
+        bgview.backgroundColor =[UIColor whiteColor];
+        [bottomBgView addSubview:bgview];
+        bgview.frame =CGRectMake(0, i*82*Width+20*Width, CXCWidth, 82*Width);
+        //左边提示
+        UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
+        labe.text = leftArray[i];
+        //            labe.textAlignment=NSTextAlignmentLeft;
+        labe.font = [UIFont systemFontOfSize:14];
+        labe.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+        [bgview addSubview:labe];
+        //右边显示
+        UILabel* rightLabel = [[UILabel alloc]init];
+        rightLabel.text = rightArray[i];
+        rightLabel.frame =CGRectMake(250*Width ,0, 475*Width,82*Width );
+        rightLabel.textAlignment=NSTextAlignmentRight;
+        rightLabel.tag =200+i;
+        rightLabel.font = [UIFont systemFontOfSize:14];
+        rightLabel.textColor = BlackColor;
+        [bgview addSubview:rightLabel];
+        //分割线
+        UIImageView*xian =[[UIImageView alloc]init];
+        xian.backgroundColor =BGColor;
+        [bgview addSubview:xian];
+        xian.frame =CGRectMake(0,80.5*Width, CXCWidth, 1.5*Width);
+        
+    }
+    UIView *jifenView =[[UIView alloc]initWithFrame:CGRectMake(0, 2*82*Width+40*Width, CXCWidth, 83*Width)];
+    jifenView.backgroundColor =[UIColor whiteColor];
+    [bottomBgView addSubview:jifenView];
+    
+    
+    UILabel *jifenLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width,0, 200*Width,83*Width )];
+    jifenLabel.text =@"积分";
+    jifenLabel.textColor =BlackColor;
+    jifenLabel.font =[UIFont systemFontOfSize:14];
+    [jifenView addSubview:jifenLabel];
+    
+    UILabel *jifenDetailLabel =[[UILabel alloc]initWithFrame:CGRectMake(110*Width,0, 600*Width,83*Width )];
+    jifenDetailLabel.text =@"共300积分,可用200积分,抵扣¥200.00";
+    jifenDetailLabel.textColor =BlackColor;
+    jifenDetailLabel.font =[UIFont systemFontOfSize:12];
+    [jifenView addSubview:jifenDetailLabel];
+    
+    
+    
+    
+    UIButton *isSelectedBtn =[UIButton buttonWithType:UIButtonTypeCustom];
+    isSelectedBtn.frame = CGRectMake(650*Width, 0, 100*Width, 83*Width);
+    [isSelectedBtn setImage:[UIImage imageNamed:@"confirm_checkbox_nor"]  forState:UIControlStateNormal];
+    [isSelectedBtn setImage:[UIImage imageNamed:@"confirm_checkbox_norYI"]  forState:UIControlStateSelected];
+    isSelectedBtn.selected = YES;
+    [isSelectedBtn addTarget:self action:@selector(isSelectedBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [isSelectedBtn setImageEdgeInsets:UIEdgeInsetsMake( 19.5*Width,28*Width, 19.5*Width,28*Width)];
+    [jifenView addSubview:isSelectedBtn];
+    
+    UIView *detailView =[[UIView alloc]initWithFrame:CGRectMake(0,jifenView.bottom+20*Width , CXCWidth, 135*Width)];
+    [bottomBgView addSubview:detailView];
+    detailView.backgroundColor =[UIColor whiteColor];
+    NSArray *leftArr =@[@"积分总额",@"积分"];
+    NSArray *rightArr =@[@"¥300000.00",@"-3000.00"];
+    
+    for (int i=0; i<2; i++) {
+        UILabel *leftLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 10*Width+57.5*Width*i, 200*Width, 57.5*Width)];
+        leftLabel.font =[UIFont systemFontOfSize:14];
+        leftLabel.textColor =BlackColor;
+        leftLabel.text = leftArr[i];
+        [detailView addSubview:leftLabel];
+        
+        UILabel *rightLabel =[[UILabel alloc]initWithFrame:CGRectMake(450*Width, 10*Width+57.5*Width*i, 275*Width, 57.5*Width)];
+        rightLabel.font =[UIFont systemFontOfSize:14];
+        rightLabel.textColor =NavColor;
+        rightLabel.text = rightArr[i];
+        rightLabel.textAlignment =NSTextAlignmentRight;
+        [detailView addSubview:rightLabel];
+        
+        
+    }
+    return bottomBgView;
+}
+- (void)examinePass:(UIButton*)btn
+{
+    
+    
+}
+
 /*
 #pragma mark - Navigation
 

@@ -8,8 +8,9 @@
 
 #import "ShoppingCartVC.h"
 #import "MyCustomCell.h"
-#import "GoodsInfoModel.h"
-
+#import "HYConfirmOrderVC.h"
+#import "GoodsDetailVC.h"
+#import "LoginPage.h"
 @interface ShoppingCartVC ()<UITableViewDataSource,UITableViewDelegate,GoodsInfoCellDelegate>
 {
     UITableView *goodsTableview;//中间商品
@@ -37,13 +38,13 @@
 
 }
 - (void)viewDidLoad {
-    [super viewDidLoad];
     
     [super viewDidLoad];
     [self.view setBackgroundColor:BGColor];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -141,8 +142,9 @@
         for (int i = 0; i<infoArr.count; i++)
         {
             
-            GoodsInfoModel *goodsModel = infoArr[i];
-            goodsModel.selectState =YES;
+            NSDictionary *goodsModel = infoArr[i];
+            [goodsModel setValue:@"YES" forKey:@"selectState"];
+            
         }
         [self totalPrice];//求总和
         [goodsTableview reloadData];//更新一下tableView
@@ -154,8 +156,8 @@
         for (int i = 0; i<infoArr.count; i++)
     {
         
-        GoodsInfoModel *goodsModel = infoArr[i];
-        goodsModel.selectState =NO;
+        NSDictionary *goodsModel = infoArr[i];
+        [goodsModel setValue:@"NO" forKey:@"selectState"];
     }
         [self totalPrice];//求总和
         [goodsTableview reloadData];//更新一下tableView
@@ -169,7 +171,17 @@
 //确认提交按钮
 - (void)confirmButtonAction
 {
-    
+    if (![PublicMethod getDataStringKey:@"IsLogin"]) {//若没登录请登录
+        LoginPage *loginPage =[[LoginPage     alloc]init];
+        loginPage.status =@"present";
+        [self.navigationController pushViewController:loginPage animated:YES];
+        return;
+    }
+
+    HYConfirmOrderVC *hyconfirm =[[HYConfirmOrderVC alloc]init];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+    [self.navigationController pushViewController:hyconfirm animated:YES];
 }
 //系统计算
 - (void)calculateTheGoods
@@ -179,19 +191,18 @@
     NSString*num =[NSString stringWithFormat:@"%d",2];
     infoArr =[[NSMutableArray alloc]init];
     
-    for (int i = 0; i<4; i++)
+    for (int i = 0; i<10; i++)
     {
         NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
         [infoDict setValue:@"温碧泉白里透红凝润四件套(洁面乳、柔肤水、保湿霜、面膜)" forKey:@"goodsTitle"];
         [infoDict setValue:@"10.00" forKey:@"goodsPrice"];
-        [infoDict setValue:[NSNumber numberWithBool:NO] forKey:@"selectState"];
+        [infoDict setValue:@"NO" forKey:@"selectState"];
         [infoDict setValue:[NSString stringWithFormat:@"%.2f",([@"10.0" floatValue] *[num floatValue])] forKey:@"goodsTotalPrice"];
-        [infoDict setValue:[NSNumber numberWithInt:[num intValue]] forKey:@"goodsNum"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",num] forKey:@"goodsNum"];
         
         //封装数据模型
-        GoodsInfoModel *goodsModel = [[GoodsInfoModel alloc]initWithDict:infoDict];
         //将数据模型放入数组中
-        [infoArr addObject:goodsModel];
+        [infoArr addObject:infoDict];
     }
     [self totalPrice];//求总和
     [goodsTableview reloadData];//更新一下tableView
@@ -210,6 +221,14 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    [self.navigationController  pushViewController:goode animated:YES];
+
+
 }
 //返回单元格个数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -245,35 +264,6 @@
     [textF resignFirstResponder];
     
 }
-//单元格选中事件
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
--(void)selectBtnClick:(UIButton *)sender
-{
-    //判断是否选中，是改成否，否改成是，改变图片状态
-    sender.tag = !sender.tag;
-    if (sender.tag)
-    {
-        [sender setImage:[UIImage imageNamed:@"复选框-选中.png"] forState:UIControlStateNormal];
-        
-    }else{
-        [sender setImage:[UIImage imageNamed:@"复选框-未选中.png"] forState:UIControlStateNormal];
-    }
-    //改变单元格选中状态
-    for (int i=0; i<infoArr.count; i++)
-    {
-        GoodsInfoModel *model = [infoArr objectAtIndex:i];
-        model.selectState = sender.tag;
-    }
-    //计算价格
-    [self totalPrice];
-    //刷新表格
-    [goodsTableview reloadData];
-    
-}
-
 #pragma mark -- 实现加减按钮点击代理事件
 /**
  *  实现加减按钮点击代理事件
@@ -299,30 +289,40 @@
         {
             //做减法
             //先获取到当期行数据源内容，改变数据源内容，刷新表格
-            GoodsInfoModel *model = infoArr[index.row];
-            if (model.goodsNum > 1)
+            NSDictionary *model = infoArr[index.row];
+            if ([[model objectForKey:@"goodsNum"]integerValue] > 1)
             {
-                model.goodsNum --;
-                model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
+                [model setValue:[NSString stringWithFormat:@"%ld",[[model objectForKey:@"goodsNum"]integerValue]-1] forKey:@"goodsNum"];
+                
+                [model setValue:[NSString stringWithFormat:@"%.2f",([[model objectForKey:@"goodsPrice" ] floatValue]*[[model objectForKey:@"goodsNum"] floatValue]) ] forKey:@"goodsTotalPrice"];
+                
                 
             }
         }
             break;
         case 12:
         {
-            //做加法
-            GoodsInfoModel *model = infoArr[index.row];
+            NSDictionary *model = infoArr[index.row];
+
+            [model setValue:[NSString stringWithFormat:@"%ld",[[model objectForKey:@"goodsNum"]integerValue]+1] forKey:@"goodsNum"];
             
-            model.goodsNum ++;
-            model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
+            [model setValue:[NSString stringWithFormat:@"%.2f",([[model objectForKey:@"goodsPrice" ] floatValue]*[[model objectForKey:@"goodsNum"] floatValue]) ] forKey:@"goodsTotalPrice"];
             
             break;
 
         }case 9:
         {
-            GoodsInfoModel *model = infoArr[index.row];
+            NSDictionary *model = infoArr[index.row];
+            if ([[model objectForKey:@"selectState"] isEqualToString:@"YES"]) {
+                [model setValue:[NSString stringWithFormat:@"%@",@"NO"] forKey:@"selectState"];
+ 
+            }else
+            {
+                [model setValue:[NSString stringWithFormat:@"%@",@"YES"] forKey:@"selectState"];
+
+            }
             
-         model.selectState =!model.selectState ;
+            
             
         }
             break;
@@ -344,17 +344,15 @@
     //遍历整个数据源，然后判断如果是选中的商品，就计算价格（单价 * 商品数量）
     for ( int i =0; i<infoArr.count; i++)
     {
-        GoodsInfoModel *model = [infoArr objectAtIndex:i];
-        if (model.selectState)
+        NSDictionary *model = [infoArr objectAtIndex:i];
+        if ( [[model objectForKey: @"selectState"]isEqualToString:@"YES"])
         {
-            allPrice = allPrice + model.goodsNum *[model.goodsPrice intValue];
+            allPrice = allPrice + [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue];
         }
     }
-    
     //给总价文本赋值
     _allPriceLab.text = [NSString stringWithFormat:@"¥%.2f",allPrice];
     NSLog(@"%f",allPrice);
-    
     //每次算完要重置为0，因为每次的都是全部循环算一遍
     allPrice = 0.0;
 }
@@ -442,8 +440,8 @@
     
     UITextField *textF =[self.view viewWithTag:120];
     [textF becomeFirstResponder];//收起键盘
-    GoodsInfoModel *model = infoArr[indextNum];
-    textF.text =[NSString stringWithFormat:@"%d",model.goodsNum];//取得数量
+    NSDictionary *model = infoArr[indextNum];
+    textF.text =[NSString stringWithFormat:@"%@",[model objectForKey:@"goodsNum"]];//取得数量
     
     blackBgView.hidden=NO;
     alterView.hidden =NO;
@@ -486,9 +484,11 @@
     UITextField *textF =[self.view viewWithTag:120];
     [textF resignFirstResponder];
     
-    GoodsInfoModel *model = infoArr[indextNum];
-    model.goodsNum =[textF.text intValue];
-    model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
+    NSDictionary *model = infoArr[indextNum];
+    [model setValue:[NSString stringWithFormat:@"%d",[textF.text intValue]] forKey:@"goodsNum"];
+    [model setValue:[NSString stringWithFormat:@"%d",[textF.text intValue]] forKey:@"goodsTotalPrice"];
+
+    [model setValue:[NSString stringWithFormat:@"%.2f", [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue]] forKey:@"goodsTotalPrice"] ;
     
     //刷新表格
     [goodsTableview reloadData];

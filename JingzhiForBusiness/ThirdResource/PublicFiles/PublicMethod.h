@@ -21,8 +21,8 @@
 #import "MBProgressHUD+MP.h"
 #import "SRActionSheet.h"
 //服务器地址
-#define IMAGEURL  @"https://www.lianqunwuye.com:4432/SmartCommunity/"
-#define SERVERURL @"https://www.lianqunwuye.com:4432/SmartCommunity_API"
+#define IMAGEURL  @"http://heart.qwangluo.cn/index.php"
+#define SERVERURL @"http://heart.qwangluo.cn/index.php"
 //是否为空
 #define IsNilString(__String)   (__String==nil || [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqual:[NSNull null]]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"]||[__String isEqualToString:@""])
 
@@ -46,6 +46,7 @@
 #define CXCWidth ([[UIScreen mainScreen] bounds].size.width)/1.0
 #define Width [UIScreen mainScreen].bounds.size.width/750.000
 #define navBackarrow @"register_btn_goBack_white"//返回箭头
+#define shopingCart @"ShopingCart"//购物车数组
 #define yuanjiao 4
 
 #define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
@@ -70,6 +71,7 @@
 //存取字典
 + (void) saveData:(NSDictionary *)dict withKey:(NSString *)key;
 + (NSDictionary *) getDataKey:(NSString *)key;
++(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
 
 //存取字符串
 + (void) saveDataString:(NSString *)string withKey:(NSString *)key;
@@ -78,6 +80,12 @@
 //存取数组
 + (void) saveArrData:(NSArray *)array withKey:(NSString *)key;
 + (NSArray *) getArrData:(NSString *)key;
+
+//存取可变数组
++(void)setObject:(id)object key:(NSString *)key;
+
++(id)getObjectForKey:(NSString *)key;
+
 //删除数据
 + (BOOL)judgeIdentityStringValid:(NSString *)identityString;
 

@@ -29,7 +29,12 @@
 #import "RebateVC.h"
 #import "MyAuthorizationVC.h"
 #import "HomePage.h"
-@interface PersonalCenter ()<SRActionSheetDelegate,RDVTabBarControllerDelegate>
+#import "IsTureAlterView.h"
+#import "DelegateCenterVC.h"
+#import "ShoppingCartVC.h"
+#import "HYPersonalCenterVC.h"
+
+@interface PersonalCenter ()<SRActionSheetDelegate,IsTureAlterViewDelegate,RDVTabBarControllerDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
@@ -149,10 +154,10 @@
     [jiantou setImage:[UIImage imageNamed:@"proxy_btn_me_next"]];
     
     
-    NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+    NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"vip_wo_icon_exit",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
 
-    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"流转记录",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"",@"",] ;
-    for (int i=0; i<13; i++) {
+    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"流转记录",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"退出",@"",] ;
+    for (int i=0; i<14; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),bgImageV.bottom+20*Width+187.5*Width*(i/4),186*Width,186*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
@@ -181,7 +186,8 @@
 }
 - (void)selfCenter
 {
-    LoginPage *log =[[LoginPage alloc]init];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    DelegateCenterVC *log =[[DelegateCenterVC alloc]init];
     [self.navigationController pushViewController:log animated:YES];
     
 
@@ -315,6 +321,17 @@
 
         [self.navigationController pushViewController:myAuth animated:YES];
         
+    }else if (btn.tag ==313)
+    {
+        
+        
+        IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要退出吗？"];
+        isture.delegate =self;
+        isture.tag =180;
+        [self.view addSubview:isture];
+        
+        NSLog(@"showalert");
+        
     }
 
 
@@ -335,24 +352,7 @@
 
 
 -(void)startScan{
-//画二维码
-//    CGFloat w=[UIScreen mainScreen].bounds.size.width;
-//    NSArray*arr=@[[QRCodeGenerator qrImageForString:@"Key" imageSize:400],
-//                  [QRCodeGenerator qrImageForString:@"key1" imageSize:400 Topimg:[UIImage imageNamed:@"super.jpg"]],
-//                  [QRCodeGenerator qrImageForString:@"key2" imageSize:400 withPointType:QRPointRect withPositionType:QRPositionNormal withColor:[UIColor yellowColor]],
-//                  [QRCodeGenerator qrImageForString:@"key3" imageSize:400 withPointType:QRPointRound withPositionType:QRPositionRound withColor:[UIColor redColor]],
-//                  [QRCodeGenerator qrImageForString:@"key4" imageSize:400 withPointType:QRPointRect withPositionType:QRPositionRound withColor:[UIColor blueColor]],
-//                  [QRCodeGenerator qrImageForString:@"key5" imageSize:400 withPointType:QRPointRound withPositionType:QRPositionNormal withColor:[UIColor purpleColor]]];
-//    for (int i=0; i<6; i++) {
-//        UIImageView*QRCode=[[UIImageView alloc]initWithFrame:CGRectMake(i%3*w/3, (i/3)*w/3, w/3, w/3)];
-//        QRCode.image=arr[i];
-//        [self.view addSubview:QRCode];
-//    }
-//
-//    //扫描二维码
-//    XYMScanViewController *scanView = [[XYMScanViewController alloc]init];
-//    
-//    [self.navigationController pushViewController:scanView animated:YES];
+
 }
 
 
@@ -360,6 +360,89 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    NSLog(@"取消");
+    
+}
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    
+    [isture removeFromSuperview];
+    NSLog(@"确认");
+    
+    //删除
+    [PublicMethod removeObjectForKey: @"IsLogin"];
+    [PublicMethod removeObjectForKey: @"member"];
+    [self setupViewControllersHYwithIsBack:@"YES"];
+    
+}
+- (void)setupViewControllersHYwithIsBack:(NSString *)isBackString{
+    //    if ([[PublicMethod getDataStringKey:@"WetherFirstInput"]isEqualToString:@"1"]) {//若为1，表示登录了
+    //        [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
+    //
+    UIViewController *firstViewController = [[HomePage alloc] init];
+    UINavigationController *firstNavigationController = [[UINavigationController alloc]initWithRootViewController:firstViewController];
+    [firstNavigationController setNavigationBarHidden:YES];
+    
+    UIViewController *secondViewController = [[ShoppingCartVC alloc] init];
+    UINavigationController *secondNavigationController = [[UINavigationController alloc]
+                                                          initWithRootViewController:secondViewController];
+    [secondNavigationController setNavigationBarHidden:YES];
+    
+    UIViewController *threeViewController = [[HYPersonalCenterVC alloc] init];
+    UINavigationController *threeNavigationController = [[UINavigationController alloc]
+                                                         initWithRootViewController:threeViewController];
+    [threeNavigationController setNavigationBarHidden:YES];
+    
+    RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
+    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
+    [UIApplication sharedApplication].keyWindow.rootViewController =tabBarController ;
+    //    [[self rdv_tabBarController].tabBar.delegate tabBar: [self rdv_tabBarController].tabBar didSelectItemAtIndex:2];
+    
+    [self customizeTabBarForControllerHY:tabBarController andBackString:isBackString] ;
+    
+    //    }else//若不为1表示没登录
+    //    {
+    //        LoginPage *rootViewController = [[LoginPage alloc] init];
+    //        UINavigationController* _navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    //        self.viewController =_navigationController;
+    //        [_navigationController setNavigationBarHidden:YES];
+    //
+    //    }
+    //
+}
+- (void)customizeTabBarForControllerHY:(RDVTabBarController *)tabBarController andBackString:(NSString*)isBackString {
+    UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
+    UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
+    NSArray *tabBarItemImages = @[@"huiyuan_icon_home", @"huiyuan_icon_cart",@"proxy_icon_me"];
+    
+    NSInteger index = 0;
+    for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
+        [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
+        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_pre.png",
+                                                      [tabBarItemImages objectAtIndex:index]]];
+        UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@",
+                                                        [tabBarItemImages objectAtIndex:index]]];
+        [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
+        NSLog(@"%@",[NSString stringWithFormat:@"%@_pre",
+                     [tabBarItemImages objectAtIndex:index]]);
+        index++;
+    }
+    if ([isBackString isEqualToString:@"YES"]) {
+        [tabBarController setSelectedIndex:0];//若果是返回按钮
+        
+    }else
+    {
+        [tabBarController setSelectedIndex:2];//若果是登录按钮
+        
+    }
+    
+}
+
 
 /*
 #pragma mark - Navigation

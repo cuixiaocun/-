@@ -78,11 +78,15 @@
 }
 - (void)cancelBtn
 {
-    [self.delegate cancelBtnActin];
+//    [self.delegate cancelBtnActin];
+    [self.delegate cancelBtnActinAndTheAlterView:self];
+    
 }
 -(void)tureBtn
 {
-    [self.delegate tureBtnAction];
+//    [self.delegate tureBtnAction];
+    [self.delegate tureBtnActionAndTheAlterView:self];
+
 }
 
 @end

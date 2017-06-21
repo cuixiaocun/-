@@ -108,23 +108,37 @@
 }
 
 //urlString+SERVERURL（post）请求网络
-+(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
++(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
-    NSString *url=[NSString stringWithFormat:@"%@%@",SERVERURL,urlString];
+    NSString *url=[NSString stringWithFormat:@"%@/%@",SERVERURL,urlString];
+    //    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];//当加密的时候用
     NSDictionary *parameter =dic;
-//    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
+//    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];//证书的时候
 
-    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+    [manager POST:url parameters:parameter  progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if (success) {
             success(responseObject);
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+                    NSLog(@"请求成功JSON:%@", dict);
+            NSLog(@"请求成功JSON:%@", [self logDic:dict]);
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+                
             
+                
+                
+            }else
+            {
+                [ProgressHUD dismiss];
+                [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+
             
+            }
             
             
         }
@@ -136,10 +150,30 @@
     }];
     
 }
-
++ (NSString *)logDic:(NSDictionary *)dic {
+    if (![dic count]) {
+        return nil;
+    }
+    NSString *tempStr1 =
+    [[dic description] stringByReplacingOccurrencesOfString:@"\\u"
+                                                 withString:@"\\U"];
+    NSString *tempStr2 =
+    [tempStr1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    NSString *tempStr3 =
+    [[@"\"" stringByAppendingString:tempStr2] stringByAppendingString:@"\""];
+    NSData *tempData = [tempStr3 dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *str =
+    [NSPropertyListSerialization propertyListFromData:tempData
+                                     mutabilityOption:NSPropertyListImmutable
+                                               format:NULL
+                                     errorDescription:NULL];
+    return str;
+}
 //把字典放进来，通过key的ASCII重新排列，根据重新排列的key数组拼接Key=value@key=value&...最后加上秘钥拼接成为新的字符串，将此字符串加到刚进来时候的字典里，返回
 + (NSMutableDictionary*)ASCIIwithDic:(NSMutableDictionary *)dict
 {
+    return dict;
+    
     NSMutableString *contentString  =[NSMutableString string];
 
     NSArray *keys = [dict allKeys];
@@ -209,6 +243,34 @@
     NSArray *retrievedArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     return retrievedArray;
 }
+
++(void)setObject:(id)object key:(NSString *)key
+{
+    [[NSUserDefaults standardUserDefaults] setObject:object forKey:key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    
+}
+
+
++(id)getObjectForKey:(NSString *)key
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:key]) {
+        return [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    }else{
+        return NULL;
+    }
+}
+
+//取数组
++ (NSMutableArray *) getMutableArrayData:(NSString *)key
+{
+    NSUserDefaults *getDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [getDefaults objectForKey:key];
+    NSMutableArray *retrievedArray = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return retrievedArray;
+}
+
 //存字典数据
 + (void) saveData:(NSDictionary *)dict withKey:(NSString *)key
 {

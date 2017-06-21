@@ -928,7 +928,7 @@
     for (int i=0; i<2; i++) {
         UIButton *btnAll =[self.view viewWithTag:120+i];
         btnAll.selected =NO;
-        [btnAll setBackgroundColor:[UIColor redColor]];
+        [btnAll setBackgroundColor:NavColor];
     }
     statuString =0;//每次切换都必须查询全部
     if(btn.tag==120)

@@ -10,6 +10,7 @@
 #import "ManageAddCell.h"
 #import "AddAddressVC.h"
 #import "IsTureAlterView.h"
+
 @interface ManageAddressTableVC ()<ManageAddCellDelegate,IsTureAlterViewDelegate>
 
 @end
@@ -169,14 +170,14 @@
 
 #pragma mark - IsTureAlterViewDelegate
 
--(void)cancelBtnActin
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter
 {
     IsTureAlterView *isture = [self.view viewWithTag:180];
     [isture removeFromSuperview];
     NSLog(@"取消");
     
 }
--(void)tureBtnAction
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
     IsTureAlterView *isture = [self.view viewWithTag:180];
     

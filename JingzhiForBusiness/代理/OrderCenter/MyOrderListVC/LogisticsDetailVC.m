@@ -112,8 +112,17 @@
             rightLabel.textAlignment=NSTextAlignmentRight;
             rightLabel.tag =200+i;
             rightLabel.font = [UIFont systemFontOfSize:14];
-            rightLabel.textColor = BlackColor;
+            if(i==0)
+            {
+                rightLabel.textColor = NavColor;
+
+            }else
+            {
+                rightLabel.textColor = BlackColor;
+
+            }
             [bgview addSubview:rightLabel];
+
             //分割线
             UIImageView*xian =[[UIImageView alloc]init];
             xian.backgroundColor =BGColor;

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GoodsInfoModel.h"
+//#import "GoodsInfoModel.h"
 
 ///添加代理，用于按钮加减的实现
 @protocol GoodsInfoCellDelegate <NSObject>
@@ -31,5 +31,5 @@
 
 
 //赋值
--(void)addTheValue:(GoodsInfoModel *)goodsModel;
+-(void)addTheValue:(NSDictionary *)goodsModel;
 @end

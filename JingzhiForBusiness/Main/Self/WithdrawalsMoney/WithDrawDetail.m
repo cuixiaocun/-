@@ -104,6 +104,18 @@
     
     nameLabel.font =[UIFont systemFontOfSize:16];
     [middleBgView addSubview:nameLabel];
+    UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(400*Width, nameLabel.top, 80*Width, 36*Width)];
+    defaultLabel.textColor =NavColor;
+    defaultLabel.text =@"默认";
+    defaultLabel.font =[UIFont systemFontOfSize:12];
+    [middleBgView addSubview:defaultLabel];
+    [defaultLabel.layer setCornerRadius:2*Width];
+    [defaultLabel.layer setBorderWidth:1.5*Width];
+    [defaultLabel.layer setMasksToBounds:YES];
+    defaultLabel.textAlignment =NSTextAlignmentCenter;
+    defaultLabel.layer.borderColor =NavColor.CGColor;
+    
+
     
     //银行卡号
     UILabel *bankLabel =[[UILabel alloc]initWithFrame:CGRectMake(cardPhoto.right+20*Width, nameLabel.bottom+10*Width, 550*Width, 36*Width)];

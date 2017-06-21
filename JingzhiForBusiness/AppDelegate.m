@@ -46,7 +46,7 @@
     [self.window setRootViewController:self.viewController];
     [self.window makeKeyAndVisible];
     [PublicMethod removeObjectForKey: @"IsLogin"];
-
+    [PublicMethod removeObjectForKey: @"member"];
     return YES;
 }
 
@@ -137,7 +137,7 @@
     UINavigationController *threeNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:threeViewController];
         [threeNavigationController setNavigationBarHidden:YES];
-        
+            
     RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
     [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
     self.viewController = tabBarController;

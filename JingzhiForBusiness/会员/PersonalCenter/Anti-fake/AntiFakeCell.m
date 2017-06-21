@@ -25,7 +25,7 @@
         
         
         _goodsImgView =[[EGOImageView alloc]initWithImage:[UIImage imageNamed:@""]];
-        _goodsImgView.backgroundColor =[UIColor redColor];
+        _goodsImgView.backgroundColor =[UIColor grayColor];
         _goodsImgView.frame=CGRectMake(50*Width, 30*Width, 160*Width, 160*Width);
         [bgView addSubview:_goodsImgView];
         

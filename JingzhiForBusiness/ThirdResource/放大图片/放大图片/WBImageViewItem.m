@@ -97,7 +97,7 @@
     
     //todo:defaults
 
-    [gallery.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
+    [gallery.navigationController.navigationBar setBarTintColor:[UIColor grayColor]];
 
     
     [self.viewController presentViewController:gallery animated:flag completion:completion];

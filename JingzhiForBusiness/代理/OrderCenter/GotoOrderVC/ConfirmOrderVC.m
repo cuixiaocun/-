@@ -60,14 +60,15 @@
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
     
+    
     UIButton *topView =[[UIButton alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
     [topView setBackgroundColor:[UIColor whiteColor]];
     [topView addTarget:self action:@selector(chooseAdress) forControlEvents:UIControlEventTouchUpInside];
     
     [bgScrollView addSubview:topView];
     
-    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 260*Width, 50*Width)];
-    nameLabel.text =@"孙磊";
+    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 150*Width, 50*Width)];
+    nameLabel.text =@"孙磊开";
     nameLabel.tag=450;
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
@@ -78,15 +79,31 @@
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     numberLabel.tag=451;
+    
+    UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(490*Width, nameLabel.top+5*Width, 80*Width, 40*Width)];
+    defaultLabel.textColor =NavColor;
+    defaultLabel.text =@"默认";
+    defaultLabel.font =[UIFont systemFontOfSize:12];
+    [topView addSubview:defaultLabel];
+    [defaultLabel.layer setCornerRadius:2*Width];
+    [defaultLabel.layer setBorderWidth:1.5*Width];
+    [defaultLabel.layer setMasksToBounds:YES];
+    defaultLabel.textAlignment =NSTextAlignmentCenter;
+    defaultLabel.layer.borderColor =NavColor.CGColor;
+    
+    
+    
+    
     //箭头
     UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 80*Width,40*Width , 40*Width)];
     [topView addSubview:jiantou];
     [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
-
-
+    
+    
     UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20*Width, nameLabel.bottom+46*Width,24*Width, 32*Width)];
     [imgView setImage:[UIImage imageNamed:@"wuliu_icon_location"]];
     [topView addSubview:imgView];
+    
     
     
     

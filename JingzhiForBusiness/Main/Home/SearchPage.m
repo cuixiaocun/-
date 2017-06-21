@@ -172,14 +172,14 @@
 - (void)withDrawlsBtnAction
 {    UITextField *textField =(UITextField *)[self.view viewWithTag:30];
 
+
     if (!IsNilString(textField.text)) {
-        
-    
-       for (int i=0;i<10; i++) {
-        [[self.view viewWithTag:i+1] removeFromSuperview];
-        [[self.view viewWithTag:i+50] removeFromSuperview];
-    }
     NSMutableArray *array =[NSMutableArray arrayWithArray:[PublicMethod getArrData:@"zhangyue_searchJiLu"]];
+        
+    for (int i=0; i<array.count; i++) {
+            [[self.view viewWithTag:i+1] removeFromSuperview];
+        }
+        
 
     if ([array containsObject:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]) {
         [array removeObject:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
@@ -187,16 +187,24 @@
     [array insertObject:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] atIndex:0];
     
     [PublicMethod saveArrData:array withKey:@"zhangyue_searchJiLu"];
-    
+        
+        [self refreshWeiKeView];
+        
+        for (int i=0;i<12; i++) {
+            [[self.view viewWithTag:i+1] removeFromSuperview];
+            [[self.view viewWithTag:i+50] removeFromSuperview];
+        }
+
     UILabel *label =(UILabel *)[self.view viewWithTag:28];
     [label setText:@""];
     [self.tableView setHidden:NO];
     currentPage =1;
-    
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
-    
     [textField resignFirstResponder];
-        }else
+        
+    
+    
+    }else
             
         {
             [MBProgressHUD showWarn:@"输入框不能为空" ToView:self.view];
@@ -208,6 +216,7 @@
 
 
 -(void)searchWeiKe:(UIButton *)btn{
+    
     UITextField *textfield =(UITextField *)[self.view viewWithTag:30];
     [textfield resignFirstResponder];
     if (btn.tag!=29) {
@@ -216,9 +225,6 @@
     NSString *strTel=[NSString stringWithFormat:@"%@",textfield.text];
     strTel=[strTel stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if ([strTel isEqualToString:@""] ||[textfield.text length]==0) {
-        if ([self.view viewWithTag:200]) {
-            [[self.view viewWithTag:200] removeFromSuperview];
-        }
         
         UILabel *label =(UILabel *)[self.view viewWithTag:28];
         [label setText:@"最近搜索"];
@@ -243,7 +249,7 @@
     
     
     [self refreshWeiKeView];
-    for (int i=0;i<10; i++) {
+    for (int i=0;i<12; i++) {
         [[self.view viewWithTag:i+1] removeFromSuperview];
         [[self.view viewWithTag:i+50] removeFromSuperview];
     }
@@ -255,10 +261,7 @@
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
     
     
-    if ([self.view viewWithTag:200]) {
-        [[self.view viewWithTag:200] removeFromSuperview];
-    }
-    
+
     
     
     
@@ -272,7 +275,7 @@
     [PublicMethod saveArrData:nil withKey:@"zhangyue_searchJiLu"];
     
     [PublicMethod saveArrData:nil withKey:@"wantSearch"];
-    for (int i=0;i<10; i++) {
+    for (int i=0;i<12; i++) {
         [[self.view viewWithTag:i+1] removeFromSuperview];
         [[self.view viewWithTag:i+50] removeFromSuperview];
     }
@@ -283,7 +286,7 @@
 
 -(void)refreshWeiKeView{
     [self.tableView setHidden:YES];
-    for (int i=0;i<10; i++) {
+    for (int i=0;i<12; i++) {
         [[self.view viewWithTag:i+1] removeFromSuperview];
         [[self.view viewWithTag:i+50] removeFromSuperview];
     }
