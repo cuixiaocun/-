@@ -21,7 +21,6 @@
 {
     //底部scrollview
     UIScrollView *bgScrollView;
-    
 }
 @end
 
@@ -29,22 +28,26 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self viewWillAppearLogin];
-    
 }
 - (void)viewWillAppearLogin
 {
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     if (![PublicMethod getDataStringKey:@"IsLogin"]) {//若没登录请登录
-//        LoginPage*logP =[[LoginPage alloc]init];
-//        logP.delegate =self;
-//        [self.navigationController pushViewController:logP animated:YES];
-        
+
         LoginPage *rootViewController = [[LoginPage alloc] init];
         UINavigationController* _navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
         [UIApplication sharedApplication].keyWindow.rootViewController =_navigationController ;
 
         [_navigationController setNavigationBarHidden:YES];
-
+        return;
+    }else
+    {
+        NSDictionary*dic =[[NSDictionary alloc]init];
+        dic  =[PublicMethod getDataKey:member];
+        UILabel *nameLabel =[self.view viewWithTag:3331];
+        UILabel *phoneLabel =[self.view viewWithTag:3332];
+        nameLabel.text =[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"name"])?@"":[dic objectForKey:@"name"]];
+        phoneLabel.text =[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"account"])?@"":[dic objectForKey:@"account"]];
     }
 
 }
@@ -62,16 +65,12 @@
 
     [self mainView];
 
-
-
-
-
-
-
-
 }
 - (void)mainView
 {
+    NSDictionary*dic =[[NSDictionary alloc]init];
+    dic  =[PublicMethod getDataKey:member];
+    
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,CXCWidth, CXCHeight-100*Width)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
@@ -108,7 +107,7 @@
     UILabel *levelLabel = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+24*Width,bgtouImg.top, 400*Width, 60*Width)];
     levelLabel.textColor = [UIColor whiteColor];
     levelLabel.tag =3331;
-    levelLabel.text =@"一级代理商";
+    levelLabel.text =[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"name"])?@"":[dic objectForKey:@"name"]];
     levelLabel.textAlignment = NSTextAlignmentLeft;
     levelLabel.font = [UIFont boldSystemFontOfSize:16];
     levelLabel.textColor = [UIColor whiteColor];
@@ -118,7 +117,7 @@
     UILabel *telphoneL = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+24*Width,levelLabel.bottom, 400*Width, 60*Width)];
     telphoneL.textColor = [UIColor whiteColor];
     telphoneL.tag =3332;
-    telphoneL.text=@"183******3";
+    telphoneL.text=[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"account"])?@"":[dic objectForKey:@"account"]];
     telphoneL.textAlignment = NSTextAlignmentLeft;
     telphoneL.font = [UIFont boldSystemFontOfSize:15];
     telphoneL.textColor = [UIColor whiteColor];
@@ -244,17 +243,37 @@
 }
 -(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
-    IsTureAlterView *isture = [self.view viewWithTag:180];
+
+        
+        NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+        [dic1 setDictionary:@{
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                              }];
+        
+        [PublicMethod AFNetworkPOSTurl:@"Home/Login/exitlogin" paraments:dic1  addView:self.view success:^(id responseDic) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+        
+                
+                IsTureAlterView *isture = [self.view viewWithTag:180];
+                [isture removeFromSuperview];
+                NSLog(@"确认");
+                [[self rdv_tabBarController] setSelectedIndex:0];
+                
+                //删除
+                [PublicMethod removeObjectForKey: @"IsLogin"];
+                [PublicMethod removeObjectForKey: member];
+                [PublicMethod removeObjectForKey: shopingCart];
+                [PublicMethod removeObjectForKey: @"token"];
+                
+            }
+            
+        } fail:^(NSError *error) {
+            
+        }];
+        
     
-    [isture removeFromSuperview];
-    NSLog(@"确认");
-    [[self rdv_tabBarController] setSelectedIndex:0];
-
-    //删除
-    [PublicMethod removeObjectForKey: @"IsLogin"];
-
-}
-
+   }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

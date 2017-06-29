@@ -10,10 +10,20 @@
 #import "CXCThreeLabelSheet.h"
 #import "CashierVC.h"
 #import "HYConfirmOrderCell.h"
+#import "AddAddressVC.h"
 @interface HYConfirmOrderVC ()<CXCThreeLabelSheetDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
+    float allIntegral;//总积分
+    float allPrice;//总共价格
+    float canPayIntegral;//可抵扣积分
+    float turePay;//实际付款
+    UITableView *declarTabel;//tableview
+    NSMutableArray *infoArray;
+    NSString *addressIdString;
+    
+    UIButton *isSelectedBtn;//按钮
 }
 
 
@@ -24,6 +34,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    canPayIntegral =0.00;
+    infoArray =[[NSMutableArray alloc]init];
+
+    [self getArr];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -55,11 +69,39 @@
     
     [self mainView];
 }
+- (void)getArr
+{
+    addressIdString =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"addressid"]];
+    allIntegral =0.00;
+    allPrice =0.00;
+    turePay =0.00;
+    canPayIntegral =0.00;
+    //遍历整个数据源，然后判断如果是选中的商品，就计算价格（单价 * 商品数量）
+    for ( int i =0; i<_googsArr.count; i++)
+    {
+        NSMutableDictionary *model =[NSMutableDictionary dictionaryWithDictionary:_googsArr[i]];
+        
+        allIntegral = allIntegral + [[model objectForKey:@"deductible"] floatValue] ;//总积分
+        allPrice = allPrice + [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue];//总价
+    }
+    
+    if ([[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]] floatValue]<allIntegral) {
+        
+        canPayIntegral =[[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]] floatValue];
+        
+    }else
+    {
+        canPayIntegral =allIntegral;
+    }
+    turePay =allPrice-canPayIntegral;
+
+
+}
 - (void)mainView
 {
     
     
-    UITableView *declarTabel = [[UITableView alloc]initWithFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)style:UITableViewStyleGrouped];
+    declarTabel = [[UITableView alloc]initWithFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)style:UITableViewStyleGrouped];
     [declarTabel setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [declarTabel setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-100*Width-20*Width)];
     [declarTabel setDelegate:self];
@@ -79,13 +121,15 @@
     xianBottom.frame =CGRectMake(0*Width,0*Width, CXCWidth, 1.5*Width);
     
     UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0, 450*Width, 100*Width)];
-    NSString*str =@"实付款：¥2700.00";
+    NSString*str =[NSString stringWithFormat:@"实付款：¥%.2f",turePay ];
+    subPromLabel.tag =1999;
     [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
     
     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
     NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
     [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
     [subPromLabel setAttributedText:textColor];
+    subPromLabel.tag =11112;
     [subPromLabel  setFont:[UIFont systemFontOfSize:14]];
     [bottomBgview   addSubview:subPromLabel];
     //确认提交按钮
@@ -100,21 +144,81 @@
     
     
 }
+//立即下单
 - (void)confirmButtonAction
 {
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    NSString *stringForGoods =@"";
+    for (int i=0; i<_googsArr.count; i++) {
+        NSDictionary *dict =_googsArr[i];
+        ;
+        
+        NSString *idStr =[dict objectForKey:@"goodID"];
+        NSString *numStr =[dict objectForKey:@"goodsNum"];
 
-    CashierVC *cashVC =[[CashierVC alloc]init];
-    [self.navigationController  pushViewController:cashVC animated:YES];
+        stringForGoods = [stringForGoods stringByAppendingFormat:@"%@,%@,",idStr,numStr];
+        
+    }
+    [dic1 setDictionary:@{@"addressId":addressIdString,
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]],
+                          @"checked":isSelectedBtn.selected?@"true":@"false",
+                          
+                              @"products":stringForGoods
+                              
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/createOrder" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+            float beforIntager=[[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]] floatValue];
+            float newIntager=beforIntager-canPayIntegral;
+            [[PublicMethod getDataKey:member]setValue:[NSString stringWithFormat:@"%.2f",newIntager] forKey:@"integral"];
+            
+            
+            CashierVC *cashVC =[[CashierVC alloc]init];
+            cashVC.orderDic =[[dict objectForKey:@"data"] objectForKey:@"order"];
+            cashVC.orderId =[[[dict objectForKey:@"data"] objectForKey:@"order"] objectForKey:@"id"];
+            [self.navigationController  pushViewController:cashVC animated:YES];
+            
+            
+
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+
     
-
-
+    
+    
+    
+  
 
 }
 -(void)isSelectedBtnAction:(UIButton *)btn
 {
-    btn.selected =!btn.selected;
+    if (btn.selected==YES) {
+        btn.selected =NO;
+        canPayIntegral = 0;
+        turePay =allPrice-canPayIntegral;
+
+    }else
+    {
+        btn.selected =YES ;
+
+        [self getArr];
+    }
+    UILabel *jifenlabel =[self.view viewWithTag:3301];
+    jifenlabel.text =[NSString stringWithFormat:@"-%.2f",canPayIntegral];
+    NSString*str =[NSString stringWithFormat:@"实付款：¥%.2f",turePay ];
+    UILabel *subPromLabel =[self.view viewWithTag:11112];
+    [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
     
-    
+    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
+    NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
+    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+    [subPromLabel setAttributedText:textColor];
+
     
 }
 -(void)confirmOrder
@@ -128,20 +232,8 @@
     [self.navigationController popViewControllerAnimated:YES];
     
 }
-- (void)chooseAdress
-{
-    CXCThreeLabelSheet *sheet =[[CXCThreeLabelSheet alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight) with:@[@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际山东省潍坊市高新区胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"]]];
-    sheet.tag=1111;
-    sheet.delegate=self;
-    [self.view addSubview:sheet];
-    
-    
-    
-    
-    
-    
-}
--(void)btnClickName:(NSString *)nameString andPhone:(NSString *)phone andAdress:(NSString *)adress
+
+-(void)btnClickName:(NSString *)nameString andPhone:(NSString *)phone andAdress:(NSString *)adress withID:(NSString *)str withDefaut:(NSString *)def
 {
     UILabel *nameLabel =[self.view viewWithTag:450];
     UILabel *phoneLabel =[self.view viewWithTag:451];
@@ -151,7 +243,16 @@
     [adressLabel setText:adress];
     UIView *view= [self.view viewWithTag:1111];
     [view removeFromSuperview];
-    
+    if ([def isEqualToString:@"1"]) {
+        UILabel*defaultLabel =[self.view viewWithTag:33345];
+        defaultLabel.hidden =NO;
+
+    }else
+    {
+        UILabel*defaultLabel =[self.view viewWithTag:33345];
+        defaultLabel.hidden =YES;
+    }
+    addressIdString =str;
     
 }
 -(void)hiddenCXCActionSheet
@@ -182,19 +283,19 @@
     
     UIButton *topView =[[UIButton alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
     [topView setBackgroundColor:[UIColor whiteColor]];
-    [topView addTarget:self action:@selector(chooseAdress) forControlEvents:UIControlEventTouchUpInside];
+    [topView addTarget:self action:@selector(getAdress) forControlEvents:UIControlEventTouchUpInside];
     
     [bgScrollView addSubview:topView];
     
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 150*Width, 50*Width)];
-    nameLabel.text =@"孙磊开";
+    nameLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"receivename"]];
     nameLabel.tag=450;
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    numberLabel.text =@"18373781822";
+    numberLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"phone"]];
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     numberLabel.tag=451;
@@ -204,6 +305,7 @@
     defaultLabel.text =@"默认";
     defaultLabel.font =[UIFont systemFontOfSize:12];
     [topView addSubview:defaultLabel];
+    defaultLabel.tag =33345;
     [defaultLabel.layer setCornerRadius:2*Width];
     [defaultLabel.layer setBorderWidth:1.5*Width];
     [defaultLabel.layer setMasksToBounds:YES];
@@ -219,12 +321,24 @@
     
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    addressLabel.text =@"山东省潍坊市高新区胜利东街新华路中天下潍坊国际";
+    if ([[[PublicMethod getDataKey:member] objectForKey:@"name_path"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:member] objectForKey:@"name_path"]isEqualToString:@"<null>"]) {
+        addressLabel.text =@"请完善";
+        defaultLabel.hidden =YES;
+
+    }else
+    {
+      addressLabel.text =[NSString stringWithFormat:@"%@%@",[[PublicMethod getDataKey:member] objectForKey:@"name_path"],[[PublicMethod getDataKey:member] objectForKey:@"address"]];
+        defaultLabel.hidden =NO;
+
+    }
+    
+  
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;
     addressLabel.tag=452;
     return bgScrollView ;
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -233,7 +347,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return _googsArr.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -255,11 +369,12 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
         }
-        return cell;
+    NSDictionary *dict = [_googsArr objectAtIndex:[indexPath row]];
+    [cell setDicForGoods:dict];
+    return cell;
         
         
-    //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
-    //    [cell setDic:dict];
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -315,21 +430,28 @@
     jifenLabel.textColor =BlackColor;
     jifenLabel.font =[UIFont systemFontOfSize:14];
     [jifenView addSubview:jifenLabel];
-    
     UILabel *jifenDetailLabel =[[UILabel alloc]initWithFrame:CGRectMake(110*Width,0, 600*Width,83*Width )];
-    jifenDetailLabel.text =@"共300积分,可用200积分,抵扣¥200.00";
     jifenDetailLabel.textColor =BlackColor;
     jifenDetailLabel.font =[UIFont systemFontOfSize:12];
     [jifenView addSubview:jifenDetailLabel];
     
+     jifenDetailLabel.text =[NSString stringWithFormat:@"共%@积分,可用%.2f积分,抵扣¥%.2f",[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]],canPayIntegral, canPayIntegral];//当前积分小于可抵扣积分的时候，显示当前积分，大于可抵扣积分时，显示可抵扣积分
     
     
-    
-    UIButton *isSelectedBtn =[UIButton buttonWithType:UIButtonTypeCustom];
+    isSelectedBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     isSelectedBtn.frame = CGRectMake(650*Width, 0, 100*Width, 83*Width);
     [isSelectedBtn setImage:[UIImage imageNamed:@"confirm_checkbox_nor"]  forState:UIControlStateNormal];
     [isSelectedBtn setImage:[UIImage imageNamed:@"confirm_checkbox_norYI"]  forState:UIControlStateSelected];
-    isSelectedBtn.selected = YES;
+    if(canPayIntegral>0)
+    {
+        isSelectedBtn.selected = YES;
+
+    }else
+    {
+        isSelectedBtn.selected = NO;
+
+    }
+    
     [isSelectedBtn addTarget:self action:@selector(isSelectedBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [isSelectedBtn setImageEdgeInsets:UIEdgeInsetsMake( 19.5*Width,28*Width, 19.5*Width,28*Width)];
     [jifenView addSubview:isSelectedBtn];
@@ -338,7 +460,9 @@
     [bottomBgView addSubview:detailView];
     detailView.backgroundColor =[UIColor whiteColor];
     NSArray *leftArr =@[@"积分总额",@"积分"];
-    NSArray *rightArr =@[@"¥300000.00",@"-3000.00"];
+   
+//    [declarTabel reloadData];
+    NSArray *rightArr =@[[NSString stringWithFormat:@"%.2f",allPrice],[NSString stringWithFormat:@"-%.2f",canPayIntegral]];
     
     for (int i=0; i<2; i++) {
         UILabel *leftLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 10*Width+57.5*Width*i, 200*Width, 57.5*Width)];
@@ -351,6 +475,7 @@
         rightLabel.font =[UIFont systemFontOfSize:14];
         rightLabel.textColor =NavColor;
         rightLabel.text = rightArr[i];
+        rightLabel.tag =3300+i;
         rightLabel.textAlignment =NSTextAlignmentRight;
         [detailView addSubview:rightLabel];
         
@@ -363,7 +488,44 @@
     
     
 }
+- (void)getAdress
+{
+    UILabel*defaultLabel =[self.view viewWithTag:33345];
+    defaultLabel.hidden =YES;
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          //                          @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"Home/address/index" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+            
+            infoArray=[[dict objectForKey:@"data"] objectForKey:@"address_list"];
+            if(infoArray.count>0)
+            {
 
+            CXCThreeLabelSheet *sh =[self.view viewWithTag:1111];
+            [sh removeFromSuperview];
+            
+            CXCThreeLabelSheet *sheet =[[CXCThreeLabelSheet alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight) with:infoArray];
+                sheet.tag=1111;
+                sheet.delegate=self;
+                [self.view addSubview:sheet];
+            }else
+            {
+                AddAddressVC *address =[[AddAddressVC alloc]init];
+                [self.navigationController pushViewController:address animated:YES];
+            }
+            }
+        
+        } fail:^(NSError *error) {
+        
+    }];
+    
+}
 /*
 #pragma mark - Navigation
 

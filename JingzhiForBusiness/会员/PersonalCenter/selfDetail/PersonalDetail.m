@@ -45,6 +45,7 @@
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     [self mainView];
+    [self getDetail];
 }
 -(void)returnBtnAction
 {
@@ -62,7 +63,7 @@
     NO;
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
     NSArray*leftArr =@[@"会员号",@"推荐人",@"已消费",@"余额",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"15602140123",@"秋叶原贸易",@"¥40.00",@"¥1803.99",];
+    NSArray *rightArr =@[@"",@"",@"¥",@"¥",];
     //列表
     for (int i=0; i<4; i++) {
         UIView *bgview =[[UIView alloc]init];
@@ -101,6 +102,37 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)getDetail
+{
+//    [NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+    [PublicMethod AFNetworkPOSTurl:@"Home/member/usermessage" paraments:@{
+                                                                          
+      @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:member] objectForKey:@"id"] integerValue]]
+//      @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
+}  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *dataDict =[dict objectForKey:@"data"];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            UILabel*numberLabel =[self.view viewWithTag:200];
+            UILabel*parentLabel =[self.view viewWithTag:201];
+            UILabel*yixiaofeiLabel =[self.view viewWithTag:202];
+            UILabel*yueLabel =[self.view viewWithTag:203];
+            
+            numberLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"account"]]];
+            parentLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"parentaccount"]]];
+            yixiaofeiLabel.text =[NSString stringWithFormat:@"¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"sumall"]]]];
+            yueLabel.text =[NSString stringWithFormat:@"¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"balance"]]]];
+            
+
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+}
+
 
 /*
 #pragma mark - Navigation

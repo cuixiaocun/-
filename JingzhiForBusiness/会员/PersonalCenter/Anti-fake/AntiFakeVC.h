@@ -14,5 +14,6 @@
     UITableView *tableview;
 }
 @property(nonatomic,retain)NSDictionary *dic;
+@property(nonatomic,copy)NSString *codeString;
 
 @end

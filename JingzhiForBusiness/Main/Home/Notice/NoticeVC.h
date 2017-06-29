@@ -19,5 +19,6 @@
     
 }
 @property(nonatomic,copy)NSString *statusString;
+@property(nonatomic,copy)NSArray*noticArr;
 
 @end

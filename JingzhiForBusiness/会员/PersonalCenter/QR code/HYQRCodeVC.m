@@ -13,7 +13,7 @@
 {
     //底部scrollview
     UIScrollView *bgScrollView;
-    
+    UIImageView*mainImgView;
     
 }
 @end
@@ -48,7 +48,7 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
-    
+    [self   getERweima];
     
     
     [self mainView];
@@ -78,16 +78,14 @@
     [bgScrollView addSubview:bgImgView];
     
     
-    UIImageView*mainImgView =[[UIImageView   alloc]initWithFrame:CGRectMake(230*Width, 270*Width, 250*Width,250*Width)];
+    mainImgView =[[UIImageView   alloc]initWithFrame:CGRectMake(230*Width, 270*Width, 250*Width,250*Width)];
     [mainImgView setUserInteractionEnabled:YES];
     [mainImgView setBackgroundColor:[UIColor whiteColor]];
     [mainImgView.layer setBorderWidth:5.0*Width];
     mainImgView.tag =1245;
     [mainImgView.layer setMasksToBounds:YES];
      mainImgView.layer.borderColor =NavColor.CGColor;
-    for (int i=0; i<6; i++) {
-    mainImgView.image=[QRCodeGenerator qrImageForString:@"https://www.baidu.com" imageSize:245];
-    }
+    
     
   
     [bgImgView addSubview:mainImgView];
@@ -148,7 +146,29 @@
 - (void)loginAdmin
 {
 
+}
+- (void)getERweima
+{
+    
+        
+        NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+        [dic1 setDictionary:@{
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]}];
+        
+        [PublicMethod AFNetworkPOSTurl:@"Home/Member/code" paraments:dic1  addView:self.view success:^(id responseDic) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+                mainImgView.image=[QRCodeGenerator qrImageForString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"code"]] imageSize:245];
+                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+                pasteboard.string = [NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"code"]];
 
+            
+            
+            }
+            
+        } fail:^(NSError *error) {
+            
+        }];
 
 }
 /*

@@ -190,8 +190,8 @@
 }
 - (void)examinePass
 {
-    MemberDeliverVC *member =[[MemberDeliverVC alloc]init];
-    [self.navigationController pushViewController:member animated:YES];
+    MemberDeliverVC *membervc =[[MemberDeliverVC alloc]init];
+    [self.navigationController pushViewController:membervc animated:YES];
 
 
 

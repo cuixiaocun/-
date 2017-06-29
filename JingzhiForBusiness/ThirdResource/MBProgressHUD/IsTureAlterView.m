@@ -32,8 +32,8 @@
                 [self addSubview:self.alterView];
                 [self.alterView setBackgroundColor:[UIColor whiteColor]];
                 [self.alterView.layer setCornerRadius:20*Width];
-                [self.alterView.layer setBorderWidth:1.0*Width];
-                self.alterView.layer.borderColor =BGColor.CGColor;
+//                [self.alterView.layer setBorderWidth:1.0*Width];
+//                self.alterView.layer.borderColor =BGColor.CGColor;
                 [self.alterView.layer setMasksToBounds:YES];
                 
                 

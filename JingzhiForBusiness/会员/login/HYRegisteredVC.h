@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HYRegisteredVC : UIViewController
-
+@property(nonatomic,copy)NSString *delegateNumber;
 @end

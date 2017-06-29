@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface NoticeDetailVC : UIViewController
+@property(nonatomic,copy)NSString *contentString;
+@property(nonatomic,copy)NSString *titleString;
 
 @end

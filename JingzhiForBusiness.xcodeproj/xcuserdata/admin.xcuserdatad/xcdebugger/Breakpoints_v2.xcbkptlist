@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/ThirdResource/PublicFiles/PublicMethod.m"
-            timestampString = "519725629.746135"
+            timestampString = "520241564.732406"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "239"
+            endingLineNumber = "239"
             landmarkName = "+ASCIIwithDic:"
             landmarkType = "7">
          </BreakpointContent>

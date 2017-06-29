@@ -66,13 +66,13 @@
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identy ];
         
         UILabel*label =[[UILabel alloc]initWithFrame:CGRectMake(30*Width, 8, 200*Width, 25)];
-        label.text =[_leftArr[indexPath.row] objectAtIndex:0];
+        label.text =[NSString stringWithFormat:@"%@",[_leftArr[indexPath.row] objectForKey:@"name"]];
         label.textColor =TextGrayColor;
 //        label.textAlignment =NSTextAlignmentCenter;
         label.font =[UIFont systemFontOfSize:16];
         [cell addSubview:label];
         UILabel*label2 =[[UILabel alloc]initWithFrame:CGRectMake(230*Width, 8, 400*Width, 25)];
-        label2.text =[_leftArr[indexPath.row] objectAtIndex:1];
+        label2.text =[NSString stringWithFormat:@"%@",[_leftArr[indexPath.row] objectForKey:@"phone"]];
         label2.textColor =TextGrayColor;
         label2.font =[UIFont systemFontOfSize:14];
 //        label2.textAlignment =NSTextAlignmentCenter;
@@ -80,7 +80,7 @@
         
 
         UILabel*label3 =[[UILabel alloc]initWithFrame:CGRectMake(30*Width, 35, 690*Width,45 )];
-        label3.text =[_leftArr[indexPath.row] objectAtIndex:2];
+        label3.text =[NSString stringWithFormat:@"%@%@",[_leftArr[indexPath.row] objectForKey:@"name_path"],[_leftArr[indexPath.row] objectForKey:@"address"]];
         label3.textColor =TextGrayColor;
         label3.font =[UIFont systemFontOfSize:14];
         [cell addSubview:label3];
@@ -102,8 +102,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *nameName = [_leftArr objectAtIndex:indexPath.row];
-    [self.delegate btnClickName:nameName[0] andPhone:nameName[1]  andAdress:nameName[2] ];
+    NSDictionary *nameName = [_leftArr objectAtIndex:indexPath.row];
+    [self.delegate btnClickName:[NSString stringWithFormat:@"%@",[nameName objectForKey:@"name"]] andPhone:[NSString stringWithFormat:@"%@",[nameName objectForKey:@"phone"]] andAdress:[NSString stringWithFormat:@"%@%@",[_leftArr[indexPath.row] objectForKey:@"name_path"],[_leftArr[indexPath.row] objectForKey:@"address"]] withID:[NSString stringWithFormat:@"%@",[nameName objectForKey:@"id"]]withDefaut:[NSString stringWithFormat:@"%@",[nameName objectForKey:@"isdefault"]] ];
     
     
 }

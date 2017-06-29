@@ -9,10 +9,12 @@
 #import "RegisteredVC.h"
 #import "SetIDNumberVC.h"
 #import "RegisterAndGoods.h"
+#import "TPKeyboardAvoidingScrollView.h"
+
 @interface RegisteredVC ()<UITextFieldDelegate,SRActionSheetDelegate,SetIDNumberVCDelegate>
 {
     //底部scrollview
-    UIScrollView *bgScrollView;
+    TPKeyboardAvoidingScrollView *bgScrollView;
     NSString *levelString;
 }
 @end
@@ -65,13 +67,13 @@
 }
 - (void)mainView
 {
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64 )];
+    bgScrollView =[[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64 )];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
     NSArray*leftArr =@[@"上级代理号",@"手机号",@"密码",@"确认密码",@"微信号",@"代理级别",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"上级代理号",@"手机号",@"8-16位数字、字母或字符",@"确认密码",@"微信号",@"选择级别",@"身份证号",@"上传身份证件",@"",@"",@"",@"",];
+    NSArray *rightArr =@[@"上级代理号",@"手机号",@"8-16位数字、字母或字符",@"确认密码",@"微信号",@"选择级别",@"身份证号",@"上传身份证件",@"",@"",@""];
     //列表
     for (int i=0; i<8; i++) {
         UIView *bgview =[[UIView alloc]init];

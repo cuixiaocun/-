@@ -9,8 +9,13 @@
 #import "NoticeVC.h"
 #import "NoticeCell.h"
 #import "NoticeDetailVC.h"
-@interface NoticeVC ()
 
+@interface NoticeVC ()
+{
+
+    NSArray *titleArr;//公告
+    NSArray *imgArr;//banner
+}
 @end
 
 @implementation NoticeVC
@@ -21,7 +26,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    self.view.backgroundColor =BGColor;
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -44,6 +49,7 @@
     [self.view addSubview:navTitle];
     
     
+    [self getNotice];
     
     [self mainView];
 }
@@ -55,7 +61,7 @@
 - (void)mainView
 {
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,64+20*Width, CXCWidth, CXCHeight-100*Width-20)];
+    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-100*Width-20)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -81,29 +87,20 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 9;
+        return infoArray.count ;
 }
 
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray*arr=@[@{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"0",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"}];
-    NSString *titleContent =[[arr objectAtIndex:indexPath.row] objectForKey:@"key"];
+    
+    NSString *titleContent =[[infoArray objectAtIndex:indexPath.row] objectForKey:@"title"];
     CGSize titleSize;//通过文本得到高度
     
     titleSize = [titleContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
     
-    return  titleSize.height+190*Width;
+    return  titleSize.height+130*Width;
 }
 
 
@@ -118,16 +115,7 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-    NSArray*arr=@[@{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"0",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"尊敬的客户\n您好！\n4月1日-4月29日，因北京机场跑道维修，货运航班均受到影响，我司快件时效受此影响有所调整。在此期间，江浙沪、广东、东北与京津冀地区互寄的部分顺丰次日产品流向的快件时效预计在原基础上加时0.5天。顺丰次晨产品小部分流向暂停或调整时间，具体调整请以收派员确认为准。\n顺丰将密切关注机场最新动态，合理调配资源，全力确保您的快件安全送达。\n给您带来的不便敬请谅解，谢谢！家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"}];
-    cell.dic =arr[indexPath.row];
+    cell.dic =infoArray[indexPath.row];
     
     
     return cell;
@@ -137,8 +125,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        NoticeDetailVC*declar =[[NoticeDetailVC alloc]init];
-        [self.navigationController pushViewController:declar animated:YES];
+    NoticeDetailVC*declar =[[NoticeDetailVC alloc]init];
+    declar.contentString =[infoArray[indexPath.row] objectForKey:@"content"];
+    declar.titleString =[infoArray[indexPath.row] objectForKey:@"title"];
+    [self.navigationController pushViewController:declar animated:YES];
 }
 #pragma mark - Pull to Refresh
 - (void) pinHeaderView
@@ -328,6 +318,25 @@
 
 
 }
+- (void)getNotice
+{
+    [PublicMethod AFNetworkPOSTurl:@"Home/Index/notice" paraments:@{}  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+           infoArray = [dict objectForKey:@"data"];
+            [self.tableView reloadData];
+            
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+}
+
 /*
 #pragma mark - Navigation
 

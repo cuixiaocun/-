@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface HYConfirmOrderCell : UITableViewCell
-@property(nonatomic,retain)NSDictionary *dic;
+@property(nonatomic,retain)NSDictionary *dic;//详情页面的
+@property(nonatomic,retain)NSDictionary *dicForGoods;//确认订单页面的;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 @property(strong,nonatomic)EGOImageView *goodsImgView;//图片
 @property(strong,nonatomic)UILabel *goodsTitleLab;//商品名称

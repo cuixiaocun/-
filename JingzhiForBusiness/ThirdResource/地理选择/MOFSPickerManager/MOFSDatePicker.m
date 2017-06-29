@@ -144,6 +144,4 @@
     [self.bgView removeFromSuperview];
     [self.containerView removeFromSuperview];
 }
-
-
 @end

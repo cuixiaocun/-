@@ -9,7 +9,7 @@
 #import "LogisticsDetailVC.h"
 #import "LogisticsCell.h"
 #import "NSString+MLLabel.h"
-@interface LogisticsDetailVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface LogisticsDetailVC ()<UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
@@ -56,14 +56,16 @@
 }
 - (void)mainView
 {
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, 466*Width)];
+//    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, 466*Width)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64)];
+
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
     [topView setBackgroundColor:[UIColor whiteColor]];
     [bgScrollView addSubview:topView];
     
-    
+    [self.view addSubview:bgScrollView];
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 260*Width, 50*Width)];
     nameLabel.text =@"收件人:孙磊";
     nameLabel.font =[UIFont systemFontOfSize:16];
@@ -130,24 +132,34 @@
             xian.frame =CGRectMake(0,80.5*Width, CXCWidth, 1.5*Width);
             
         }
-        
-        
-        
+    UIWebView * webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, topView.bottom+283*Width,CXCWidth ,CXCHeight-64 )];
+    NSURLRequest *request =
     
+    [NSURLRequest requestWithURL:[NSURL URLWithString:[[NSString stringWithFormat:@"https://m.kuaidi100.com/index_all.html?type=%@&postid=%@",_logisticscom,_logistics]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     
-    
-    
-    
-    
-    
-    logisticsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,64, CXCWidth, CXCHeight-64)style:UITableViewStyleGrouped];
-    [logisticsTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [logisticsTableView setDelegate:self];
-    [logisticsTableView setDataSource:self];
-    [logisticsTableView setBackgroundColor:[UIColor clearColor]];
-    logisticsTableView .showsVerticalScrollIndicator = NO;
-    [self.view addSubview:logisticsTableView];
+    [webView loadRequest:request];
+    webView.delegate =self;
+    webView.userInteractionEnabled =NO;
+    webView.scrollView.scrollEnabled =NO;
 
+    [bgScrollView addSubview:webView];
+
+        
+    
+    
+    
+    
+    
+    
+//    
+//    logisticsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,64, CXCWidth, CXCHeight-64)style:UITableViewStyleGrouped];
+//    [logisticsTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+//    [logisticsTableView setDelegate:self];
+//    [logisticsTableView setDataSource:self];
+//    [logisticsTableView setBackgroundColor:[UIColor clearColor]];
+//    logisticsTableView .showsVerticalScrollIndicator = NO;
+//    [self.view addSubview:logisticsTableView];
+//
     
     
     
@@ -175,7 +187,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-        return 506*Width;
+    return 506*Width;
     
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -246,11 +258,43 @@
     
     
 }
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //方法1 实际使用js方法实现
+    CGFloat documentWidth = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('content').offsetWidth"] floatValue];
+    CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"content\").offsetHeight;"] floatValue];
+    NSLog(@"documentSize = {%f, %f}", documentWidth, documentHeight);
+    
+    //方法2
+    CGRect frame = webView.frame;
+    frame.size.width = CXCWidth;
+    frame.size.height = 1;
+    //    webView.scrollView.scrollEnabled = NO;
+    webView.frame = frame;
+    frame.size.height = webView.scrollView.contentSize.height;
+    NSLog(@"frame = %@", [NSValue valueWithCGRect:frame]);
+    webView.frame = frame;
+//    [goodsTableview setFrame:CGRectMake(0,webView.bottom,CXCWidth,ImgsArr.count*400*Width)];
+//    [goodsTableview reloadData];
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, webView.bottom+10*Width)];
+
+    
+}
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     return nil;
     
+}
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+   //判断是否是单击
+    if (navigationType == (UIWebViewNavigationTypeLinkClicked |UIWebViewNavigationTypeBackForward |UIWebViewNavigationTypeFormResubmitted))
+    {
+        return NO;
+    
+    }
+    return YES;
 }
 /*
 #pragma mark - Navigation

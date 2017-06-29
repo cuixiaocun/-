@@ -10,7 +10,7 @@
 //添加代理，用于按钮加减的实现
 @protocol CXCThreeLabelSheetDelegate <NSObject>
 
--(void)btnClickName:(NSString *)nameString andPhone:(NSString *)phone andAdress:(NSString *)adress;
+-(void)btnClickName:(NSString *)nameString andPhone:(NSString *)phone andAdress:(NSString *)adress withID:(NSString *)str withDefaut:(NSString*)def;
 -(void)hiddenCXCActionSheet;
 @end
 

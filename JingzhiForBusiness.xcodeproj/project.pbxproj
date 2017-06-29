@@ -43,6 +43,9 @@
 		840CE62D1EE2B5C30016D82F /* OrderCenterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 840CE62C1EE2B5C30016D82F /* OrderCenterVC.m */; };
 		840CE6301EE2B5E10016D82F /* DeclarationCenterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 840CE62F1EE2B5E10016D82F /* DeclarationCenterVC.m */; };
 		841364A21EF8B17100DA74B4 /* HYConfirmOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 841364A11EF8B17100DA74B4 /* HYConfirmOrderCell.m */; };
+		841C346A1EFDFC220074191F /* BannarDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 841C34691EFDFC220074191F /* BannarDetailVC.m */; };
+		841C346D1EFE1A450074191F /* NearDelegateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 841C346C1EFE1A450074191F /* NearDelegateCell.m */; };
+		841F174A1F0482810076DCE0 /* ForgetPasswordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 841F17491F0482810076DCE0 /* ForgetPasswordVC.m */; };
 		842097931EE0E31F00DE5C77 /* RegisterAndGoods.m in Sources */ = {isa = PBXBuildFile; fileRef = 842097921EE0E31F00DE5C77 /* RegisterAndGoods.m */; };
 		8420979A1EE0F2A600DE5C77 /* GoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 842097991EE0F2A600DE5C77 /* GoodsModel.m */; };
 		8420979D1EE0F2C300DE5C77 /* GoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8420979C1EE0F2C300DE5C77 /* GoodsCell.m */; };
@@ -245,6 +248,9 @@
 		84EAD9FA1EF3CF46001C041D /* FundRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EAD9F91EF3CF46001C041D /* FundRecordCell.m */; };
 		84EAD9FE1EF3D988001C041D /* PersonalDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EAD9FD1EF3D988001C041D /* PersonalDetail.m */; };
 		84EADA011EF3DCEA001C041D /* HYQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EADA001EF3DCEA001C041D /* HYQRCodeVC.m */; };
+		84EAE0141EFC99D900FEBFEA /* NewsBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE0131EFC99D900FEBFEA /* NewsBanner.m */; };
+		84EAE0171EFCABB600FEBFEA /* LoginCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE0161EFCABB600FEBFEA /* LoginCell.m */; };
+		84EAE01A1EFCC78B00FEBFEA /* HYProblemVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EAE0191EFCC78B00FEBFEA /* HYProblemVC.m */; };
 		84F299531EEE164000F66FD7 /* ManageDeclareVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F299521EEE164000F66FD7 /* ManageDeclareVC.m */; };
 		84F299561EEE17B100F66FD7 /* ManageDeclarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F299551EEE17B100F66FD7 /* ManageDeclarCell.m */; };
 		84F2995A1EEE2A2B00F66FD7 /* MyOrderListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F299591EEE2A2B00F66FD7 /* MyOrderListVC.m */; };
@@ -349,6 +355,12 @@
 		840CE62F1EE2B5E10016D82F /* DeclarationCenterVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeclarationCenterVC.m; sourceTree = "<group>"; };
 		841364A01EF8B17100DA74B4 /* HYConfirmOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYConfirmOrderCell.h; sourceTree = "<group>"; };
 		841364A11EF8B17100DA74B4 /* HYConfirmOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYConfirmOrderCell.m; sourceTree = "<group>"; };
+		841C34681EFDFC220074191F /* BannarDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannarDetailVC.h; sourceTree = "<group>"; };
+		841C34691EFDFC220074191F /* BannarDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannarDetailVC.m; sourceTree = "<group>"; };
+		841C346B1EFE1A450074191F /* NearDelegateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearDelegateCell.h; sourceTree = "<group>"; };
+		841C346C1EFE1A450074191F /* NearDelegateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearDelegateCell.m; sourceTree = "<group>"; };
+		841F17481F0482810076DCE0 /* ForgetPasswordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPasswordVC.h; sourceTree = "<group>"; };
+		841F17491F0482810076DCE0 /* ForgetPasswordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPasswordVC.m; sourceTree = "<group>"; };
 		842097911EE0E31F00DE5C77 /* RegisterAndGoods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterAndGoods.h; path = ../RegisterAndGoods.h; sourceTree = "<group>"; };
 		842097921EE0E31F00DE5C77 /* RegisterAndGoods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterAndGoods.m; path = ../RegisterAndGoods.m; sourceTree = "<group>"; };
 		842097981EE0F2A600DE5C77 /* GoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsModel.h; sourceTree = "<group>"; };
@@ -705,8 +717,8 @@
 		84E532641E80F3D2009E63E6 /* RDVTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDVTabBarController.m; sourceTree = "<group>"; };
 		84E8036E1EF7B7D400ECE8B9 /* HYOrderDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYOrderDetailVC.h; sourceTree = "<group>"; };
 		84E8036F1EF7B7D400ECE8B9 /* HYOrderDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYOrderDetailVC.m; sourceTree = "<group>"; };
-		84E803721EF7CCB100ECE8B9 /* SelfDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfDetailVC.h; sourceTree = "<group>"; };
-		84E803731EF7CCB100ECE8B9 /* SelfDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfDetailVC.m; sourceTree = "<group>"; };
+		84E803721EF7CCB100ECE8B9 /* SelfDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelfDetailVC.h; path = ../../Self/delegateDetail/SelfDetailVC.h; sourceTree = "<group>"; };
+		84E803731EF7CCB100ECE8B9 /* SelfDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelfDetailVC.m; path = ../../Self/delegateDetail/SelfDetailVC.m; sourceTree = "<group>"; };
 		84E803751EF7D0CA00ECE8B9 /* HYMyRecommendVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMyRecommendVC.h; sourceTree = "<group>"; };
 		84E803761EF7D0CA00ECE8B9 /* HYMyRecommendVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYMyRecommendVC.m; sourceTree = "<group>"; };
 		84E803781EF7D19C00ECE8B9 /* HYMyRecommendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYMyRecommendCell.h; sourceTree = "<group>"; };
@@ -729,6 +741,12 @@
 		84EAD9FD1EF3D988001C041D /* PersonalDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalDetail.m; sourceTree = "<group>"; };
 		84EAD9FF1EF3DCEA001C041D /* HYQRCodeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYQRCodeVC.h; sourceTree = "<group>"; };
 		84EADA001EF3DCEA001C041D /* HYQRCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYQRCodeVC.m; sourceTree = "<group>"; };
+		84EAE0121EFC99D900FEBFEA /* NewsBanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsBanner.h; sourceTree = "<group>"; };
+		84EAE0131EFC99D900FEBFEA /* NewsBanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsBanner.m; sourceTree = "<group>"; };
+		84EAE0151EFCABB600FEBFEA /* LoginCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginCell.h; sourceTree = "<group>"; };
+		84EAE0161EFCABB600FEBFEA /* LoginCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginCell.m; sourceTree = "<group>"; };
+		84EAE0181EFCC78B00FEBFEA /* HYProblemVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYProblemVC.h; sourceTree = "<group>"; };
+		84EAE0191EFCC78B00FEBFEA /* HYProblemVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYProblemVC.m; sourceTree = "<group>"; };
 		84F299511EEE164000F66FD7 /* ManageDeclareVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageDeclareVC.h; sourceTree = "<group>"; };
 		84F299521EEE164000F66FD7 /* ManageDeclareVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageDeclareVC.m; sourceTree = "<group>"; };
 		84F299541EEE17B100F66FD7 /* ManageDeclarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageDeclarCell.h; sourceTree = "<group>"; };
@@ -1781,6 +1799,8 @@
 				84A3B3AE1EF293680084817E /* 3.jpg */,
 				84E5325C1E80D48F009E63E6 /* HomePage.h */,
 				84E5325D1E80D48F009E63E6 /* HomePage.m */,
+				84EAE0121EFC99D900FEBFEA /* NewsBanner.h */,
+				84EAE0131EFC99D900FEBFEA /* NewsBanner.m */,
 				84A3B3A31EF264B80084817E /* ComMallCollectionViewCell.h */,
 				84A3B3A41EF264B80084817E /* ComMallCollectionViewCell.m */,
 				84A3B3A51EF264B80084817E /* ComMallView.h */,
@@ -1820,12 +1840,16 @@
 				842097941EE0F24300DE5C77 /* goods */,
 				84E532591E80D47D009E63E6 /* LoginPage.h */,
 				84E5325A1E80D47D009E63E6 /* LoginPage.m */,
+				84EAE0151EFCABB600FEBFEA /* LoginCell.h */,
+				84EAE0161EFCABB600FEBFEA /* LoginCell.m */,
 				84F6DADF1EDF943B001C80AE /* RegisteredVC.h */,
 				84F6DAE01EDF943B001C80AE /* RegisteredVC.m */,
 				84F6DAE21EDFB3B0001C80AE /* SetIDNumberVC.h */,
 				84F6DAE31EDFB3B0001C80AE /* SetIDNumberVC.m */,
 				84F6DAE81EDFF73B001C80AE /* PhotoSampleVC.h */,
 				84F6DAE91EDFF73B001C80AE /* PhotoSampleVC.m */,
+				841F17481F0482810076DCE0 /* ForgetPasswordVC.h */,
+				841F17491F0482810076DCE0 /* ForgetPasswordVC.m */,
 			);
 			path = login;
 			sourceTree = "<group>";
@@ -1833,8 +1857,6 @@
 		84E803711EF7CC8A00ECE8B9 /* delegateDetail */ = {
 			isa = PBXGroup;
 			children = (
-				84E803721EF7CCB100ECE8B9 /* SelfDetailVC.h */,
-				84E803731EF7CCB100ECE8B9 /* SelfDetailVC.m */,
 				84E0A18C1EFA25B400213A0E /* DelegateCenterVC.h */,
 				84E0A18D1EFA25B400213A0E /* DelegateCenterVC.m */,
 			);
@@ -1846,6 +1868,8 @@
 			children = (
 				84EAD9EB1EF3672B001C041D /* NearlyDelegateVC.h */,
 				84EAD9EC1EF3672B001C041D /* NearlyDelegateVC.m */,
+				841C346B1EFE1A450074191F /* NearDelegateCell.h */,
+				841C346C1EFE1A450074191F /* NearDelegateCell.m */,
 			);
 			path = nearly;
 			sourceTree = "<group>";
@@ -1866,6 +1890,10 @@
 		84EAD9E31EF36695001C041D /* problem */ = {
 			isa = PBXGroup;
 			children = (
+				84EAE0181EFCC78B00FEBFEA /* HYProblemVC.h */,
+				84EAE0191EFCC78B00FEBFEA /* HYProblemVC.m */,
+				841C34681EFDFC220074191F /* BannarDetailVC.h */,
+				841C34691EFDFC220074191F /* BannarDetailVC.m */,
 			);
 			path = problem;
 			sourceTree = "<group>";
@@ -1877,6 +1905,8 @@
 				8445C4E81EF13D1B0040E19D /* SearchPage.m */,
 				84A3B3A91EF27D7E0084817E /* SearchCellTableViewCell.h */,
 				84A3B3AA1EF27D7E0084817E /* SearchCellTableViewCell.m */,
+				84E803721EF7CCB100ECE8B9 /* SelfDetailVC.h */,
+				84E803731EF7CCB100ECE8B9 /* SelfDetailVC.m */,
 			);
 			path = search;
 			sourceTree = "<group>";
@@ -2205,6 +2235,7 @@
 				84F299741EEE7D1D00F66FD7 /* ManageOrderCell.m in Sources */,
 				84E531DB1E80C8D4009E63E6 /* SDWebImageDownloader.m in Sources */,
 				8498DEF31EEBEC6800BEFFFF /* DeclarDetailVC.m in Sources */,
+				841C346D1EFE1A450074191F /* NearDelegateCell.m in Sources */,
 				840CE6161EE25EDE0016D82F /* DelegateExamineCell.m in Sources */,
 				84E531CA1E80C8D4009E63E6 /* SBJSON.m in Sources */,
 				84E530321E80C79A009E63E6 /* JingzhiForBusiness.xcdatamodeld in Sources */,
@@ -2235,6 +2266,7 @@
 				84E532401E80C8D4009E63E6 /* WBImageViewItem.m in Sources */,
 				844392081ED6BCB200FA4927 /* MBProgressHUD.m in Sources */,
 				84F299711EEE720400F66FD7 /* CXCThreeLabelSheet.m in Sources */,
+				841F174A1F0482810076DCE0 /* ForgetPasswordVC.m in Sources */,
 				84E532351E80C8D4009E63E6 /* MASViewAttribute.m in Sources */,
 				84570CDE1ED80356005F893B /* split.c in Sources */,
 				84E5323E1E80C8D4009E63E6 /* StarView.m in Sources */,
@@ -2281,6 +2313,7 @@
 				84A3B3A71EF264B80084817E /* ComMallCollectionViewCell.m in Sources */,
 				84E803771EF7D0CA00ECE8B9 /* HYMyRecommendVC.m in Sources */,
 				84075D5E1EE4E57900139636 /* StockTableviewVC.m in Sources */,
+				841C346A1EFDFC220074191F /* BannarDetailVC.m in Sources */,
 				84EA70C51EE8DD0200F9A4D2 /* BankCardCell.m in Sources */,
 				84B0DC7D1EE687F30010303B /* IsTureAlterView.m in Sources */,
 				84F299771EEE824500F66FD7 /* ScanningAndTracingVC.m in Sources */,
@@ -2295,6 +2328,8 @@
 				84E531AD1E80C8D4009E63E6 /* AFURLSessionManager.m in Sources */,
 				84E532271E80C8D4009E63E6 /* AKGalleryList.m in Sources */,
 				844392071ED6BCB200FA4927 /* MBProgressHUD+MP.m in Sources */,
+				84EAE0171EFCABB600FEBFEA /* LoginCell.m in Sources */,
+				84EAE01A1EFCC78B00FEBFEA /* HYProblemVC.m in Sources */,
 				84E531B91E80C8D4009E63E6 /* DemoTableFooterView.m in Sources */,
 				8445C4E91EF13D1B0040E19D /* SearchPage.m in Sources */,
 				84E531E01E80C8D4009E63E6 /* UIImage+GIF.m in Sources */,
@@ -2369,6 +2404,7 @@
 				84B0DC771EE67D830010303B /* SRActionSheet.m in Sources */,
 				84E532101E80C8D4009E63E6 /* NSString+QEncoding.m in Sources */,
 				84E531CC1E80C8D4009E63E6 /* SBJsonParser.m in Sources */,
+				84EAE0141EFC99D900FEBFEA /* NewsBanner.m in Sources */,
 				84E5321F1E80C8D4009E63E6 /* STPhotoBroswer.m in Sources */,
 				84E532211E80C8D4009E63E6 /* PNLineChartView.m in Sources */,
 				84E531C81E80C8D4009E63E6 /* NSObject+SBJSON.m in Sources */,
@@ -2507,6 +2543,7 @@
 					"${SDK_ROOT}/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = JingzhiForBusiness/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2572,6 +2609,7 @@
 					"${SDK_ROOT}/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = JingzhiForBusiness/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",

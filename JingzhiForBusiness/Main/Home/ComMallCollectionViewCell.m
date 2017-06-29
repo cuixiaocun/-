@@ -15,13 +15,13 @@
     if (self)
     {
         self.backgroundColor =[UIColor whiteColor];
-        self.topMCImage = [[UIImageView alloc] initWithFrame:CGRectMake(15*Width,15*Width,307.5*Width,225*Width)];
+        self.topMCImage = [[EGOImageView alloc] initWithFrame:CGRectMake(15*Width,15*Width,307.5*Width,225*Width)];
         self.topMCImage.backgroundColor = BGColor;
         self.topMCImage.userInteractionEnabled = YES;
         [self.contentView addSubview:self.topMCImage];
         self.promtpmcLabel = [[UILabel alloc] initWithFrame:CGRectMake(15*Width,_topMCImage.bottom,307*Width,100*Width)];
         self.promtpmcLabel.textColor = [UIColor blackColor];
-        self.promtpmcLabel.textAlignment = NSTextAlignmentCenter;
+//        self.promtpmcLabel.textAlignment = NSTextAlignmentCenter;
         self.promtpmcLabel.font = [UIFont fontWithName:@"Arial" size:13];
         self.promtpmcLabel.backgroundColor = [UIColor clearColor];
         self.promtpmcLabel.text =@"温碧泉里头白真凝润四件套（护肤）";
@@ -39,5 +39,14 @@
     }
     return self;
 }
+-(void)setDic:(NSDictionary *)dic
+{
+    _dic =dic;
+    self.topMCImage.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"img"]]];
+    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    self.pricesLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
 
+
+
+}
 @end

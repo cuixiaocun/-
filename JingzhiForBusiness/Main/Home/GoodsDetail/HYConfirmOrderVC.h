@@ -10,7 +10,8 @@
 
 @interface HYConfirmOrderVC : UIViewController
 
-//@property(nonatomic,retain)NSDictionary *dic;
+@property(nonatomic,retain)NSDictionary *dic;
+@property(nonatomic,retain)NSArray *googsArr;
 
 
 @end

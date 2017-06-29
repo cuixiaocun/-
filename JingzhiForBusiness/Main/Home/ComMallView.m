@@ -19,24 +19,16 @@
 }
 -(void)collectionCM
 {
-    //初始化图片数组
-//    _iconMCVArray = [NSArray arrayWithObjects:@"icon_waimai",@"icon_chaoshi",@"icon_weidian",@"icon_tuangou",@"icon_caishi",nil];
-//    self.promptMCVArray = @[@"外卖",@"超市",@"微店",@"团购",@"菜市场"];
     //设置背景颜色
     self.backgroundColor = [UIColor clearColor];
     //1\初始化layout
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    //设置collectionview滚动方向
-    // [layout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
     //2\设置headerView的尺寸大小
     layout.headerReferenceSize = CGSizeMake(0, 0);
-    
-    
     //3\初始化collextionVIewCell
     mainCMallCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height) collectionViewLayout:layout];
     [self addSubview:mainCMallCollectionView];
     [mainCMallCollectionView setBackgroundColor:BGColor];
-    
     //注册collectionViewCell
     //注意，此处的ReuseIdentifier必须和cellForItemAtIndexPath方法中一致，必须为cellId
     [mainCMallCollectionView registerClass:[ComMallCollectionViewCell class] forCellWithReuseIdentifier:@"cellCMId"];
@@ -45,9 +37,7 @@
     //设置代理
     mainCMallCollectionView.delegate = self;
     mainCMallCollectionView.dataSource = self;
-    
     mainCMallCollectionView.scrollEnabled = NO;
-    
     [mainCMallCollectionView reloadData];
     
 }
@@ -80,6 +70,8 @@
 {
     _cell = (ComMallCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"cellCMId" forIndexPath:indexPath];
     _cell.backgroundColor = [UIColor whiteColor];
+    _cell.dic =@{};
+    
     return _cell;
 }
 //点击方法

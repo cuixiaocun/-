@@ -11,7 +11,10 @@
 #import <MLLabel/MLLinkLabel.h>
 #import <MLLabel/NSString+MLExpression.h>
 #import <MLLabel/NSAttributedString+MLExpression.h>
-@interface LogisticsCell : UITableViewCell
+@interface LogisticsCell : UITableViewCell<UIWebViewDelegate>
+{ UIWebView * webView;
+    
+}
 @property(nonatomic,retain)NSDictionary *dic;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 @property (nonatomic, strong) MLLinkLabel *rightLabel;

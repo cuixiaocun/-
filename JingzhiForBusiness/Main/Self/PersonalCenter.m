@@ -45,11 +45,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     
-    
-[[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     if (![PublicMethod getDataStringKey:@"IsLogin"]) {//若没登录请登录
         LoginPage*logP =[[LoginPage alloc]init];
         [self.navigationController pushViewController:logP animated:YES];
+    
+        return;
     }
 
 }
@@ -90,6 +91,9 @@
 }
 - (void)mainView
 {
+    NSDictionary*dic =[[NSDictionary alloc]init];
+    dic  =[PublicMethod getDataKey:member];
+    
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,CXCWidth, CXCHeight-100*Width)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
@@ -97,7 +101,6 @@
     bgScrollView.showsVerticalScrollIndicator =
     NO;
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
-    
     //上面的image
     UIImageView *bgImageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Width*300)];
     bgImageV.backgroundColor = [UIColor colorWithRed:241/255.0 green:80/255.0 blue:84/255.0 alpha:1];
@@ -128,7 +131,9 @@
     UILabel *levelLabel = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+24*Width,bgtouImg.top, 400*Width, 60*Width)];
     levelLabel.textColor = [UIColor whiteColor];
     levelLabel.tag =3331;
-    levelLabel.text =@"一级代理商";
+    ;
+                
+    levelLabel.text =[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"name"])?@"":[dic objectForKey:@"name"]];
     levelLabel.textAlignment = NSTextAlignmentLeft;
     levelLabel.font = [UIFont boldSystemFontOfSize:16];
     levelLabel.textColor = [UIColor whiteColor];
@@ -138,11 +143,11 @@
     UILabel *telphoneL = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+24*Width,levelLabel.bottom, 400*Width, 60*Width)];
     telphoneL.textColor = [UIColor whiteColor];
     telphoneL.tag =3332;
-    telphoneL.text=@"183******3";
+    telphoneL.text=[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"account"])?@"":[dic objectForKey:@"account"]];
     telphoneL.textAlignment = NSTextAlignmentLeft;
     telphoneL.font = [UIFont boldSystemFontOfSize:15];
     telphoneL.textColor = [UIColor whiteColor];
-    [bgImageV   addSubview:telphoneL];
+    [bgImageV addSubview:telphoneL];
     
     //头像按钮
     UIButton *topbtn =[[UIButton alloc]initWithFrame:CGRectMake(0,120*Width,CXCWidth, 210*Width)];
@@ -376,7 +381,7 @@
     
     //删除
     [PublicMethod removeObjectForKey: @"IsLogin"];
-    [PublicMethod removeObjectForKey: @"member"];
+    [PublicMethod removeObjectForKey: member];
     [self setupViewControllersHYwithIsBack:@"YES"];
     
 }

@@ -115,7 +115,9 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
     NSString *url=[NSString stringWithFormat:@"%@/%@",SERVERURL,urlString];
     //    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];//当加密的时候用
-    NSDictionary *parameter =dic;
+    NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
+    [parameter setDictionary:dic];
+    [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
 //    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];//证书的时候
 
     [manager POST:url parameters:parameter  progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -128,9 +130,7 @@
                     NSLog(@"请求成功JSON:%@", dict);
             NSLog(@"请求成功JSON:%@", [self logDic:dict]);
             if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-                
-            
-                
+                                
                 
             }else
             {
@@ -150,20 +150,59 @@
     }];
     
 }
++(void)AFNetworkGETurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
+{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
+    NSString *url=[NSString stringWithFormat:@"%@/%@",SERVERURL,urlString];
+    //    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];//当加密的时候用
+//    NSDictionary *parameter =dic;
+    //    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];//证书的时候
+    NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
+    [parameter setDictionary:dic];
+    [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
+    [manager GET:url parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if (success) {
+            success(responseObject);
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"请求成功JSON:%@", dict);
+
+            NSLog(@"请求成功JSON:%@", [self logDic:dict]);
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+                
+                
+                
+                
+            }else
+            {
+                [ProgressHUD dismiss];
+                [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+                
+                
+            }
+            
+            
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"网络连接失败");
+        [ProgressHUD showError:@"网络连接失败，请检查网络"];
+        
+    }];
+}
 + (NSString *)logDic:(NSDictionary *)dic {
     if (![dic count]) {
         return nil;
     }
-    NSString *tempStr1 =
-    [[dic description] stringByReplacingOccurrencesOfString:@"\\u"
+    NSString *tempStr1 =[[dic description] stringByReplacingOccurrencesOfString:@"\\u"
                                                  withString:@"\\U"];
-    NSString *tempStr2 =
-    [tempStr1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-    NSString *tempStr3 =
-    [[@"\"" stringByAppendingString:tempStr2] stringByAppendingString:@"\""];
+    NSString *tempStr2 =[tempStr1 stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    NSString *tempStr3 =[[@"\"" stringByAppendingString:tempStr2] stringByAppendingString:@"\""];
     NSData *tempData = [tempStr3 dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *str =
-    [NSPropertyListSerialization propertyListFromData:tempData
+    NSString *str =[NSPropertyListSerialization propertyListFromData:tempData
                                      mutabilityOption:NSPropertyListImmutable
                                                format:NULL
                                      errorDescription:NULL];
@@ -341,5 +380,11 @@
     }
     return YES;
 }
-
++(NSString*)stringNilString:(NSString *)string
+{
+    
+    NSString* selfString =[NSString stringWithFormat:@"%@", IsNilString(string)?@"":string];
+    return selfString;
+    
+}
 @end

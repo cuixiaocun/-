@@ -47,6 +47,8 @@
 #define Width [UIScreen mainScreen].bounds.size.width/750.000
 #define navBackarrow @"register_btn_goBack_white"//返回箭头
 #define shopingCart @"ShopingCart"//购物车数组
+#define member @"member"//会员字典
+
 #define yuanjiao 4
 
 #define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
@@ -72,6 +74,7 @@
 + (void) saveData:(NSDictionary *)dict withKey:(NSString *)key;
 + (NSDictionary *) getDataKey:(NSString *)key;
 +(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
++(void)AFNetworkGETurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
 
 //存取字符串
 + (void) saveDataString:(NSString *)string withKey:(NSString *)key;
@@ -88,5 +91,6 @@
 
 //删除数据
 + (BOOL)judgeIdentityStringValid:(NSString *)identityString;
++(NSString*)stringNilString:(NSString *)string;
 
 @end

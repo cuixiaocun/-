@@ -24,11 +24,14 @@
         orderNumberLabel.text = @"    订单号：1953056874376";
         [self addSubview:orderNumberLabel];
         orderNumberLabel.frame= CGRectMake(0*Width,20*Width,CXCWidth,76*Width);
+        orderNumberLabel.tag =333;
         orderNumberLabel.textColor = TextColor;
         //状态
         UILabel* orderStatuerLabel  = [[UILabel alloc]init];
         orderStatuerLabel.font = [UIFont systemFontOfSize:14];
         orderStatuerLabel.text = @"待审核";
+        orderStatuerLabel.tag =334;
+
         orderStatuerLabel.textAlignment =NSTextAlignmentRight;
         [self addSubview:orderStatuerLabel];
         orderStatuerLabel.frame= CGRectMake(400*Width,20*Width,325*Width,76*Width);
@@ -48,7 +51,7 @@
         
         //商品名称
         _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+60*Width,20*Width, 310*Width, 100*Width)];
-        _goodsTitleLab.text = @"商品A-21饮清新养元茶";
+//        _goodsTitleLab.text = @"商品A-21饮清新养元茶";
         _goodsTitleLab.textColor=BlackColor;
         _goodsTitleLab.numberOfLines =0;
         _goodsTitleLab.font =[UIFont systemFontOfSize:14];
@@ -58,7 +61,7 @@
         
         //价格
         UILabel* priceLabel =[[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+60*Width,_goodsTitleLab.bottom+20*Width, 360*Width, 50*Width)];
-        priceLabel.text =@"¥400.00";
+//        priceLabel.text =@"¥400.00";
         priceLabel.font =[UIFont systemFontOfSize:16];
         priceLabel.textColor =NavColor;
         [bgView addSubview:priceLabel];
@@ -79,12 +82,7 @@
         _allPricesLabel = [[UILabel alloc]initWithFrame:CGRectMake(420*Width,0,320*Width,82*Width)];
         [middleView addSubview:_allPricesLabel];
         _allPricesLabel.textColor  =BlackColor;
-        NSString*str =@"总金额：¥2700.00";
-        NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
-        NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
-        [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
-        [_allPricesLabel setAttributedText:textColor];
-        _allPricesLabel.font =[UIFont systemFontOfSize:13];
+                _allPricesLabel.font =[UIFont systemFontOfSize:13];
         
         UIImageView *xianImgV =[[UIImageView alloc]initWithFrame:CGRectMake(0, 80.5*Width, CXCWidth, 1.5*Width)];
         xianImgV.backgroundColor =BGColor;
@@ -129,7 +127,6 @@
             _rejectBtn.layer.borderColor =TextGrayColor.CGColor;
             [bgview addSubview:_rejectBtn];
 
-            
             //去支付
             _deliverBtn = [[UIButton alloc]init];
             [_deliverBtn setBackgroundColor:[UIColor whiteColor]];
@@ -207,12 +204,81 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *typeLabel =[self viewWithTag:199];
-    UILabel *statuLabel =[self viewWithTag:200];
-    UILabel *levelLabel =[self viewWithTag:201];
-    UILabel *accountLabel =[self viewWithTag:202];
-    UILabel *lastAccountLabel =[self viewWithTag:203];
+    UILabel *oderNumLabel = [self viewWithTag:333];
+    UILabel *statusLabel = [self viewWithTag:334];
+    oderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"id"]];
+    if ([[_dic objectForKey:@"status"]isEqualToString:@"1"]) {
+        statusLabel.text =@"待付款";
+
+    }else if([[_dic objectForKey:@"status"]isEqualToString:@"2"])
+    {
+        statusLabel.text =@"待发货";
+    }else if([[_dic objectForKey:@"status"]isEqualToString:@"3"])
+    {
+        statusLabel.text =@"待收货";
+    }else if([[_dic objectForKey:@"status"]isEqualToString:@"4"])
+    {
+        statusLabel.text =@"已完成";
+    }else if([[_dic objectForKey:@"status"]isEqualToString:@"5"])
+    {
+        statusLabel.text =@"已取消";
+    }else if([[_dic objectForKey:@"status"]isEqualToString:@"6"])
+    {
+        statusLabel.text =@"已驳回";
+    }
+    _tureBtn.hidden = YES;
+    _seeLogBtn.hidden = YES;
+    _rejectBtn.hidden =YES ;
+    _deliverBtn.hidden =YES ;
+
+   if ([[_dic objectForKey:@"status"]isEqualToString:@"1"]) {
+        [_deliverBtn setFrame:CGRectMake(610*Width,13.5*Width , 120*Width, 55*Width)];
+        [_rejectBtn setFrame:CGRectMake(440*Width,13.5*Width , 150*Width, 55*Width)];
+        [_seeBtn setFrame:CGRectMake(330*Width,13.5*Width , 90*Width, 55*Width)];
+        _tureBtn.hidden = YES;
+        _seeLogBtn.hidden = YES;
+        _rejectBtn.hidden =NO;
+        _deliverBtn.hidden =NO;
+        
+    }else if([[_dic objectForKey:@"status"]isEqualToString:@"3"])
+    {
+        [_tureBtn setFrame:CGRectMake(590*Width,13.5*Width , 150*Width, 55*Width)];
+        [_seeLogBtn setFrame:CGRectMake(410*Width,13.5*Width , 150*Width, 55*Width)];
+        [_seeBtn setFrame:CGRectMake(300*Width,13.5*Width , 90*Width, 55*Width)];
+        _rejectBtn.hidden =YES;
+        _deliverBtn.hidden =YES;
+        _tureBtn.hidden = NO;
+        _seeLogBtn.hidden = NO;
+    }else if([[_dic objectForKey:@"status"]isEqualToString:@"4"])
+    {
+//        [_tureBtn setFrame:CGRectMake(590*Width,13.5*Width , 150*Width, 55*Width)];
+        [_seeLogBtn setFrame:CGRectMake(590*Width,13.5*Width , 150*Width, 55*Width)];
+        [_seeBtn setFrame:CGRectMake(480*Width,13.5*Width , 90*Width, 55*Width)];
+        _rejectBtn.hidden =YES;
+        _deliverBtn.hidden =YES;
+        _tureBtn.hidden = YES;
+        _seeLogBtn.hidden = NO;
+    }else
+    {
+        [_seeBtn setFrame:CGRectMake(650*Width,13.5*Width , 90*Width, 55*Width)];
+    }
+
+    NSArray *goods =[_dic objectForKey:@"goods"];
+    _promptLabel.text =[NSString stringWithFormat:@"共计%ld种商品",goods.count];
+    NSString*str =[NSString stringWithFormat:@"总金额：¥%@",[_dic objectForKey:@"total"] ];
+    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
+    NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
+    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+    [_allPricesLabel setAttributedText:textColor];
     
+    _goodsImgView.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[goods[0] objectForKey:@"img"]]];
+    _goodsTitleLab.text =[NSString stringWithFormat:@"%@", [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[goods[0] objectForKey:@"name"]]]];
+    _priceLab.text =[NSString stringWithFormat:@"%@", [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[goods[0] objectForKey:@"price"]]]];
+
+    
+    
+
+
     
     
 }
@@ -223,32 +289,7 @@
 }
 - (void)setStatus:(NSString *)status
 {
-    if ([status isEqualToString:@"待付款"]) {
-        [_deliverBtn setFrame:CGRectMake(610*Width,13.5*Width , 120*Width, 55*Width)];
-        [_rejectBtn setFrame:CGRectMake(440*Width,13.5*Width , 150*Width, 55*Width)];
-        [_seeBtn setFrame:CGRectMake(330*Width,13.5*Width , 90*Width, 55*Width)];
-        _tureBtn.hidden = YES;
-        _seeLogBtn.hidden = YES;
-        _rejectBtn.hidden =NO;
-        _deliverBtn.hidden =NO;
-        
-
-        
-    }else
-    {
-        
-        [_tureBtn setFrame:CGRectMake(590*Width,13.5*Width , 150*Width, 55*Width)];
-        [_seeLogBtn setFrame:CGRectMake(410*Width,13.5*Width , 150*Width, 55*Width)];
-        [_seeBtn setFrame:CGRectMake(300*Width,13.5*Width , 90*Width, 55*Width)];
-        _rejectBtn.hidden =YES;
-        _deliverBtn.hidden =YES;
-        _tureBtn.hidden = NO;
-        _seeLogBtn.hidden = NO;
-
-    
-    }
-
-
+   
 }
 
 @end

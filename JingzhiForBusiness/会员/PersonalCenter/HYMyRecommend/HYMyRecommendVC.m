@@ -19,7 +19,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    currentPage =0;
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -44,6 +44,7 @@
     [self.view addSubview:navTitle];
     
     [self mainView];
+    [self getInfoList];
     
     
 }
@@ -62,9 +63,7 @@
     // 下拉刷新
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableHeaderView" owner:self options:nil];
     DemoTableHeaderView *headerView = (DemoTableHeaderView *)[nib objectAtIndex:0];
-    
     self.headerView = headerView;
-    
     // 上拉加载
     nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableFooterView" owner:self options:nil];
     DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
@@ -79,8 +78,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 5;
+        return infoArray.count ;
 }
 
 
@@ -93,17 +91,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger row =[indexPath row];
+    NSInteger row =[indexPath row];
     static NSString *CellIdentifier = @"Cell";
     HYMyRecommendCell *cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[HYMyRecommendCell alloc] initWithStyle:UITableViewCellStyleDefault
                                        reuseIdentifier:CellIdentifier ];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        
     }
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [infoArray objectAtIndex:row];
+        [cell setDic:dict];
     return cell;
 }
 
@@ -147,7 +144,7 @@
     DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
     if (willRefreshOnRelease){
         hv.title.text = @"松开即可更新...";
-        currentPage = 1;
+        currentPage = 0;
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.18f];
         ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -157,7 +154,7 @@
     else{
         
         if ([hv.title.text isEqualToString:@"松开即可更新..."]) {
-            currentPage = 1;
+            currentPage = 0;
             [CATransaction begin];
             [CATransaction setAnimationDuration:0.18f];
             ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
@@ -254,7 +251,7 @@
 - (void) addItemsOnTop
 {
     
-    currentPage=1;
+    currentPage=0;
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
     
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -298,6 +295,68 @@
 - (void)getInfoList
 {
     
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{@"page":[NSString stringWithFormat:@"%ld",currentPage] ,
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]}];
+
+    [PublicMethod AFNetworkPOSTurl:@"Home/Member/recommend2" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+            if (currentPage==0) {
+                [infoArray removeAllObjects];
+                
+            }
+            NSMutableArray *array=[dict objectForKey:@"data"];
+            if ([array isKindOfClass:[NSNull class]]) {
+                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+                
+                return ;
+            }
+            
+
+            [infoArray addObjectsFromArray:array];
+            
+            if ([infoArray count]==0 && currentPage==0) {
+                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+                
+            }
+            pageCount =infoArray.count/20;
+            //判断是否加载更多
+            if (array.count==0 || array.count<20){
+                self.canLoadMore = NO; // signal that there won't be any more items to load
+            }else{
+                self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
+            }
+            
+            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+            [fv.activityIndicator stopAnimating];
+            
+            if (!self.canLoadMore) {
+                fv.infoLabel.hidden = YES;
+            }else{
+                fv.infoLabel.hidden = NO;
+            }
+            
+            
+            [self.tableView reloadData];
+            if (currentPage==0) {
+                //                [self.tableView setScrollsToTop:YES];
+                [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+                
+            }
+            
+            
+            [self.tableView reloadData];
+
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+
     //    [ProgressHUD show:@"加载中"];
     //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     //    manager.responseSerializer = [AFHTTPResponseSerializer serializer];

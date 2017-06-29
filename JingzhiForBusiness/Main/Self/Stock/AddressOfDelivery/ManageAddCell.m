@@ -116,7 +116,21 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
+//    c
     
+    nameLabe.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    telphoneLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]];
+    addressLabel.text =[NSString stringWithFormat:@"%@%@",[_dic objectForKey:@"name_path"],[_dic objectForKey:@"address"]];
+    
+    
+
+    if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"isdefault"]] isEqualToString:@"1"]) {
+        _isSelectImg.image =[UIImage imageNamed:@"adress_btn_radio_sel"];
+        
+    }else if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"isdefault"]] isEqualToString:@"2"])
+    {
+        _isSelectImg.image =[UIImage imageNamed:@"adress_btn_radio"];
+    }
     
     
     

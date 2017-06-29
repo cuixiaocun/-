@@ -59,7 +59,26 @@
     UILabel *surplusLabel =[self viewWithTag:101];
     UILabel *timeLabel =[self viewWithTag:102];
     //如果为负的变为绿色
-    pricesLabel.textColor =[UIColor colorWithRed:2/255.0 green:196/255.0 blue:66/255.0 alpha:1];
+    surplusLabel.text =[NSString stringWithFormat:@"剩余金额：%@",[Dict objectForKey:@"aftermoney"] ];
+    timeLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"createtime"] ];
+    
+    if ([[NSString stringWithFormat:@"%@",[Dict objectForKey:@"type"] ]isEqualToString:@"2"]) {
+        pricesLabel.textColor =[UIColor colorWithRed:2/255.0 green:196/255.0 blue:66/255.0 alpha:1];
+        pricesLabel.text =[NSString stringWithFormat:@"-%@",[Dict objectForKey:@"changemoney"] ];
+    }else  if ([[NSString stringWithFormat:@"%@",[Dict objectForKey:@"type"] ]isEqualToString:@"1"])
+    {
+        pricesLabel.textColor =[UIColor colorWithRed:242/255.0 green:55/255.0 blue:59/255.0 alpha:1];
+        pricesLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"changemoney"] ];
+        
+    }else
+    {
+        pricesLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"changemoney"] ];
+
+    
+    }
+    
+    
+    
     
     
     

@@ -12,13 +12,10 @@
 #define UISCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 @interface MOFSPickerView() <UIPickerViewDelegate,UIPickerViewDataSource>
-
 @property (nonatomic, strong) NSMutableDictionary *recordDic;
 @property (nonatomic, strong) NSMutableArray *dataArr;
 @property (nonatomic, strong) UIView *bgView;
-
 @property (nonatomic, assign) NSInteger selectedRow;
-
 @end
 
 @implementation MOFSPickerView

@@ -25,10 +25,11 @@
         bgView.backgroundColor = [UIColor whiteColor];
         [self addSubview:bgView];
         
-        UIButton *selectBtn =[[UIButton alloc]initWithFrame:CGRectMake(12.5*Width, (200*Width-50*Width)/2, 50*Width, 50*Width)];
+        UIButton *selectBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width, 0, 75*Width, 200*Width)];
         [bgView addSubview:selectBtn];
-        [selectBtn setImageEdgeInsets:UIEdgeInsetsMake(7.5*Width, 7.5*Width, 7.5*Width, 7.5*Width)];
-        selectBtn.tag =9;
+        
+        [selectBtn setImageEdgeInsets:UIEdgeInsetsMake(82.5*Width, 20*Width,82.5*Width, 20*Width)];
+        selectBtn.tag = 9;
         [selectBtn setImage:[UIImage imageNamed:@"adress_btn_radio"] forState:UIControlStateNormal];
         [selectBtn setImage:[UIImage imageNamed:@"adress_btn_radio_sel"] forState:UIControlStateSelected];
 
@@ -38,6 +39,18 @@
         _goodsImgView.backgroundColor =BGColor;
         _goodsImgView.frame=CGRectMake(80*Width, 20*Width, 160*Width, 160*Width);
         [bgView addSubview:_goodsImgView];
+        
+        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(80*Width, 20*Width, 350*Width, 160*Width)];
+        [bgView addSubview:btn];
+        btn.tag =8;
+        [btn addTarget:self action:@selector(nextPage:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        
+        
+        
+        
+    
         
         //商品名称
         _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+30*Width,10*Width, 360*Width, 100*Width)];
@@ -59,7 +72,7 @@
 
         
         
-        UIButton *numBtn =[[UIButton alloc]initWithFrame:CGRectMake(578*Width, 130*Width, 78*Width, 48*Width)];
+        UIButton *numBtn =[[UIButton alloc]initWithFrame:CGRectMake(578*Width, 120*Width, 78*Width, 68*Width)];
         //        numBtn.backgroundColor =[UIColor redColor];
         [bgView addSubview:numBtn];
         numBtn.tag =10;
@@ -68,15 +81,15 @@
         
         [numBtn addTarget:self action:@selector(numBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         //购买商品的数量
-        _numCountLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0*Width, 78*Width, 48*Width)];
+        _numCountLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0*Width, 78*Width, 68*Width)];
         _numCountLab.textAlignment = NSTextAlignmentCenter;
         [numBtn addSubview:_numCountLab];
         
         //减按钮
         _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _deleteBtn.frame = CGRectMake(530*Width, 130*Width, 48*Width, 48*Width);
+        _deleteBtn.frame = CGRectMake(510*Width, 120*Width, 68*Width, 68*Width);
         [_deleteBtn setImage:[UIImage imageNamed:@"register_btn_reduce_modify_black"] forState:UIControlStateNormal];
-        _deleteBtn.imageEdgeInsets = UIEdgeInsetsMake(8*Width, 8*Width,8*Width, 8*Width);
+        _deleteBtn.imageEdgeInsets = UIEdgeInsetsMake(13*Width, 13*Width,13*Width, 13*Width);
         [_deleteBtn.layer setBorderWidth:1.0*Width];
         _deleteBtn.layer.borderColor =BGColor.CGColor;
         [_deleteBtn addTarget:self action:@selector(deleteBtnAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -86,8 +99,8 @@
         
         //加按钮
         _addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _addBtn.frame = CGRectMake(656*Width, 130*Width, 48*Width, 48*Width);
-        _addBtn.imageEdgeInsets = UIEdgeInsetsMake(8*Width, 8*Width,8*Width, 8*Width);
+        _addBtn.frame = CGRectMake(656*Width, 120*Width, 68*Width, 68*Width);
+        _addBtn.imageEdgeInsets = UIEdgeInsetsMake(13*Width, 13*Width,13*Width, 13*Width);
         
         [_addBtn.layer setBorderWidth:1.0*Width];
         _addBtn.layer.borderColor =BGColor.CGColor;
@@ -95,11 +108,6 @@
         [_addBtn addTarget:self action:@selector(addBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         _addBtn.tag = 12;
         [bgView addSubview:_addBtn];
-        
-        
-        
-        
-        
         
     }
     return self;
@@ -160,5 +168,10 @@
     
     // Configure the view for the selected state
 }
+- (void)nextPage:(UIButton*)sender
+{
+    //调用代理
+    [self.delegate btnClick:self andFlag:(int)sender.tag];
 
+}
 @end

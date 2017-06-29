@@ -8,7 +8,7 @@
 
 #import "SearchPage.h"
 #import "SearchCellTableViewCell.h"
-
+#import "SelfDetailVC.h"
 @interface SearchPage ()
 {
 
@@ -75,10 +75,12 @@
     UITextField *searchTextField = [[UITextField alloc] init];
     [searchTextField setPlaceholder:@"代理编号,微信号,手机号"];
     [searchTextField setDelegate:self];
+//    searchTextField.keyboardType =UIKeyboardTypeNumberPad;
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
     [searchTextField setTextColor:[UIColor blackColor]];
     [searchTextField setFrame:CGRectMake(bigShowImgV.right+12*Width, 0,400*Width,60*Width)];
+    searchTextField.returnKeyType=UIReturnKeySearch;
     [searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [navBgView addSubview:searchTextField];
     
@@ -172,6 +174,7 @@
 - (void)withDrawlsBtnAction
 {    UITextField *textField =(UITextField *)[self.view viewWithTag:30];
 
+    
 
     if (!IsNilString(textField.text)) {
     NSMutableArray *array =[NSMutableArray arrayWithArray:[PublicMethod getArrData:@"zhangyue_searchJiLu"]];
@@ -273,7 +276,6 @@
 {
     
     [PublicMethod saveArrData:nil withKey:@"zhangyue_searchJiLu"];
-    
     [PublicMethod saveArrData:nil withKey:@"wantSearch"];
     for (int i=0;i<12; i++) {
         [[self.view viewWithTag:i+1] removeFromSuperview];
@@ -434,6 +436,47 @@
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
+    {    UITextField *textField =(UITextField *)[self.view viewWithTag:30];
+        
+        
+        if (!IsNilString(textField.text)) {
+            NSMutableArray *array =[NSMutableArray arrayWithArray:[PublicMethod getArrData:@"zhangyue_searchJiLu"]];
+            
+            for (int i=0; i<array.count; i++) {
+                [[self.view viewWithTag:i+1] removeFromSuperview];
+            }
+            
+            
+            if ([array containsObject:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]]) {
+                [array removeObject:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
+            }
+            [array insertObject:[textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] atIndex:0];
+            
+            [PublicMethod saveArrData:array withKey:@"zhangyue_searchJiLu"];
+            
+            [self refreshWeiKeView];
+            
+            for (int i=0;i<12; i++) {
+                [[self.view viewWithTag:i+1] removeFromSuperview];
+                [[self.view viewWithTag:i+50] removeFromSuperview];
+            }
+            
+            UILabel *label =(UILabel *)[self.view viewWithTag:28];
+            [label setText:@""];
+            [self.tableView setHidden:NO];
+            currentPage =1;
+            [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
+            [textField resignFirstResponder];
+            
+            
+            
+        }else
+            
+        {
+            [MBProgressHUD showWarn:@"输入框不能为空" ToView:self.view];
+            return YES;
+        }
+    }
         [textField resignFirstResponder];
         
         return YES;
@@ -451,38 +494,70 @@
 //请求列表数据
 -(void)getInfoList{
    
-    UITextField *textfield =(UITextField *)[self.view viewWithTag:30];
+    for (int i=0;i<12; i++) {
+        [[self.view viewWithTag:i+1] removeFromSuperview];
+        [[self.view viewWithTag:i+50] removeFromSuperview];
+    }
+    UILabel *label =(UILabel *)[self.view viewWithTag:28];
+    [label setText:@""];
     
-    //当数据为空的时候
-    nilBgView.hidden = NO;
-    self.tableView.hidden=YES;
-    //当数据不为空的时候
-    nilBgView.hidden = YES;
-    self.tableView.hidden=NO;
-
-
+    UITextField *textField =(UITextField *)[self.view viewWithTag:30];
+    [textField resignFirstResponder];
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          
+     @"check":[NSString stringWithFormat:@"%@",textField.text],
+     @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
+     
+}];
+    
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"Home/Index/selagen" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+        
+         
+            //当数据不为空的时候
+            nilBgView.hidden = YES;
+            self.tableView.hidden=NO;
+            infoArray =[dict objectForKey:@"data"];
+            [self.tableView reloadData];
+        
+        }else
+        {
+            //当数据为空的时候
+            nilBgView.hidden = NO;
+            self.tableView.hidden=YES;
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
 }
+
+
+
 
 
 #pragma mark - Standard TableView delegates
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 5;
+        return infoArray.count ;
 }
 
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 510*Width;
+    return 430*Width;
 }
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger row =[indexPath row];
+        NSInteger row =[indexPath row];
     static NSString *CellIdentifier = @"Cell";
     SearchCellTableViewCell *cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -491,12 +566,20 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
-    return cell;
+        NSDictionary *dict = [infoArray objectAtIndex:row];
+        cell.dic= dict;
+         return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    SelfDetailVC *delegateVC =[[SelfDetailVC alloc]init];
+    delegateVC.delegateDic =infoArray[indexPath.row];
+    
+    [self.navigationController pushViewController:delegateVC animated:YES];
+    
 
+}
 
 #pragma mark - Pull to Refresh
 - (void) pinHeaderView
@@ -700,6 +783,7 @@
     UITextField *textfield =(UITextField *)[self.view viewWithTag:30];
     [textfield resignFirstResponder];
 }
+
 
 
 

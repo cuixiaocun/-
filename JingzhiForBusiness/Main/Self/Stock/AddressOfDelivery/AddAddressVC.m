@@ -60,7 +60,7 @@
     
     if (_dic) {
         
-     rightArr =@[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"telphone"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"addDetail"]]];
+     rightArr =@[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name_path"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]]];
     }else
     {
         rightArr =@[@"",@"",@"",@"",@"",@"",@"",@""];
@@ -145,10 +145,11 @@
 //保存按钮
 -(void)saveBtn
 {
-    UITextField *nameTF =[self.view viewWithTag:10];
+    
+      UITextField *nameTF =[self.view viewWithTag:10];
     UITextField *phoneTF =[self.view viewWithTag:11];
     UITextField *addressTF =[self.view viewWithTag:13];
-
+    UILabel *wzlabe =[self.view viewWithTag:111];
     [nameTF resignFirstResponder];
     [phoneTF resignFirstResponder];
     [addressTF resignFirstResponder];
@@ -163,7 +164,38 @@
     if (IsNilString(addressTF.text)) {
         [MBProgressHUD showError:@"地址不能为空!" ToView:self.view];
         return;
+    }if (IsNilString(wzlabe .text)) {
+        [MBProgressHUD showError:@"地区不能为空!" ToView:self.view];
+        return;
     }
+    
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                        @"phone":phoneTF.text ,
+                        @"name":nameTF.text ,
+                        @"newaddress":addressTF.text ,
+                        @"xianaddress":wzlabe.text ,
+                        @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                          }];
+    NSString *str =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"id"]];
+   
+    if (! IsNilString(str)) {
+        [dic1 setObject:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"id"]] forKey:@"id"];
+ 
+    }
+    [PublicMethod AFNetworkPOSTurl:@"Home/address/save" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [self.navigationController popViewControllerAnimated:YES];
+
+              }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+
 
 
 }
@@ -190,7 +222,7 @@
     
 
     [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:@"河南省-郑州市" numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
-       label.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@""];
+       label.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
     } cancelBlock:^{
         
     }];

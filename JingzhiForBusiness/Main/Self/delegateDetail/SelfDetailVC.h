@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SelfDetailVC : UIViewController
-
+@property(nonatomic,copy)NSDictionary *delegateDic;
 @end

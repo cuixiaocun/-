@@ -12,6 +12,7 @@
 {
     //底部scrollview
     UIScrollView *bgScrollView;
+    NSArray *goodsArr;
     
 }
 @end
@@ -24,7 +25,9 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+
+    goodsArr =[[NSArray alloc]init];
+    goodsArr =[_dic objectForKey:@"goods"];
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -70,14 +73,6 @@
     declarTabel .showsVerticalScrollIndicator = NO;
     [self.view addSubview:declarTabel];
     
-    
-    
-    
-    
-    
-    
-    
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -99,14 +94,14 @@
     [bgScrollView addSubview:topView];
     
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 150*Width, 50*Width)];
-    nameLabel.text =@"孙磊开";
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     nameLabel.tag=450;
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    numberLabel.text =@"18373781822";
+    numberLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]];
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     numberLabel.tag=451;
@@ -117,7 +112,7 @@
     
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    addressLabel.text =@"山东省潍坊市高新区胜利东街新华路中天下潍坊国际";
+    addressLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]];
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;
@@ -133,7 +128,8 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    
+    return goodsArr.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -155,11 +151,12 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
+    NSDictionary *dict = [goodsArr objectAtIndex:[indexPath row]];
+    [cell setDic:dict];
     return cell;
     
     
-    //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
-    //    [cell setDic:dict];
+    
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -173,11 +170,13 @@
     UIView *bottomBgView =[[UIView alloc]init];
     bottomBgView.backgroundColor =BGColor;
 
+   
+
     UIButton *middleBgView =[[UIButton alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
     middleBgView.backgroundColor =[UIColor whiteColor];
     [bottomBgView   addSubview:middleBgView];
-    middleBgView.hidden =YES ;//当状态是未付款的时候支付方式要隐藏
-
+      //当状态是未付款的时候支付方式要隐藏
+      //paytype 1微信  2支付宝 0未支付
     UILabel*promLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width,20*Width , 300*Width, 44*Width)];
     promLabel.text =@"支付方式";
     promLabel.textColor =BlackColor;
@@ -188,34 +187,36 @@
     UIImageView *cardPhoto = [[UIImageView alloc]initWithFrame:CGRectMake(24*Width,promLabel.bottom+ 32*Width, 72*Width, 72*Width)];
     cardPhoto.userInteractionEnabled = YES;
     cardPhoto.tag =201;
-    cardPhoto.image =[UIImage imageNamed:@"withdrawcash_icon_bank_red"];
-    [middleBgView addSubview:cardPhoto];
+        [middleBgView addSubview:cardPhoto];
     
     //名称
-    UILabel *bankNameLabel =[[UILabel alloc]initWithFrame:CGRectMake(cardPhoto.right+20*Width, cardPhoto.top-10*Width, 270*Width, 36*Width)];
+    UILabel *bankNameLabel =[[UILabel alloc]initWithFrame:CGRectMake(cardPhoto.right+20*Width, promLabel.bottom+ 32*Width, 300*Width, 72*Width)];
     bankNameLabel.textColor =BlackColor;
-    bankNameLabel.text =@"中国银行";
     bankNameLabel.tag =202;
-    
     bankNameLabel.font =[UIFont systemFontOfSize:16];
     [middleBgView addSubview:bankNameLabel];
+    if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"paytype"]]isEqualToString:@"1"])
+    {
+        cardPhoto.image =[UIImage imageNamed:@"pay_icon_weChat"];
+        bankNameLabel.text =@"微信支付";
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"paytype"]]isEqualToString:@"2"])
+    {
+        cardPhoto.image =[UIImage imageNamed:@"pay_icon_alipay"];
+        bankNameLabel.text =@"支付宝支付";
+    }
+
     
     
-    //银行卡号
-    UILabel *bankLabel =[[UILabel alloc]initWithFrame:CGRectMake(cardPhoto.right+20*Width, bankNameLabel.bottom+10*Width, 550*Width, 36*Width)];
-    bankLabel.textColor =BlackColor;
-    bankLabel.text =@"6223 9103 0116 0170";
-    bankLabel.tag =203;
-    bankLabel.font =[UIFont systemFontOfSize:14];
-    [middleBgView addSubview:bankLabel];
     
     UIView *detailView =[[UIView alloc]init ];
 
-    if (middleBgView.hidden==YES)
+    if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]]isEqualToString:@"5"]||[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]]isEqualToString:@"6"]||[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]]isEqualToString:@"1"])
     {
+        middleBgView.hidden =YES;
        detailView.frame = CGRectMake(0,20*Width , CXCWidth, 215*Width);
     }else
     {
+       middleBgView.hidden =NO;
        detailView.frame = CGRectMake(0,middleBgView.bottom+20*Width , CXCWidth, 215*Width);
     }
     
@@ -225,7 +226,7 @@
     [bottomBgView addSubview:detailView];
     detailView.backgroundColor =[UIColor whiteColor];
     NSArray *leftArr =@[@"商品总额",@"积分"];
-    NSArray *rightArr =@[@"¥300000.00",@"-3000.00"];
+    NSArray *rightArr =@[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"total"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"integral"]]];
     
     for (int i=0; i<2; i++) {
         UILabel *leftLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 10*Width+57.5*Width*i, 200*Width, 57.5*Width)];
@@ -233,6 +234,7 @@
         leftLabel.textColor =BlackColor;
         leftLabel.text = leftArr[i];
         [detailView addSubview:leftLabel];
+    
         
         UILabel *rightLabel =[[UILabel alloc]initWithFrame:CGRectMake(450*Width, 10*Width+57.5*Width*i, 275*Width, 57.5*Width)];
         rightLabel.font =[UIFont systemFontOfSize:14];
@@ -251,7 +253,7 @@
     xianBottom.frame =CGRectMake(0*Width,133.5*Width, CXCWidth, 1.5*Width);
     
     UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width, xianBottom.bottom, 725*Width, 80*Width)];
-    NSString*str =@"实付款：¥2700.00";
+    NSString*str =[NSString stringWithFormat:@"实付款：%.2f",([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"total"]] floatValue]-[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"integral"]] floatValue])];
     subPromLabel.textAlignment =NSTextAlignmentRight;
     [subPromLabel setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
     
@@ -264,6 +266,7 @@
     
     return bottomBgView;
 }
+
 - (void)examinePass:(UIButton*)btn
 {
     

@@ -7,7 +7,7 @@
 //
 
 #import "ChangePasswordVC.h"
-
+#import "LoginPage.h"
 @interface ChangePasswordVC ()<UITextFieldDelegate>
 {
     //底部scrollview
@@ -119,11 +119,36 @@
     }
     UITextField *passtwordTextfield =[self.view viewWithTag:71];
     UITextField *secondtextfield =[self.view viewWithTag:72];
-    if ([passtwordTextfield.text isEqualToString:secondtextfield.text]) {
+    if (![passtwordTextfield.text isEqualToString:secondtextfield.text]) {
         [MBProgressHUD showError:@"两次新密码不一致！" ToView:self.view];
         return;
         
     }
+    UITextField *beforPassword = (UITextField *)[self.view viewWithTag:70];
+    UITextField *afterPassword = (UITextField *)[self.view viewWithTag:71];
+    UITextField *afterPasswordAgain = (UITextField *)[self.view viewWithTag:72];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{@"oldpwd":[NSString stringWithFormat:@"%@",beforeTextfield.text],
+                          @"newpwd1":[NSString stringWithFormat:@"%@",passtwordTextfield.text],
+                          @"newpwd2":[NSString stringWithFormat:@"%@",secondtextfield.text],
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                          
+                          }];
+    
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"Home/Member/editpwd" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+       
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            LoginPage *login =[[LoginPage alloc]init];
+            [self.navigationController pushViewController:login animated:YES];
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
 
 
 
@@ -168,6 +193,13 @@
     }
 
 
+}
+
+-(void)changeMima
+{
+    
+    
+    
 }
 /*
 #pragma mark - Navigation

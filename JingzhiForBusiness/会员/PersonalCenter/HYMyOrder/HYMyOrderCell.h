@@ -24,7 +24,6 @@
 @property(strong,nonatomic)UIButton * rejectBtn;//查看详情
 @property(strong,nonatomic)UIButton * seeLogBtn;//查看物流
 @property(strong,nonatomic)UIButton * tureBtn;//确认收货
-@property(nonatomic,copy)NSString *status;
 
 @property(nonatomic,retain)NSDictionary *dic;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;

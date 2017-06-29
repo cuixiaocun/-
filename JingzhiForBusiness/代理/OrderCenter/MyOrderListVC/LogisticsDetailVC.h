@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface LogisticsDetailVC : UIViewController
+@property(nonatomic,copy)NSString *logistics;
+@property(nonatomic,copy)NSString *logisticscom;
+
 
 @end

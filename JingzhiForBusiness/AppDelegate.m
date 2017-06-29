@@ -46,7 +46,10 @@
     [self.window setRootViewController:self.viewController];
     [self.window makeKeyAndVisible];
     [PublicMethod removeObjectForKey: @"IsLogin"];
-    [PublicMethod removeObjectForKey: @"member"];
+    [PublicMethod removeObjectForKey: member];
+    [PublicMethod removeObjectForKey: shopingCart];
+    [PublicMethod removeObjectForKey: @"token"];
+
     return YES;
 }
 

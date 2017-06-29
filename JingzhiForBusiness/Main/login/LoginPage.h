@@ -14,11 +14,12 @@
 -(void)backBecauseBackNarrow;// 当是返回按钮
 @end
 
-@interface LoginPage : UIViewController<UITextFieldDelegate>
+@interface LoginPage : UIViewController<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 {
 }
 @property(assign,nonatomic)id<LoginDelegate>delegate;
 @property(strong,nonatomic)NSString * status;//页面
+@property (nonatomic,strong) UITableView *nameTableView;
 
 + (BOOL)isMobileNumber:(NSString *)mobileNum;
 

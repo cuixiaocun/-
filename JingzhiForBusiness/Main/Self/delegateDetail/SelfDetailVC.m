@@ -63,7 +63,10 @@
     NO;
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
     NSArray*leftArr =@[@"代理名称",@"电话",@"微信",@"余额",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"日照绿茶",@"15602140123",@"dhsfi",@"¥40.00",@"¥1803.99",];
+    NSArray *rightArr =@[[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"name"]]],
+                         [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"phone"]]],
+                        [PublicMethod stringNilString: [NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"webchat"]]],
+                         @"¥40.00",@"¥1803.99",];
     //列表
     for (int i=0; i<3; i++) {
         UIView *bgview =[[UIView alloc]init];
@@ -101,25 +104,26 @@
     [goShoppingBtn setBackgroundColor:NavColor];
     [goShoppingBtn.layer setCornerRadius:4];
     [goShoppingBtn.layer setMasksToBounds:YES];
-    
     [goShoppingBtn setTitle:@"去购物" forState:UIControlStateNormal];
     [goShoppingBtn.titleLabel setTextColor:[UIColor whiteColor]];
     [goShoppingBtn.titleLabel setFont:[UIFont systemFontOfSize:18]];
     [goShoppingBtn addTarget:self action:@selector(goShoppingBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:goShoppingBtn];
     
-
+    if (![PublicMethod getObjectForKey:@"IsLogin"]) {
+        UIButton * registersdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [registersdBtn setFrame:CGRectMake(40*Width,500*Width , 670*Width, 88*Width)];
+        [registersdBtn setBackgroundColor:[UIColor whiteColor]];
+        [registersdBtn.layer setCornerRadius:4];
+        [registersdBtn.layer setMasksToBounds:YES];
+        [registersdBtn setTitle:@"注册" forState:UIControlStateNormal];
+        [registersdBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+        [registersdBtn.titleLabel setFont:[UIFont systemFontOfSize:18]];
+        [registersdBtn addTarget:self action:@selector(registersdBtnAction) forControlEvents:UIControlEventTouchUpInside];
+        [bgScrollView addSubview:registersdBtn];
+    }
     
-    UIButton * registersdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [registersdBtn setFrame:CGRectMake(40*Width,500*Width , 670*Width, 88*Width)];
-    [registersdBtn setBackgroundColor:[UIColor whiteColor]];
-    [registersdBtn.layer setCornerRadius:4];
-    [registersdBtn.layer setMasksToBounds:YES];
-    [registersdBtn setTitle:@"注册" forState:UIControlStateNormal];
-    [registersdBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
-    [registersdBtn.titleLabel setFont:[UIFont systemFontOfSize:18]];
-    [registersdBtn addTarget:self action:@selector(registersdBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [bgScrollView addSubview:registersdBtn];
+    
 
     
     
@@ -132,16 +136,20 @@
     
     
 }
+
 -(void)goShoppingBtnAction
-{//去购物
+{
+    //去购物
+    [self.navigationController popToRootViewControllerAnimated:YES];
 
 
 }
 - (void)registersdBtnAction
 {
 //去注册
-
+    UILabel*phoneLabel =[self.view viewWithTag:201];
     HYRegisteredVC*registered =[[HYRegisteredVC alloc]init];
+    registered.delegateNumber =phoneLabel.text;
     [self.navigationController pushViewController:registered animated:YES];
     
 }

@@ -19,6 +19,8 @@
     UIView *highlightView;
     NSString *scanMessage;
     BOOL isRequesting;
+    NSString *errorMessage;
+    NSString *successMessage;
 }
 
 @property (nonatomic,weak) XYMScanView *scanV;
@@ -85,22 +87,62 @@
 
 -(void)getScanDataString:(NSString*)scanDataString{
     NSLog(@"二维码内容：%@",scanDataString);
-//    ScanResultViewController *scanResultVC = [[ScanResultViewController alloc]init];
-//    scanResultVC.view.backgroundColor = [UIColor whiteColor];
-//    scanResultVC.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
-//    scanResultVC.scanDataString = scanDataString;
-//    [self.navigationController pushViewController:scanResultVC animated:YES];
+
     if ([_whichView isEqualToString:@"防伪查询"]) {
-        AntiFakeVC *antifack =[[AntiFakeVC alloc]init];
-        antifack.dic=@{@"image":@"",@"name":@"温碧泉透白莹润护肤霜套装",@"prices":@"400",@"isTure":@"YES",@"isAuthentication":@"YES"};
         
-        [self.navigationController pushViewController:antifack animated:YES];
+        [self getResult:scanDataString];
+        
+
+//        AntiFakeVC *antifack =[[AntiFakeVC alloc]init];
+//        antifack.dic=@{@"image":@"",@"name":@"温碧泉透白莹润护肤霜套装",@"prices":@"400",@"isTure":@"YES",@"isAuthentication":@"YES"};
+//        antifack.codeString =scanDataString;
+//        [self.navigationController pushViewController:antifack animated:YES];
         return;
         
     }
     [self.delegate getScanString:scanDataString];
     [self.navigationController popViewControllerAnimated:YES];
 }
+- (void)getResult:(NSString *)scanDataString
+{
+    
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"sn":scanDataString}];
+    
+    [PublicMethod AFNetworkPOSTurl:@"Home/member/fandsecurity" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [self.navigationController popViewControllerAnimated:YES];
+            successMessage =[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]];
+            [self performSelector:@selector(delayMethodSucess) withObject:nil afterDelay:0.5f];
 
+            [ProgressHUD showSuccess:@"此产品为本公司正品"];
+        }else
+        {
 
+            [self.navigationController popViewControllerAnimated:YES];
+            errorMessage =[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]];
+            [self performSelector:@selector(delayMethodError) withObject:nil afterDelay:0.5f];
+
+        
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+-(void)delayMethodError
+{
+    [ProgressHUD showError:errorMessage];
+
+}
+- (void)delayMethodSucess
+{
+
+    [ProgressHUD showError:successMessage];
+
+}
 @end

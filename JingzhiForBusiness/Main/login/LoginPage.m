@@ -18,10 +18,17 @@
 #import "OrderCenterVC.h"
 #import "HYPersonalCenterVC.h"
 #import "HYRegisteredVC.h"
+#import "LoginCell.h"
+#import "ForgetPasswordVC.h"
 @interface LoginPage ()
 {
     UIButton *loginBtn;
     NSString *isLeveler;//yes==代理 no==会员
+    LoginCell *cell;
+    NSArray*arrOfName;
+    BOOL                  isbool;
+    NSMutableArray      * _searchResultArray;
+
 }
 @end
 
@@ -38,6 +45,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    isbool= NO;
     isLeveler =@"NO";
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
@@ -56,11 +64,8 @@
     bgImg.backgroundColor=[UIColor whiteColor];
     [topImageView addSubview:bgImg];
     bgImg.userInteractionEnabled = YES;
-
     bgImg.layer.cornerRadius=2;
     [bgImg setFrame:CGRectMake(183*Width, 20+(44-56*Width)/2-1, 384*Width, 60*Width)];
-    
-
     //会员
     UIButton *hyBtn =[[UIButton alloc]initWithFrame:CGRectMake(2*Width, 2*Width, 190*Width, 56*Width)];
     [hyBtn setBackgroundColor:[UIColor whiteColor]];
@@ -79,7 +84,6 @@
     hyBtn.tag =120;
     hyBtn.titleLabel.font =[UIFont systemFontOfSize:15];
 //    hyBtn.layer.cornerRadius=4;
-
     [hyBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
     [bgImg addSubview:hyBtn];
 
@@ -88,7 +92,6 @@
     [dlBtn setBackgroundColor:[UIColor whiteColor]];
     dlBtn.selected=NO;
 //    dlBtn.layer.cornerRadius=4;
-
     if (dlBtn.selected==YES) {
         [dlBtn setBackgroundColor:[UIColor whiteColor]];
     }else
@@ -116,10 +119,6 @@
     [self.view addSubview:bgScrollView];
     bgScrollView.showsVerticalScrollIndicator =
     NO;
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
-    UIImageView *titleImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 194)];
-    [titleImage setImage:[UIImage imageNamed:@"login_title.png"]];
-    [bgScrollView addSubview:titleImage];
     NSArray *rightArr =@[@"请输入账号",@"请输入密码"];
     NSArray *leftArr =@[@"账号",@"密码"];
     for (int i =0; i<2; i++) {
@@ -197,6 +196,20 @@
     [forgetBtn addTarget:self action:@selector(forgetBtn) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:forgetBtn];
     forgetBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    arrOfName =[[NSArray alloc]init];
+    arrOfName =[PublicMethod getArrData:@"nameArr"];
+    
+
+    _nameTableView =[[UITableView alloc]initWithFrame:CGRectMake( 126*Width,140*Width , 580*Width ,arrOfName.count*80*Width)];
+    self.nameTableView.delegate = self;
+    self.nameTableView.dataSource = self;
+    self.nameTableView.showsVerticalScrollIndicator = NO;
+    self.nameTableView.backgroundColor = [UIColor whiteColor];
+    //    self.nameTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [bgScrollView addSubview:self.nameTableView];
+    
+    _nameTableView.hidden =YES;
+
 
 }
 - (void)registerBtnPressed
@@ -217,23 +230,33 @@
 }
 - (void)forgetBtn
 {
+    ForgetPasswordVC *forget =[[ForgetPasswordVC alloc]init];
+    if([isLeveler isEqualToString:@"YES"])//代理登录
+    {
+        forget.isHYOrDL =@"2";
+    }else//会员登录
+    {
+        forget.isHYOrDL =@"1";
 
+    }
+
+    [self.navigationController pushViewController:forget animated:YES];
 
 
 }
 -(void)loginAdmin
 {
     
-//    UITextField *admin = (UITextField *)[self.view viewWithTag:1];
-//    UITextField *password = (UITextField *)[self.view viewWithTag:2];
-//    if (admin.text.length!=18&&admin.text.length!=11) {
-//        [MBProgressHUD showError:@"请输入正确的用户名" ToView:self.view];
-//        return;
-//    }
-//    if (password.text.length<6) {
-//        [MBProgressHUD showError:@"密码长度不得小于6位" ToView:self.view];
-//        return;
-//    }
+    UITextField *admin = (UITextField *)[self.view viewWithTag:1];
+    UITextField *password = (UITextField *)[self.view viewWithTag:2];
+    if (admin.text.length!=18&&admin.text.length!=11) {
+        [MBProgressHUD showError:@"请输入正确的用户名" ToView:self.view];
+        return;
+    }
+    if (password.text.length<6) {
+        [MBProgressHUD showError:@"密码长度不得小于6位" ToView:self.view];
+        return;
+    }
     NSString *statustring ;//判断状态
     if ([isLeveler isEqualToString:@"YES"]) {
         statustring =@"2";
@@ -242,35 +265,44 @@
     }
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{@"logintype":@"1",@"account":[NSString stringWithFormat:@"%@",@"15610280531"],@"password":@"111111"}];
-//    [dic1 setDictionary:@{@"logintype":statustring ,@"account":[NSString stringWithFormat:@"%@",admin.text],@"password":[NSString stringWithFormat:@"%@",password.text]}];
+    [dic1 setDictionary:@{@"logintype":statustring ,
+                          @"account":[NSString stringWithFormat:@"%@",admin.text],
+                          @"password":[NSString stringWithFormat:@"%@",password.text],
+//                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
+    }];
+//[self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
+
     NSLog(@"%@",dic1);
     [PublicMethod AFNetworkPOSTurl:@"Home/Login/login" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            //成功isLeveler=NO是会员登陆成功isLeveler=YES是代理成功
             if ([isLeveler isEqualToString:@"NO"]) {
                 if ([_status isEqualToString:@"present"]) {
-                    [self.navigationController popViewControllerAnimated:NO];
-                    
+                   //如果是其他页面跳到登录页面直接pop回去（购物详情页面，购物车去结算页面）
+                   [self.navigationController popViewControllerAnimated:NO];
                 }else
                 {
-                    
+                    //如果不是其他页面
                     [self rdv_tabBarController].selectedIndex=2;
                     [self setupViewControllersHYwithIsBack:@"NO"];
                     [self.navigationController popViewControllerAnimated:YES];
 
                 }
+                //会员登录存值
                 [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
-                [PublicMethod saveData:dict withKey:@"member"];
+                NSLog(@"%@",[dict objectForKey:@"data"]);
+                [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"member"]withKey:member];
+                [self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
 
                 
             }else if ([isLeveler isEqualToString:@"YES"])
             {
-                [self rdv_tabBarController].selectedIndex=2;
+                //代理登录成功
                 [self setupViewControllers];
+                //代理登录@"DL"
                 [PublicMethod saveDataString:@"DL" withKey:@"IsLogin"];
-                
             }
-            
         }
         
     } fail:^(NSError *error) {
@@ -291,20 +323,15 @@
 //代理方法:判断是否为正确的手机号码
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    
-    
     UITextField *textFOne =[self.view viewWithTag:1];
     UITextField *textFTwo =[self.view viewWithTag:2];
     NSString *one =textFOne.text;
     NSString *two =textFTwo.text;
     if (textField.tag==1) {
-        one =[textField.text stringByReplacingCharactersInRange:range withString:string];;
-        
+        one =[textField.text stringByReplacingCharactersInRange:range withString:string];
     }else
     {
-        two =[textField.text stringByReplacingCharactersInRange:range withString:string];;
-
-    
+        two =[textField.text stringByReplacingCharactersInRange:range withString:string];
     }
 
     
@@ -312,35 +339,63 @@
     {
         [loginBtn setBackgroundColor:NavColor];
         
-        
     }else
     {
         [loginBtn setBackgroundColor:[UIColor colorWithRed:246/255.0 green:91/255.0 blue:94/255.0 alpha:1]];
-        
-        
     }
-    
-    
-    
-    if (textField.tag == 1) {
-        
-        
-        
-        
-        NSInteger existedLength = textField.text.length;
-        NSInteger selectedLength = range.length;
-        NSInteger replaceLength = string.length;
+    if (textField.tag == 1)
+    {
+            NSInteger existedLength = textField.text.length;
+            NSInteger selectedLength = range.length;
+            NSInteger replaceLength = string.length;
             if (existedLength - selectedLength + replaceLength >= 12) {
-                
+                _nameTableView.hidden =YES;
                 [textField resignFirstResponder];
                 return NO;
+            }
+            if([textField.text stringByReplacingCharactersInRange:range withString:string].length == 0)
+            {
+                isbool = NO;
+                _nameTableView.hidden =NO;
+                _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width, arrOfName.count*Width*80);
+            }
+            else
+            {
+                _nameTableView.hidden =NO;
+                isbool = YES;
+                _searchResultArray = [[NSMutableArray alloc] init];
+                for (NSString * item in arrOfName)
+                {
+                    //case insensative search - way cool
+                    if ([item rangeOfString:[textField.text stringByReplacingCharactersInRange:range withString:string]options:NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch].location != NSNotFound)
+                    {
+                        [_searchResultArray addObject:item];
+                    }
+                    
+                }
+                _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width , _searchResultArray.count*Width*80);
                 
-        }
+                [_nameTableView reloadData];
+                
+            }
+        
+            //end if-else
+            if (existedLength - selectedLength + replaceLength >= 13) {
+                [textField resignFirstResponder];
+                return NO;
+                }
+            
+            
+            
+            
         
         
         
-        }
+        return YES;
+        
+    }
     return YES;
+
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -597,6 +652,85 @@
         [tabBarController setSelectedIndex:2];//若是登录按钮
         
     }
+
+}
+//高
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80*Width;
+    
+}
+//组
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+//每组（section）有几行（row）
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (!isbool)
+        return arrOfName.count;
+    else
+        return _searchResultArray.count;
+}
+//设置cell内容
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *ID = @"loginCellId";
+    cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if (cell == nil)
+    {
+        cell = [[LoginCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID withType:[NSString stringWithFormat:@"%ld",indexPath.row]];
+        cell.selectionStyle =UITableViewCellSelectionStyleNone;
+        
+    }
+    if (!isbool)
+        cell.nameStr= arrOfName[indexPath.row];
+    else
+        cell.nameStr = _searchResultArray[indexPath.row];
+    
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    _nameTableView.hidden =YES;
+    UITextField *account =[self.view viewWithTag:1];
+    if (!isbool)
+        account.text =arrOfName[indexPath.row];
+    else
+        account.text =_searchResultArray[indexPath.row];
+    
+    
+    
+    
+    
+}
+- (void)saveArrWithName:(NSString *)name
+{
+    NSString *statu =@"0";//设定一个状态0表示没有与数组重复的，1表示有重复的
+    NSMutableArray *arr =[[NSMutableArray alloc]init];
+    [arr addObjectsFromArray:[PublicMethod getArrData:@"nameArr"]];
+    if(arr.count ==0)//就是第一次登录
+    {
+        [arr addObject:name];
+        
+    }else
+    {
+        for (NSString *str in arr ) {
+            if ([str isEqualToString:name]) {//若有一样的就返回1退出来---若没有直接加进去
+                statu =@"1";
+                return;
+            }
+            
+        }
+        if([statu isEqualToString:@"0"])
+        {
+            [arr addObject:name];
+        }
+        
+    }
+    
+    [PublicMethod saveArrData:arr withKey:@"nameArr"];
 
 }
 
