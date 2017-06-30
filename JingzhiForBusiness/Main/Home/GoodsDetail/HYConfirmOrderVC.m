@@ -155,8 +155,14 @@
         
         NSString *idStr =[dict objectForKey:@"goodID"];
         NSString *numStr =[dict objectForKey:@"goodsNum"];
+        if (i<_googsArr.count-1) {
+            stringForGoods = [stringForGoods stringByAppendingFormat:@"%@,%@,",idStr,numStr];
 
-        stringForGoods = [stringForGoods stringByAppendingFormat:@"%@,%@,",idStr,numStr];
+        }else
+        {
+            stringForGoods = [stringForGoods stringByAppendingFormat:@"%@,%@",idStr,numStr];
+
+        }
         
     }
     [dic1 setDictionary:@{@"addressId":addressIdString,

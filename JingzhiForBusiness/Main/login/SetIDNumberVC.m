@@ -14,9 +14,14 @@
     //底部scrollview
     UIScrollView *bgScrollView;
     NSString *zhengOrfan;
-    
+    int timeCount;//上传图片请求
+    NSString *isOne;//是否上传正面图片
+    NSString *istwo;//是否上传背面图片
+    NSString *photoStrings;
 
 }
+@property(nonatomic,retain)NSMutableArray *picArr;
+
 @end
 
 @implementation SetIDNumberVC
@@ -27,7 +32,10 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    istwo =@"NO";
+    isOne =@"NO";
+    _picArr =[[NSMutableArray alloc]init];
+    [_picArr addObjectsFromArray:@[@"",@""]];
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -112,19 +120,101 @@
     [nextBtn addTarget:self action:@selector(putUpPhoto) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:nextBtn];
     
-    
-    
-    
-    
-    
 }
 - (void)putUpPhoto
 {
-    [self.delegate successUpPhoto];
-    [self.navigationController popViewControllerAnimated:YES];
-    
+    timeCount=0;
+    photoStrings = @"";
 
+    
+    if([isOne isEqualToString:@"NO"])
+    {
+        [MBProgressHUD showError:@"请上传正面照" ToView:self.view];
+        return;
+    }
+    if([istwo isEqualToString:@"NO"])
+    {
+        [MBProgressHUD showError:@"请上传反面照" ToView:self.view];
+        return;
+    }
+    for (int i=0; i<_picArr.count; i++) {
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
+    NSString *url=[NSString stringWithFormat:@"%@/%@",SERVERURL,@"Home/Login/upidcard"];
+    //    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];//当加密的时候用
+    NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
+    int num = (arc4random() % 10000);
+    NSString*  randomNumber = [NSString stringWithFormat:@"%.4d", num];
+    NSLog(@"%@", randomNumber);
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"guid":randomNumber,
+                          }];
+    
+    NSLog(@"%@",dic1);
+    [parameter setDictionary:dic1];
+    [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
+    
+    [manager POST:url parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        NSData *eachImgData = _picArr[i];
+        //使用日期生成图片名称
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
+        [formData appendPartWithFileData :eachImgData name : @"image" fileName : fileName mimeType : @"image/jpg/png/jpeg" ];
+        
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [MBProgressHUD hideHUDForView:self.view];
+        
+        
+        
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"图片请求成功JSON:%@", JSON);
+
+        if ([ [NSString stringWithFormat:@"%@",[JSON objectForKey:@"code"]]isEqualToString:@"0"])
+        {
+          timeCount ++;
+            NSString *savepath =[NSString stringWithFormat:@"%@",[[[JSON objectForKey:@"data" ] objectForKey:@"image"] objectForKey:@"savepath"]];
+            NSString *savename =[NSString stringWithFormat:@"%@",[[[JSON objectForKey:@"data" ] objectForKey:@"image"] objectForKey:@"savename"]];
+            if (timeCount<_picArr.count) {
+                photoStrings =[photoStrings stringByAppendingFormat:@"%@%@,",savepath,savename];
+
+            }else if (timeCount==_picArr.count)
+            {
+                photoStrings =[photoStrings stringByAppendingFormat:@"%@%@",savepath,savename];
+
+            
+            }
+            
+          if (timeCount==_picArr.count) {
+              [self.delegate successUpPhoto:photoStrings];
+            [self.navigationController popViewControllerAnimated:YES];
+          }
+        
+        }else
+        {
+            [ProgressHUD dismiss];
+            [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[JSON objectForKey:@"msg"]] ToView:self.view];
+            
+            
+        }
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [MBProgressHUD hideHUDForView:self.view];
+        [MBProgressHUD showError:@"加载出错" ToView:self.view];
+        NSLog(@"请求失败:%@", error.description);
+    }];
+        
+    }
+   
 }
+
+
 - (void)seeTheEG
 {
 
@@ -248,61 +338,49 @@
     
 }
 //保存图片
-- (void) savePRImage:(UIImage *)currentImage withName:(NSString *)imageName
+- (void) savePRImage:(UIImage *)currentImage withName:(NSString *)imageName withIndex:(NSInteger)index
 {
     NSData *imageData = UIImageJPEGRepresentation(currentImage, 1);//1为不缩放保存,取值（0.0-1.0）
     //获取沙沙盒目录
     NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:imageName];
     //将图片写入文件
     [imageData writeToFile:fullPath atomically:NO];
+    
 }
 //IOS7以上的都要调用方法，选择完成后调用该方法
 - (void) imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
     [picker dismissViewControllerAnimated:YES completion:^{}];
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-
-    //保存图片至本地，上传图片到服务器需要使用
-    [self savePRImage:image withName:@"avatar.png"];
-    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"avatar.png"];
-    UIImage *img =[[UIImage alloc] initWithContentsOfFile:fullPath];
+    UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
+    // 把头像图片存到本地
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"Img.png"]];   // 保存文件的名称
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    [imageData writeToFile:filePath atomically:YES];
+    
+    UIImage *img =[[UIImage alloc] initWithContentsOfFile:filePath];
     UIImage *savedImage =[self image:img rotation:(img.imageOrientation) ] ;
     
     if ([zhengOrfan isEqualToString:@"zheng"]) {
         UIImageView *imgOne=[self.view viewWithTag:50];
         EGOImageButton *img=[self.view viewWithTag:30];
         [img setImage:[UIImage imageNamed:@"123"] forState:UIControlStateNormal];
-        
-
+        isOne =@"YES";
         [imgOne setImage:savedImage];
+        [_picArr replaceObjectAtIndex:0 withObject:imageData];
         
-        
-
     }else
     {
         UIImageView *imgOne=[self.view viewWithTag:51];
         EGOImageButton *img=[self.view viewWithTag:31];
         [img setImage:[UIImage imageNamed:@"123"] forState:UIControlStateNormal];
-
         [imgOne setImage:savedImage];
-        
+        [_picArr replaceObjectAtIndex:1 withObject:imageData];
 
-    
-    }
-    
-    
+        istwo =@"YES";
+          }
     
     
-    //设置图片显示
-//    [self.showPicRepImmage setImage:savedImage];
-//    [self.fullScreenRepImmage setImage:savedImage];
-//    //上传图片 //异步加载
-//    [MBProgressHUD showLoadToView:self.view];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        self.imgageUrl = [CYLRDataReuest uploadImage:savedImage withView:self.view];
-//        NSLog(@"self.imageUrl = %@",self.imgageUrl);
-//    });
-    //    [self uploadImage:savedImage];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -366,6 +444,7 @@
     
     return newPic;
 }
+
 /*
 #pragma mark - Navigation
 

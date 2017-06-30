@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @protocol SetIDNumberVCDelegate <NSObject>
 @optional
-- (void)successUpPhoto;
+- (void)successUpPhoto:(NSString*)str;
 @end
 
 @interface SetIDNumberVC : UIViewController

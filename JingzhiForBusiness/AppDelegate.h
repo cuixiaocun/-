@@ -8,8 +8,33 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+/*支付宝的*/
+#import <AlipaySDK/AlipaySDK.h>
+
+
+/*微信的*/
+#import "WXApi.h"
+#import "WXApiManager.h"
+
+
+/*极光推送的*/
+// 引入JPush功能所需头文件
+#import "JPUSHService.h"
+// iOS10注册APNs所需头文件
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
+// 如果需要使用idfa功能所需要引入的头文件（可选）
+#import <AdSupport/AdSupport.h>
+
+
+
+/*百度地图的*/
 #import <BaiduMapAPI_Map/BMKMapView.h>//只引入所需的单个头文件
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+static NSString *appKey = @"AppKey copied from JiGuang Portal application";
+static NSString *channel = @"Publish channel";
+static BOOL isProduction = FALSE;
+@interface AppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate>
 {
     BMKMapManager* _mapManager;
 
