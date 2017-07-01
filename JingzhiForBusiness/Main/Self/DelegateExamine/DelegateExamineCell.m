@@ -126,8 +126,11 @@
     UILabel *levelLabel =[self viewWithTag:201];
     UILabel *accountLabel =[self viewWithTag:202];
     UILabel *lastAccountLabel =[self viewWithTag:203];
-    
-    
+    typeLabel.text =[NSString stringWithFormat:@"类型：%@",[_dic objectForKey:@"typename"]];
+    statuLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"stuname"]];
+    levelLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"lname"]]]];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]]]];
+    lastAccountLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"upagenaccount"]]]];
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

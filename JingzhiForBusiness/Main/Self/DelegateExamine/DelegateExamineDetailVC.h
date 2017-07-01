@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DelegateExamineDetailVC : UIViewController
+@property(nonatomic,strong)NSDictionary *angeDic;
 
 @end

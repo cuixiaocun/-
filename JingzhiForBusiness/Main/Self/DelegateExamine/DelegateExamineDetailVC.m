@@ -13,6 +13,7 @@
 
     //底部scrollview
     UIScrollView *bgScrollView;
+    NSDictionary *dict;
 
 }
 @end
@@ -30,12 +31,14 @@
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
+    
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(0, 20, 44, 44);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
+    
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
     [navTitle setText:@"审核代理注册"];
@@ -45,11 +48,8 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
-    
-    [self mainView];
-
-
-
+//    [self mainView];
+    [self getExaminePass];
 
 }
 -(void)mainView
@@ -63,10 +63,22 @@
     [topBgView setBackgroundColor:[UIColor whiteColor]];
     topBgView.frame =CGRectMake(0, 0, CXCWidth,74*Width+4*Width*84 );;
     [bgScrollView addSubview:topBgView];
-   NSArray* topLeftArr =@[@"    当前产品数量",@"商品a",@"商品b",@"商品b",@"商品b"];
-   NSArray* topRightArr =@[@"     ",@"100盒",@"100盒",@"100盒",@"100盒"];
+   
+       NSArray *reviewArr =[dict objectForKey:@"review"];
+    NSMutableArray* topLeftArr =[[NSMutableArray alloc]init];
+    [topLeftArr addObject:@"    当前产品数量"];
+    
+    NSMutableArray* topRightArr =[[NSMutableArray alloc]init];
+    [topRightArr addObject:@"     "];
+    
+    for (int i=0; i<reviewArr.count; i++) {
+        
+        [topLeftArr addObject:[reviewArr[i] objectForKey:@"name"]];
+        [topRightArr addObject:[reviewArr[i] objectForKey:@"num"]];
+    }
+  
 
-    for (int i=0;i<5 ; i++) {
+    for (int i=0;i<topRightArr.count ; i++) {
         //左边提示
         UILabel* labe = [[UILabel alloc]init];
         labe.font = [UIFont systemFontOfSize:14];
@@ -108,7 +120,11 @@
     middleBgView.frame =CGRectMake(0, topBgView.bottom, CXCWidth,74*Width+5*Width*84 );;
     [bgScrollView addSubview:middleBgView];
     NSArray* middleLeftArr =@[@"    注册下级代理信息",@"姓名",@"账号",@"代理级别",@"身份证",@"电话"];
-    NSArray* middleRightArr =@[@"     ",@"张三",@"18363671722",@"二级代理",@"393902199810193124",@"18363671722"];
+    NSArray* middleRightArr =@[@"     ",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"]objectForKey:@"name"]]],
+                               [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"account"]]],
+                              [PublicMethod stringNilString: [NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"levelname"]]],
+                               [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"idcard"]]],
+                               [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"phone"]]]];
     
     for (int i=0;i<6 ; i++) {
         //左边提示
@@ -148,12 +164,11 @@
     
     UIView * bottomBgView =[[UIView alloc]init];
     [bottomBgView setBackgroundColor:[UIColor whiteColor]];
-    bottomBgView.frame =CGRectMake(0, middleBgView.bottom, CXCWidth,74*Width*2+4*Width*170);;
     [bgScrollView addSubview:bottomBgView];
     //时间
     UILabel* timeLabel  = [[UILabel alloc]init];
     timeLabel.font = [UIFont systemFontOfSize:13];
-    timeLabel.text = @"    2017-09-01 12：23：24";
+    timeLabel.text =[NSString stringWithFormat:@"    %@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"oorder"] objectForKey:@"updatetime"]]] ];
     [bottomBgView addSubview:timeLabel];
     timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
     timeLabel.backgroundColor =BGColor;
@@ -162,7 +177,7 @@
     UILabel* pricesLabel  = [[UILabel alloc]init];
     pricesLabel.font = [UIFont systemFontOfSize:13];
     pricesLabel.textColor = TextGrayColor;
-    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",@"900000"];//总和
+    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"oorder"] objectForKey:@"total"]]]];//总和
     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
     NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
     [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
@@ -174,14 +189,14 @@
     //订单号
     UILabel* orderNumberLabel  = [[UILabel alloc]init];
     orderNumberLabel.font = [UIFont systemFontOfSize:14];
-    orderNumberLabel.text = @"    订单号：1953056874376";
+    orderNumberLabel.text = [NSString stringWithFormat:@"    订单号：%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"oorder"] objectForKey:@"id"]]] ];
     [bottomBgView addSubview:orderNumberLabel];
     orderNumberLabel.frame= CGRectMake(0*Width, timeLabel.bottom,CXCWidth,74*Width);
     orderNumberLabel.textColor = TextGrayColor;
     //状态
     UILabel* orderStatuerLabel  = [[UILabel alloc]init];
     orderStatuerLabel.font = [UIFont systemFontOfSize:14];
-    orderStatuerLabel.text = @"等待审核";
+    orderStatuerLabel.text = [_angeDic objectForKey:@"stuname"];
     orderStatuerLabel.textAlignment =NSTextAlignmentRight;
     [bottomBgView addSubview:orderStatuerLabel];
     orderStatuerLabel.frame= CGRectMake(400*Width, timeLabel.bottom,325*Width,74*Width);
@@ -191,7 +206,13 @@
     xianOfGoods.backgroundColor =BGColor;
     [bottomBgView addSubview:xianOfGoods];
     xianOfGoods.frame =CGRectMake(0*Width,orderNumberLabel.bottom,CXCWidth,1.5*Width);
-    for (int i=0;i<4 ; i++) {
+    
+    
+    NSArray *orderArr =[dict objectForKey:@"detail"];
+    bottomBgView.frame =CGRectMake(0, middleBgView.bottom, CXCWidth,74*Width*2+orderArr.count*Width*170);;
+
+    
+    for (int i=0;i<orderArr.count ; i++) {
         
         UIView  *bgview =[[UIView alloc]initWithFrame:CGRectMake(0*Width, xianOfGoods.bottom+170*Width*i,CXCWidth , 170*Width)];
         [bottomBgView addSubview:bgview];
@@ -199,7 +220,7 @@
         //商品名称
         UILabel* leftTopLabe = [[UILabel alloc]init];
         leftTopLabe.font = [UIFont systemFontOfSize:14];
-        leftTopLabe.text = @"商品q";
+        leftTopLabe.text = [NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"detail"][i]objectForKey:@"name"]]]];
         leftTopLabe.frame= CGRectMake(24*Width, 0,300*Width , 80*Width);
         leftTopLabe.tag =230+i;
 //        leftTopLabe.backgroundColor =BGColor;
@@ -207,7 +228,9 @@
         [bgview addSubview:leftTopLabe];
         //数量
         UILabel* rightLabel = [[UILabel alloc]init];
-        rightLabel.text =@"1箱9盒";
+        int box =[[[dict objectForKey:@"detail"][i]objectForKey:@"num"] intValue]/[[[dict objectForKey:@"detail"][i]objectForKey:@"boxnum"] intValue];
+        int he =[[[dict objectForKey:@"detail"][i]objectForKey:@"num"] intValue]%[[[dict objectForKey:@"detail"][i]objectForKey:@"boxnum"] intValue];
+        rightLabel.text =[NSString stringWithFormat:@"%d箱%d盒",box,he];
         rightLabel.frame =CGRectMake(250*Width ,0,475*Width,80*Width );
         rightLabel.textAlignment=NSTextAlignmentRight;
         rightLabel.tag =240+i;
@@ -221,7 +244,8 @@
         //商品单价
         UILabel* priceLabe = [[UILabel alloc]init];
         priceLabe.font = [UIFont systemFontOfSize:14];
-        priceLabe.text = @"¥300.00";
+       
+        priceLabe.text = [NSString stringWithFormat:@"¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"detail"][i]objectForKey:@"price"]]]];
         priceLabe.frame= CGRectMake(24*Width, leftTopLabe.bottom+10*Width,300*Width , 80*Width);
         priceLabe.tag =250+i;
         priceLabe.textColor = NavColor;
@@ -231,7 +255,7 @@
         UILabel* allPriceLabel = [[UILabel alloc]init];
         allPriceLabel.textColor = BlackColor;
 
-        NSString *totalString =[NSString stringWithFormat:@"小计：¥%@",@"900"];//总和
+        NSString *totalString =[NSString stringWithFormat:@"小计：¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"detail"][i]objectForKey:@"total"]]]];//总和
         NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
         NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
         [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
@@ -267,10 +291,21 @@
     [btnView addSubview:examineBtn];
     
 
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, btnView.bottom)];
+
     
     
-    
-    
+    if ([[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"status"]]isEqualToString:@"1"]) {
+        
+        
+    }else
+    {
+        btnView.hidden =YES;
+        topBgView.hidden =YES;
+        middleBgView.frame =CGRectMake(0, 0, CXCWidth,74*Width+5*Width*84 );
+        bottomBgView.frame =CGRectMake(0, middleBgView.bottom, CXCWidth,74*Width*2+orderArr.count*Width*170);
+    }
+
     
     
         
@@ -376,7 +411,29 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (void)getExaminePass
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"agen":[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"agenid"]] ,
+                          @"viewid":[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"id"]],//viewID就是列表的id
+                          @"orderid":[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"orderid"]] ,
+                          @"agenid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/agenonlineorderdetail" paraments:dic1  addView:self.view success:^(id responseDic) {
+        dict = [[NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"];
+        
+        [self  mainView ];
+//        [self.tableView reloadData];
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
 /*
 #pragma mark - Navigation
 

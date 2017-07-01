@@ -23,6 +23,7 @@
     UIView* blackBgView;//输入框背景透明黑
     UIView *alterView;//弹出输入框
     NSInteger indextNum;//定位在哪个单元格点击的（alterView 用）
+    NSString *minMoney;//最低拿货金额
 }
 @end
 
@@ -55,6 +56,7 @@
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     [self mainView];
+    [self minimumMoney];
 }
 - (void)mainView
 {
@@ -67,7 +69,7 @@
     UILabel *promptLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 60*Width)];
     promptLabel.backgroundColor  =[UIColor colorWithRed:255/255.0 green:239/255.0 blue:212/255.0 alpha:1];
     promptLabel.textColor =[UIColor colorWithRed:249/255.0 green:98/255.0 blue:48/255.0 alpha:1];
-    promptLabel.text =@"    提示：最低拿货金额1000元";
+    promptLabel.tag =1122;
     promptLabel.font =[UIFont systemFontOfSize:14];
     [bgScrollView addSubview:promptLabel];
     
@@ -217,41 +219,111 @@
 //确认提交按钮
 - (void)confirmButtonAction
 {
+    
+    
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    NSString *stringForGoods =@"";//代理注册提交报单的拼接字符串
+    for (int i=0; i<infoArr.count; i++) {
+        GoodsModel *goodsModel=infoArr[i];
+        NSString *idStr =goodsModel.goodID;
+        int numStr =goodsModel.goodsNum;
+        if (i<infoArr.count-1) {
+            stringForGoods = [stringForGoods stringByAppendingFormat:@"%@,%d,",idStr,numStr];
+        }else
+        {
+            stringForGoods = [stringForGoods stringByAppendingFormat:@"%@,%d",idStr,numStr];
+        }
+        
+    }
+    //参数
+    [dic1 setDictionary:@{
+                          @"zong":[NSString stringWithFormat:@"%.2f",allPrice],
+                          @"products":stringForGoods
+                          }];
+    //网络请求
+    [PublicMethod AFNetworkPOSTurl:@"Home/Login/createRegOrder" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+            
+            
+            [MBProgressHUD showSuccess:@"注册成功,请登录" ToView:self.view];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+        
+        
+    }];
+    
+    
+    
 
-    [MBProgressHUD showSuccess:@"注册成功,请登录" ToView:self.view];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+  
 }
 //系统计算
 - (void)calculateTheGoods
 {
-    goodsTableview.hidden =NO;//显示tableview
     
-    UITextField *textF =[self.view viewWithTag:2];
-    [textF resignFirstResponder];
-    NSString*num =[NSString stringWithFormat:@"%ld",[textF.text integerValue]/(10*4)+([textF.text integerValue]%(10*4)>0?1:0)];//通过:输入的金额/4种产品的单价之和 取整（有小数则进一）
-    
-    infoArr =[[NSMutableArray alloc]init];
-    
-    for (int i = 0; i<4; i++)
-    {
-        NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
-        [infoDict setValue:@"这是商品标题" forKey:@"goodsTitle"];
-        [infoDict setValue:@"10.00" forKey:@"goodsPrice"];
-        [infoDict setValue:[NSNumber numberWithBool:YES] forKey:@"selectState"];
-        [infoDict setValue:[NSString stringWithFormat:@"%.2f",([@"10.0" floatValue] *[num floatValue])] forKey:@"goodsTotalPrice"];
-        [infoDict setValue:[NSNumber numberWithInt:[num intValue]] forKey:@"goodsNum"];
-        
-        //封装数据模型
-        GoodsModel *goodsModel = [[GoodsModel alloc]initWithDict:infoDict];
-        //将数据模型放入数组中
-        [infoArr addObject:goodsModel];
+    UITextField *moneyText =[self.view viewWithTag:2];
+    if ([moneyText.text floatValue]<[minMoney floatValue]) {
+        [MBProgressHUD showError:@"输入金额不得小于最低金额" ToView:self.view];
+        return;
     }
-    [self totalPrice];//求总和
-    [goodsTableview reloadData];//更新一下tableView
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"level":[NSString stringWithFormat:@"%ld",[_levelString integerValue]+1],
+                          @"money":moneyText.text
+                          }];
+    NSLog(@"%@",dic1);
     
-    
-    
+    [PublicMethod AFNetworkPOSTurl:@"Home/Login/getAgenBuyInfo" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+           
+            goodsTableview.hidden =NO;//显示tableview
+            NSDictionary *prolistDic =[[dict objectForKey:@"data"]objectForKey:@"prolist"];
+            NSArray *values = [prolistDic allValues];
+            infoArr =[[NSMutableArray alloc]init];
+            for (int i = 0; i<values.count; i++)
+            {
+                NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
+                [infoDict setValue:[NSString stringWithFormat:@"%@",[values[i] objectForKey:@"name"]] forKey:@"goodsTitle"];
+                [infoDict setValue:[NSString stringWithFormat:@"%@",[values[i] objectForKey:@"myprice"]] forKey:@"goodsPrice"];
+                [infoDict setValue:[NSNumber numberWithBool:YES] forKey:@"selectState"];
+                [infoDict setValue:[NSString stringWithFormat:@"%.2f",([[values[i] objectForKey:@"myprice"] floatValue] *[[values[i] objectForKey:@"num"] floatValue])] forKey:@"goodsTotalPrice"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"num"] floatValue]] forKey:@"goodsNum"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"boxnum"] floatValue]] forKey:@"boxnum"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"id"] floatValue]] forKey:@"goodID"];
 
+                //封装数据模型
+                GoodsModel *goodsModel = [[GoodsModel alloc]initWithDict:infoDict];
+                //将数据模型放入数组中
+                [infoArr addObject:goodsModel];
+
+            }
+            [self totalPrice];//求总和
+            [goodsTableview reloadData];//更新一下tableView
+            
+            
+            
+
+
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+   
+    
+    
+    
+    
 
 }
 //返回按钮
@@ -651,8 +723,31 @@
     alterView.hidden =YES;
     
 }
+-(void)minimumMoney
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"level":[NSString stringWithFormat:@"%ld",[_levelString integerValue]+1],
+                         }];
+    NSLog(@"%@",dic1);
 
+    [PublicMethod AFNetworkPOSTurl:@"Home/Index/getLevelInfo" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+          minMoney=  [NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"]objectForKey:@"money"]];
+            
+            UILabel *promptLabel =[self.view viewWithTag:1122];
+            promptLabel.text =[NSString stringWithFormat:@"    提示：最低拿货金额%@元",minMoney];
 
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+}
 /*
 #pragma mark - Navigation
 

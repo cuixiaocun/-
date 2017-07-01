@@ -92,7 +92,8 @@
 - (void)mainView
 {
     NSDictionary*dic =[[NSDictionary alloc]init];
-    dic  =[PublicMethod getDataKey:member];
+    dic  =[PublicMethod getDataKey:agen];
+
     
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,CXCWidth, CXCHeight-100*Width)];
     [bgScrollView setUserInteractionEnabled:YES];

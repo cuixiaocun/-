@@ -74,8 +74,6 @@
     wzLabel.textAlignment =NSTextAlignmentCenter;
     wzLabel.font =[UIFont systemFontOfSize:14];
     [bgScrollView addSubview:wzLabel];
-    
-    
 
 
     UIImageView *oppositeImg = [[UIImageView alloc]initWithFrame:CGRectMake(0*Width, 80*Width, CXCWidth, 860*Width)];

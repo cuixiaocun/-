@@ -127,20 +127,20 @@
 
     
     //假设是6盒为一箱
-    if ([[NSString stringWithFormat:@"%d",goodsModel.goodsNum] intValue]<6) {
+    if ([[NSString stringWithFormat:@"%d",goodsModel.goodsNum] intValue]<[goodsModel.boxnum integerValue]) {
         //不满一箱
-       _numTitleLab.text =  [NSString stringWithFormat:@"%ld盒",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]%6];
+       _numTitleLab.text =  [NSString stringWithFormat:@"%ld盒",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]%[goodsModel.boxnum integerValue]];
     }else
     {
         //满一箱
-        if ([[NSString stringWithFormat:@"%d",goodsModel.goodsNum] intValue]%6>0) {
+        if ([[NSString stringWithFormat:@"%d",goodsModel.goodsNum] intValue]%[goodsModel.boxnum integerValue]>0) {
             //不是整箱
-            _numTitleLab.text =[NSString stringWithFormat:@"%ld箱%ld盒",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]/6,[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]%6];
+            _numTitleLab.text =[NSString stringWithFormat:@"%ld箱%ld盒",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]/[goodsModel.boxnum integerValue],[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]%[goodsModel.boxnum integerValue]];
             
         }else
         {
             //是整箱
-            _numTitleLab.text =[NSString stringWithFormat:@"%ld箱",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]/6];
+            _numTitleLab.text =[NSString stringWithFormat:@"%ld箱",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]/[goodsModel.boxnum integerValue]];
         }
        
     }

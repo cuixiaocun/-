@@ -45,6 +45,7 @@
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     [self mainView];
+    [self angeDetail];
 }
 -(void)returnBtnAction
 {
@@ -71,7 +72,7 @@
         labe.font = [UIFont systemFontOfSize:15];
         labe.textColor = [UIColor grayColor];
         [bgview addSubview:labe];
-        if (i==5||i==7||i==8) {
+        if (i==5||i==7||i==8||i==9) {
             UITextField *inputText = [[UITextField alloc] init];
             [inputText setTag:i+10];
             [inputText setPlaceholder:rightArr[i]];
@@ -181,11 +182,12 @@
     UITextField *nameText =[self.view viewWithTag:15];
     UITextField *phoneText =[self.view viewWithTag:17];
     UITextField *wxText =[self.view viewWithTag:18];
+    UITextField *hzText =[self.view viewWithTag:19];
 
     [nameText resignFirstResponder];
     [phoneText resignFirstResponder];
     [wxText resignFirstResponder];
-    
+    [hzText resignFirstResponder];
 
     UILabel*addressLabel = [self.view viewWithTag:30];
     
@@ -206,6 +208,43 @@
     return YES;
     
 
+}
+- (void)angeDetail
+{
+    [PublicMethod AFNetworkPOSTurl:@"Home/member/usermessage" paraments:@{
+                                                                          
+    @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:agen] objectForKey:@"id"] integerValue]]
+    }  addView:self.view success:^(id responseDic) {
+        
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        
+        NSDictionary *dataDict =[dict objectForKey:@"data"];
+        
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            UITextField*nameLabel =[self.view viewWithTag:15];
+            UITextField*phoneLabel =[self.view viewWithTag:17];
+            UITextField*wxLabel =[self.view viewWithTag:18];
+            UITextField*hzLabel =[self.view viewWithTag:19];
+            UILabel *accountLabel =[self.view viewWithTag:20];
+            UILabel *leveLabel =[self.view viewWithTag:21];
+            UILabel *canMoneyLabel =[self.view viewWithTag:22];
+            UILabel *parentLabel =[self.view viewWithTag:23];
+            UILabel *angeUpLabel =[self.view viewWithTag:24];
+            UILabel *idNumLabel =[self.view viewWithTag:26];
+            UILabel *addressLabel =[self.view viewWithTag:30];
+            
+        
+            
+            
+            }
+                                                                              
+        
+    } fail:^(NSError *error) {
+                                                                              
+        
+    }];
+    
+    
 }
 /*
 #pragma mark - Navigation

@@ -268,7 +268,6 @@
     [dic1 setDictionary:@{@"logintype":statustring ,
                           @"account":[NSString stringWithFormat:@"%@",admin.text],
                           @"password":[NSString stringWithFormat:@"%@",password.text],
-//                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
     }];
 //[self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
 
@@ -292,6 +291,7 @@
                 //会员登录存值
                 [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
                 NSLog(@"%@",[dict objectForKey:@"data"]);
+                [PublicMethod removeObjectForKey: agen];
                 [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"member"]withKey:member];
                 [self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
 
@@ -300,8 +300,15 @@
             {
                 //代理登录成功
                 [self setupViewControllers];
-                //代理登录@"DL"
-                [PublicMethod saveDataString:@"DL" withKey:@"IsLogin"];
+                //代理登录存值
+                [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
+                NSLog(@"%@",[dict objectForKey:@"data"]);
+                [PublicMethod removeObjectForKey: member];
+
+                [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"agen"]withKey:agen];
+                [self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
+                
+
             }
         }
         

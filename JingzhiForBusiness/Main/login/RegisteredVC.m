@@ -86,7 +86,7 @@
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
     NSArray*leftArr =@[@"上级代理号",@"昵称",@"链接后缀",@"手机号",@"密码",@"确认密码",@"微信号",@"代理级别",@"所属地区",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"上级代理号",@"填写代理昵称",@"填写属于自己的后缀",@"手机号",@"8-16位数字、字母或字符",@"确认密码",@"微信号",@"选择级别",@"选择地区",@"身份证号",@"上传身份证件",@"",@"",@""];
+    NSArray *rightArr =@[@"上级代理号",@"填写代理昵称",@"填写属于自己的后缀",@"手机号",@"6-16位数字、字母或字符",@"确认密码",@"微信号",@"选择级别",@"选择地区",@"身份证号",@"上传身份证件",@"",@"",@""];
     //列表
     for (int i=0; i<11; i++) {
         UIView *bgview =[[UIView alloc]init];
@@ -254,7 +254,7 @@
                           @"agenurl":[NSString stringWithFormat:@"%@",lastURLTF.text],
                           @"idcard":[NSString stringWithFormat:@"%@",idNumTF.text],
                           @"idcardimg":[NSString stringWithFormat:@"%@",photoString],
-                          @"agenlevel":[NSString stringWithFormat:@"%@",levelString],
+                          @"agenlevel":[NSString stringWithFormat:@"%ld",[levelString integerValue]+1],
                           @"username":[NSString stringWithFormat:@"%@",nameTF.text],
                           @"xianaddress":[NSString stringWithFormat:@"%@",adressTF.text],
                           @"lng":[NSString stringWithFormat:@"%@",memberlng],
@@ -267,7 +267,6 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"])
         {
-
             RegisterAndGoods *registerAndGoods =[[RegisterAndGoods alloc]init];
             registerAndGoods.levelString=levelString;
             registerAndGoods.navTitle =@"注册提报";

@@ -15,6 +15,9 @@
 @property(assign,nonatomic)BOOL selectState;//是否选中状态
 @property(assign,nonatomic)int goodsNum;//商品个数
 @property(strong,nonatomic)NSString *goodsTotalPrice;
+@property(strong,nonatomic)NSString *boxnum;//箱数
+@property(strong,nonatomic)NSString *goodID;//id
+
 -(instancetype)initWithDict:(NSDictionary *)dict;
 
 

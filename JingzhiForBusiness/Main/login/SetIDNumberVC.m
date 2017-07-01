@@ -178,14 +178,13 @@
         if ([ [NSString stringWithFormat:@"%@",[JSON objectForKey:@"code"]]isEqualToString:@"0"])
         {
           timeCount ++;
-            NSString *savepath =[NSString stringWithFormat:@"%@",[[[JSON objectForKey:@"data" ] objectForKey:@"image"] objectForKey:@"savepath"]];
-            NSString *savename =[NSString stringWithFormat:@"%@",[[[JSON objectForKey:@"data" ] objectForKey:@"image"] objectForKey:@"savename"]];
+            NSString *savepath =[NSString stringWithFormat:@"%@",[[JSON objectForKey:@"data" ] objectForKey:@"url"]];
             if (timeCount<_picArr.count) {
-                photoStrings =[photoStrings stringByAppendingFormat:@"%@%@,",savepath,savename];
+                photoStrings =[photoStrings stringByAppendingFormat:@"%@,",savepath];
 
             }else if (timeCount==_picArr.count)
             {
-                photoStrings =[photoStrings stringByAppendingFormat:@"%@%@",savepath,savename];
+                photoStrings =[photoStrings stringByAppendingFormat:@"%@",savepath];
 
             
             }
@@ -198,7 +197,7 @@
         }else
         {
             [ProgressHUD dismiss];
-            [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[JSON objectForKey:@"msg"]] ToView:self.view];
+            [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[[JSON objectForKey:@"msg"] objectForKey:@"error"]] ToView:self.view];
             
             
         }

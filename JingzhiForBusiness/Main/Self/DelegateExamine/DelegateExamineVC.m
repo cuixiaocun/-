@@ -11,7 +11,10 @@
 #import "DelegateExamineDetailVC.h"
 #import "DelegateDetailVC.h"
 @interface DelegateExamineVC ()
+{
+    NSString *statuString;
 
+}
 @end
 
 @implementation DelegateExamineVC
@@ -22,6 +25,8 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    statuString =@"0";
+
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -42,48 +47,48 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
-    
+    [self getInfoList];
     [self mainView];
 }
 - (void)mainView
 {
     
-    UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
-    topView.backgroundColor =[UIColor whiteColor];
-    [self.view addSubview:topView];
-    NSArray *btnArr =@[@"全部",@"待审核",@"已完成"];
-    for (int i=0; i<3; i++) {
-        UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        statuBtn.frame = CGRectMake(CXCWidth/3*i, 0,CXCWidth/3-2*Width ,100*Width);
-        if (i==0) {
-            statuBtn.selected =YES;
-        }
-        if (i<4) {
-            //横线
-            UIImageView*xian =[[UIImageView alloc]init];
-            xian.backgroundColor =BGColor;
-            [topView addSubview:xian];
-            xian.frame =CGRectMake(statuBtn.right,25*Width, Width, 50*Width);
-            
-        }
-        //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
-        statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
-        [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
-        [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
-        [statuBtn setTitleColor:NavColor forState:UIControlStateSelected];
-        statuBtn.tag =220+i;
-        [statuBtn addTarget:self action:@selector(changeStatuBtn:) forControlEvents:UIControlEventTouchUpInside];
-        [topView addSubview:statuBtn];
-    }
-    //横线
-    UIImageView*xian =[[UIImageView alloc]init];
-    xian.backgroundColor =BGColor;
-    [topView addSubview:xian];
-    xian.frame =CGRectMake(0,98*Width, CXCWidth, 2*Width);
-    
+//    UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
+//    topView.backgroundColor =[UIColor whiteColor];
+//    [self.view addSubview:topView];
+//    NSArray *btnArr =@[@"全部",@"待审核",@"已完成"];
+//    for (int i=0; i<3; i++) {
+//        UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        statuBtn.frame = CGRectMake(CXCWidth/3*i, 0,CXCWidth/3-2*Width ,100*Width);
+//        if (i==0) {
+//            statuBtn.selected =YES;
+//        }
+//        if (i<4) {
+//            //横线
+//            UIImageView*xian =[[UIImageView alloc]init];
+//            xian.backgroundColor =BGColor;
+//            [topView addSubview:xian];
+//            xian.frame =CGRectMake(statuBtn.right,25*Width, Width, 50*Width);
+//            
+//        }
+//        //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+//        statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
+//        [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
+//        [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+//        [statuBtn setTitleColor:NavColor forState:UIControlStateSelected];
+//        statuBtn.tag =220+i;
+//        [statuBtn addTarget:self action:@selector(changeStatuBtn:) forControlEvents:UIControlEventTouchUpInside];
+//        [topView addSubview:statuBtn];
+//    }
+//    //横线
+//    UIImageView*xian =[[UIImageView alloc]init];
+//    xian.backgroundColor =BGColor;
+//    [topView addSubview:xian];
+//    xian.frame =CGRectMake(0,98*Width, CXCWidth, 2*Width);
+//    
 
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -115,16 +120,17 @@
         UIButton *statuBtn =[self.view viewWithTag:220+i];
         statuBtn.selected=NO;
     }
+    statuString =[NSString stringWithFormat:@"%ld",btn.tag-220];
     btn.selected =YES;
     
-    
+    currentPage=0;
+    [self getInfoList];
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 5;
+    return infoArray.count ;
 }
 
 
@@ -137,7 +143,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger row =[indexPath row];
+    NSInteger row =[indexPath row];
     static NSString *CellIdentifier = @"Cell";
     DelegateExamineCell *cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -146,22 +152,16 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [infoArray objectAtIndex:row];
+        [cell setDic:dict];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==1) {
-        DelegateDetailVC *delegateDetail =[[DelegateDetailVC  alloc]init];
-        [self.navigationController pushViewController:delegateDetail animated:YES];
-
-    }else
-    {
         DelegateExamineDetailVC *delegateDetail =[[DelegateExamineDetailVC  alloc]init];
+        delegateDetail.angeDic =infoArray[indexPath.row];
         [self.navigationController pushViewController:delegateDetail animated:YES];
-    }
     
 }
 #pragma mark - Pull to Refresh
@@ -174,7 +174,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
@@ -198,7 +198,7 @@
     DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
     if (willRefreshOnRelease){
         hv.title.text = @"松开即可更新...";
-        currentPage = 1;
+        currentPage = 0;
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.18f];
         ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -208,7 +208,7 @@
     else{
         
         if ([hv.title.text isEqualToString:@"松开即可更新..."]) {
-            currentPage = 1;
+            currentPage = 0;
             [CATransaction begin];
             [CATransaction setAnimationDuration:0.18f];
             ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
@@ -305,7 +305,7 @@
 - (void) addItemsOnTop
 {
     
-    currentPage=1;
+    currentPage=0;
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
     
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -349,72 +349,68 @@
 - (void)getInfoList
 {
     
-    //    [ProgressHUD show:@"加载中"];
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
-    //
-    //    //你的接口地址
-    //    NSString *url=[NSString stringWithFormat:@"%@/repair/getByUserId",SERVERURL];
-    //    NSDictionary *parameter = @{@"uid":@"",@"status":@"",@"deviceType":@"2"};
-    //
-    //
-    //
-    //
-    //
-    //    [PublicMethod AFNetworkPOSTurl:url paraments:parameter success:^(id responseDic) {
-    //
-    //
-    //        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-    //        NSLog(@"请求成功JSON:%@", dict);
-    //
-    //        if (dict) {
-    //            [ProgressHUD dismiss];
-    //
-    //            NSMutableArray *array=[[dict objectForKey:@"result"]objectForKey:@"list"];
-    //            if ([array isKindOfClass:[NSNull class]]) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //                return ;
-    //            }
-    //
-    //            if (currentPage==1) {
-    //                [infoArray removeAllObjects];
-    //            }
-    //
-    //            [infoArray addObjectsFromArray:array];
-    //
-    //            if ([infoArray count]==0 && currentPage==1) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //
-    //            }
-    //            pageCount =infoArray.count/10;
-    //            //判断是否加载更多
-    //            if (array.count==0 || array.count<10){
-    //                self.canLoadMore = NO; // signal that there won't be any more items to load
-    //            }else{
-    //                self.canLoadMore = YES;
-    //            }
-    //
-    //            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-    //            [fv.activityIndicator stopAnimating];
-    //
-    //            if (!self.canLoadMore) {
-    //                fv.infoLabel.hidden = YES;
-    //            }else{
-    //                fv.infoLabel.hidden = NO;
-    //            }
-    //
-    //            [self.tableView reloadData];
-    //            
-    //        }
-    //        
-    //        
-    //    } fail:^(NSError *error) {
-    //                [ProgressHUD showError:@"网络连接失败"];
-    //                NSLog(@"网络连接失败");
-    //    }];
-    //    
-    //    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"status":statuString
+
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/getdownreview" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        //            infoArray = [dict objectForKey:@"data"];
+        
+        if (currentPage==0) {
+            [infoArray removeAllObjects];
+            
+        }
+        NSMutableArray *array=[dict objectForKey:@"data"];
+        if ([array isKindOfClass:[NSNull class]]) {
+            //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+            [self.tableView reloadData];
+            
+            return ;
+        }
+        
+        
+        [infoArray addObjectsFromArray:array];
+        
+        if ([infoArray count]==0 && currentPage==0) {
+            //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+            
+        }
+        pageCount =infoArray.count/20;
+        //判断是否加载更多
+        if (array.count==0 || array.count<20){
+            self.canLoadMore = NO; // signal that there won't be any more items to load
+        }else{
+            self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
+        }
+        
+        DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+        [fv.activityIndicator stopAnimating];
+        
+        if (!self.canLoadMore) {
+            fv.infoLabel.hidden = YES;
+        }else{
+            fv.infoLabel.hidden = NO;
+        }
+        
+        
+        [self.tableView reloadData];
+        if (currentPage==0) {
+            //                [self.tableView setScrollsToTop:YES];
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
+        
+        [self.tableView reloadData];
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 
 /*

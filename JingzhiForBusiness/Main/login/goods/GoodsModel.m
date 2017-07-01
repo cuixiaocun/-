@@ -19,6 +19,9 @@
         self.goodsNum = [dict[@"goodsNum"]intValue];
         self.selectState = [dict[@"selectState"]boolValue];
         self.goodsTotalPrice=dict[@"goodsTotalPrice"];
+        self.boxnum=dict[@"boxnum"];
+        self.goodID=dict[@"goodID"];
+
     }
     return  self;
 }
