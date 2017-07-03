@@ -18,18 +18,20 @@
         //布局界面
         UIView * bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 180*Width)];
         bgView.backgroundColor = [UIColor whiteColor];
+        bgView.tag =123;
         
         
         //商品名称
-        _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0, 380*Width, 100*Width)];
+        _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0, 280*Width, 100*Width)];
         _goodsTitleLab.text = @"商品A-几万块合法";
         _goodsTitleLab.textColor=BlackColor;
+        _goodsTitleLab.numberOfLines =0;
         _goodsTitleLab.font =[UIFont systemFontOfSize:14];
         _goodsTitleLab.backgroundColor = [UIColor clearColor];
         [bgView addSubview:_goodsTitleLab];
         
         //数量（箱盒）
-        _numTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(360*Width, 0, 200*Width,100*Width)];
+        _numTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(320*Width, 0, 200*Width,100*Width)];
         _numTitleLab.text = @"4531盒";
         _numTitleLab.textColor=[UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
         _numTitleLab.font =[UIFont systemFontOfSize:14];
@@ -37,7 +39,7 @@
         [bgView addSubview:_numTitleLab];
         
         
-        UIButton *numBtn =[[UIButton alloc]initWithFrame:CGRectMake(578*Width, 30*Width, 78*Width, 48*Width)];
+        UIButton *numBtn =[[UIButton alloc]initWithFrame:CGRectMake(538*Width, 30*Width, 118*Width, 48*Width)];
         [bgView addSubview:numBtn];
         numBtn.tag =10;
         [numBtn.layer setBorderWidth:1.0*Width];
@@ -45,7 +47,7 @@
         [numBtn addTarget:self action:@selector(numBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         
         //购买商品的数量
-        _numCountLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0*Width, 78*Width, 48*Width)];
+        _numCountLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0*Width, 118*Width, 48*Width)];
         _numCountLab.text =@"10";
         _numTitleLab.font =[UIFont systemFontOfSize:14];
         _numCountLab.textAlignment = NSTextAlignmentCenter;
@@ -55,7 +57,7 @@
         
         //减按钮
         _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _deleteBtn.frame = CGRectMake(530*Width, 30*Width, 48*Width, 48*Width);
+        _deleteBtn.frame = CGRectMake(490*Width, 30*Width, 48*Width, 48*Width);
         [_deleteBtn setImage:[UIImage imageNamed:@"register_btn_reduce_modify_black"] forState:UIControlStateNormal];
         _deleteBtn.imageEdgeInsets = UIEdgeInsetsMake(8*Width, 8*Width,8*Width, 8*Width);
         [_deleteBtn.layer setBorderWidth:1.0*Width];
@@ -81,6 +83,7 @@
         UIImageView *xian =[[UIImageView alloc]init];
         xian.frame =CGRectMake(0, 100*Width, CXCWidth, 2*Width);
         xian.backgroundColor =BGColor;
+        xian.tag =1011;
         [bgView addSubview:xian];
         
         
@@ -98,7 +101,7 @@
         [goOrderBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
 
         [goOrderBtn addTarget:self action:@selector(detail:) forControlEvents:UIControlEventTouchUpInside];
-        goOrderBtn.tag = 13;
+        goOrderBtn.tag = 131;
         [bgView addSubview:goOrderBtn];
         
         
@@ -117,40 +120,25 @@
 }
 -(void)setDic:(NSDictionary *)dic
 {
-//    _goodsTitleLab.text = goodsModel.goodsTitle;//名字
-//    _priceLab.text = [NSString stringWithFormat:@"¥%@",goodsModel.goodsPrice];//单价
-//    _numCountLab.text = [NSString stringWithFormat:@"%d",goodsModel.goodsNum];//数量
-//    NSString *totalString =[NSString stringWithFormat:@"小计：¥%@",goodsModel.goodsTotalPrice];//总和
-//    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
-//    NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
-//    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
-//    [  _priceTotalLab setAttributedText:textColor];
-//    
-    //    NSInteger i=totalString.length;
-    //
-    //    NSRange rangel2 = [[textColor string] rangeOfString:[totalString substringFromIndex:i-2]];
-    //
-    //    [textColor addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:rangel2];
+    _dic =dic;
+    NSString *titleContent =[_dic objectForKey:@"name"];
+    CGSize titleSize;//通过文本得到高度
     
+    titleSize = [titleContent boundingRectWithSize:CGSizeMake(270*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
     
-//    //假设是6盒为一箱
-//    if ([[NSString stringWithFormat:@"%d",goodsModel.goodsNum] intValue]<6) {
-//        //不满一箱
-//        _numTitleLab.text =  [NSString stringWithFormat:@"%ld盒",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]%6];
-//    }else
-//    {
-//        //满一箱
-//        if ([[NSString stringWithFormat:@"%d",goodsModel.goodsNum] intValue]%6>0) {
-//            //不是整箱
-//            _numTitleLab.text =[NSString stringWithFormat:@"%ld箱%ld盒",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]/6,[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]%6];
-//            
-//        }else
-//        {
-//            //是整箱
-//            _numTitleLab.text =[NSString stringWithFormat:@"%ld箱",[[NSString stringWithFormat:@"%d",goodsModel.goodsNum] integerValue]/6];
-//        }
-//        
-//    }
+    _goodsTitleLab.height =  titleSize.height;
+    _goodsTitleLab.frame =CGRectMake(40*Width, 20*Width, 280*Width, titleSize.height);
+
+    _goodsTitleLab.text =[NSString   stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    _numTitleLab.text   = [NSString stringWithFormat:@"库存%@盒",[_dic objectForKey:@"stockNum"]];
+    _numCountLab.text =[NSString stringWithFormat:@"%d",[[_dic objectForKey:@"num"] intValue]];
+    UIImageView *xian =[self viewWithTag:1011];
+    UIButton *goOrderBtn =[self viewWithTag:131];
+    UIView *bgview =[self viewWithTag:123];
+    bgview.frame =CGRectMake(0, 20*Width, CXCWidth, _goodsTitleLab.height+130*Width);
+
+    xian.frame =CGRectMake(0,  bgview.bottom-100*Width, CXCWidth, 2*Width);
+    goOrderBtn.frame = CGRectMake(601*Width,xian.bottom+ 14*Width, 90*Width, 50*Width);
     
 }
 

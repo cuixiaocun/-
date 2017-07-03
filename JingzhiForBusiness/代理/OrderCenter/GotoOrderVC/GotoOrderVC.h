@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface GotoOrderVC : UIViewController
+@property(nonatomic,strong)NSMutableArray *goodsArr;//商品数量
+@property(nonatomic,strong)NSMutableArray *goodsArrForstock;//商品数量
+
 
 @end

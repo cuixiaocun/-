@@ -171,20 +171,36 @@
     
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-                        @"phone":phoneTF.text ,
-                        @"name":nameTF.text ,
-                        @"newaddress":addressTF.text ,
-                        @"xianaddress":wzlabe.text ,
-                        @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
-                          }];
+    NSString *url ;
+    if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+        [dic1 setDictionary:@{
+                              @"phone":phoneTF.text ,
+                              @"name":nameTF.text ,
+                              @"newaddress":addressTF.text ,
+                              @"xianaddress":wzlabe.text ,
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                              }];
+        url =@"Home/address/save";
+    }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
+    {
+        [dic1 setDictionary:@{
+                              @"phone":phoneTF.text ,
+                              @"name":nameTF.text ,
+                              @"newaddress":addressTF.text ,
+                              @"xianaddress":wzlabe.text ,
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                              }];
+        url =@"home/address/agensave";
+        
+    }
+
     NSString *str =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"id"]];
    
     if (! IsNilString(str)) {
         [dic1 setObject:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"id"]] forKey:@"id"];
  
     }
-    [PublicMethod AFNetworkPOSTurl:@"Home/address/save" paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             [self.navigationController popViewControllerAnimated:YES];

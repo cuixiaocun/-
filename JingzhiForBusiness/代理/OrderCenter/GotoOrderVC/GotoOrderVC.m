@@ -14,6 +14,7 @@
     UIView* blackBgView;//输入框背景透明黑
     UIView *alterView;//弹出输入框
     UITableView*  declarTabel ;
+    NSInteger   indextNum;
 }
 
 @end
@@ -26,6 +27,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    _goodsArr =[[NSMutableArray alloc]init];
     
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
@@ -48,9 +50,8 @@
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     
-    
-    
     [self mainView];
+    [self getGoods];
 }
 -(void)returnBtnAction
 {
@@ -79,11 +80,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return _goodsArr.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 200*Width;
+    NSString *titleContent =[[_goodsArr objectAtIndex:indexPath.row] objectForKey:@"name"];
+    CGSize titleSize;//通过文本得到高度
+    
+    titleSize = [titleContent boundingRectWithSize:CGSizeMake(270*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    
+    return  titleSize.height+150*Width;
+
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -96,8 +103,8 @@
             
         }
     cell.delegate =self;
-        //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
-        //    [cell setDic:dict];
+    NSDictionary *dict = [_goodsArr objectAtIndex:[indexPath row]];
+    [cell setDic:dict];
         return cell;
         
 }
@@ -105,7 +112,7 @@
 -(void)goOrderBtnClick:(UITableViewCell *)cell andActionTag:(NSInteger)flag
 {
     NSIndexPath *index = [declarTabel indexPathForCell:cell];
-
+    indextNum=index.row;
     if (flag ==10) {//中间数量
         [self alterView:index.row];
         
@@ -114,27 +121,33 @@
         NSLog(@"减");
         //做减法
         //先获取到当期行数据源内容，改变数据源内容，刷新表格
-//        GoodsModel *model = infoArr[index.row];
-//        if (model.goodsNum > 0)
-//        {
-//            model.goodsNum --;
-//            model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
-//            
-//        }
+        NSMutableDictionary * model  = [NSMutableDictionary dictionaryWithDictionary:[_goodsArr objectAtIndex:index.row]];
+
+        if ([[model objectForKey:@"num"]integerValue] > 0)
+        {
+            int num =[[model objectForKey:@"num"]intValue];
+           [model setObject:[NSString stringWithFormat:@"%d",num-1] forKey:@"num"  ] ;
+            [_goodsArr replaceObjectAtIndex:index.row withObject:model];
+            [declarTabel reloadData];
+        }
 
     
     }else if (flag ==12){//＋
         NSLog(@"加");
-
-        //做加法
-//        GoodsModel *model = infoArr[index.row];
-//        
-//        model.goodsNum ++;
-//        model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
+        NSMutableDictionary * model  = [NSMutableDictionary dictionaryWithDictionary:[_goodsArr objectAtIndex:index.row]];
+        int num =[[model objectForKey:@"num"]intValue]+1;
+        [model setObject:[NSString stringWithFormat:@"%d",num] forKey:@"num"];
+        [_goodsArr replaceObjectAtIndex:index.row withObject:model];
+        [declarTabel reloadData];
         
 
-    }else if (flag ==13){//下单
+    }else if (flag ==131){//下单
+        if ([[_goodsArr[index.row] objectForKey:@"num" ]isEqualToString:@"0"]) {
+            [MBProgressHUD showError:@"数量不能为0" ToView:self.view];
+            return;
+        }
         ConfirmOrderVC *confirm =[[ConfirmOrderVC alloc]init];
+        confirm.orderDic =_goodsArr[index.row];
         [self.navigationController pushViewController:confirm animated:YES];
         
         
@@ -233,7 +246,7 @@
     [textF becomeFirstResponder];//键盘
 //    GoodsModel *model = infoArr[indextNum];
 //    textF.text =[NSString stringWithFormat:@"%d",model.goodsNum];//取得数量
-     textF.text =[NSString stringWithFormat:@"%@",@"12"];
+     textF.text =[NSString stringWithFormat:@"%@",[_goodsArr[index] objectForKey:@"num"]];
     blackBgView.hidden=NO;
     alterView.hidden =NO;
     
@@ -278,6 +291,11 @@
 //    model.goodsNum =[textF.text intValue];
 //    model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
     
+    NSMutableDictionary * model  = [NSMutableDictionary dictionaryWithDictionary:[_goodsArr objectAtIndex:indextNum]];
+    [model setObject:[NSString stringWithFormat:@"%@",textF.text] forKey:@"num"];
+    [_goodsArr replaceObjectAtIndex:indextNum withObject:model];
+    
+
     //刷新表格
     [declarTabel reloadData];
     
@@ -297,7 +315,59 @@
 }
 
 
+- (void)getGoods{
+    [PublicMethod AFNetworkPOSTurl:@"Home/Index/product" paraments:@{}  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+         NSArray*   dataArr =[dict objectForKey:@"data"];
+            
+            for (int i=0; i<dataArr.count; i++) {
+                BOOL isTure=NO;//存在不存在此商品
+                int stockNum=0;//若存在显示存在的数量不存在显示0；
+                for (int j=0; j<_goodsArrForstock.count; j++) {
+                    NSLog(@"_goodsArrForstock=%@,data=%@",[NSString stringWithFormat:@"%@",[dataArr[i] objectForKey:@"id"]],[_goodsArrForstock[j] objectForKey:@"pid"]);
+                    if ([[NSString stringWithFormat:@"%@",[dataArr[i] objectForKey:@"id"]] isEqualToString:[NSString stringWithFormat:@"%@",[_goodsArrForstock[j] objectForKey:@"pid"]]]) {
+                        isTure =YES;
+                        stockNum= [[_goodsArrForstock[j] objectForKey:@"num"] intValue];
+                        
+                        break;
+                        
+                    }else
+                    {
+                        isTure =NO;
+                        stockNum = 0;
 
+                    }
+                
+                }
+                NSDictionary*dic =@{
+                                    @"num":@"0",
+                                    @"id":[NSString stringWithFormat:@"%@",[dataArr[i] objectForKey:@"id"]],
+                                    @"name":[NSString stringWithFormat:@"%@",[dataArr[i] objectForKey:@"name"]],
+                                    @"stockNum":[NSString stringWithFormat:@"%d",stockNum],
+                                    
+                                    };
+                [_goodsArr addObject:dic];
+                
+                    
+                
+                
+                
+            }
+            
+            
+            [declarTabel reloadData];
+            
+        
+        
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+}
 
 
 

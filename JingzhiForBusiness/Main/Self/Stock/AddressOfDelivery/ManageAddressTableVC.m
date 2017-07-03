@@ -198,14 +198,28 @@
 }
 - (void)deleteTheAdress
 {
-    
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-                          @"id":[infoArray[index.row] objectForKey:@"id"] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
-                          }];
+    NSString *url ;
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/Address/remove" paraments:dic1  addView:self.view success:^(id responseDic) {
+    if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+        [dic1 setDictionary:@{
+                              @"id":[infoArray[index.row] objectForKey:@"id"] ,
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                              }];
+;
+        url =@"Home/Address/remove";
+    }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
+    {
+        [dic1 setDictionary:@{
+                              @"id":[infoArray[index.row] objectForKey:@"id"] ,
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                              }];
+        url =@"home/address/agenremove";
+        
+    }
+
+    
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
@@ -448,14 +462,23 @@
 }
 - (void)getInfoList
 {
-    
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-//                          @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
-                          }];
+    NSString *url ;
+    if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+        [dic1 setDictionary:@{
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                              }];
+        url =@"Home/address/index";
+    }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
+    {
+        [dic1 setDictionary:@{
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                              }];
+        url =@"home/address/agenindex";
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/address/index" paraments:dic1  addView:self.view success:^(id responseDic) {
+    }
+    
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
         
@@ -474,12 +497,26 @@
 {
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-                          @"id":[NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[infoArray[indexRow] objectForKey:@"id"]]] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
-                          }];
+    NSString *url ;
+    if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+        [dic1 setDictionary:@{
+                              @"id":[NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[infoArray[indexRow] objectForKey:@"id"]]] ,
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                              }];
+        url =@"Home/Address/setDefault";
+    }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
+    {
+        [dic1 setDictionary:@{
+                              @"id":[NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[infoArray[indexRow] objectForKey:@"id"]]] ,
+
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                              }];
+        url =@"home/address/agensetDefault";
+        
+    }
+
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/Address/setDefault" paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             

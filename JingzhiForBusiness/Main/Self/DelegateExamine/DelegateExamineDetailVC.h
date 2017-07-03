@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@protocol AgenExmineDelegate <NSObject>
+- (void)reloadTheinformation;
+@end
 @interface DelegateExamineDetailVC : UIViewController
 @property(nonatomic,strong)NSDictionary *angeDic;
+@property(assign,nonatomic)id<AgenExmineDelegate>delegate;
 
 @end

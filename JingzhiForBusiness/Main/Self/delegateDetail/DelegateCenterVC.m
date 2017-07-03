@@ -171,10 +171,48 @@
     UITextField *nameText =[self.view viewWithTag:15];
     UITextField *phoneText =[self.view viewWithTag:17];
     UITextField *wxText =[self.view viewWithTag:18];
+    UITextField *hzText =[self.view viewWithTag:19];
+    UILabel *addressLabel =[self.view viewWithTag:30];
 
     [nameText resignFirstResponder];
     [phoneText resignFirstResponder];
     [wxText resignFirstResponder];
+    [hzText resignFirstResponder];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/Agen/updateAgen" paraments:@{
+             @"name":[NSString stringWithFormat:@"%@",nameText.text],
+             @"webchat":[NSString stringWithFormat:@"%@",wxText.text],
+             @"phone":[NSString stringWithFormat:@"%@",phoneText.text],
+             @"agenurl":[NSString stringWithFormat:@"%@",hzText.text],
+             @"newregionid":[NSString stringWithFormat:@"%@",addressLabel.text],
+             @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:agen] objectForKey:@"id"] integerValue]]
+    }  addView:self.view success:^(id responseDic)
+     {
+                               
+                                                                            
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+         
+         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+         
+             [MBProgressHUD showSuccess:@"修改成功" ToView:self.view];
+             [self.navigationController popToRootViewControllerAnimated:YES];
+         }
+         
+        } fail:^(NSError *error) {
+                                                                            
+                                                                            
+    }];
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
 - (void)areaChoosen:(UIButton*)btn
@@ -192,7 +230,7 @@
     UILabel*addressLabel = [self.view viewWithTag:30];
     
     [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:@"河南省-郑州市" numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
-        addressLabel.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@""];
+        addressLabel.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
     } cancelBlock:^{
         
     }];
@@ -211,14 +249,14 @@
 }
 - (void)angeDetail
 {
-    [PublicMethod AFNetworkPOSTurl:@"Home/member/usermessage" paraments:@{
-                                                                          
+    [PublicMethod AFNetworkPOSTurl:@"Home/Agen/getAgenInfo" paraments:@{
+                                                                        
     @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:agen] objectForKey:@"id"] integerValue]]
     }  addView:self.view success:^(id responseDic) {
         
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         
-        NSDictionary *dataDict =[dict objectForKey:@"data"];
+        NSDictionary *dataDict =[[dict objectForKey:@"data"] objectForKey:@"message"];
         
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             UITextField*nameLabel =[self.view viewWithTag:15];
@@ -232,9 +270,17 @@
             UILabel *angeUpLabel =[self.view viewWithTag:24];
             UILabel *idNumLabel =[self.view viewWithTag:26];
             UILabel *addressLabel =[self.view viewWithTag:30];
-            
-        
-            
+            nameLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"name"]]];
+            phoneLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"phone"]]];
+            wxLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"webchat"]]];
+            hzLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"agenurl"]]];
+            accountLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"account"]]];
+            leveLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"level"]]];
+            canMoneyLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"balance"]]];
+            angeUpLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"upagenaccount"]]];
+            parentLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"recommendaccount"]]];
+            idNumLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"idcard"]]];
+            addressLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"name_path"]]];
             
             }
                                                                               

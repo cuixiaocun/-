@@ -21,7 +21,7 @@
         [self addSubview:xian];
         xian.frame =CGRectMake(0,0*Width, CXCWidth, 20*Width);
         NSArray*leftArr =@[@"商品",@"数量",@"",@"",@"",];
-        NSArray*rightArr =@[@"商品A",@"20"];
+        NSArray*rightArr =@[@"",@""];
         for (int i=0; i<2; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
@@ -73,7 +73,9 @@
     _dic=Dict;
     UILabel *nameLabel =[self viewWithTag:200];
     UILabel *numLabel =[self viewWithTag:201];
-  
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    numLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"num"]];
+
     
     
     

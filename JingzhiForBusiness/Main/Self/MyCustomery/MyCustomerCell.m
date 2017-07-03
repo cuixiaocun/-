@@ -67,14 +67,17 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *levelLabel =[self viewWithTag:200];
+    
+    UILabel *nameLabel =[self viewWithTag:200];
+
     UILabel *accountLabel =[self viewWithTag:201];
-    UILabel *nameLabel =[self viewWithTag:202];
     UILabel *numLabel =[self viewWithTag:203];
     UILabel *priceLabel =[self viewWithTag:204];
-    UILabel *tureLabel =[self viewWithTag:205];
-    
-    
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    accountLabel.text=[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
+    numLabel.text=[NSString stringWithFormat:@"%@",[_dic objectForKey:@"counts"]];
+    priceLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"sum"]];
+
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

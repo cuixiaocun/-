@@ -554,11 +554,16 @@ static MLLinkLabel * kProtypeLabel() {
 }
 - (void)getToken
 {
+    if ((![PublicMethod getDataStringKey:@"token"])) {
+        
+   
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
     NSString *url=[NSString stringWithFormat:@"http://heart.qwangluo.cn/index.php/home/Index/makeToken"];
     NSDictionary *parameter =@{};
+
     [manager POST:url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -573,6 +578,7 @@ static MLLinkLabel * kProtypeLabel() {
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
     }];
+}
 //    
 //    [manager GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
 //        

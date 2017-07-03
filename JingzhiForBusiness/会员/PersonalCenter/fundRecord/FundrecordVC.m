@@ -306,7 +306,8 @@
 {
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"page":[NSString stringWithFormat:@"%ld",currentPage] ,
+    [dic1 setDictionary:@{
+                          @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
                           @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]],
                           //                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
                           }

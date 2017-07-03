@@ -10,7 +10,7 @@
 #import "DelegateExamineCell.h"
 #import "DelegateExamineDetailVC.h"
 #import "DelegateDetailVC.h"
-@interface DelegateExamineVC ()
+@interface DelegateExamineVC ()<AgenExmineDelegate>
 {
     NSString *statuString;
 
@@ -161,6 +161,7 @@
 {
         DelegateExamineDetailVC *delegateDetail =[[DelegateExamineDetailVC  alloc]init];
         delegateDetail.angeDic =infoArray[indexPath.row];
+        delegateDetail.delegate =self;
         [self.navigationController pushViewController:delegateDetail animated:YES];
     
 }
@@ -412,7 +413,13 @@
     }];
     
 }
+-(void)reloadTheinformation
+{
+    currentPage =0;
+    [self getInfoList];
 
+
+}
 /*
 #pragma mark - Navigation
 

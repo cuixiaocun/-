@@ -221,8 +221,8 @@
 {
     
     
-    
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    NSString *url ;
     NSString *stringForGoods =@"";//代理注册提交报单的拼接字符串
     for (int i=0; i<infoArr.count; i++) {
         GoodsModel *goodsModel=infoArr[i];
@@ -236,20 +236,37 @@
         }
         
     }
-    //参数
-    [dic1 setDictionary:@{
-                          @"zong":[NSString stringWithFormat:@"%.2f",allPrice],
-                          @"products":stringForGoods
-                          }];
+    if([_navTitle isEqualToString:@"注册提报"])//@"代理升级"
+    {
+        //参数
+        [dic1 setDictionary:@{
+                              @"zong":[NSString stringWithFormat:@"%.2f",allPrice],
+                              @"products":stringForGoods
+                              }];
+        url=@"Home/Login/createRegOrder";
+        
+        
+        
+    }else if ([_navTitle isEqualToString:@"代理升级"])
+    {
+        //参数
+        [dic1 setDictionary:@{
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                              @"level":[NSString stringWithFormat:@"%ld",[_levelString integerValue]+1],
+                              @"zong":[NSString stringWithFormat:@"%.2f",allPrice],
+                              @"products":stringForGoods
+                              }];
+        url=@"home/AgentOnlineorder/upgradeagen";
+
+    
+    }
     //网络请求
-    [PublicMethod AFNetworkPOSTurl:@"Home/Login/createRegOrder" paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self performSelector:@selector(successTheAction) withObject:nil afterDelay:0.5f];
             
-            
-            
-            [MBProgressHUD showSuccess:@"注册成功,请登录" ToView:self.view];
-            [self.navigationController popToRootViewControllerAnimated:YES];
             
         }
         
@@ -263,6 +280,21 @@
     
 
   
+}
+- (void)successTheAction
+{
+
+    if([_navTitle isEqualToString:@"注册提报"])//@"代理升级"
+    {
+        [MBProgressHUD showSuccess:@"注册成功,等待审核" ToView:self.view];
+        
+        
+    }else
+    {
+        [MBProgressHUD showSuccess:@"提交成功" ToView:self.view];
+    }
+
+
 }
 //系统计算
 - (void)calculateTheGoods

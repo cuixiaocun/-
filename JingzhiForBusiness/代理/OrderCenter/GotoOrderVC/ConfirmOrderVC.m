@@ -8,12 +8,15 @@
 
 #import "ConfirmOrderVC.h"
 #import "CXCThreeLabelSheet.h"
+#import "AddAddressVC.h"
 @interface ConfirmOrderVC ()<CXCThreeLabelSheetDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
 
+    NSString *addressIdString;
 
+    NSMutableArray *infoArray;
 
 }
 @end
@@ -26,7 +29,10 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    infoArray =[[NSMutableArray alloc]init];
+
+    addressIdString =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"addressid"]];
+
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -68,14 +74,18 @@
     [bgScrollView addSubview:topView];
     
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 150*Width, 50*Width)];
-    nameLabel.text =@"孙磊开";
+    nameLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivename"]];
     nameLabel.tag=450;
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    numberLabel.text =@"18373781822";
+    NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"phone"]];
+    BOOL isNil =IsNilString(numstr);
+    NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"phone"]];
+    
+    numberLabel.text = numberStr;
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     numberLabel.tag=451;
@@ -85,6 +95,8 @@
     defaultLabel.text =@"默认";
     defaultLabel.font =[UIFont systemFontOfSize:12];
     [topView addSubview:defaultLabel];
+    defaultLabel.tag =33345;
+
     [defaultLabel.layer setCornerRadius:2*Width];
     [defaultLabel.layer setBorderWidth:1.5*Width];
     [defaultLabel.layer setMasksToBounds:YES];
@@ -109,14 +121,24 @@
     
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    addressLabel.text =@"山东省潍坊市高新区胜利东街新华路中天下潍坊国际";
+    if ([[[PublicMethod getDataKey:agen] objectForKey:@"name_path"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:agen] objectForKey:@"name_path"]isEqualToString:@"<null>"]) {
+        addressLabel.text =@"请完善";
+        defaultLabel.hidden =YES;
+        
+    }else
+    {
+        addressLabel.text =[NSString stringWithFormat:@"%@%@",[[PublicMethod getDataKey:agen] objectForKey:@"name_path"],[[PublicMethod getDataKey:agen] objectForKey:@"address"]];
+        defaultLabel.hidden =NO;
+        
+    }
+    
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;
     addressLabel.tag=452;
     
     NSArray*leftArr =@[@"商品",@"数量",@"运单号",@"官方电话",@"",@"",@"",@"",] ;
-    NSArray*rightArr =@[@"商品12",@"123",@"123948347398535789",@"11185",@"100000万",@"",@"",@"",] ;
+    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",[_orderDic objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[_orderDic objectForKey:@"num"]],@"123948347398535789",@"11185",@"100000万",@"",@"",@"",] ;
     
     for (int i=0; i<2; i++) {
         //背景
@@ -159,27 +181,39 @@
     [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [nextBtn addTarget:self action:@selector(confirmOrder) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:nextBtn];
+    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }
 -(void)confirmOrder
 {
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"productid":[NSString stringWithFormat:@"%@",[_orderDic objectForKey:@"id"]],
+                          @"addressid":addressIdString,
+                          @"num":[NSString stringWithFormat:@"%@",[_orderDic objectForKey:@"num"]],
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]}];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/addagenorder" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self performSelector:@selector(orderSucess) withObject:nil afterDelay:0.5f];
+            
 
-
+        
+        
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+}
+- (void)orderSucess
+{
+    
+    [ProgressHUD showSuccess:@"下单成功"];
+    
 }
 
 - (void)returnBtnAction
@@ -189,18 +223,42 @@
 }
 - (void)chooseAdress
 {
-    CXCThreeLabelSheet *sheet =[[CXCThreeLabelSheet alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight) with:@[@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际山东省潍坊市高新区胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"],@[@"孙家",@"18363671722",@"山东省潍坊市胜利东街新华路中天下潍坊国际"]]];
-    sheet.tag=1111;
-    sheet.delegate=self;
-    [self.view addSubview:sheet];
+    UILabel*defaultLabel =[self.view viewWithTag:33345];
+    defaultLabel.hidden =YES;
     
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"home/address/agenindex" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+            
+            infoArray=[[dict objectForKey:@"data"] objectForKey:@"address_list"];
+            if(infoArray.count>0)
+            {
+                
+                CXCThreeLabelSheet *sh =[self.view viewWithTag:1111];
+                [sh removeFromSuperview];
+                
+                CXCThreeLabelSheet *sheet =[[CXCThreeLabelSheet alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight) with:infoArray];
+                sheet.tag=1111;
+                sheet.delegate=self;
+                [self.view addSubview:sheet];
+            }else
+            {
+                AddAddressVC *address =[[AddAddressVC alloc]init];
+                [self.navigationController pushViewController:address animated:YES];
+            }
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
-    
-
-
-
 }
--(void)btnClickName:(NSString *)nameString andPhone:(NSString *)phone andAdress:(NSString *)adress
+-(void)btnClickName:(NSString *)nameString andPhone:(NSString *)phone andAdress:(NSString *)adress withID:(NSString *)str withDefaut:(NSString *)def
 {
     UILabel *nameLabel =[self.view viewWithTag:450];
     UILabel *phoneLabel =[self.view viewWithTag:451];
@@ -210,6 +268,17 @@
     [adressLabel setText:adress];
     UIView *view= [self.view viewWithTag:1111];
     [view removeFromSuperview];
+    if ([def isEqualToString:@"1"]) {
+        UILabel*defaultLabel =[self.view viewWithTag:33345];
+        defaultLabel.hidden =NO;
+        
+    }else
+    {
+        UILabel*defaultLabel =[self.view viewWithTag:33345];
+        defaultLabel.hidden =YES;
+    }
+    addressIdString =str;
+
 
 
 }

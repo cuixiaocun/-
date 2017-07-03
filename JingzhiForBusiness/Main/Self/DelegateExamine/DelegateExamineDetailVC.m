@@ -41,7 +41,7 @@
     
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"审核代理注册"];
+    [navTitle setText:@"审核详情"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
@@ -61,10 +61,9 @@
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2000*Width)];
     UIView * topBgView =[[UIView alloc]init];
     [topBgView setBackgroundColor:[UIColor whiteColor]];
-    topBgView.frame =CGRectMake(0, 0, CXCWidth,74*Width+4*Width*84 );;
     [bgScrollView addSubview:topBgView];
    
-       NSArray *reviewArr =[dict objectForKey:@"review"];
+    NSArray *reviewArr =[dict objectForKey:@"review"];
     NSMutableArray* topLeftArr =[[NSMutableArray alloc]init];
     [topLeftArr addObject:@"    当前产品数量"];
     
@@ -77,6 +76,7 @@
         [topRightArr addObject:[reviewArr[i] objectForKey:@"num"]];
     }
   
+    topBgView.frame =CGRectMake(0, 0, CXCWidth,74*Width+reviewArr.count*Width*84 );;
 
     for (int i=0;i<topRightArr.count ; i++) {
         //左边提示
@@ -95,12 +95,12 @@
         }else
         {
         
-            labe.frame= CGRectMake(32*Width, 74*Width+82*Width*(i-1),200*Width , 82*Width);
+            labe.frame= CGRectMake(32*Width, 74*Width+82*Width*(i-1),400*Width , 82*Width);
             labe.textColor = TextGrayColor;
             //右边显示
             UILabel* rightLabel = [[UILabel alloc]init];
             rightLabel.text = topRightArr[i];
-            rightLabel.frame =CGRectMake(250*Width ,labe.top, 475*Width,82*Width );
+            rightLabel.frame =CGRectMake(450*Width ,labe.top, 275*Width,82*Width );
             rightLabel.textAlignment=NSTextAlignmentRight;
             rightLabel.tag =210+i;
             rightLabel.font = [UIFont systemFontOfSize:14];
@@ -120,13 +120,21 @@
     middleBgView.frame =CGRectMake(0, topBgView.bottom, CXCWidth,74*Width+5*Width*84 );;
     [bgScrollView addSubview:middleBgView];
     NSArray* middleLeftArr =@[@"    注册下级代理信息",@"姓名",@"账号",@"代理级别",@"身份证",@"电话"];
-    NSArray* middleRightArr =@[@"     ",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"]objectForKey:@"name"]]],
-                               [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"account"]]],
-                              [PublicMethod stringNilString: [NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"levelname"]]],
-                               [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"idcard"]]],
-                               [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"phone"]]]];
+    NSArray* middleRightArr =[[NSArray alloc]init];
+    if (![[dict objectForKey:@"agen"]isEqual:[NSNull null]]) {
+    middleRightArr =@[@"     ",
+                      [NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"]objectForKey:@"name"]]]],
+                    [NSString stringWithFormat:@"%@",  [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"account"]]]],
+                    [NSString stringWithFormat:@"%@",[PublicMethod stringNilString: [NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"levelname"]]]],
+                    [NSString stringWithFormat:@"%@", [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"idcard"]]]],
+                    [NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"agen"] objectForKey:@"phone"]]]]];
+        
+
+    }else{
     
-    for (int i=0;i<6 ; i++) {
+        middleRightArr =@[@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@""];
+    }
+        for (int i=0;i<6 ; i++) {
         //左边提示
         UILabel* labe = [[UILabel alloc]init];
         labe.font = [UIFont systemFontOfSize:14];
@@ -228,9 +236,25 @@
         [bgview addSubview:leftTopLabe];
         //数量
         UILabel* rightLabel = [[UILabel alloc]init];
+  
+       
         int box =[[[dict objectForKey:@"detail"][i]objectForKey:@"num"] intValue]/[[[dict objectForKey:@"detail"][i]objectForKey:@"boxnum"] intValue];
         int he =[[[dict objectForKey:@"detail"][i]objectForKey:@"num"] intValue]%[[[dict objectForKey:@"detail"][i]objectForKey:@"boxnum"] intValue];
-        rightLabel.text =[NSString stringWithFormat:@"%d箱%d盒",box,he];
+        
+        if (box==0) {
+           rightLabel.text  = [NSString stringWithFormat:@"%d盒",he];
+            
+        }else if(box>0&&he>0)
+        {
+            rightLabel.text  = [NSString stringWithFormat:@"%d箱%d盒",box,he];
+            
+        }else if(box>0&&he==0)
+        {
+            rightLabel.text  = [NSString stringWithFormat:@"%d箱",box];
+            
+        }
+
+
         rightLabel.frame =CGRectMake(250*Width ,0,475*Width,80*Width );
         rightLabel.textAlignment=NSTextAlignmentRight;
         rightLabel.tag =240+i;
@@ -318,7 +342,6 @@
     isture.tag =180;
     [self.view addSubview:isture];
     
-    NSLog(@"驳回");
     return;
 
     
@@ -327,49 +350,6 @@
 
 }
 
-
-//    //横线
-//    UIImageView*xian =[[UIImageView alloc]init];
-//    xian.backgroundColor =BGColor;
-//    [bgScrollView addSubview:xian];
-//    xian.frame =CGRectMake(0,0*Width, CXCWidth, 18*Width);
-//    NSArray*leftArr =@[@"代理级别",@"账号",@"名称",@"报单量",@"报单金额",@"下单量",@"",@"",@"",@"",@"",@"",] ;
-//    NSArray*rightArr =@[@"一级",@"18363671722",@"山东桥通天下网络科技有限公司",@"3单",@"100000万",@"3单",@"",@"",@"",@"",@"",@"",] ;
-//    
-//    for (int i=0; i<6; i++) {
-//        //背景
-//        UIView *bgview =[[UIView alloc]init];
-//        bgview.backgroundColor =[UIColor whiteColor];
-//        [bgScrollView addSubview:bgview];
-//        bgview.frame =CGRectMake(0, 0+i*82*Width, CXCWidth, 82*Width);
-//        //左边提示
-//        UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
-//        labe.text = leftArr[i];
-//        //            labe.textAlignment=NSTextAlignmentLeft;
-//        labe.font = [UIFont systemFontOfSize:14];
-//        labe.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
-//        [bgview addSubview:labe];
-//        //右边显示
-//        UILabel* rightLabel = [[UILabel alloc]init];
-//        rightLabel.text = rightArr[i];
-//        rightLabel.frame =CGRectMake(250*Width ,0, 475*Width,82*Width );
-//        rightLabel.textAlignment=NSTextAlignmentRight;
-//        rightLabel.tag =200+i;
-//        rightLabel.font = [UIFont systemFontOfSize:14];
-//        rightLabel.textColor = BlackColor;
-//        [bgview addSubview:rightLabel];
-//        //分割线
-//        UIImageView*xian =[[UIImageView alloc]init];
-//        xian.backgroundColor =BGColor;
-//        [bgview addSubview:xian];
-//        xian.frame =CGRectMake(0,80.5*Width, CXCWidth, 1.5*Width);
-//        
-//    }
-//    
-//    
-//    
-//    
-//
 #pragma mark - IsTureAlterViewDelegate
 
 -(void)cancelBtnActinAndTheAlterView:(UIView *)alter
@@ -385,24 +365,10 @@
     
     [isture removeFromSuperview];
     NSLog(@"确认");
+    [self examineDetailPass];
     //删除
     
 }
-
-//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    if (buttonIndex==0) {
-//        
-//        return;
-//        
-//    }else
-//    {
-//        //审核通过
-//        
-//    }
-//}
-
-
 - (void)returnBtnAction
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -427,13 +393,43 @@
         dict = [[NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"];
         
         [self  mainView ];
-//        [self.tableView reloadData];
         
     } fail:^(NSError *error) {
         
     }];
     
 }
+- (void)examineDetailPass{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                         @"id":[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"id"]],
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/auditagenreview" paraments:dic1  addView:self.view success:^(id responseDic) {
+      NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
+        if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+            [self performSelector:@selector(delayMethodSucess) withObject:nil afterDelay:0.5f];
+        }
+
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)delayMethodSucess
+{
+    
+    [ProgressHUD showSuccess:@"审核通过"];
+    [self.delegate reloadTheinformation];
+    
+}
+
 /*
 #pragma mark - Navigation
 

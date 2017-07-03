@@ -19,10 +19,10 @@
         xian.backgroundColor =BGColor;
         [self addSubview:xian];
         xian.frame =CGRectMake(0,0*Width, CXCWidth, 18*Width);
-        NSArray*leftArr =@[@"代理级别",@"账号",@"名称",@"报单量",@"报单金额",@"下单量",@"",@"",@"",@"",@"",@"",] ;
-        NSArray*rightArr =@[@"一级",@"18363671722",@"山东桥通天下网络科技有限公司",@"3单",@"100000万",@"3单",@"",@"",@"",@"",@"",@"",] ;
+        NSArray*leftArr =@[@"代理级别",@"账号",@"名称",@"报单金额",@"",@"",@"",@"",@"",@"",] ;
+        NSArray*rightArr =@[@"一级",@"18363671722",@"山东桥通天下网络科技有限公司",@"100000万",@"",@"",@"",@"",@"",@"",] ;
 
-        for (int i=0; i<6; i++) {
+        for (int i=0; i<4; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];
@@ -69,12 +69,11 @@
     UILabel *levelLabel =[self viewWithTag:200];
     UILabel *accountLabel =[self viewWithTag:201];
     UILabel *nameLabel =[self viewWithTag:202];
-    UILabel *numLabel =[self viewWithTag:203];
-    UILabel *priceLabel =[self viewWithTag:204];
-    UILabel *tureLabel =[self viewWithTag:205];
-
-    
-
+    UILabel *priceLabel =[self viewWithTag:203];
+    levelLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"levelname"]];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
+    nameLabel.text=[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    priceLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"sumbaodan"]];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

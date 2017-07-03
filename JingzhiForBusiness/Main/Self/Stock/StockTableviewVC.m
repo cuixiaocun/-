@@ -62,7 +62,7 @@
     DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
     self.footerView = footerView;
     infoArray = [[NSMutableArray alloc] init];
-    //  [self performSelector:@selector(getInfoList)];
+    [self performSelector:@selector(getInfoList)];
     
     UIView *bottomView =[[UIView alloc]initWithFrame:CGRectMake(0, CXCHeight-128*Width, CXCWidth, 128*Width)];
     bottomView.backgroundColor =[UIColor whiteColor];
@@ -89,13 +89,9 @@
 }
 - (void)goBtnAction
 {
-
-    
     GotoOrderVC *gotoOrder =[[GotoOrderVC alloc]init];
+    gotoOrder.goodsArrForstock =infoArray;
     [self.navigationController pushViewController:gotoOrder animated:YES];
-    
-    
-
 }
 - (void)returnBtnAction
 {
@@ -107,12 +103,8 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 5;
+        return infoArray.count ;
 }
-
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 230*Width;
@@ -121,7 +113,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger row =[indexPath row];
+    NSInteger row =[indexPath row];
     static NSString *CellIdentifier = @"Cell";
     StockCell *cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -130,8 +122,9 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [infoArray objectAtIndex:row];
+        [cell setDic:dict];
+    
     return cell;
 }
 
@@ -324,72 +317,25 @@
 - (void)getInfoList
 {
     
-    //    [ProgressHUD show:@"加载中"];
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
-    //
-    //    //你的接口地址
-    //    NSString *url=[NSString stringWithFormat:@"%@/repair/getByUserId",SERVERURL];
-    //    NSDictionary *parameter = @{@"uid":@"",@"status":@"",@"deviceType":@"2"};
-    //
-    //
-    //
-    //
-    //
-    //    [PublicMethod AFNetworkPOSTurl:url paraments:parameter success:^(id responseDic) {
-    //
-    //
-    //        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-    //        NSLog(@"请求成功JSON:%@", dict);
-    //
-    //        if (dict) {
-    //            [ProgressHUD dismiss];
-    //
-    //            NSMutableArray *array=[[dict objectForKey:@"result"]objectForKey:@"list"];
-    //            if ([array isKindOfClass:[NSNull class]]) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //                return ;
-    //            }
-    //
-    //            if (currentPage==1) {
-    //                [infoArray removeAllObjects];
-    //            }
-    //
-    //            [infoArray addObjectsFromArray:array];
-    //
-    //            if ([infoArray count]==0 && currentPage==1) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //
-    //            }
-    //            pageCount =infoArray.count/10;
-    //            //判断是否加载更多
-    //            if (array.count==0 || array.count<10){
-    //                self.canLoadMore = NO; // signal that there won't be any more items to load
-    //            }else{
-    //                self.canLoadMore = YES;
-    //            }
-    //
-    //            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-    //            [fv.activityIndicator stopAnimating];
-    //
-    //            if (!self.canLoadMore) {
-    //                fv.infoLabel.hidden = YES;
-    //            }else{
-    //                fv.infoLabel.hidden = NO;
-    //            }
-    //
-    //            [self.tableView reloadData];
-    //
-    //        }
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //                [ProgressHUD showError:@"网络连接失败"];
-    //                NSLog(@"网络连接失败");
-    //    }];
-    //
-    //
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/myagenstock" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary*  goodsDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
+        if([ [NSString stringWithFormat:@"%@",[goodsDict objectForKey:@"code"]]isEqualToString:@"0"])
+        {
+        
+            infoArray =[goodsDict objectForKey:@"data"];
+            [self.tableView reloadData];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 
 

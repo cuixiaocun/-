@@ -142,7 +142,7 @@
 - (void)delayMethodSucess
 {
 
-    [ProgressHUD showError:successMessage];
+    [ProgressHUD showSuccess:successMessage];
 
 }
 @end

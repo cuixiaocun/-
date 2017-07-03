@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ConfirmOrderVC : UIViewController
+@property(nonatomic,strong)NSDictionary *orderDic;
 
 @end

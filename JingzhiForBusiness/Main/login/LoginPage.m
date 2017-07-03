@@ -301,7 +301,7 @@
                 //代理登录成功
                 [self setupViewControllers];
                 //代理登录存值
-                [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
+                [PublicMethod saveDataString:@"DL" withKey:@"IsLogin"];
                 NSLog(@"%@",[dict objectForKey:@"data"]);
                 [PublicMethod removeObjectForKey: member];
 
