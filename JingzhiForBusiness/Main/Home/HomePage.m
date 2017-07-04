@@ -91,7 +91,7 @@
 }
 -(void)getBanner
 {
-    
+
     [PublicMethod AFNetworkPOSTurl:@"Home/Index/show" paraments:@{}  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
@@ -554,62 +554,29 @@ static MLLinkLabel * kProtypeLabel() {
 }
 - (void)getToken
 {
-    if ((![PublicMethod getDataStringKey:@"token"])) {
+    if (![PublicMethod getDataStringKey:@"token"]) {
         
    
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
-    NSString *url=[NSString stringWithFormat:@"http://heart.qwangluo.cn/index.php/home/Index/makeToken"];
-    NSDictionary *parameter =@{};
-
-    [manager POST:url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
+    NSString *url=@"http://heart.qwangluo.cn/index.php/home/Index/makeToken";
+    //    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];//当加密的时候用
+    NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
+    [parameter setDictionary:@{}];
+    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"请求成功JSON:%@", dict);
         NSDictionary*dataDict  =[dict objectForKey:@"data"];
-        
         [PublicMethod setObject:[dataDict objectForKey:@"token"] key:@"token"];
         NSLog(@"token%@",[PublicMethod getObjectForKey:@"token"]);
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
     }];
-}
-//    
-//    [manager GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-//        NSLog(@"请求成功JSON:%@", dict);
-//        NSDictionary*dataDict  =[dict objectForKey:@"data"];
-//
-//        [PublicMethod setObject:[dataDict objectForKey:@"token"] key:@"token"];
-//        NSLog(@"token%@",[PublicMethod getObjectForKey:@"token"]);
-//
-//
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//    }];
-   
-
-//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-//    [dic1 setDictionary:@{}];
-//    NSLog(@"%@",dic1);
-//    [PublicMethod AFNetworkGETurl:@"http://heart.qwangluo.cn/index.php/home/Index/makeToken" paraments:dic1 addView:self.view success:^(id responseDic) {
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-//        NSDictionary*dataDict  =[dict objectForKey:@"data"];
-//        
-//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-//            [PublicMethod setObject:[dataDict objectForKey:@"token"] key:@"token"];
-//            NSLog(@"token%@",[PublicMethod getObjectForKey:@"token"]);
-//            
-//        }
-//    } fail:^(NSError *error) {
-//    
-//    }];
+  }
 }
 @end

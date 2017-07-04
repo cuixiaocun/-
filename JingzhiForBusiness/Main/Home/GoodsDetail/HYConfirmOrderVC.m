@@ -301,7 +301,7 @@
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    numberLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"phone"]];
+    numberLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"receivephone"]];
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     numberLabel.tag=451;

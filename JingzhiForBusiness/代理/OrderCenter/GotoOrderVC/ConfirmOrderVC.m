@@ -81,9 +81,9 @@
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"phone"]];
+    NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivephone"]];
     BOOL isNil =IsNilString(numstr);
-    NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"phone"]];
+    NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivephone"]];
     
     numberLabel.text = numberStr;
     numberLabel.font =[UIFont systemFontOfSize:16];

@@ -122,10 +122,11 @@
             parentLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"parentaccount"]]];
             yixiaofeiLabel.text =[NSString stringWithFormat:@"¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"sumall"]]]];
             yueLabel.text =[NSString stringWithFormat:@"¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"balance"]]]];
-            
+            [PublicMethod saveData:[dict objectForKey:@"data"] withKey:member];
+
 
         }
-        
+    
     } fail:^(NSError *error) {
         
     }];

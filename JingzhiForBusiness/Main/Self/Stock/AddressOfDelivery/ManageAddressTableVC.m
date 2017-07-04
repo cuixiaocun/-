@@ -121,6 +121,8 @@
         {
             NSLog(@"切换默认地址");
             [self setDefultAdress:(int)index.row];
+           
+
             break;
             
         }
@@ -519,6 +521,35 @@
     [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+            if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+            
+            NSMutableDictionary * memberDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:member]];
+            [memberDic setObject:[infoArray[indexRow] objectForKey:@"id"] forKey:@"addressid"];
+            [memberDic setObject:[infoArray[indexRow] objectForKey:@"name_path"] forKey:@"name_path"];
+            [memberDic setObject:[infoArray[indexRow] objectForKey:@"address"] forKey:@"address"];
+            [memberDic setObject:[infoArray[indexRow] objectForKey:@"name"] forKey:@"receivename"];
+            [memberDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"receivephone"];
+
+                [PublicMethod saveData:memberDic withKey:member];
+            
+            }else
+            {
+                NSMutableDictionary * agenDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:agen]];
+                [agenDic setObject:[infoArray[indexRow] objectForKey:@"id"] forKey:@"addressid"];
+                [agenDic setObject:[infoArray[indexRow] objectForKey:@"name_path"] forKey:@"name_path"];
+                [agenDic setObject:[infoArray[indexRow] objectForKey:@"address"] forKey:@"address"];
+                [agenDic setObject:[infoArray[indexRow] objectForKey:@"name"] forKey:@"receivename"];
+                [agenDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"receivephone"];
+
+                [PublicMethod saveData:agenDic withKey:agen];
+            }
+            
+            
+            
+            
+            
+            
             
             for (int i=0; i<infoArray.count; i++) {
                 [infoArray [i] setObject:@"2" forKey:@"isdefault"];
