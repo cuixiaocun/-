@@ -54,7 +54,7 @@
                 bgview.frame =CGRectMake((i-1)*250*Width,70*Width, 250*Width, 130*Width);
                 //上边
                 UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 15*Width,250*Width , 50*Width)];
-                labe.tag =199;
+                labe.tag =200+i;
                 labe.text = rightArr[i] ;
                 labe.font = [UIFont systemFontOfSize:14];
                 labe.textColor = TextGrayColor;
@@ -66,7 +66,6 @@
                 rightLabel.frame =CGRectMake(0*Width,labe.bottom,250*Width , 50*Width);
                 rightLabel.textColor = BlackColor;
                 rightLabel.textAlignment=NSTextAlignmentCenter;
-                rightLabel.tag =200+i;
                 rightLabel.font = [UIFont systemFontOfSize:12];
                 [bgview addSubview:rightLabel];
                 //分割线
@@ -158,7 +157,7 @@
                 bgview.frame =CGRectMake((i-1)*250*Width,70*Width, 250*Width, 130*Width);
                 //上边
                 UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 15*Width,250*Width , 50*Width)];
-                labe.tag =199;
+                labe.tag =200+i;
                 labe.text = rightArr[i] ;
                 labe.font = [UIFont systemFontOfSize:14];
                 labe.textColor = TextGrayColor;
@@ -170,7 +169,6 @@
                 rightLabel.frame =CGRectMake(0*Width,labe.bottom,250*Width , 50*Width);
                 rightLabel.textColor = BlackColor;
                 rightLabel.textAlignment=NSTextAlignmentCenter;
-                rightLabel.tag =200+i;
                 rightLabel.font = [UIFont systemFontOfSize:12];
                 [bgview addSubview:rightLabel];
                 //分割线
@@ -196,7 +194,7 @@
 }
 - (void)btnAction:(UIButton*)btn
 {
-    
+    [self.delegate btnClick:self andInTag:btn.tag];
     
 }
 -(void)setDicForIn:(NSDictionary *)Dict
@@ -205,10 +203,30 @@
     _dicForIn=Dict;
     UILabel *timeLabel =[self viewWithTag:199];
     UILabel *statuLabel =[self viewWithTag:200];
-    UILabel *nameLabel =[self viewWithTag:201];
-    UILabel *accountLabel =[self viewWithTag:202];
+    UILabel *souceLabel =[self viewWithTag:201];
+    UILabel *nameLabel =[self viewWithTag:202];
     UILabel *moneyLabel =[self viewWithTag:203];
-    // 到时候hidden就好啦两个按钮
+    UIButton *btn =[self viewWithTag:130];
+    
+    // 到时候hidden就好啦两个按钮 source产出
+    
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dicForIn objectForKey:@"updatetime"]];
+    statuLabel.text =[NSString stringWithFormat:@"%@",[_dicForIn objectForKey:@"statusname"]];
+    souceLabel.text =[NSString stringWithFormat:@"%@",[_dicForIn objectForKey:@"source"]];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dicForIn objectForKey:@"arrears"]];
+    moneyLabel.text =[NSString stringWithFormat:@"%@",[_dicForIn objectForKey:@"money"]];
+    
+//    if ([[NSString stringWithFormat:@"%@",[_dicForIn objectForKey:@"status"]]isEqualToString:@"2"])
+//    {
+//        btn.hidden =YES;
+//    }
+//    else
+//    {
+//        btn.hidden =NO;
+//        
+//    }
+//    
+    
     
     
 }

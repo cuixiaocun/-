@@ -16,7 +16,8 @@
 
 @interface MyOrderCell : UITableViewCell
 @property(nonatomic,retain)NSDictionary *dic;
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withYESBtn:(NSString *)string;
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withNOBtn:(NSString *)string;
 
 @property(assign,nonatomic)id<MyOrderCellDelegate>delegate;
 

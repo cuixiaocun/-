@@ -13,7 +13,11 @@
 {
     //底部scrollview
     UIScrollView *bgScrollView;
-    
+    NSArray *logArr;//物流公司的
+    NSString* indexOfArr;
+    NSMutableArray *codeArr;
+    NSMutableArray *nameArr;
+
 }
 
 @end
@@ -51,6 +55,7 @@
     
     //扫码按钮
     UIButton *  scanningBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    scanningBtn.tag=1567;
     scanningBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
     //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     scanningBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
@@ -58,8 +63,10 @@
     
     [scanningBtn addTarget:self action:@selector(scanningBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:scanningBtn];
-    
-    
+    logArr =[[NSArray alloc]init];
+
+    [self orderlogistics];
+
 
     [self mainView];
 }
@@ -85,13 +92,13 @@
     [bgScrollView addSubview:topView];
     
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 260*Width, 50*Width)];
-    nameLabel.text =@"收件人:孙磊";
+    nameLabel.text =[NSString stringWithFormat:@"收件人:%@",[_orderDetailDic objectForKey:@"receivename"]];
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    numberLabel.text =@"18373781822";
+    numberLabel.text =[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"phone"]];
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     
@@ -103,7 +110,7 @@
     
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,640*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    addressLabel.text =@"山东省潍坊市高新区胜利东街新华路中天下潍坊国际";
+    addressLabel.text =[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"address"]];
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;
@@ -184,17 +191,70 @@
     
     
 }
+- (void)nextStep
+{
+    
+    UITextField* inputText =[self.view viewWithTag:11];
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"id":[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"id"]],
+                          @"code":[NSString stringWithFormat:@"%@",codeArr[[indexOfArr integerValue]]],
+                          @"logistics":[NSString stringWithFormat:@"%@",inputText.text],
+                          
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          }
+     ];
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/editagenorder" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
+        if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
+        {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self performSelector:@selector(delayMethodSucess) withObject:nil afterDelay:0.5f];
+        }
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+-(void)delayMethodSucess
+{
+    [ProgressHUD showSuccess:@"发货成功"];
+}
+
 - (void)expressChoosen:(UIButton *)btn
 {
+    //选择快递
+    SRActionSheet *actionSheet = [SRActionSheet sr_actionSheetViewWithTitle:@"选择快递公司" cancelTitle:@"取消"destructiveTitle:nil                                                            withNumber:[NSString stringWithFormat:@"%ld",logArr.count+2]
+                                                             withLineNumber:@"1"
+                                                                otherTitles:nameArr
+                                                                otherImages:nil
+                                                          selectActionBlock:^(SRActionSheet *actionSheet, NSInteger index) {
+                                                              if (index<0||index>logArr.count-1) {
+                                                                  return;
+                                                              }
+                                                              indexOfArr =[NSString stringWithFormat:@"%ld",index];
+                                                              NSLog(@"%zd", index);
+                                                              [self bankName];
+                                                          }];
+    
+    
+    
+    [actionSheet show];
+    
 
 
 
 }
--(void)nextStep
+- (void)bankName
 {
-
-
+    UILabel *label =[self.view viewWithTag:20];
+    label.textColor =[UIColor blackColor];
+    label.text =nameArr[[indexOfArr integerValue]];
+    
 }
+
 - (void)returnBtnAction
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -218,6 +278,36 @@
     textF.text =scanDataString;
 
 }
+- (void)orderlogistics
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    
+    [dic1 setDictionary:@{}];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgenOrder/logistics" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            logArr =[dict objectForKey:@"data"];
+            nameArr =[[NSMutableArray  alloc]init];
+            codeArr=[[NSMutableArray  alloc]init];
+            for(int i=0;i<logArr.count;i++)
+            {
+                [codeArr addObject:[logArr[i] objectForKey:@"code"]];
+                [nameArr addObject:[logArr[i] objectForKey:@"name"]];
+                
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+    
+}
+
 /*
 #pragma mark - Navigation
 

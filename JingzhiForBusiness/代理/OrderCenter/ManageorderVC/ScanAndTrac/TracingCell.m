@@ -35,7 +35,7 @@
                 labe.tag=199;
                 [bgview addSubview:labe];
             }
-            if (i<4&&i>0) {
+            if (i==1) {
                 //左边提示
                 UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 80*Width)];
                 labe.text = leftArr[i];
@@ -45,12 +45,12 @@
                 //右边内容
                 UILabel* rightLabel = [[UILabel alloc]init];
                 rightLabel.text = rightArr[i];
-                rightLabel.frame =CGRectMake(250*Width ,0, 475*Width,80*Width );
+                rightLabel.frame =CGRectMake(150*Width ,0, 575*Width,80*Width );
                 rightLabel.textColor = NavColor;
                 rightLabel.textColor = BlackColor;
                 rightLabel.textAlignment=NSTextAlignmentRight;
                 rightLabel.tag =200+i;
-                rightLabel.font = [UIFont systemFontOfSize:14];
+                rightLabel.font = [UIFont systemFontOfSize:12];
                 [bgview addSubview:rightLabel];
                 //细线
                 UIImageView*xianOfGoods =[[UIImageView alloc]init];
@@ -59,21 +59,6 @@
                 xianOfGoods.frame =CGRectMake(24*Width,78.5*Width,CXCWidth,1.5*Width);
                 
                 
-            }
-            if (i==4) {
-                //左边提示
-                UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 80*Width)];
-                labe.text = @"流转信息";
-                labe.font = [UIFont systemFontOfSize:14];
-                labe.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
-                [bgview addSubview:labe];
-                
-                bgview.backgroundColor =[UIColor whiteColor];
-                //细线
-                UIImageView*xianOfGoods =[[UIImageView alloc]init];
-                xianOfGoods.backgroundColor =BGColor;
-                [bgview addSubview:xianOfGoods];
-                xianOfGoods.frame =CGRectMake(24*Width,78.5*Width,CXCWidth,1.5*Width);
             }
             
             
@@ -99,12 +84,12 @@
 {
     _dic =Dict;
     UILabel *timeLabel =[self viewWithTag:199];
-    UILabel *cirLabel =[self viewWithTag:200];
-    UILabel *nameLabel =[self viewWithTag:201];
-    UILabel *numberLabel =[self viewWithTag:202];
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"updatetime"]];
     
-    
-}
+    UILabel *cirLabel =[self viewWithTag:201];
+    cirLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"sn"]];
+
+   }
 
 - (void)awakeFromNib {
     [super awakeFromNib];

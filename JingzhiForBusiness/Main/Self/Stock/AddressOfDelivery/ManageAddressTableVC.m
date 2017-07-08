@@ -22,9 +22,8 @@
 @implementation ManageAddressTableVC
 - (void)viewDidAppear:(BOOL)animated
 {
-
-    [self getInfoList];
     infoArray =[[NSMutableArray alloc]init];
+    [self getInfoList];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

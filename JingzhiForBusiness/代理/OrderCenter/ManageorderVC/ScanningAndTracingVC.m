@@ -11,11 +11,12 @@
 #import "ScanAndTracCell.h"
 #import "TracingCell.h"
 #import "SendGoodsVC.h"
-@interface ScanningAndTracingVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface ScanningAndTracingVC ()<UITableViewDelegate,UITableViewDataSource,XYMScanViewControllerDelegate>
 {
     UIView *topView;
     UITableView *scanTableView;
-
+    NSMutableArray *tracingArr;//溯源信息
+    int box ;
 }
 @end
 
@@ -46,9 +47,11 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
-    
+    tracingArr =[[NSMutableArray alloc]init];
     //扫码按钮
     UIButton *  scanningBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    scanningBtn.tag=1567;
+
     scanningBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
     //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     scanningBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
@@ -56,8 +59,7 @@
     
     [scanningBtn addTarget:self action:@selector(scanningBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:scanningBtn];
-    
-    
+    [self clearInfo];
     [self mainView];
 }
 - (void)mainView
@@ -80,13 +82,7 @@
     xianBottom.frame =CGRectMake(0*Width,0*Width, CXCWidth, 1.5*Width);
     
     UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0, 450*Width, 100*Width)];
-    NSString*str =@"已扫描：9箱";
-    [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
-
-    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
-    NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
-    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
-    [subPromLabel setAttributedText:textColor];
+    subPromLabel.tag =340;
     [subPromLabel  setFont:[UIFont systemFontOfSize:14]];
     [bottomBgview   addSubview:subPromLabel];
     //确认提交按钮
@@ -104,7 +100,7 @@
 {
     //扫描二维码
     XYMScanViewController *scanView = [[XYMScanViewController alloc]init];
-    
+    scanView.delegate =self;
     [self.navigationController pushViewController:scanView animated:YES];
     
 
@@ -132,7 +128,7 @@
     //时间
     UILabel* timeLabel  = [[UILabel alloc]init];
     timeLabel.font = [UIFont systemFontOfSize:13];
-    timeLabel.text = @"    2017-09-01 12：23：24";
+    timeLabel.text = [NSString stringWithFormat:@"      %@",[_orderDetailDic objectForKey:@"updatetime"]];
     [topView addSubview:timeLabel];
     timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
     timeLabel.backgroundColor =BGColor;
@@ -141,7 +137,7 @@
     UILabel* pricesLabel  = [[UILabel alloc]init];
     pricesLabel.font = [UIFont systemFontOfSize:13];
     pricesLabel.textColor = TextGrayColor;
-    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",@"900000"];//总和
+    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[_orderDetailDic objectForKey:@"total"]];//总和
     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
     NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
     [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
@@ -153,22 +149,50 @@
     //订单号
     UILabel* orderNumberLabel  = [[UILabel alloc]init];
     orderNumberLabel.font = [UIFont systemFontOfSize:14];
-    orderNumberLabel.text = @"    订单号：1953056874376";
+    orderNumberLabel.text = [NSString stringWithFormat:@"     订单号：%@",[_orderDetailDic objectForKey:@"id"]];
     [topView addSubview:orderNumberLabel];
     orderNumberLabel.frame= CGRectMake(0*Width, timeLabel.bottom,CXCWidth,74*Width);
     orderNumberLabel.textColor = TextGrayColor;
     //状态
     UILabel* orderStatuerLabel  = [[UILabel alloc]init];
     orderStatuerLabel.font = [UIFont systemFontOfSize:14];
-    orderStatuerLabel.text = @"待审核";
+    if([[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"status"]] isEqualToString:@"2"])
+    {
+        orderStatuerLabel.text =@"未发货";
+
+    }else if([[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"status"]] isEqualToString:@"3"])
+    {
+        orderStatuerLabel.text =@"已发货";
+        
+    }else if([[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"status"]] isEqualToString:@"4"])
+    {
+            orderStatuerLabel.text =@"已完成";
+            
+    }
+
     orderStatuerLabel.textAlignment =NSTextAlignmentRight;
     [topView addSubview:orderStatuerLabel];
     orderStatuerLabel.frame= CGRectMake(400*Width, timeLabel.bottom,325*Width,74*Width);
     orderStatuerLabel.textColor = NavColor;
-    
+        NSString *numString;
     NSArray*leftArr =@[@"商品",@"数量",@"",@"",@"",@"",@"",];
-    
-    NSArray*rightArr =@[@"商品12234",@"12",@"",@"",@"",@"",];
+         box =[[_orderDetailDic objectForKey:@"num"] intValue]/[[_orderDetailDic objectForKey:@"boxnum"] intValue];
+        int he =[[_orderDetailDic objectForKey:@"num"] intValue]%[[_orderDetailDic objectForKey:@"boxnum"] intValue];
+        
+        if (box==0) {
+            numString = [NSString stringWithFormat:@"%d盒",he];
+            
+        }else if(box>0&&he>0)
+        {
+           numString = [NSString stringWithFormat:@"%d箱%d盒",box,he];
+            
+        }else if(box>0&&he==0)
+        {
+            numString = [NSString stringWithFormat:@"%d箱",box];
+            
+        }
+
+    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"name"]],numString,@"",@"",];
     for (int i=0; i<2; i++) {
         //背景
         UIView *bgview =[[UIView alloc]init];
@@ -217,39 +241,57 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    if(tracingArr.count>0)
+    {
+        NSArray*arr=[tracingArr [section] objectForKey:@"flowlist"];
+        
+        return arr.count+1;
+    }else
+        return 0;
+    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    if (tracingArr.count==0) {
+        return 1;
+
+    }else
+    {
+        return tracingArr.count;
+
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tracingArr.count>0) {
+
     if(indexPath.row==0)
     {
         return 160*Width;
 
     }else
     {
-        NSArray*arr=@[@{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气",@"index":@"0"},
-                      @{@"key":@"sdlf卡死了带回家科维奇人",@"index":@"1"},
-                      @{@"key":@"sdl死了带回家科维奇人",@"index":@"1"},
-                      @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"1"},
-                      @{@"key":@"sdlfjhkas李蝴科维奇人",@"index":@"1"},
-                      @{@"key":@"sdlfjhkas李蝴了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2"},
-                      @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2"},
-                      @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2"},
-                      @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2"}];
-        NSString *titleContent =[[arr objectAtIndex:indexPath.row-1] objectForKey:@"key"];
+        
+        NSArray*arr=[tracingArr[indexPath.section] objectForKey:@"flowlist"];
+     ;
+        
+
+        NSString *titleContent =[NSString stringWithFormat:@"%@",arr[indexPath.row-1]];
         CGSize titleSize;//通过文本得到高度
 
         titleSize = [titleContent boundingRectWithSize:CGSizeMake(500*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
 
         return  titleSize.height+40*Width;
      }
+    }else
+    {
+        return 0.01;
+    }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (tracingArr.count>0) {
+     
      if (indexPath.row ==0)
     {
         static NSString *CellIdentifier = @"Cell1";
@@ -259,7 +301,8 @@
                                           reuseIdentifier:CellIdentifier ];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
-//        cell.dic=[];
+
+        cell.dic =tracingArr[indexPath.row];
         return cell;
         
 
@@ -273,27 +316,22 @@
                                           reuseIdentifier:CellIdentifier ];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
-        NSString *index =[NSString stringWithFormat:@"%ld",indexPath.row];
         NSLog(@"++++++++++++++++%ld",indexPath.row);
-        NSArray*arr=@[@{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气",@"index":@"0"},
-                      @{@"key":@"sdlf卡死了带回家科维奇人",@"index":@"1"},
-                      @{@"key":@"sdl死了带回家科维奇人",@"index":@"1"},
-                      @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"1"},
-                      @{@"key":@"sdlfjhkas李蝴科维奇人",@"index":@"1"},
-                      @{@"key":@"sdlfjhkas李蝴了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2"},
-                      @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2"},
-                      @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2"},
-                      @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2"}];
-        cell.dic =arr[indexPath.row-1];
-        
+        NSArray*arr=[tracingArr[indexPath.section] objectForKey:@"flowlist"];
+
+        cell.dic =@[[NSString stringWithFormat:@"%@",arr[indexPath.row-1]],[NSString stringWithFormat:@"%ld",arr.count],[NSString stringWithFormat:@"%ld",indexPath.row]];
         
         return cell;
+        ;
         
         
     }
+    }else
+    {
+        return nil;
+    }
     
-    //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
-    //    [cell setDic:dict];
+    
 }
 - (void)changeStatuBtn:(UIButton *)btn
 {
@@ -321,12 +359,85 @@
 - (void)confirmButtonAction
 {
 
-    //如果满一箱就可以扫描，零头不算
-    UILabel *label =[self.view viewWithTag:201];
-    SendGoodsVC *sendGoods =[[SendGoodsVC alloc]init];
-    [self.navigationController pushViewController:sendGoods animated:YES];
+    if (box==tracingArr.count) {
+        //如果满一箱就可以扫描，零头不算
+        SendGoodsVC *sendGoods =[[SendGoodsVC alloc]init];
+        sendGoods.orderDetailDic =_orderDetailDic;
+        [self.navigationController pushViewController:sendGoods animated:YES];
+    }else if (box>tracingArr.count)
+    {
+        [MBProgressHUD showError:[NSString stringWithFormat:@"最多%d箱",box] ToView:self.view];
+        return;
+    }else
+    {
+        [MBProgressHUD showError:[NSString stringWithFormat:@"最少%d箱",box] ToView:self.view];
+        return;
+
+    }
+   
     
 }
+- (void)clearInfo
+{
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/seltracing" paraments:@{@"id":[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"id"]]}  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+}
+- (void)getScanString:(NSString *)scanDataString
+{
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/addtracing" paraments:@{
+                                                                                   
+      @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+      @"tracingsn":scanDataString,
+      }
+    addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+//            NSDictionary *dictracinfo =[[dict objectForKey:@"data"] objectForKey:@"tracinfo"];
+//            tracingArr =[[NSMutableArray alloc]init];
+//            NSArray *arr =[dictracinfo allKeys];
+//            for (int i=0; i<arr.count; i++) {
+//                if (i==0) {
+//                    
+//                    [tracingArr addObject:[dictracinfo objectForKey:@""]];
+//                }else
+//                {
+//                    [tracingArr addObject:[dictracinfo objectForKey:[NSString stringWithFormat:@"%d",i]]];
+//                }
+//            }
+            tracingArr =[[dict objectForKey:@"data"] objectForKey:@"tracinfo"];
+            NSString*str =[NSString stringWithFormat:@"已扫描：%ld箱",tracingArr.count];
+            UILabel *subPromLabel =[self.view viewWithTag:340];
+            [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
+            
+            NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
+            NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
+            [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+            [subPromLabel setAttributedText:textColor];
+            
+            [scanTableView reloadData];
+            if (box==tracingArr.count) {
+                UIButton *btn =[self.view viewWithTag:1567];
+                btn.hidden =YES;
+            }
+
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+
+
+}
+
 /*
 #pragma mark - Navigation
 

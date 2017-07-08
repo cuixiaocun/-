@@ -1,14 +1,14 @@
 //
-//  CirculationRecordCell.m
+//  OrderCirCell.m
 //  JingzhiForBusiness
 //
-//  Created by Admin on 2017/6/5.
+//  Created by Admin on 2017/7/5.
 //  Copyright © 2017年 cuixiaocun. All rights reserved.
 //
 
-#import "CirculationRecordCell.h"
+#import "OrderCirCell.h"
 
-@implementation CirculationRecordCell
+@implementation OrderCirCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -19,8 +19,8 @@
         xian.backgroundColor =BGColor;
         [self addSubview:xian];
         xian.frame =CGRectMake(0,0*Width, CXCWidth, 20*Width);
-
-        NSArray*leftArr =@[@"订单号",@"发起代理",@"流转代理",@"流转时间",@"",@"",@"",@"",@"",];
+        
+        NSArray*leftArr =@[@"申请代理",@"发起代理",@"流转代理",@"流转时间",@"",@"",@"",@"",@"",];
         
         NSArray*rightArr =@[@"",@"",@"",@"",@"",];
         for (int i=0; i<4; i++){
@@ -52,10 +52,10 @@
             xian.frame =CGRectMake(0,80.5*Width, CXCWidth, 1.5*Width);
             
         }
-            
-            
+        
+        
     }
-            return self;
+    return self;
     
 }
 - (void)awakeFromNib {
@@ -75,11 +75,11 @@
     UILabel *upLabel =[self viewWithTag:201];
     UILabel *downLabel =[self viewWithTag:202];
     UILabel *timeLabel =[self viewWithTag:203];
-    numberLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"sn"]];
+    numberLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"source"]];
     upLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"before"]];
     downLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"after"]];
     timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"createtime"]];
-
+    
     
     
     
@@ -90,4 +90,6 @@
     
     // Configure the view for the selected state
 }
+
+
 @end

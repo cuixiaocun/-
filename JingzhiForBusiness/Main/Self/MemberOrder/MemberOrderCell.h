@@ -18,7 +18,8 @@
 @property(strong,nonatomic)UIButton * seeBtn;//查看详情
 @property(strong,nonatomic)UIButton * deliverBtn;//发货
 @property(strong,nonatomic)UIButton * rejectBtn;//查看详情
-@property(strong,nonatomic)NSString * status;//查看详情
+@property(strong,nonatomic)UIButton * loginDetailBtn;//查看物流详情
+
 
 @property(assign,nonatomic)id<MemberOrderCellDelegate>delegate;
 

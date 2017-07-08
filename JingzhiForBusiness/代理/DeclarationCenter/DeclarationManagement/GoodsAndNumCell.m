@@ -54,6 +54,11 @@
 -(void)setDic:(NSDictionary *)dic
 {
     _dic=dic;
+    UILabel*nameLabel =[self viewWithTag:230];
+    UILabel*numLabel =[self viewWithTag:240];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    numLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"num"]];
+
     
     
     

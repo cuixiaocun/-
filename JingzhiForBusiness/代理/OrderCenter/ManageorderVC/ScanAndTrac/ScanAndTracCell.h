@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ScanAndTracCell : UITableViewCell
-@property(nonatomic,retain)NSDictionary *dic;
+@property(nonatomic,retain)NSArray *dic;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 

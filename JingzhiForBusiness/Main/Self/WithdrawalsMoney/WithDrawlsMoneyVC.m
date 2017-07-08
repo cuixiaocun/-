@@ -14,6 +14,12 @@
 @end
 
 @implementation WithDrawlsMoneyVC
+- (void)viewDidAppear:(BOOL)animated
+{
+    infoArray =[[NSMutableArray alloc]init];
+    [self getInfoList];
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,7 +56,7 @@
     [withDrawlsBtn setTitle:@"提现" forState:UIControlStateNormal];
     [withDrawlsBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:withDrawlsBtn];
-    
+    [self getInfoList];
     
     [self mainView];
 }
@@ -92,8 +98,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 5;
+        return infoArray.count ;
 }
 
 
@@ -106,7 +111,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger row =[indexPath row];
+    NSInteger row =[indexPath row];
     static NSString *CellIdentifier = @"Cell";
     WithDrawlsCell *cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -115,23 +120,13 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+    NSDictionary *dict = [infoArray objectAtIndex:row];
+    [cell setDic:dict];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.row==1) {
-//        DelegateDetailVC *delegateDetail =[[DelegateDetailVC  alloc]init];
-//        [self.navigationController pushViewController:delegateDetail animated:YES];
-//
-//    }else
-//    {
-//        DelegateExamineDetailVC *delegateDetail =[[DelegateExamineDetailVC  alloc]init];
-//        [self.navigationController pushViewController:delegateDetail animated:YES];
-//    }
-    
 }
 #pragma mark - Pull to Refresh
 - (void) pinHeaderView
@@ -167,7 +162,7 @@
     DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
     if (willRefreshOnRelease){
         hv.title.text = @"松开即可更新...";
-        currentPage = 1;
+        currentPage = 0;
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.18f];
         ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -177,7 +172,7 @@
     else{
         
         if ([hv.title.text isEqualToString:@"松开即可更新..."]) {
-            currentPage = 1;
+            currentPage = 0;
             [CATransaction begin];
             [CATransaction setAnimationDuration:0.18f];
             ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
@@ -246,12 +241,9 @@
     
     return YES;
 }
-
-
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-    
     if (!isRefreshing && isDragging && scrollView.contentOffset.y < 0) {
         [self headerViewDidScroll:scrollView.contentOffset.y < 0 - [self headerRefreshHeight]
                        scrollView:scrollView];
@@ -274,7 +266,7 @@
 - (void) addItemsOnTop
 {
     
-    currentPage=1;
+    currentPage=0;
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
     
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -318,72 +310,64 @@
 - (void)getInfoList
 {
     
-    //    [ProgressHUD show:@"加载中"];
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
-    //
-    //    //你的接口地址
-    //    NSString *url=[NSString stringWithFormat:@"%@/repair/getByUserId",SERVERURL];
-    //    NSDictionary *parameter = @{@"uid":@"",@"status":@"",@"deviceType":@"2"};
-    //
-    //
-    //
-    //
-    //
-    //    [PublicMethod AFNetworkPOSTurl:url paraments:parameter success:^(id responseDic) {
-    //
-    //
-    //        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-    //        NSLog(@"请求成功JSON:%@", dict);
-    //
-    //        if (dict) {
-    //            [ProgressHUD dismiss];
-    //
-    //            NSMutableArray *array=[[dict objectForKey:@"result"]objectForKey:@"list"];
-    //            if ([array isKindOfClass:[NSNull class]]) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //                return ;
-    //            }
-    //
-    //            if (currentPage==1) {
-    //                [infoArray removeAllObjects];
-    //            }
-    //
-    //            [infoArray addObjectsFromArray:array];
-    //
-    //            if ([infoArray count]==0 && currentPage==1) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //
-    //            }
-    //            pageCount =infoArray.count/10;
-    //            //判断是否加载更多
-    //            if (array.count==0 || array.count<10){
-    //                self.canLoadMore = NO; // signal that there won't be any more items to load
-    //            }else{
-    //                self.canLoadMore = YES;
-    //            }
-    //
-    //            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-    //            [fv.activityIndicator stopAnimating];
-    //
-    //            if (!self.canLoadMore) {
-    //                fv.infoLabel.hidden = YES;
-    //            }else{
-    //                fv.infoLabel.hidden = NO;
-    //            }
-    //
-    //            [self.tableView reloadData];
-    //
-    //        }
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //                [ProgressHUD showError:@"网络连接失败"];
-    //                NSLog(@"网络连接失败");
-    //    }];
-    //
-    //
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
+                          
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/Account/record" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        
+        if (currentPage==0) {
+            [infoArray removeAllObjects];
+            
+        }
+        NSMutableArray *array=[dict objectForKey:@"data"];
+        if ([array isKindOfClass:[NSNull class]]) {
+            [self.tableView reloadData];
+            
+            return ;
+        }
+        
+        
+        [infoArray addObjectsFromArray:array];
+        
+        if ([infoArray count]==0 && currentPage==0) {
+            
+        }
+        pageCount =infoArray.count/20;
+        //判断是否加载更多
+        if (array.count==0 || array.count<20){
+            self.canLoadMore = NO; // signal that there won't be any more items to load
+        }else{
+            self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
+        }
+        
+        DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+        [fv.activityIndicator stopAnimating];
+        
+        if (!self.canLoadMore) {
+            fv.infoLabel.hidden = YES;
+        }else{
+            fv.infoLabel.hidden = NO;
+        }
+        
+        
+        [self.tableView reloadData];
+        if (currentPage==0) {
+            //                [self.tableView setScrollsToTop:YES];
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
+        
+        [self.tableView reloadData];
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 /*
  #pragma mark - Navigation

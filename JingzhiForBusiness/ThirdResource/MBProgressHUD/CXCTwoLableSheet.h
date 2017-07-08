@@ -10,7 +10,7 @@
 //添加代理
 @protocol CXCTwoLableSheetDelegate <NSObject>
 
--(void)btnClickName:(NSString *)nameString andBankNumber:(NSString *)bankNum;
+-(void)btnClickName:(NSString *)nameString andBankNumber:(NSString *)bankNum withid:(NSString *)idstring withIsDefult:(NSString *)isDefult;
 -(void)hiddenCXCActionSheet;
 @end
 

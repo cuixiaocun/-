@@ -15,9 +15,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        NSArray*leftArr =@[@"2017-05-03 12:12",@"姓名",@"账号",@"提现金额",@"",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@" ",@"姓名",@"账号",@"提现金额",@"",@"",@"",@"",@"",];
         
-        NSArray*rightArr =@[@"等待审核",@"一级",@"18363671722",@"¥1451",@"",@"",@"",@"",];
+        NSArray*rightArr =@[@"",@"",@"",@"",@"",@"",@"",@"",];
         for (int i=0; i<4; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
@@ -94,7 +94,6 @@
 }
 -(void)setDic:(NSDictionary *)Dict
 {
-    //待审核，已完成，已驳回
     _dic=Dict;
     UILabel *timeLabel =[self viewWithTag:199];
     UILabel *statuLabel =[self viewWithTag:200];
@@ -102,8 +101,11 @@
     UILabel *accountLabel =[self viewWithTag:202];
     UILabel *moneyLabel =[self viewWithTag:203];
     
-    
-    
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"updatetime"]];
+    statuLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"stname"]];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
+    moneyLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"amount"]];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

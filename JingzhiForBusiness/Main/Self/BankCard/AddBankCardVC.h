@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface AddBankCardVC : UIViewController
-
+@property(nonatomic,copy)NSArray *bankArr;
 @end

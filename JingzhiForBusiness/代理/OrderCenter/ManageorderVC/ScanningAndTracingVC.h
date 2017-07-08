@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ScanningAndTracingVC : UIViewController
+@property(nonatomic,strong)NSDictionary *orderDetailDic;
 
 @end

@@ -269,7 +269,6 @@
                           @"account":[NSString stringWithFormat:@"%@",admin.text],
                           @"password":[NSString stringWithFormat:@"%@",password.text],
     }];
-//[self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
 
     NSLog(@"%@",dic1);
     [PublicMethod AFNetworkPOSTurl:@"Home/Login/login" paraments:dic1  addView:self.view success:^(id responseDic) {
@@ -304,10 +303,8 @@
                 [PublicMethod saveDataString:@"DL" withKey:@"IsLogin"];
                 NSLog(@"%@",[dict objectForKey:@"data"]);
                 [PublicMethod removeObjectForKey: member];
-
                 [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"agen"]withKey:agen];
                 [self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
-                
 
             }
         }

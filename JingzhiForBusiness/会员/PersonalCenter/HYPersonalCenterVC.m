@@ -264,7 +264,6 @@
                 [PublicMethod removeObjectForKey: @"IsLogin"];
                 [PublicMethod removeObjectForKey: member];
                 [PublicMethod removeObjectForKey: shopingCart];
-                [PublicMethod removeObjectForKey: @"token"];
                 
             }
             

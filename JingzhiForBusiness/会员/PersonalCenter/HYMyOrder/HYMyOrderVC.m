@@ -405,6 +405,7 @@
             NSLog(@"查看物流");
             
             LogisticsDetailVC *logVC =[[LogisticsDetailVC alloc]init];
+            logVC.dicDetail =infoArray[index.row];
             logVC.logistics = [infoArray[index.row] objectForKey:@"logistics"];
             logVC.logisticscom = [infoArray[index.row] objectForKey:@"logisticscom"];
 
@@ -471,7 +472,8 @@
 {
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     
-    [dic1 setDictionary:@{@"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
+    [dic1 setDictionary:@{
+                          @"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
                           @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]}];
     
     [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/cancel" paraments:dic1  addView:self.view success:^(id responseDic) {
@@ -519,7 +521,8 @@
 {
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
+    [dic1 setDictionary:@{
+                          @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
                           @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]],
                           @"status":statuString
 //                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
@@ -528,8 +531,7 @@
     
     [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/myOrderList" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-            //            infoArray = [dict objectForKey:@"data"];
-            
+        
             if (currentPage==0) {
                 [infoArray removeAllObjects];
                 

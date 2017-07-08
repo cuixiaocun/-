@@ -11,6 +11,6 @@
 @interface LogisticsDetailVC : UIViewController
 @property(nonatomic,copy)NSString *logistics;
 @property(nonatomic,copy)NSString *logisticscom;
-
+@property(nonatomic,copy)NSDictionary *dicDetail;
 
 @end

@@ -119,6 +119,7 @@
     [parameter setDictionary:dic];
     [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
 //    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];//证书的时候
+    NSLog(@"%@",parameter);
 
     [manager POST:url parameters:parameter  progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -127,7 +128,7 @@
         if (success) {
             success(responseObject);
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-                    NSLog(@"请求成功JSON:%@", dict);
+            NSLog(@"%@请求成功JSON:%@", urlString,dict);
             NSLog(@"请求成功JSON:%@", [self logDic:dict]);
             if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
                                 
@@ -169,8 +170,6 @@
         if (success) {
             success(responseObject);
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"请求成功JSON:%@", dict);
-
             NSLog(@"请求成功JSON:%@", [self logDic:dict]);
             if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
                 

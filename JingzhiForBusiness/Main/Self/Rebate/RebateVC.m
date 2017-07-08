@@ -9,7 +9,7 @@
 #import "RebateVC.h"
 #import "RebateCell.h"
 #import "RabatForInCell.h"
-@interface RebateVC ()<UITextFieldDelegate>
+@interface RebateVC ()<UITextFieldDelegate,RabatDelegate,RabatInfoDelegate>
 {
     NSString *isInOrOut;// no==出款 yes==收款
     UIView *bottomBgview;
@@ -17,6 +17,8 @@
     NSString *statuString;//所有-0 未转账-1 已转账-2 已完成-3
     UIView *topView;
     UIView *topViewOut;
+    NSArray *idlist;
+    
 }
 @end
 
@@ -28,6 +30,8 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    idlist   =[[NSArray alloc]init];
+
     isInOrOut =@"NO";
     statuString=@"0";
     //替代导航栏的imageview
@@ -144,7 +148,7 @@
     UIImageView*hXian =[[UIImageView alloc]initWithFrame:CGRectMake(30*Width, 80*Width, 690*Width, 1.5*Width)];
     hXian.backgroundColor =BGColor;
     [bgView addSubview:hXian];
-    for (int i=0; i<3; i++) {
+    for (int i=0; i<2; i++) {
         UITextField *label =[[UITextField alloc]initWithFrame:CGRectMake( 375*Width*i,hXian.bottom, 375*Width, 80*Width)];
         label.tag =33330+i;
         label.delegate=self;
@@ -180,7 +184,7 @@
     DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
     self.footerView = footerView;
     infoArray = [[NSMutableArray alloc] init];
-    //  [self performSelector:@selector(getInfoList)];
+    [self performSelector:@selector(getInfoList)];
     
     [self bottomShowOut];//先显示出款
     
@@ -201,6 +205,10 @@
         statuBtn.frame = CGRectMake(CXCWidth/3*i, 0,CXCWidth/3-2*Width ,100*Width);
         if (i==0) {
             statuBtn.selected =YES;
+        }else
+        {
+            statuBtn.selected =NO;
+
         }
         if (i<4) {
             //横线
@@ -225,11 +233,15 @@
     [topViewOut addSubview:xian];
     xian.frame =CGRectMake(0,98*Width, CXCWidth, 2*Width);
     
+    }else
+    {
+        UIButton *btn =[self.view viewWithTag:230];
+        [self changeStatuBtnOut:btn];
+        topView.hidden =YES;
+        topViewOut.hidden =NO;
+
     }
-    UIButton *btn =[self.view viewWithTag:230];
-    [self changeStatuBtn:btn];
-    topView.hidden =YES;
-    topViewOut.hidden =NO;
+    
     
 
 }
@@ -242,18 +254,51 @@
     }
     btn.selected =YES;
     statuString =[NSString stringWithFormat:@"%ld",btn.tag-230];
+    currentPage =0;
+    //始末时间
+    UIButton *begainBtn =[self.view viewWithTag:300];
+    [begainBtn setTitle:@"选择起始时间" forState:UIControlStateNormal ];
+    UIButton *endBtn =[self.view viewWithTag:301];
+    [endBtn setTitle:@"选择结束时间" forState:UIControlStateNormal ];
+    //左右两个代理
+    UITextField *chanchuTF =[self.view viewWithTag:33330];
+    chanchuTF.text=@"";
+    UITextField *shoukuanTF =[self.view viewWithTag:33331];
+    shoukuanTF.text=@"";
+    [self getInfoList];
+
+}
+//头部状态选择--进款
+- (void)changeStatuBtn:(UIButton *)btn
+{
+    for (int i=0; i<4; i++) {
+        UIButton *statuBtn =[self.view viewWithTag:220+i];
+        statuBtn.selected=NO;
+    }
+    btn.selected =YES;
+    statuString =[NSString stringWithFormat:@"%ld",btn.tag-220];
+    currentPage =0;
+    //始末时间
+    UIButton *begainBtn =[self.view viewWithTag:300];
+    [begainBtn setTitle:@"选择起始时间" forState:UIControlStateNormal ];
+    UIButton *endBtn =[self.view viewWithTag:301];
+    [endBtn setTitle:@"选择结束时间" forState:UIControlStateNormal ];
+    //左右两个代理
+    UITextField *chanchuTF =[self.view viewWithTag:33330];
+    chanchuTF.text=@"";
+    UITextField *shoukuanTF =[self.view viewWithTag:33331];
+    shoukuanTF.text=@"";
+    [self getInfoList];
     
-    [self.tableView reloadData];
     
     
 }
+
 
 //头部状态进款的
 -(void)topShow
 {
     if (!topView) {
-        
-        
         topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
         topView.backgroundColor =[UIColor whiteColor];
         [self.view addSubview:topView];
@@ -263,6 +308,10 @@
             statuBtn.frame = CGRectMake(CXCWidth/4*i, 0,CXCWidth/4-2*Width ,100*Width);
             if (i==0) {
                 statuBtn.selected =YES;
+            }else
+            {
+                statuBtn.selected =NO;
+
             }
             if (i<4) {
                 //横线
@@ -287,27 +336,16 @@
         [topView addSubview:xian];
         xian.frame =CGRectMake(0,98*Width, CXCWidth, 2*Width);
         
-    }
-    UIButton *btn =[self.view viewWithTag:220];
-    [self changeStatuBtn:btn];
-    
-    topView.hidden =NO;
-    topViewOut.hidden =YES;
-    
-    
-}
-//头部状态选择--进款
-- (void)changeStatuBtn:(UIButton *)btn
-{
-    
-    for (int i=0; i<4; i++) {
-        UIButton *statuBtn =[self.view viewWithTag:220+i];
-        statuBtn.selected=NO;
-    }
-    btn.selected =YES;
-    statuString =[NSString stringWithFormat:@"%ld",btn.tag-220];
-    [self.tableView reloadData];
+    }else
+    {
+        UIButton *btn =[self.view viewWithTag:220];
+        [self changeStatuBtn:btn];
+        
+        topView.hidden =NO;
+        topViewOut.hidden =YES;
 
+    }
+    
     
 }
 //底部出款
@@ -341,6 +379,7 @@
     //底部总价
     UILabel *subNumLabelIn =[[UILabel alloc]initWithFrame:CGRectMake(260*Width, 0, 300*Width, 100*Width)];
     [subNumLabelIn setText:@"¥1240"];
+        subNumLabelIn.tag =122324;
     [subNumLabelIn  setFont:[UIFont systemFontOfSize:17]];
     [subNumLabelIn    setTextColor:NavColor];
     [bottomBgviewOut   addSubview:subNumLabelIn];
@@ -382,7 +421,7 @@
         [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
         //底部总价
         UILabel *subNumLabel =[[UILabel alloc]initWithFrame:CGRectMake(260*Width, 0, 300*Width, 100*Width)];
-        [subNumLabel setText:@"¥1240"];
+        subNumLabel.tag =122325;
         [subNumLabel  setFont:[UIFont systemFontOfSize:17]];
         [subNumLabel    setTextColor:NavColor];
         [bottomBgview   addSubview:subNumLabel];
@@ -405,12 +444,16 @@
 
 -(void)confirmButtonActionOut
 {
+    UILabel*money =[self.view viewWithTag:122325];
+    if ([money.text isEqualToString:@"¥0"]) {
+        [MBProgressHUD showError:@"总额为0" ToView:self.view];
+    }
     UITextField *textF =[self.view viewWithTag:33330];
     UITextField *text2 =[self.view viewWithTag:33331];
     [textF resignFirstResponder];
     [text2 resignFirstResponder];
     [_pickview  remove];
-
+    [self chukuanAll];
     
     
 
@@ -424,8 +467,8 @@
     [text2 resignFirstResponder];
     [_pickview  remove];
 
+    [self shoukuanAll];
 
-    [self.tableView reloadData];
 
 }
 - (void)didReceiveMemoryWarning {
@@ -434,22 +477,19 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 5;
+        return infoArray.count ;
 }
 
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (([statuString isEqualToString:@"1"]||[statuString isEqualToString:@"0"])&&[isInOrOut isEqualToString:@"NO"]) {
+    if ([[NSString stringWithFormat:@"%@",[infoArray[indexPath.row]  objectForKey:@"status"]] isEqualToString:@"1"]&&[isInOrOut isEqualToString:@"NO"]) {
         
         return 300*Width;
-    }else if (([statuString isEqualToString:@"2"]||[statuString isEqualToString:@"0"])&&[isInOrOut isEqualToString:@"YES"])
+    }else if ([[NSString stringWithFormat:@"%@",[infoArray[indexPath.row]  objectForKey:@"status"]] isEqualToString:@"2"]&&[isInOrOut isEqualToString:@"YES"])
     {
         return 300*Width;
-
-    
     }else
     return 220*Width;
 }
@@ -459,7 +499,7 @@
 {
     // no==出款 yes==收款
     if ( [isInOrOut isEqualToString: @"YES"]) {
-        if([statuString isEqualToString:@"2"]||[statuString isEqualToString:@"0"])//有按钮
+        if([[NSString stringWithFormat:@"%@",[infoArray[indexPath.row]  objectForKey:@"status"]] isEqualToString:@"2"])//有按钮
         {        static NSString *CellIdentifier = @"Cell1";
         RabatForInCell*cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
@@ -468,8 +508,9 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
         }
-        //    NSDictionary *dict = [infoArray objectAtIndex:row];
-        //    [cell setDic:dict];
+            cell.delegate =self;
+            NSDictionary *dict = [infoArray objectAtIndex:indexPath.row];
+            [cell setDicForIn:dict];
         return cell;
         }else
         {
@@ -480,8 +521,13 @@
                                          reuseIdentifier:CellIdentifier withType2:statuString ];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 
-            }    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-            //    [cell setDic:dict];
+            }
+            
+            NSDictionary *dict = [infoArray objectAtIndex:indexPath.row];
+            [cell setDicForIn:dict];
+            cell.delegate =self;
+
+            
             return cell;
             
             
@@ -489,7 +535,7 @@
         
         }
     }else if ([isInOrOut isEqualToString: @"NO"]){
-        if([statuString isEqualToString:@"1"]||[statuString isEqualToString:@"0"])//有按钮
+        if([[NSString stringWithFormat:@"%@",[infoArray[indexPath.row]  objectForKey:@"status"]] isEqualToString:@"1"])//有按钮
         {
         
          static NSString *CellIdentifier = @"Cell4";
@@ -499,8 +545,12 @@
                                  reuseIdentifier:CellIdentifier withType:statuString ];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
-        }    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-        //    [cell setDic:dict];
+        }
+            NSDictionary *dict = [infoArray objectAtIndex:indexPath.row];
+            [cell setDicForOut:dict];
+            cell.delegate =self;
+
+
         return cell;
         }else//无按钮
         {
@@ -511,12 +561,13 @@
                                          reuseIdentifier:CellIdentifier withType2:statuString ];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 
-            }    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-            //    [cell setDic:dict];
+            }
+            NSDictionary *dict = [infoArray objectAtIndex:indexPath.row];
+            [cell setDicForOut:dict];
+            cell.delegate =self;
+
             return cell;
 
-        
-        
         }
 
     }
@@ -550,7 +601,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,64+20*Width+162*Width, CXCWidth, CXCHeight-20-100*Width)];
+    [self.tableView setFrame:CGRectMake(0,64+40*Width+162*Width+100*Width, CXCWidth, CXCHeight-40*Width-162*Width-64-100*Width)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
@@ -574,7 +625,7 @@
     DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
     if (willRefreshOnRelease){
         hv.title.text = @"松开即可更新...";
-        currentPage = 1;
+        currentPage = 0;
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.18f];
         ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -584,7 +635,7 @@
     else{
         
         if ([hv.title.text isEqualToString:@"松开即可更新..."]) {
-            currentPage = 1;
+            currentPage = 0;
             [CATransaction begin];
             [CATransaction setAnimationDuration:0.18f];
             ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
@@ -681,7 +732,7 @@
 - (void) addItemsOnTop
 {
     
-    currentPage=1;
+    currentPage=0;
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
     
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -724,73 +775,117 @@
 }
 - (void)getInfoList
 {
+    //收款or出款
+    NSString *typeid ;
+    if ([isInOrOut isEqualToString:@"NO"]) {
+        typeid =@"1";
+        
+    }else if ([isInOrOut isEqualToString:@"YES"]) {
+        typeid =@"2";
+
+    }
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+
+    [dic1 setDictionary:@{
+                        
+                          @"slctyp":statuString ,//状态0全，1未转，2已转，3已完
+                          @"typeid":typeid,
+                          @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }
+     ];
     
-    //    [ProgressHUD show:@"加载中"];
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
-    //
-    //    //你的接口地址
-    //    NSString *url=[NSString stringWithFormat:@"%@/repair/getByUserId",SERVERURL];
-    //    NSDictionary *parameter = @{@"uid":@"",@"status":@"",@"deviceType":@"2"};
-    //
-    //
-    //
-    //
-    //
-    //    [PublicMethod AFNetworkPOSTurl:url paraments:parameter success:^(id responseDic) {
-    //
-    //
-    //        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-    //        NSLog(@"请求成功JSON:%@", dict);
-    //
-    //        if (dict) {
-    //            [ProgressHUD dismiss];
-    //
-    //            NSMutableArray *array=[[dict objectForKey:@"result"]objectForKey:@"list"];
-    //            if ([array isKindOfClass:[NSNull class]]) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //                return ;
-    //            }
-    //
-    //            if (currentPage==1) {
-    //                [infoArray removeAllObjects];
-    //            }
-    //
-    //            [infoArray addObjectsFromArray:array];
-    //
-    //            if ([infoArray count]==0 && currentPage==1) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //
-    //            }
-    //            pageCount =infoArray.count/10;
-    //            //判断是否加载更多
-    //            if (array.count==0 || array.count<10){
-    //                self.canLoadMore = NO; // signal that there won't be any more items to load
-    //            }else{
-    //                self.canLoadMore = YES;
-    //            }
-    //
-    //            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-    //            [fv.activityIndicator stopAnimating];
-    //
-    //            if (!self.canLoadMore) {
-    //                fv.infoLabel.hidden = YES;
-    //            }else{
-    //                fv.infoLabel.hidden = NO;
-    //            }
-    //
-    //            [self.tableView reloadData];
-    //
-    //        }
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //                [ProgressHUD showError:@"网络连接失败"];
-    //                NSLog(@"网络连接失败");
-    //    }];
-    //
-    //
+    //始末时间
+    UIButton *begainBtn =[self.view viewWithTag:300];
+    UIButton *endBtn =[self.view viewWithTag:301];
+    if (![begainBtn.currentTitle isEqualToString:@"选择起始时间"]) {
+        [dic1 setObject:[NSString stringWithFormat:@"%@ 00:00:00",begainBtn.currentTitle] forKey:@"begin_time"];
+        
+    }
+    if(![endBtn.currentTitle isEqualToString:@"选择结束时间"]) {
+        [dic1 setObject:[NSString stringWithFormat:@"%@ 23:59:59",endBtn.currentTitle] forKey:@"end_time"];
+    }
+    //左右两个代理
+    UITextField *chanchuTF =[self.view viewWithTag:33330];
+    UITextField *shoukuanTF =[self.view viewWithTag:33331];
+
+    if (![chanchuTF.text isEqualToString:@""]) {
+        [dic1 setObject:[NSString stringWithFormat:@"%@",chanchuTF.text] forKey:@"chanchu"];
+
+    }
+    if (![shoukuanTF.text isEqualToString:@""]) {
+        [dic1 setObject:[NSString stringWithFormat:@"%@",shoukuanTF.text] forKey:@"shoukuan"];
+        
+    }
+    [PublicMethod AFNetworkPOSTurl:@"home/Agen/myallbrokerage" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        //            infoArray = [dict objectForKey:@"data"];
+        
+        if (currentPage==0) {
+            [infoArray removeAllObjects];
+            
+        }
+        NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"skck"];
+        if ([array isKindOfClass:[NSNull class]]) {
+            [self.tableView reloadData];
+            
+            return ;
+        }
+        
+        
+        [infoArray addObjectsFromArray:array];
+        
+        if ([infoArray count]==0 && currentPage==0) {
+            
+            
+        }
+        pageCount =infoArray.count/20;
+        //判断是否加载更多
+        if (array.count==0 || array.count<20){
+            self.canLoadMore = NO; // signal that there won't be any more items to load
+        }else{
+            self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
+        }
+        
+        DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+        [fv.activityIndicator stopAnimating];
+        
+        if (!self.canLoadMore) {
+            fv.infoLabel.hidden = YES;
+        }else{
+            fv.infoLabel.hidden = NO;
+        }
+        
+        
+        [self.tableView reloadData];
+        if (currentPage==0) {
+            //                [self.tableView setScrollsToTop:YES];
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
+        
+        [self.tableView reloadData];
+        
+        
+        
+        //收款or出款
+        if ([isInOrOut isEqualToString:@"NO"]) {
+            UILabel *chukuanLabel =[self.view viewWithTag:122324];
+            chukuanLabel.text =[NSString stringWithFormat:@"¥%@",[[dict objectForKey:@"data"] objectForKey:@"total"]];
+            
+        }else if ([isInOrOut isEqualToString:@"YES"]) {
+            //出款
+            UILabel *chukuanLabel =[self.view viewWithTag:122325];
+            chukuanLabel.text =[NSString stringWithFormat:@"¥%@",[[dict objectForKey:@"data"] objectForKey:@"total"]];
+        }
+        idlist =[[dict objectForKey:@"data"] objectForKey:@"idlist"];
+
+        
+
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 - (void)chooseTime:(UIButton*)btn
 {
@@ -799,10 +894,6 @@
     [textF resignFirstResponder];
     [text2 resignFirstResponder];
     [_pickview  remove];
-
-
-
-    [_pickview remove];
     
     NSDate *date=[NSDate date];
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -950,8 +1041,6 @@
     [btn setBackgroundColor:[UIColor whiteColor]];
     btn.selected =YES;
     
-    [self.tableView reloadData];
-    
     
 }
 //查询按钮
@@ -979,7 +1068,7 @@
         return;
     }
 
-    
+    [self getInfoList];
     
 }
 
@@ -1023,5 +1112,116 @@
     
 
 
+}
+-(void)btnClick:(UITableViewCell *)cell andOutTag:(int)flag
+{
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    
+        NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+        [dic1 setDictionary:@{
+                              @"id":[NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"id"]],
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                              }
+         ];
+        
+        [PublicMethod AFNetworkPOSTurl:@"home/Agen/verifyBrokerage" paraments:dic1  addView:self.view success:^(id responseDic) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+                [self getInfoList];
+
+                [self performSelector:@selector(zhuanzhangSuccess) withObject:nil afterDelay:0.5f];
+            
+            }
+            
+        } fail:^(NSError *error) {
+            
+        }];
+        
+
+}
+- (void)zhuanzhangSuccess
+{
+    [ProgressHUD showSuccess:@"转账成功"];
+
+}
+-(void)btnClick:(UITableViewCell *)cell andInTag:(int)flag
+{
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"id":[NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"id"]],
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/Agen/verifyBrokerage2" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [self getInfoList];
+            [self performSelector:@selector(shoukuanSuccess) withObject:nil afterDelay:0.5f];
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)shoukuanSuccess
+{
+    [ProgressHUD showSuccess:@"收款成功"];
+}
+- (void)shoukuanAll
+{
+    UITextField *shoukuanTF =[self.view viewWithTag:33331];
+
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"skdl":[NSString stringWithFormat:@"%@",shoukuanTF.text],
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          @"idlist":idlist,
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/Agen/allVerify2" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [self getInfoList];
+            [self performSelector:@selector(shoukuanSuccess) withObject:nil afterDelay:0.5f];
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)chukuanAll
+{
+    UITextField *shoukuanTF =[self.view viewWithTag:33331];
+    
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"skdl":[NSString stringWithFormat:@"%@",shoukuanTF.text],
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          @"idlist":idlist,
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/Agen/allVerify" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [self getInfoList];
+            [self performSelector:@selector(zhuanzhangSuccess) withObject:nil afterDelay:0.5f];
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 @end

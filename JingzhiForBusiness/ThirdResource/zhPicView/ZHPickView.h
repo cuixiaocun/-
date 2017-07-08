@@ -54,6 +54,7 @@
  *   移除本控件
  */
 -(void)remove;
+-(void)setNilForResultString;
 /**
  *  显示本控件
  */

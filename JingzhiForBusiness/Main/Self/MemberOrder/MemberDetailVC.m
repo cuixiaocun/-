@@ -12,7 +12,7 @@
 {
     //底部scrollview
     UIScrollView *bgScrollView;
-
+    NSArray*inforArr;
 }
 @end
 
@@ -44,17 +44,9 @@
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        [self mainView];
+    inforArr =[[NSArray alloc]init];
+    inforArr =[_detailDic objectForKey:@"goods"];
+    [self mainView];
 }
 -(void)mainView
 {
@@ -65,12 +57,12 @@
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2000*Width)];
     UIView * bottomBgView =[[UIView alloc]init];
     [bottomBgView setBackgroundColor:[UIColor whiteColor]];
-    bottomBgView.frame =CGRectMake(0, 0, CXCWidth,74*Width*2+4*Width*170);;
+    bottomBgView.frame =CGRectMake(0, 0, CXCWidth,74*Width*2+inforArr.count*Width*170);;
     [bgScrollView addSubview:bottomBgView];
     //时间
     UILabel* timeLabel  = [[UILabel alloc]init];
     timeLabel.font = [UIFont systemFontOfSize:13];
-    timeLabel.text = @"    2017-09-01 12：23：24";
+    timeLabel.text = [NSString stringWithFormat:@"    %@",[_detailDic objectForKey:@"updatetime"] ];
     [bottomBgView addSubview:timeLabel];
     timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
     timeLabel.backgroundColor =BGColor;
@@ -79,7 +71,7 @@
     UILabel* pricesLabel  = [[UILabel alloc]init];
     pricesLabel.font = [UIFont systemFontOfSize:13];
     pricesLabel.textColor = TextGrayColor;
-    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",@"900000"];//总和
+    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[_detailDic objectForKey:@"total"]];//总和
     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
     NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
     [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
@@ -91,14 +83,17 @@
     //订单号
     UILabel* orderNumberLabel  = [[UILabel alloc]init];
     orderNumberLabel.font = [UIFont systemFontOfSize:14];
-    orderNumberLabel.text = @"    订单号：1953056874376";
+    orderNumberLabel.text = [NSString stringWithFormat:@"    订单号：%@",[_detailDic objectForKey:@"id"] ];
     [bottomBgView addSubview:orderNumberLabel];
     orderNumberLabel.frame= CGRectMake(0*Width, timeLabel.bottom,CXCWidth,74*Width);
     orderNumberLabel.textColor = TextGrayColor;
     //状态
     UILabel* orderStatuerLabel  = [[UILabel alloc]init];
     orderStatuerLabel.font = [UIFont systemFontOfSize:14];
-    orderStatuerLabel.text = @"已支付";
+    NSArray*arr =@[@"",@"待支付",@"待发货",@"已发货",@"已完成",@"已取消",@"已驳回",@"",];
+    int i =[[_detailDic objectForKey:@"status"] intValue];
+
+    orderStatuerLabel.text = [NSString stringWithFormat:@"%@",arr[i]];
     orderStatuerLabel.textAlignment =NSTextAlignmentRight;
     [bottomBgView addSubview:orderStatuerLabel];
     orderStatuerLabel.frame= CGRectMake(400*Width, timeLabel.bottom,325*Width,74*Width);
@@ -108,7 +103,7 @@
     xianOfGoods.backgroundColor =BGColor;
     [bottomBgView addSubview:xianOfGoods];
     xianOfGoods.frame =CGRectMake(0*Width,orderNumberLabel.bottom,CXCWidth,1.5*Width);
-    for (int i=0;i<4 ; i++) {
+    for (int i=0;i< inforArr.count; i++) {
         
         UIView  *bgview =[[UIView alloc]initWithFrame:CGRectMake(0*Width, xianOfGoods.bottom+170*Width*i,CXCWidth , 170*Width)];
         [bottomBgView addSubview:bgview];
@@ -116,7 +111,7 @@
         //商品名称
         UILabel* leftTopLabe = [[UILabel alloc]init];
         leftTopLabe.font = [UIFont systemFontOfSize:14];
-        leftTopLabe.text = @"商品q";
+        leftTopLabe.text = [NSString stringWithFormat:@"%@",[inforArr[i] objectForKey:@"name"]];
         leftTopLabe.frame= CGRectMake(24*Width, 0,300*Width , 80*Width);
         leftTopLabe.tag =230+i;
         //        leftTopLabe.backgroundColor =BGColor;
@@ -124,7 +119,20 @@
         [bgview addSubview:leftTopLabe];
         //数量
         UILabel* rightLabel = [[UILabel alloc]init];
-        rightLabel.text =@"1箱9盒";
+        NSInteger box =[[NSString  stringWithFormat:@"%@", [inforArr[i] objectForKey:@"num"]] integerValue]/[[NSString  stringWithFormat:@"%@", [inforArr[i] objectForKey:@"boxnum"]] integerValue];
+        NSInteger num =[[NSString  stringWithFormat:@"%@", [inforArr[i] objectForKey:@"num"]] integerValue]%[[NSString  stringWithFormat:@"%@", [inforArr[i] objectForKey:@"boxnum"]] integerValue];
+        if (box==0) {
+            rightLabel.text   = [NSString stringWithFormat:@"%ld盒",num];
+            
+        }else if(box>0&&num>0)
+        {
+            rightLabel.text  = [NSString stringWithFormat:@"%ld箱%ld盒",box,num];
+            
+        }else if(box>0&&num==0)
+        {
+            rightLabel.text  = [NSString stringWithFormat:@"%ld箱",box];
+            
+        }
         rightLabel.frame =CGRectMake(250*Width ,0,475*Width,80*Width );
         rightLabel.textAlignment=NSTextAlignmentRight;
         rightLabel.tag =240+i;
@@ -133,12 +141,10 @@
         [bgview addSubview:rightLabel];
         
         
-        
-        
         //商品单价
         UILabel* priceLabe = [[UILabel alloc]init];
         priceLabe.font = [UIFont systemFontOfSize:14];
-        priceLabe.text = @"¥300.00";
+        priceLabe.text =[NSString stringWithFormat:@"¥%@",[inforArr[i] objectForKey:@"price"]] ;
         priceLabe.frame= CGRectMake(24*Width, leftTopLabe.bottom+10*Width,300*Width , 80*Width);
         priceLabe.tag =250+i;
         priceLabe.textColor = NavColor;
@@ -148,7 +154,7 @@
         UILabel* allPriceLabel = [[UILabel alloc]init];
         allPriceLabel.textColor = BlackColor;
         
-        NSString *totalString =[NSString stringWithFormat:@"小计：¥%@",@"900"];//总和
+        NSString *totalString =[NSString stringWithFormat:@"小计：¥%@",[inforArr[i] objectForKey:@"total"]];//总和
         NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
         NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
         [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
@@ -163,27 +169,35 @@
         xian.backgroundColor =BGColor;
         [bgview addSubview:xian];
         xian.frame =CGRectMake(24*Width,168.5*Width, CXCWidth, 1.5*Width);
+        if (i==inforArr.count-1) {
+            [bgScrollView setContentSize:CGSizeMake(CXCWidth,bgview.bottom)];
+
+        }
         
     }
-    UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0, bottomBgView.bottom+1*Width, CXCWidth, 80*Width)];
-    btnView.backgroundColor =[UIColor whiteColor];
-    [bgScrollView addSubview:btnView];
-    UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(580*Width, 15*Width, 145*Width,50*Width)];
-    [btnView addSubview:examineBtn];
-    
-    [examineBtn setBackgroundColor:[UIColor whiteColor]];
-    [examineBtn.layer setCornerRadius:4*Width];
-    [examineBtn.layer setBorderWidth:1.0*Width];
-    [examineBtn.layer setMasksToBounds:YES];
-    [examineBtn setTitleColor:NavColor forState:UIControlStateNormal];
-    examineBtn.layer.borderColor =NavColor.CGColor;
-    [examineBtn setTitle:@"发货" forState:UIControlStateNormal];
-    [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
-    [examineBtn addTarget:self action:@selector(examinePass) forControlEvents:UIControlEventTouchUpInside];
-    [btnView addSubview:examineBtn];
-    
-    
+    if ([[_detailDic objectForKey:@"status"]isEqualToString:@"2"]) {//若是待发货状态
+        UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0, bottomBgView.bottom+1*Width, CXCWidth, 80*Width)];
+        btnView.backgroundColor =[UIColor whiteColor];
+        [bgScrollView addSubview:btnView];
+        
+        UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(580*Width, 15*Width, 145*Width,50*Width)];
+        [btnView addSubview:examineBtn];
+        
+        [examineBtn setBackgroundColor:[UIColor whiteColor]];
+        [examineBtn.layer setCornerRadius:4*Width];
+        [examineBtn.layer setBorderWidth:1.0*Width];
+        [examineBtn.layer setMasksToBounds:YES];
+        [examineBtn setTitleColor:NavColor forState:UIControlStateNormal];
+        examineBtn.layer.borderColor =NavColor.CGColor;
+        [examineBtn setTitle:@"发货" forState:UIControlStateNormal];
+        [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
+        [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+        [examineBtn addTarget:self action:@selector(examinePass) forControlEvents:UIControlEventTouchUpInside];
+        [btnView addSubview:examineBtn];
+        [bgScrollView setContentSize:CGSizeMake(CXCWidth,examineBtn.bottom)];
+
+        
+    }
     
 
 
@@ -191,6 +205,7 @@
 - (void)examinePass
 {
     MemberDeliverVC *membervc =[[MemberDeliverVC alloc]init];
+    membervc.orderId =[_detailDic objectForKey:@"id"];
     [self.navigationController pushViewController:membervc animated:YES];
 
 
@@ -198,7 +213,6 @@
 }
 - (void)withDrawlsBtnAction
 {
-    
     
     
 }

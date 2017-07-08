@@ -71,11 +71,11 @@
     return self;
     
 }
--(void)setDic:(NSDictionary *)Dict
+-(void)setDic:(NSArray *)Dict
 {
     
    _dic =Dict;
-    NSString *titleContent =[_dic objectForKey:@"key"];
+    NSString *titleContent =_dic[0];
     NSLog( @"%@",titleContent);
     CGSize titleSize;//通过文本得到高度
     
@@ -110,26 +110,19 @@
     imgv.frame =CGRectMake(49*Width,0 , 2*Width,titleSize.height/2-13*Width-10*Width+20*Width );
     imgv2.frame =CGRectMake(49*Width,titleSize.height/2+10*Width+13*Width+20*Width, 2*Width,titleSize.height/2-13*Width-10*Width+20*Width );
 
-    
-    
-    
-
     imgv2.hidden =NO;
     imgv.hidden =NO;
-
-    if ([[_dic objectForKey:@"index"]isEqualToString:@"0"]) {
+    if ([_dic[2] isEqualToString:@"1"]) {
         imgv.hidden =YES;
-        imgv2.hidden =NO;
-
+        
     }
-    if ([[_dic objectForKey:@"index"]isEqualToString:@"2"]) {
+    if ([_dic[2] isEqualToString:_dic[1]]) {
         imgv2.hidden =YES;
-        imgv.hidden =NO;
-
+        
     }
 
+    
 }
-
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

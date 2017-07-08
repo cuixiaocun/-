@@ -63,14 +63,14 @@
         cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identy ];
         
         UILabel*label =[[UILabel alloc]initWithFrame:CGRectMake(30*Width, 10, 690*Width, 30)];
-        label.text =[_leftArr[indexPath.row] objectAtIndex:0];
+        label.text =[_leftArr[indexPath.row] objectForKey:@"bankname"];
         label.textColor =TextGrayColor;
         label.textAlignment =NSTextAlignmentCenter;
         label.font =[UIFont systemFontOfSize:16];
         [cell addSubview:label];
         
         UILabel*label2 =[[UILabel alloc]initWithFrame:CGRectMake(30*Width, 40, 690*Width, 30)];
-        label2.text =[_leftArr[indexPath.row] objectAtIndex:1];
+        label2.text =[_leftArr[indexPath.row] objectForKey:@"number"];
         label2.textColor =TextGrayColor;
         label2.font =[UIFont systemFontOfSize:14];
         label2.textAlignment =NSTextAlignmentCenter;
@@ -92,9 +92,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *nameName = [_leftArr objectAtIndex:indexPath.row];
-    [self.delegate btnClickName:nameName[0] andBankNumber:nameName[1]];
-    
+    NSDictionary *nameName = [_leftArr objectAtIndex:indexPath.row];
+    [self.delegate btnClickName:[NSString stringWithFormat:@"%@",[nameName objectForKey:@"bankname"]] andBankNumber:[NSString stringWithFormat:@"%@",[nameName objectForKey:@"number"]]withid:[NSString stringWithFormat:@"%@",[nameName objectForKey:@"id"]]withIsDefult:[NSString stringWithFormat:@"%@",[nameName objectForKey:@"isdefault"]]];
     
 }
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section

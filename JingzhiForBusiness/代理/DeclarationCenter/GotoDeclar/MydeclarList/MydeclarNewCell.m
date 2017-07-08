@@ -23,19 +23,17 @@
         timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
         timeLabel.backgroundColor =BGColor;
         timeLabel.textColor = TextGrayColor;
+        timeLabel.tag=100;
         //总额
         UILabel* pricesLabel  = [[UILabel alloc]init];
         pricesLabel.font = [UIFont systemFontOfSize:13];
         pricesLabel.textColor = TextGrayColor;
-        NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",@"900000"];//总和
-        NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
-        NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
-        [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
-        [pricesLabel setAttributedText:textColor];
         [self addSubview:pricesLabel];
         pricesLabel.frame= CGRectMake(400*Width, 0,325*Width,74*Width);
         pricesLabel.backgroundColor =BGColor;
         pricesLabel.textAlignment = NSTextAlignmentRight;
+        pricesLabel.tag=101;
+
         //订单号
         UILabel* orderNumberLabel  = [[UILabel alloc]init];
         orderNumberLabel.font = [UIFont systemFontOfSize:14];
@@ -43,10 +41,14 @@
         [self addSubview:orderNumberLabel];
         orderNumberLabel.frame= CGRectMake(0*Width, timeLabel.bottom,CXCWidth,74*Width);
         orderNumberLabel.textColor = TextGrayColor;
+        orderNumberLabel.tag=102;
+
         //状态
         UILabel* orderStatuerLabel  = [[UILabel alloc]init];
         orderStatuerLabel.font = [UIFont systemFontOfSize:14];
         orderStatuerLabel.text = @"待审核";
+        orderStatuerLabel.tag=103;
+
         orderStatuerLabel.textAlignment =NSTextAlignmentRight;
         [self addSubview:orderStatuerLabel];
         orderStatuerLabel.frame= CGRectMake(400*Width, timeLabel.bottom,325*Width,74*Width);
@@ -54,7 +56,7 @@
         
         NSArray*leftArr =@[@"代理名称",@"账号",@"等级",@"",@"",@"",@"",@"",];
         
-        NSArray*rightArr =@[@"刘待",@"18363671722",@"一级",@"",@"",@"",@"",];
+        NSArray*rightArr =@[@"",@"",@"",@"",@"",@"",@"",@"",];
         for (int i=0; i<4; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
@@ -129,11 +131,49 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *typeLabel =[self viewWithTag:199];
-    UILabel *statuLabel =[self viewWithTag:200];
-    UILabel *levelLabel =[self viewWithTag:201];
-    UILabel *accountLabel =[self viewWithTag:202];
-    UILabel *lastAccountLabel =[self viewWithTag:203];
+    UILabel*timeLabel =[self viewWithTag:100];
+    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"updatetime"]];
+    UILabel*pricesLabel =[self viewWithTag:101];
+    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[_dic objectForKey:@"total"]];//总和
+    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
+    NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
+    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+    [pricesLabel setAttributedText:textColor];
+
+
+    UILabel*orderNumLabel =[self viewWithTag:102];
+    orderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"id"]];
+    
+    UILabel*statuLabel =[self viewWithTag:103];
+//    0全部  1 待审核  2 已驳回  3 已审核   4 已完成 5 已取消
+    if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"1"])
+    {
+    statuLabel.text =@"待审核";
+    
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"3"])
+    {
+        statuLabel.text =@"已审核";
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"2"])
+    {
+        statuLabel.text =@"已驳回";
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"4"])
+    {
+        statuLabel.text =@"已完成";
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"5"])
+    {
+        statuLabel.text =@"已取消";
+    }
+    
+    UILabel *nameLabel =[self viewWithTag:200];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"agenname"]];
+
+    UILabel *accountLabel =[self viewWithTag:201];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
+
+    UILabel *levelLabel =[self viewWithTag:202];
+    levelLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"levelname"]];
+
+
     
     
     

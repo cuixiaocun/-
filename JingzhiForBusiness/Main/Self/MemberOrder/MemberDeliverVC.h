@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MemberDeliverVC : UIViewController
+@property(nonatomic,strong)NSString*orderId;
 
 @end

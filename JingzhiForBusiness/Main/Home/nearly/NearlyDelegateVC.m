@@ -322,7 +322,6 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{@"memberlat":memberlat ,
                           @"memberlng":memberlng ,
-                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
 }];
     
     NSLog(@"%@",dic1);

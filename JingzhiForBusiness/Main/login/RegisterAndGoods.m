@@ -288,7 +288,6 @@
     {
         [MBProgressHUD showSuccess:@"注册成功,等待审核" ToView:self.view];
         
-        
     }else
     {
         [MBProgressHUD showSuccess:@"提交成功" ToView:self.view];
@@ -381,9 +380,10 @@
     if (!cell)
     {
         cell = [[GoodsCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-        cell.delegate = self;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
     }
+    cell.delegate = self;
+
     //调用方法，给单元格赋值
     [cell addTheValue:infoArr[indexPath.row]];
     

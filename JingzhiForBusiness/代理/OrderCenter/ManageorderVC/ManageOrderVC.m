@@ -11,8 +11,14 @@
 #import "LogisticsDetailVC.h"
 #import "ScanningAndTracingVC.h"
 #import "IsTureAlterView.h"
+#import "SendGoodsVC.h"
 @interface ManageOrderVC ()<ManagerOrderCellDelegate,IsTureAlterViewDelegate>
+{
 
+    NSString *status;
+    NSInteger indexTag;
+
+}
 @end
 
 @implementation ManageOrderVC
@@ -45,7 +51,22 @@
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     
-    
+    if ([_statusString isEqualToString:@"全部"]) {
+        status =@"0";
+    }else if ([_statusString isEqualToString:@"未发货"])
+    {
+        status =@"2";
+
+    }else if ([_statusString isEqualToString:@"已发货"])
+    {
+        status =@"3";
+        
+    }else if ([_statusString isEqualToString:@"已完成"])
+    {
+        status =@"4";
+        
+    }
+
     
     [self mainView];
 }
@@ -108,7 +129,7 @@
     DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
     self.footerView = footerView;
     infoArray = [[NSMutableArray alloc] init];
-    //  [self performSelector:@selector(getInfoList)];
+    [self performSelector:@selector(getInfoList)];
 }
 
 
@@ -124,6 +145,21 @@
         statuBtn.selected=NO;
     }
     btn.selected =YES;
+    if (btn.tag==220 ) {
+        status =[NSString stringWithFormat:@"%ld",btn.tag-220];
+
+    }else
+    {
+        status =[NSString stringWithFormat:@"%ld",btn.tag-220+1];
+
+    }
+    btn.selected =YES;
+    
+    currentPage=0;
+    [self getInfoList];
+    
+    
+    
     
     
     
@@ -131,8 +167,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 5;
+        return infoArray.count ;
 }
 
 
@@ -145,7 +180,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger row =[indexPath row];
+        NSInteger row =[indexPath row];
     static NSString *CellIdentifier = @"Cell";
     ManageOrderCell *cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -155,16 +190,14 @@
         
     }
     cell.delegate=self;
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [infoArray objectAtIndex:row];
+        [cell setDic:dict];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    //    DeclarDetailVC *declar =[[DeclarDetailVC alloc]init];
-    //    [self.navigationController pushViewController:declar animated:YES];
     
 }
 #pragma mark - Pull to Refresh
@@ -201,7 +234,7 @@
     DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
     if (willRefreshOnRelease){
         hv.title.text = @"松开即可更新...";
-        currentPage = 1;
+        currentPage = 0;
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.18f];
         ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -211,7 +244,7 @@
     else{
         
         if ([hv.title.text isEqualToString:@"松开即可更新..."]) {
-            currentPage = 1;
+            currentPage = 0;
             [CATransaction begin];
             [CATransaction setAnimationDuration:0.18f];
             ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
@@ -308,7 +341,7 @@
 - (void) addItemsOnTop
 {
     
-    currentPage=1;
+    currentPage=0;
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
     
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -352,80 +385,90 @@
 - (void)getInfoList
 {
     
-    //    [ProgressHUD show:@"加载中"];
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
-    //
-    //    //你的接口地址
-    //    NSString *url=[NSString stringWithFormat:@"%@/repair/getByUserId",SERVERURL];
-    //    NSDictionary *parameter = @{@"uid":@"",@"status":@"",@"deviceType":@"2"};
-    //
-    //
-    //
-    //
-    //
-    //    [PublicMethod AFNetworkPOSTurl:url paraments:parameter success:^(id responseDic) {
-    //
-    //
-    //        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-    //        NSLog(@"请求成功JSON:%@", dict);
-    //
-    //        if (dict) {
-    //            [ProgressHUD dismiss];
-    //
-    //            NSMutableArray *array=[[dict objectForKey:@"result"]objectForKey:@"list"];
-    //            if ([array isKindOfClass:[NSNull class]]) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //                return ;
-    //            }
-    //
-    //            if (currentPage==1) {
-    //                [infoArray removeAllObjects];
-    //            }
-    //
-    //            [infoArray addObjectsFromArray:array];
-    //
-    //            if ([infoArray count]==0 && currentPage==1) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //
-    //            }
-    //            pageCount =infoArray.count/10;
-    //            //判断是否加载更多
-    //            if (array.count==0 || array.count<10){
-    //                self.canLoadMore = NO; // signal that there won't be any more items to load
-    //            }else{
-    //                self.canLoadMore = YES;
-    //            }
-    //
-    //            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-    //            [fv.activityIndicator stopAnimating];
-    //
-    //            if (!self.canLoadMore) {
-    //                fv.infoLabel.hidden = YES;
-    //            }else{
-    //                fv.infoLabel.hidden = NO;
-    //            }
-    //
-    //            [self.tableView reloadData];
-    //
-    //        }
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //                [ProgressHUD showError:@"网络连接失败"];
-    //                NSLog(@"网络连接失败");
-    //    }];
-    //
-    //
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          @"status":status
+                          }
+     ];
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/getalltoagenorder" paraments:dic1  addView:self.view success:^(id responseDic) {
+        
+      NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"] ]isEqualToString:@"0"]) {
+        
+        
+        if (currentPage==0) {
+            [infoArray removeAllObjects];
+            
+        }
+        if (![[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"] ]isEqualToString:@"0"]) {
+            [self.tableView reloadData];
+            return ;
+
+        }
+        NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"agenorder"];
+        
+        
+        [infoArray addObjectsFromArray:array];
+        
+        if ([infoArray count]==0 && currentPage==0) {
+            
+        }
+        pageCount =infoArray.count/20;
+        //判断是否加载更多
+        if (array.count==0 || array.count<20){
+            self.canLoadMore = NO; // signal that there won't be any more items to load
+        }else{
+            self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
+        }
+        
+        DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+        [fv.activityIndicator stopAnimating];
+        
+        if (!self.canLoadMore) {
+            fv.infoLabel.hidden = YES;
+        }else{
+            fv.infoLabel.hidden = NO;
+        }
+        
+        
+        [self.tableView reloadData];
+        if (currentPage==0) {
+            //                [self.tableView setScrollsToTop:YES];
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
+        
+        [self.tableView reloadData];
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 #pragma mark MyOrderDelelgate
 -(void)btnClick:(UITableViewCell *)cell andActionTag:(NSInteger)tag
 {
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    indexTag =index.row;
+
     if(tag==2000)
     {
+        
         NSLog(@"%@",@"查看物流");
         LogisticsDetailVC *logisticsDetailVC =[[LogisticsDetailVC alloc]init];
+        NSDictionary *dic=infoArray[index.row];
+        NSMutableDictionary *dicDetail =[NSMutableDictionary dictionary];
+        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"receivename"]] forKey:@"name"];
+        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"phone"]] forKey:@"phone"];
+        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"address"]] forKey:@"address"];
+        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"status"]] forKey:@"status"];
+        
+        logisticsDetailVC.logistics =[NSString stringWithFormat:@"%@",[dic objectForKey:@"logistics"]];
+        logisticsDetailVC.logisticscom  =[NSString stringWithFormat:@"%@",[dic objectForKey:@"logisticscom"]];
+        logisticsDetailVC.dicDetail =dicDetail;
+
+
         [self.navigationController pushViewController:logisticsDetailVC animated:YES];
         
         
@@ -447,12 +490,24 @@
         
     }else if (tag==2002)
     {
-        ScanningAndTracingVC *scanningDetailVC =[[ScanningAndTracingVC alloc]init];
-        [self.navigationController pushViewController:scanningDetailVC animated:YES];
-        
+        int box =[[infoArray[indexTag] objectForKey:@"num"] intValue]/[[infoArray[indexTag] objectForKey:@"boxnum"] intValue];
+        if (box>0) {
+            ScanningAndTracingVC *scanningDetailVC =[[ScanningAndTracingVC alloc]init];
+            scanningDetailVC.orderDetailDic =infoArray[indexTag];
 
-        NSLog(@"%@",@"发货");
+            [self.navigationController pushViewController:scanningDetailVC animated:YES];
+            NSLog(@"%@",@"发货");
+        }else
+        {
+            SendGoodsVC*send =[[SendGoodsVC alloc]init];
+            send.orderDetailDic =infoArray[indexTag];
+            [self.navigationController pushViewController:send animated:YES];
+        }
+
         
+        
+       
+
     }
 
     
@@ -468,11 +523,29 @@
 }
 -(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
-    IsTureAlterView *isture = [self.view viewWithTag:180];
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"orderid": [infoArray[indexTag] objectForKey:@"id"],
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          
+                          }
+     ];
+
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/flowagenorder" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            IsTureAlterView *isture = [self.view viewWithTag:180];
+            [isture removeFromSuperview];
+            NSLog(@"确认");
+            [ProgressHUD showSuccess:@"流转成功"];
+            currentPage=0;
+            [self getInfoList];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
-    [isture removeFromSuperview];
-    NSLog(@"确认");
-    //删除
     
 }
 

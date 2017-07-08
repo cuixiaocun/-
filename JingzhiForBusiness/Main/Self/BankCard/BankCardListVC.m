@@ -10,10 +10,17 @@
 #import "BankCardCell.h"
 #import "AddBankCardVC.h"
 @interface BankCardListVC ()<BankCardCellDelegate>
-
+{
+    NSArray *bankArr;
+}
 @end
 
 @implementation BankCardListVC
+- (void)viewDidAppear:(BOOL)animated
+{
+    infoArray =[[NSMutableArray alloc]init];
+    [self getInfoList];
+}
 
 
 - (void)viewDidLoad {
@@ -43,7 +50,8 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
-    
+    bankArr =[[NSArray alloc]init];
+    [self getInfoList];
    
     
     [self mainView];
@@ -91,14 +99,48 @@
 - (void)addBtnAction
 {
     AddBankCardVC *addBtnVC =[[AddBankCardVC alloc]init];
+    addBtnVC.bankArr =bankArr;
     [self.navigationController pushViewController:addBtnVC animated:YES];
     
     
 }
 #pragma mark cell的代理方法
-- (void)btnClick:(UITableViewCell *)cell andTag:(int)tag
+- (void)btnClick:(UITableViewCell *)cell andTag:(int)flag
 {
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
     
+    
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    NSString *url ;
+
+    [dic1 setDictionary:@{
+                          @"id":[NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"id"]]] ,
+                          
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }];
+    url =@"home/Account/setDefault";
+
+   [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+    if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+        
+            for (int i=0; i<infoArray.count; i++) {
+            [infoArray [i] setObject:@"2" forKey:@"isdefault"];
+            
+        }
+        [infoArray [index.row] setObject:@"1" forKey:@"isdefault"];
+        [self.tableView reloadData];
+        
+        
+    }
+    
+} fail:^(NSError *error) {
+    
+}];
+
+
+
 }
 - (void)returnBtnAction
 {
@@ -111,8 +153,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 5;
+        return infoArray.count ;
 }
 
 
@@ -125,7 +166,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger row =[indexPath row];
+    NSInteger row =[indexPath row];
     static NSString *CellIdentifier = @"Cell";
     BankCardCell *cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -135,8 +176,8 @@
         
     }
     cell.delegate =self;
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [infoArray objectAtIndex:row];
+        [cell setDic:dict];
     return cell;
 }
 
@@ -339,72 +380,27 @@
 - (void)getInfoList
 {
     
-    //    [ProgressHUD show:@"加载中"];
-    //    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];
-    //
-    //    //你的接口地址
-    //    NSString *url=[NSString stringWithFormat:@"%@/repair/getByUserId",SERVERURL];
-    //    NSDictionary *parameter = @{@"uid":@"",@"status":@"",@"deviceType":@"2"};
-    //
-    //
-    //
-    //
-    //
-    //    [PublicMethod AFNetworkPOSTurl:url paraments:parameter success:^(id responseDic) {
-    //
-    //
-    //        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-    //        NSLog(@"请求成功JSON:%@", dict);
-    //
-    //        if (dict) {
-    //            [ProgressHUD dismiss];
-    //
-    //            NSMutableArray *array=[[dict objectForKey:@"result"]objectForKey:@"list"];
-    //            if ([array isKindOfClass:[NSNull class]]) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //                return ;
-    //            }
-    //
-    //            if (currentPage==1) {
-    //                [infoArray removeAllObjects];
-    //            }
-    //
-    //            [infoArray addObjectsFromArray:array];
-    //
-    //            if ([infoArray count]==0 && currentPage==1) {
-    //                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-    //
-    //            }
-    //            pageCount =infoArray.count/10;
-    //            //判断是否加载更多
-    //            if (array.count==0 || array.count<10){
-    //                self.canLoadMore = NO; // signal that there won't be any more items to load
-    //            }else{
-    //                self.canLoadMore = YES;
-    //            }
-    //
-    //            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-    //            [fv.activityIndicator stopAnimating];
-    //
-    //            if (!self.canLoadMore) {
-    //                fv.infoLabel.hidden = YES;
-    //            }else{
-    //                fv.infoLabel.hidden = NO;
-    //            }
-    //
-    //            [self.tableView reloadData];
-    //
-    //        }
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //                [ProgressHUD showError:@"网络连接失败"];
-    //                NSLog(@"网络连接失败");
-    //    }];
-    //
-    //
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/Account/bankcard" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"])         {
+            bankArr =[[dict objectForKey:@"data"] objectForKey:@"bank"];
+
+            infoArray =[[dict objectForKey:@"data"] objectForKey:@"cardlist"];
+            [self.tableView reloadData];
+
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 
 /*

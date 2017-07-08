@@ -9,7 +9,13 @@
 #import "DeclarDetailVC.h"
 #import "MyDeclarationCell.h"
 @interface DeclarDetailVC ()<UITableViewDelegate,UITableViewDataSource>
-
+{
+    NSArray *inforArray;
+    NSDictionary *agenDic;
+    NSDictionary *orrderDic;
+    UITableView *declarTabel;
+    
+}
 @end
 
 @implementation DeclarDetailVC
@@ -41,16 +47,16 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
+    inforArray =[[NSArray alloc]init];
+    agenDic =[[NSDictionary alloc]init];
     
+    [self getInfor];
     [self mainView];
 }
 - (void)mainView
 {
     
-    
-    
-    
-    UITableView *declarTabel = [[UITableView alloc]initWithFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)style:UITableViewStyleGrouped];
+    declarTabel = [[UITableView alloc]initWithFrame:CGRectMake(0,64, CXCWidth, CXCHeight-64)style:UITableViewStyleGrouped];
     [declarTabel setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [declarTabel setDelegate:self];
     [declarTabel setDataSource:self];
@@ -58,12 +64,6 @@
     declarTabel .showsVerticalScrollIndicator = NO;
     [self.view addSubview:declarTabel];
     
-
-
-
-
-
-
 
 }
 - (void)examinePass:(UIButton *)btn
@@ -83,14 +83,20 @@
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    if (![agenDic isEqual:[NSNull null]]) {
+        
+   
+    UIView *bgV =[self.view viewWithTag:123];
+    [bgV removeFromSuperview];
+
     UIView *bgView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 394*Width)];
     [self.view addSubview:bgView];
+    bgView.tag =123;
     bgView.backgroundColor =[UIColor whiteColor];
-    
+
     //时间
     UILabel* timeLabel  = [[UILabel alloc]init];
     timeLabel.font = [UIFont systemFontOfSize:13];
-    timeLabel.text = @"    2017-09-01 12：23：24";
     [bgView addSubview:timeLabel];
     timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
     timeLabel.backgroundColor =BGColor;
@@ -99,11 +105,6 @@
     UILabel* pricesLabel  = [[UILabel alloc]init];
     pricesLabel.font = [UIFont systemFontOfSize:13];
     pricesLabel.textColor = TextGrayColor;
-    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",@"900000"];//总和
-    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
-    NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
-    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
-    [pricesLabel setAttributedText:textColor];
     [bgView addSubview:pricesLabel];
     pricesLabel.frame= CGRectMake(400*Width, 0,325*Width,74*Width);
     pricesLabel.backgroundColor =BGColor;
@@ -111,14 +112,13 @@
     //订单号
     UILabel* orderNumberLabel  = [[UILabel alloc]init];
     orderNumberLabel.font = [UIFont systemFontOfSize:14];
-    orderNumberLabel.text = @"    订单号：1953056874376";
+  
     [bgView addSubview:orderNumberLabel];
     orderNumberLabel.frame= CGRectMake(0*Width, timeLabel.bottom,CXCWidth,74*Width);
     orderNumberLabel.textColor = TextGrayColor;
     //状态
     UILabel* orderStatuerLabel  = [[UILabel alloc]init];
     orderStatuerLabel.font = [UIFont systemFontOfSize:14];
-    orderStatuerLabel.text = @"待审核";
     orderStatuerLabel.textAlignment =NSTextAlignmentRight;
     [bgView addSubview:orderStatuerLabel];
     orderStatuerLabel.frame= CGRectMake(400*Width, timeLabel.bottom,325*Width,74*Width);
@@ -126,7 +126,7 @@
     
     NSArray*leftArr =@[@"代理名称",@"账号",@"等级",@"",@"",@"",@"",@"",];
     
-    NSArray*rightArr =@[@"等待审核",@"一级",@"18363671722",@"18366609451",@"",@"",@"",@"",];
+    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"account"]],[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"levelname"]],@"",];
     for (int i=0; i<3; i++) {
         //背景
         UIView *bgview =[[UIView alloc]init];
@@ -158,8 +158,39 @@
             
             
         }
+        if ([[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"status"]]isEqualToString:@"1"]) {
+            orderStatuerLabel.text = @"待审核";
+
+        }else if([[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"status"]]isEqualToString:@"3"])
+        {
+            orderStatuerLabel.text =@"已审核";
+        }else if([[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"status"]] isEqualToString:@"2"])
+        {
+            orderStatuerLabel.text =@"已驳回";
+        }else if([[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"status"]] isEqualToString:@"4"])
+        {
+            orderStatuerLabel.text =@"已完成";
+        }else if([[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"status"]] isEqualToString:@"5"])
+        {
+            orderStatuerLabel.text =@"已取消";
+        }
+
+        timeLabel.text = [NSString stringWithFormat:@"      %@",[[agenDic objectForKey:@"oorder"] objectForKey:@"updatetime"]];
+        
+        NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"total"]];//总和
+        NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
+        NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
+        [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+        [pricesLabel setAttributedText:textColor];
+        
+        orderNumberLabel.text = [NSString stringWithFormat:@"     订单号:%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"id"]];
     }
-    return bgView;
+        return bgView;
+
+    }else
+    {
+        return nil;
+    }
 
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -168,7 +199,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3;
+    return inforArray.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -188,8 +219,8 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-    //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [inforArray objectAtIndex:[indexPath row]];
+        [cell setDic:dict];
     return cell;
 }
 - (void)changeStatuBtn:(UIButton *)btn
@@ -246,6 +277,34 @@
     return bgview;
     }
     else return nil;
+    
+}
+- (void)getInfor
+{
+    
+    //
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"orderid": _orderId,
+                          @"flg":_ismy,
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/myagenonlineorderdetail" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            inforArray =[[dict objectForKey:@"data"] objectForKey:@"detail"];
+            agenDic =[dict objectForKey:@"data"] ;
+            [declarTabel reloadData];
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
     
 }
 /*

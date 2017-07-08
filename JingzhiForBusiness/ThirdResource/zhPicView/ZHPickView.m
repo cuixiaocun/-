@@ -170,7 +170,7 @@
 -(UIToolbar *)setToolbarStyle{
     UIToolbar *toolbar=[[UIToolbar alloc] init];
     
-    UIBarButtonItem *lefttem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(remove)];
+    UIBarButtonItem *lefttem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(setNilForResultString)];
     
     UIBarButtonItem *centerSpace=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
@@ -287,9 +287,15 @@
 -(void)remove{
     
     
-    [self.delegate toobarDonBtnHaveClick:self resultString:@"0"];
     
     [self removeFromSuperview];
+}
+- (void)setNilForResultString
+{
+   [self.delegate toobarDonBtnHaveClick:self resultString:@"0"];
+    [self removeFromSuperview];
+
+
 }
 -(void)show{
     

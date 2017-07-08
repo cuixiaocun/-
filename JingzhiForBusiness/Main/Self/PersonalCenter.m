@@ -24,7 +24,6 @@
 #import "CirculationRecordVC.h"
 #import "CirculationRecordVC.h"
 #import "MemberOrderVC.h"
-#import "BankCardVC.h"
 #import "BankCardListVC.h"
 #import "RebateVC.h"
 #import "MyAuthorizationVC.h"
@@ -33,7 +32,7 @@
 #import "DelegateCenterVC.h"
 #import "ShoppingCartVC.h"
 #import "HYPersonalCenterVC.h"
-
+#import "OrderCirclatonVC.h"
 @interface PersonalCenter ()<SRActionSheetDelegate,IsTureAlterViewDelegate,RDVTabBarControllerDelegate>
 {
     //底部scrollview
@@ -160,10 +159,10 @@
     [jiantou setImage:[UIImage imageNamed:@"proxy_btn_me_next"]];
     
     
-    NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"vip_wo_icon_exit",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+    NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_orderliu",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"proxy_me_icon_exit",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
 
-    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"流转记录",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"退出",@"",] ;
-    for (int i=0; i<14; i++) {
+    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"订单流转",@"审核流转",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"退出",@"",] ;
+    for (int i=0; i<15; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),bgImageV.bottom+20*Width+187.5*Width*(i/4),186*Width,186*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
@@ -277,7 +276,7 @@
         [self.navigationController pushViewController:withdrawlsVC animated:YES];
         
     }
-    else if (btn.tag==307)//流转记录
+    else if (btn.tag==307)//订单流转
     {
         CirculationRecordVC *withdrawlsVC =[[CirculationRecordVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
@@ -285,7 +284,15 @@
         [self.navigationController pushViewController:withdrawlsVC animated:YES];
         
     }
-    else if (btn.tag==308)//会员订单
+    else if (btn.tag==308)//审核流转
+    {
+        OrderCirclatonVC *withdrawlsVC =[[OrderCirclatonVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        [self.navigationController pushViewController:withdrawlsVC animated:YES];
+        
+    }
+    else if (btn.tag==309)//会员订单
     {
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         MemberOrderVC *memberVC =[[MemberOrderVC alloc]init];
@@ -294,40 +301,40 @@
 
         
     }
-    else if (btn.tag==309)//银行卡
+    else if (btn.tag==310)//银行卡
     {
-//        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-//        BankCardListVC *bankCard =[[BankCardListVC alloc]init];
-//        [self.navigationController pushViewController:bankCard animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        BankCardVC *bankCard =[[BankCardVC alloc]init];
+        BankCardListVC *bankCard =[[BankCardListVC alloc]init];
         [self.navigationController pushViewController:bankCard animated:YES];
+//        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+//        BankCardVC *bankCard =[[BankCardVC alloc]init];
+//        [self.navigationController pushViewController:bankCard animated:YES];
         
 
         
     }
-    else if (btn.tag==310)//返佣
+    else if (btn.tag==311)//返佣
     {
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         RebateVC *rebateVC =[[RebateVC alloc]init];
         [self.navigationController pushViewController:rebateVC animated:YES];
         
     }
-    else if (btn.tag==311)//代理审核
+    else if (btn.tag==312)//代理审核
     {
         DelegateExamineVC *delegateEx =[[DelegateExamineVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController pushViewController:delegateEx animated:YES];
         
     }
-    else if (btn.tag==312)//我的授权
+    else if (btn.tag==313)//我的授权
     {
         MyAuthorizationVC *myAuth =[[MyAuthorizationVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 
         [self.navigationController pushViewController:myAuth animated:YES];
         
-    }else if (btn.tag ==313)
+    }else if (btn.tag ==314)
     {
         
         

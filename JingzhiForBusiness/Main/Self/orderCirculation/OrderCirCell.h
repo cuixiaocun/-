@@ -1,17 +1,15 @@
 //
-//  MydeclarNewCell.h
+//  OrderCirCell.h
 //  JingzhiForBusiness
 //
-//  Created by Admin on 2017/6/10.
+//  Created by Admin on 2017/7/5.
 //  Copyright © 2017年 cuixiaocun. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface MydeclarNewCell : UITableViewCell
+@interface OrderCirCell : UITableViewCell
 @property(nonatomic,retain)NSDictionary *dic;
-@property(nonatomic,retain)NSDictionary *agenDic;
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 
 

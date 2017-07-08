@@ -15,7 +15,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        NSArray*leftArr =@[@"2017-05-03 12:12",@"产出代理",@"出款代理",@"金额",@"",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@"2017-05-03 12:12",@"产出代理",@"收款代理",@"金额",@"",@"",@"",@"",@"",];
         
         NSArray*rightArr =@[@"未确认",@"18363671722",@"18363671722",@"1722",@"",@"",@"",@"",];
         for (int i=0; i<5; i++) {
@@ -54,7 +54,7 @@
                 bgview.frame =CGRectMake((i-1)*250*Width,70*Width, 250*Width, 130*Width);
                 //上边
                 UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 15*Width,250*Width , 50*Width)];
-                labe.tag =199;
+                labe.tag =200+i;
                 labe.text = rightArr[i] ;
                 labe.font = [UIFont systemFontOfSize:14];
                 labe.textColor = TextGrayColor;
@@ -66,7 +66,6 @@
                 rightLabel.frame =CGRectMake(0*Width,labe.bottom,250*Width , 50*Width);
                 rightLabel.textColor = BlackColor;
                 rightLabel.textAlignment=NSTextAlignmentCenter;
-                rightLabel.tag =200+i;
                 rightLabel.font = [UIFont systemFontOfSize:12];
                 [bgview addSubview:rightLabel];
                 //分割线
@@ -83,26 +82,29 @@
             [self addSubview:xian];
             xian.frame =CGRectMake(0*Width,199*Width, CXCWidth, 1.5*Width);
 
-            //系统计算按钮
-            UIButton* _seeBtn = [[UIButton alloc]initWithFrame:CGRectMake(630*Width,200*Width+13.5*Width , 90*Width, 55*Width)];
-            [_seeBtn setBackgroundColor:[UIColor whiteColor]];
-            [_seeBtn.layer setCornerRadius:2*Width];
-            [_seeBtn.layer setBorderWidth:1.5*Width];
-            [_seeBtn.layer setMasksToBounds:YES];
-            [_seeBtn setTitleColor:NavColor forState:UIControlStateNormal];
-            [_seeBtn setTitle:@"转账" forState:UIControlStateNormal];
-            [_seeBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
-            [_seeBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
-            _seeBtn.layer.borderColor =NavColor.CGColor;
-            [self addSubview:_seeBtn];
-            _seeBtn.tag=130;
-            bgview.backgroundColor =[UIColor whiteColor];
-            
             //分割线
             UIImageView*xianXia =[[UIImageView alloc]init];
             xianXia.backgroundColor =BGColor;
             [self addSubview:xianXia];
             xianXia.frame =CGRectMake(0*Width,280*Width, CXCWidth, 20*Width);
+            if (i==4) {
+                //系统计算按钮
+                UIButton* _seeBtn = [[UIButton alloc]initWithFrame:CGRectMake(630*Width,200*Width+13.5*Width , 90*Width, 55*Width)];
+                [_seeBtn setBackgroundColor:[UIColor whiteColor]];
+                [_seeBtn.layer setCornerRadius:2*Width];
+                [_seeBtn.layer setBorderWidth:1.5*Width];
+                [_seeBtn.layer setMasksToBounds:YES];
+                [_seeBtn setTitleColor:NavColor forState:UIControlStateNormal];
+                [_seeBtn setTitle:@"转账" forState:UIControlStateNormal];
+                [_seeBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+                [_seeBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                _seeBtn.layer.borderColor =NavColor.CGColor;
+                [self addSubview:_seeBtn];
+                _seeBtn.tag=130;
+                bgview.backgroundColor =[UIColor whiteColor];
+                
+
+            }
             }
         }
     
@@ -115,7 +117,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        NSArray*leftArr =@[@"2017-05-03 12:12",@"产出代理",@"出款代理",@"金额",@"",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@"2017-05-03 12:12",@"产出代理",@"收款代理",@"金额",@"",@"",@"",@"",@"",];
         
         NSArray*rightArr =@[@"未确认",@"18363671722",@"18363671722",@"1722",@"",@"",@"",@"",];
         for (int i=0; i<5; i++) {
@@ -154,7 +156,7 @@
                 bgview.frame =CGRectMake((i-1)*250*Width,70*Width, 250*Width, 130*Width);
                 //上边
                 UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 15*Width,250*Width , 50*Width)];
-                labe.tag =199;
+                labe.tag =200+i;
                 labe.text = rightArr[i] ;
                 labe.font = [UIFont systemFontOfSize:14];
                 labe.textColor = TextGrayColor;
@@ -166,7 +168,7 @@
                 rightLabel.frame =CGRectMake(0*Width,labe.bottom,250*Width , 50*Width);
                 rightLabel.textColor = BlackColor;
                 rightLabel.textAlignment=NSTextAlignmentCenter;
-                rightLabel.tag =200+i;
+            
                 rightLabel.font = [UIFont systemFontOfSize:12];
                 [bgview addSubview:rightLabel];
                 //分割线
@@ -201,7 +203,7 @@
 }
 - (void)btnAction:(UIButton*)btn
 {
-
+    [self.delegate btnClick:self andOutTag:btn.tag];
 
 }
 -(void)setDicForOut:(NSDictionary *)dicForOut
@@ -210,12 +212,29 @@
     _dicForOut=dicForOut;
     UILabel *timeLabel =[self viewWithTag:199];
     UILabel *statuLabel =[self viewWithTag:200];
-    UILabel *nameLabel =[self viewWithTag:201];
-    UILabel *accountLabel =[self viewWithTag:202];
+    UILabel *souceLabel =[self viewWithTag:201];
+    UILabel *nameLabel =[self viewWithTag:202];
     UILabel *moneyLabel =[self viewWithTag:203];
-    // 到时候hidden就好啦两个按钮
+    UIButton *btn =[self viewWithTag:130];
+
+    // 到时候hidden就好啦两个按钮 source产出
     
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"updatetime"]];
+    statuLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"statusname"]];
+    souceLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"source"]];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"account"]];
+    moneyLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"money"]];
     
+//    if ([[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"status"]]isEqualToString:@"1"])
+//    {
+//        btn.hidden =YES;
+//    }
+//    else
+//    {
+//        btn.hidden =NO;
+//
+//    }
+//    
 
 
 

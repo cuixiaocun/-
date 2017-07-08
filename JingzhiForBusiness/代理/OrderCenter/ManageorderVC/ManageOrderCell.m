@@ -23,26 +23,9 @@
         timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
         timeLabel.backgroundColor =BGColor;
         timeLabel.textColor = TextGrayColor;
-        //        //总额
-        //        UILabel* pricesLabel  = [[UILabel alloc]init];
-        //        pricesLabel.font = [UIFont systemFontOfSize:13];
-        //        pricesLabel.textColor = TextGrayColor;
-        //        NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",@"900000"];//总和
-        //        NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
-        //        NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
-        //        [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
-        //        [pricesLabel setAttributedText:textColor];
-        //        [self addSubview:pricesLabel];
-        //        pricesLabel.frame= CGRectMake(400*Width, 0,325*Width,74*Width);
-        //        pricesLabel.backgroundColor =BGColor;
-        //        pricesLabel.textAlignment = NSTextAlignmentRight;
-        //        //订单号
-        //        UILabel* orderNumberLabel  = [[UILabel alloc]init];
-        //        orderNumberLabel.font = [UIFont systemFontOfSize:14];
-        //        orderNumberLabel.text = @"    订单号：1953056874376";
-        //        [self addSubview:orderNumberLabel];
-        //        orderNumberLabel.frame= CGRectMake(0*Width, timeLabel.bottom,CXCWidth,74*Width);
-        //        orderNumberLabel.textColor = TextGrayColor;
+        timeLabel.tag=100;
+
+        
         //状态
         UILabel* orderStatuerLabel  = [[UILabel alloc]init];
         orderStatuerLabel.font = [UIFont systemFontOfSize:14];
@@ -51,6 +34,8 @@
         [self addSubview:orderStatuerLabel];
         orderStatuerLabel.frame= CGRectMake(400*Width, 0,325*Width,74*Width);
         orderStatuerLabel.textColor = NavColor;
+        orderStatuerLabel.tag=101;
+
         
         NSArray*leftArr =@[@"代理名称",@"账号",@"商品",@"数量",@"",@"",@"",@"",];
         
@@ -166,14 +151,66 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *typeLabel =[self viewWithTag:199];
-    UILabel *statuLabel =[self viewWithTag:200];
-    UILabel *levelLabel =[self viewWithTag:201];
-    UILabel *accountLabel =[self viewWithTag:202];
-    UILabel *lastAccountLabel =[self viewWithTag:203];
-    UIButton *passBtn =[self viewWithTag:2000];
-    UIButton *detailBtn =[self viewWithTag:2001];
+    UILabel*timeLabel=[self viewWithTag:100];
+    UILabel*statuLabel=[self viewWithTag:101];
+    UILabel *nameLabel =[self viewWithTag:200];
+    UILabel *accountLabel =[self viewWithTag:201];
+    UILabel *goodnameLabel =[self viewWithTag:202];
+    UILabel *numberLabel =[self viewWithTag:203];
+    UIButton *wuliuBtn =[self viewWithTag:2000];
+    UIButton *cirBtn =[self viewWithTag:2001];
+    UIButton *fahuoBtn =[self viewWithTag:2002];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"agenname"]];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
+    goodnameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    int box =[[_dic objectForKey:@"num"] intValue]/[[_dic objectForKey:@"boxnum"] intValue];
+    int he =[[_dic objectForKey:@"num"] intValue]%[[_dic objectForKey:@"boxnum"] intValue];
+    
+    if (box==0) {
+        numberLabel.text  = [NSString stringWithFormat:@"%d盒",he];
+        
+    }else if(box>0&&he>0)
+    {
+        numberLabel.text  = [NSString stringWithFormat:@"%d箱%d盒",box,he];
+        
+    }else if(box>0&&he==0)
+    {
+        numberLabel.text  = [NSString stringWithFormat:@"%d箱",box];
+        
+    }
+    
+
     //按钮改frame与隐藏
+    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"updatetime"]];
+    if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"2"])
+    {
+        fahuoBtn.hidden =NO;
+        cirBtn.hidden =NO;
+        wuliuBtn.hidden =YES;
+        fahuoBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
+        cirBtn.frame =CGRectMake(520*Width, 15*Width, 90*Width,50*Width);
+        statuLabel.text =@"未发货";
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"3"])
+    {
+        
+        wuliuBtn.frame =CGRectMake(575*Width, 15*Width, 145*Width,50*Width);
+
+        fahuoBtn.hidden =YES;
+        cirBtn.hidden =YES;
+        wuliuBtn.hidden =NO;
+       
+        statuLabel.text =@"已发货";
+        
+        
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"4"])
+    {
+        statuLabel.text =@"已完成";
+        wuliuBtn.frame =CGRectMake(575*Width, 15*Width, 145*Width,50*Width);
+        
+        fahuoBtn.hidden =YES;
+        cirBtn.hidden =YES;
+        wuliuBtn.hidden =NO;
+    }
     
     
 }

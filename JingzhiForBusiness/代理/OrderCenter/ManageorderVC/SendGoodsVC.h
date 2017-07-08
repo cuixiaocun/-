@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SendGoodsVC : UIViewController
-
+@property(nonatomic,strong)NSDictionary *orderDetailDic;
 @end

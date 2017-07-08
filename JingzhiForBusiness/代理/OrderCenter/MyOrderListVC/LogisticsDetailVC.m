@@ -67,13 +67,13 @@
     
     [self.view addSubview:bgScrollView];
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 260*Width, 50*Width)];
-    nameLabel.text =@"收件人:孙磊";
+    nameLabel.text =[NSString stringWithFormat:@"收件人:%@",[_dicDetail objectForKey:@"name"] ];
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    numberLabel.text =@"18373781822";
+    numberLabel.text =[NSString stringWithFormat:@"%@",[_dicDetail objectForKey:@"phone"] ];
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     
@@ -85,14 +85,15 @@
     
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,640*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    addressLabel.text =@"山东省潍坊市高新区胜利东街新华路中天下潍坊国际";
+    addressLabel.text =[NSString stringWithFormat:@"%@",[_dicDetail objectForKey:@"address"] ];
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;
-    
+    NSArray*arr =@[@"",@"待支付",@"待发货",@"已发货",@"已完成",@"取消",@"驳回",@"",];
     
     NSArray*leftArr =@[@"物流状态",@"快递公司",@"运单号",@"",@"",@"",@"",] ;
-    NSArray*rightArr =@[@"已签收",@"申通快递",@"123948347398535789",@"",@"",@"",] ;
+    int i =[[_dicDetail objectForKey:@"status"] intValue];
+    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",arr[i]],[NSString stringWithFormat:@"%@",_logisticscom ]   ,[NSString stringWithFormat:@"%@",_logistics ],@"",@"",@"",] ;
         
         for (int i=0; i<3; i++) {
             //背景

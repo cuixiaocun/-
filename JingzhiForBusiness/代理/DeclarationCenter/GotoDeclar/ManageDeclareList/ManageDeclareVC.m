@@ -112,6 +112,9 @@
  {
      DeclarDetailVC *declarDetail =[[DeclarDetailVC alloc]init];
     declarDetail.isHavePass =@"YES";//可以审核的
+     declarDetail.ismy =@"1";
+//     declar.orderId =[infoArray[indexPath.row] objectForKey:@"id"];
+
      [self.navigationController pushViewController:declarDetail animated:YES];
  
  }

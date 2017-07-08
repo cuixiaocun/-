@@ -12,7 +12,6 @@
 @interface MydeclarNewListVC ()
 {
     NSString *statuString;
-
 }
 @end
 
@@ -24,7 +23,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    statuString =@"0";
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -126,7 +125,13 @@
     }
     btn.selected =YES;
     
-    statuString =[NSString stringWithFormat:@"%ld",btn.tag-220];
+    if (btn.tag==222) {
+        statuString =[NSString stringWithFormat:@"%ld",btn.tag-220+1];
+    }else
+    {
+        statuString =[NSString stringWithFormat:@"%ld",btn.tag-220];
+
+    }
     currentPage=0;
     [self getInfoList];
  
@@ -166,6 +171,9 @@
 {
     
     DeclarDetailVC *declar =[[DeclarDetailVC alloc]init];
+    declar.ismy =@"0";
+    declar.orderId =[infoArray[indexPath.row] objectForKey:@"id"];
+    
     [self.navigationController pushViewController:declar animated:YES];
     
 }
@@ -363,12 +371,10 @@
     
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/myagenonlineorderlist" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        //            infoArray = [dict objectForKey:@"data"];
-        
         if (currentPage==0) {
             [infoArray removeAllObjects];
         }
-        NSMutableArray *array=[dict objectForKey:@"data"];
+        NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"agenorder"];
         if ([array isKindOfClass:[NSNull class]]) {
             [self.tableView reloadData];
             

@@ -50,7 +50,7 @@
     [PublicMethod removeObjectForKey: shopingCart];
     [PublicMethod removeObjectForKey: @"token"];
 
-    
+    [self getToken];
     
     /*******************************************向微信注册********************************/
     [WXApi registerApp:@"wxd930ea5d5a258f4f" enableMTA:YES];
@@ -317,6 +317,33 @@
 }
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+}
+- (void)getToken
+{
+    if (![PublicMethod getDataStringKey:@"token"]) {
+        
+        
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
+        NSString *url=@"http://heart.qwangluo.cn/index.php/home/Index/makeToken";
+        //    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];//当加密的时候用
+        NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
+        [parameter setDictionary:@{}];
+        [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"请求成功JSON:%@", dict);
+            NSDictionary*dataDict  =[dict objectForKey:@"data"];
+            [PublicMethod setObject:[dataDict objectForKey:@"token"] key:@"token"];
+            NSLog(@"token%@",[PublicMethod getObjectForKey:@"token"]);
+            
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        }];
+    }
 }
 
 

@@ -21,7 +21,8 @@
 @implementation OrderCenterVC
 - (void)viewWillAppear:(BOOL)animated
 {
-    
+    [self geyCount];
+
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     
 }
@@ -48,7 +49,7 @@
     [self.view addSubview:navTitle];
     [self makeThisView];
     [PublicMethod getAppKey];
-    
+    [self geyCount];
 }
 - (void)makeThisView
 {
@@ -95,7 +96,7 @@
             topImgV.image=[UIImage imageNamed:[NSString stringWithFormat:@"%@",topArr[i]]];
             topImgV.tag =1100+i;
             [btn addSubview:topImgV];
-            if (i>1&&i<6) {
+            if (i>2&&i<6) {
                 CGSize titleSize;//通过文本得到高度
                 
                 titleSize = [@" 99+ " boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
@@ -103,6 +104,7 @@
                 
                 
                 UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(210*Width, 30*Width,titleSize.width,45*Width )];
+                numberLabel.tag =890+i;
                 numberLabel.backgroundColor =NavColor;
                 numberLabel.text =@"99+";
                 numberLabel.textColor =[UIColor whiteColor];
@@ -185,6 +187,42 @@
 
     }
 
+    
+}
+- (void)geyCount
+{
+    
+    //
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/countAgenorderStatus" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+           
+            NSArray *countArr  =[[dict objectForKey:@"data"] objectForKey:@"statusSum"];
+            for (int i=0; i<countArr.count; i++) {
+                
+                CGSize titleSize;//通过文本得到高度
+                NSString *str =[NSString stringWithFormat:@" %@ ",[countArr[i] objectForKey:@"sums"]];
+                titleSize = [str boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+                
+                UILabel *numberOne =[self.view viewWithTag:893+i];
+                numberOne.width =titleSize.width;
+                numberOne.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
     
 }
 - (void)didReceiveMemoryWarning {

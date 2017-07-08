@@ -23,7 +23,7 @@
         
         NSArray*leftArr =@[@"",@"会员账号",@"下单时间",@"收货地址",@"",@"",@"",@"",@"",];
         
-        NSArray*rightArr =@[@"待发货",@"一级",@"18363671722",@"山东省潍坊市奎文区新华路与胜利街路口中天下1607",@"",@"",@"",];
+        NSArray*rightArr =@[@"",@"",@"",@"",@"",@"",@"",@"",@"",];
         for (int i=0; i<5; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
@@ -128,7 +128,20 @@
                 [_rejectBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
                 _rejectBtn.layer.borderColor =TextGrayColor.CGColor;
                 [bgview addSubview:_rejectBtn];
-                
+                //驳回
+                _loginDetailBtn = [[UIButton alloc]init];
+                [_loginDetailBtn setBackgroundColor:[UIColor whiteColor]];
+                [_loginDetailBtn.layer setCornerRadius:2*Width];
+                [_loginDetailBtn.layer setBorderWidth:1.5*Width];
+                [_loginDetailBtn.layer setMasksToBounds:YES];
+                [_loginDetailBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+                [_loginDetailBtn setTitle:@"物流" forState:UIControlStateNormal];
+                _loginDetailBtn.tag=133;
+                [_loginDetailBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+                [_loginDetailBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                _loginDetailBtn.layer.borderColor =TextGrayColor.CGColor;
+                [bgview addSubview:_loginDetailBtn];
+
                 
             }
             
@@ -178,26 +191,82 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *typeLabel =[self viewWithTag:199];
-    UILabel *statuLabel =[self viewWithTag:200];
-    UILabel *levelLabel =[self viewWithTag:201];
-    UILabel *accountLabel =[self viewWithTag:202];
-    UILabel *lastAccountLabel =[self viewWithTag:203];
+    UILabel *typeLabel =[self viewWithTag:200];
+    UILabel *accountLabel =[self viewWithTag:201];
+    UILabel *timeLabel =[self viewWithTag:202];
+    UILabel *addressLabel =[self viewWithTag:203];
     
-    [_deliverBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
-    [_rejectBtn setFrame:CGRectMake(520*Width,13.5*Width , 90*Width, 55*Width)];
-    [_seeBtn setFrame:CGRectMake(410*Width,13.5*Width , 90*Width, 55*Width)];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]];
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"updatetime"]];
+    addressLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]];
+    if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"5"]) {
+        [_seeBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
+        _seeBtn.hidden =NO;
+        _loginDetailBtn.hidden =NO;
+        _rejectBtn.hidden=YES;
+        _deliverBtn.hidden =YES;
 
+        typeLabel.text =@"已取消";
+    }else if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"6"])
+    {
+        [_seeBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
+        _seeBtn.hidden =NO;
+        _loginDetailBtn.hidden =YES;
+        _rejectBtn.hidden=YES;
+        _deliverBtn.hidden =YES;
 
+        typeLabel.text =@"已驳回";
     
-}
--(void)setStatus:(NSString *)status
-{
-    _status =status;
-    if ([_status isEqualToString:@""]) {
+    }else if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"4"])
+    {
+        typeLabel.text =@"已完成";
+        [_loginDetailBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
+        
+        [_seeBtn setFrame:CGRectMake(520*Width,13.5*Width , 90*Width, 55*Width)];
+        _deliverBtn.hidden =YES;
+        _seeBtn.hidden =NO;
+        _loginDetailBtn.hidden =NO;
+        _rejectBtn.hidden=YES;
+        
         
     }
+    else if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"3"])
+    {
+        typeLabel.text =@"已发货";
+        [_loginDetailBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
+        [_seeBtn setFrame:CGRectMake(520*Width,13.5*Width , 90*Width, 55*Width)];
+        _seeBtn.hidden =NO;
+        _loginDetailBtn.hidden =NO;
+        _rejectBtn.hidden=YES;
+        _deliverBtn.hidden =YES;
 
+    }
+    else if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"2"])
+    {
+
+        typeLabel.text =@"待发货";
+        [_seeBtn setFrame:CGRectMake(520*Width,13.5*Width , 90*Width, 55*Width)];
+        [_deliverBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
+        _seeBtn.hidden =NO;
+        _loginDetailBtn.hidden =YES;
+        _rejectBtn.hidden=YES;
+        _deliverBtn.hidden =NO;
+        
+    }
+    else if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"1"])
+    {
+        typeLabel.text =@"待支付";
+        
+        [_seeBtn setFrame:CGRectMake(520*Width,13.5*Width , 90*Width, 55*Width)];
+        [_rejectBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
+        _seeBtn.hidden =NO;
+        _loginDetailBtn.hidden =YES;
+        _rejectBtn.hidden=NO;
+        _deliverBtn.hidden =YES;
+    }
+    
+    
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

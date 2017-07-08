@@ -107,11 +107,31 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *typeLabel =[self viewWithTag:199];
-    UILabel *statuLabel =[self viewWithTag:200];
-    UILabel *levelLabel =[self viewWithTag:201];
-    UILabel *accountLabel =[self viewWithTag:202];
-    UILabel *lastAccountLabel =[self viewWithTag:203];
+    UIImageView *bgImg =[self viewWithTag:900];
+    UIImageView *touImg =[self viewWithTag:100];
+
+    UILabel *nameLabel =[self viewWithTag:200];
+    UILabel *bankLabel =[self viewWithTag:300];
+    UILabel *bankCardLabel =[self viewWithTag:400];
+    UILabel *defaultLabel =[self viewWithTag:500];
+    UIButton *defaultBtn =[self viewWithTag:600];
+    bankLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"branch"]];
+    bankCardLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"number"]];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+
+    if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"isdefault"]]isEqualToString:@"1"]){
+        bgImg.image =[UIImage imageNamed:@"bcard_icon_bg_default"];
+        defaultLabel.hidden =NO;
+        defaultBtn.hidden =YES;
+      
+    }else
+    {
+        bgImg.image =[UIImage imageNamed:@"bcard_icon_bg_second"];
+        defaultLabel.hidden =YES;
+        defaultBtn.hidden =NO;
+    }
+    
+    
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

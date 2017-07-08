@@ -79,6 +79,36 @@
 -(void)setDic:(NSDictionary *)dic
 {
     _dic=dic;
+    
+    UILabel *nameLabel =[self viewWithTag:230];
+    UILabel *numberLabel =[self viewWithTag:240];
+    UILabel *priceLabel =[self viewWithTag:250];
+    UILabel *allLabel =[self viewWithTag:260];
+
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    int box =[[_dic objectForKey:@"num"] intValue]/[[_dic objectForKey:@"boxnum"] intValue];
+    int he =[[_dic objectForKey:@"num"] intValue]%[[_dic objectForKey:@"boxnum"] intValue];
+    
+    if (box==0) {
+        numberLabel.text  = [NSString stringWithFormat:@"%d盒",he];
+        
+    }else if(box>0&&he>0)
+    {
+        numberLabel.text  = [NSString stringWithFormat:@"%d箱%d盒",box,he];
+        
+    }else if(box>0&&he==0)
+    {
+        numberLabel.text  = [NSString stringWithFormat:@"%d箱",box];
+        
+    }
+    
+    priceLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
+    allLabel.text =[NSString stringWithFormat:@"小计：%@",[_dic objectForKey:@"total"]];
+
+    
+    
+    
+    
 
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -507,7 +507,6 @@
     [dic1 setDictionary:@{
                           
      @"check":[NSString stringWithFormat:@"%@",textField.text],
-     @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
      
 }];
     

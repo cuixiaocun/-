@@ -107,6 +107,8 @@
 		845D99B01F05D9A8005CF7A7 /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 845D99AB1F05D9A8005CF7A7 /* WXApiManager.m */; };
 		845D99B11F05D9A8005CF7A7 /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 845D99AD1F05D9A8005CF7A7 /* WXApiRequestHandler.m */; };
 		845D99B21F05D9A8005CF7A7 /* WXApiResponseHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 845D99AF1F05D9A8005CF7A7 /* WXApiResponseHandler.m */; };
+		846E0E221F0C932C00854C7F /* OrderCirclatonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 846E0E211F0C932C00854C7F /* OrderCirclatonVC.m */; };
+		846E0E251F0C938500854C7F /* OrderCirCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 846E0E241F0C938500854C7F /* OrderCirCell.m */; };
 		8498DEE71EEB8D2600BEFFFF /* RabatForInCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8498DEE61EEB8D2600BEFFFF /* RabatForInCell.m */; };
 		8498DEED1EEBDCA900BEFFFF /* MydeclarNewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8498DEEC1EEBDCA900BEFFFF /* MydeclarNewCell.m */; };
 		8498DEF01EEBDCE900BEFFFF /* MydeclarNewListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8498DEEF1EEBDCE900BEFFFF /* MydeclarNewListVC.m */; };
@@ -573,6 +575,10 @@
 		845D99AE1F05D9A8005CF7A7 /* WXApiResponseHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiResponseHandler.h; sourceTree = "<group>"; };
 		845D99AF1F05D9A8005CF7A7 /* WXApiResponseHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiResponseHandler.m; sourceTree = "<group>"; };
 		845D99B31F05E6AB005CF7A7 /* 心体荟.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "心体荟.entitlements"; sourceTree = "<group>"; };
+		846E0E201F0C932C00854C7F /* OrderCirclatonVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCirclatonVC.h; sourceTree = "<group>"; };
+		846E0E211F0C932C00854C7F /* OrderCirclatonVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCirclatonVC.m; sourceTree = "<group>"; };
+		846E0E231F0C938500854C7F /* OrderCirCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCirCell.h; sourceTree = "<group>"; };
+		846E0E241F0C938500854C7F /* OrderCirCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCirCell.m; sourceTree = "<group>"; };
 		8498DEE51EEB8D2600BEFFFF /* RabatForInCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RabatForInCell.h; sourceTree = "<group>"; };
 		8498DEE61EEB8D2600BEFFFF /* RabatForInCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RabatForInCell.m; sourceTree = "<group>"; };
 		8498DEEB1EEBDCA900BEFFFF /* MydeclarNewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MydeclarNewCell.h; sourceTree = "<group>"; };
@@ -1482,6 +1488,17 @@
 			path = Control;
 			sourceTree = "<group>";
 		};
+		846E0E1F1F0C930700854C7F /* orderCirculation */ = {
+			isa = PBXGroup;
+			children = (
+				846E0E201F0C932C00854C7F /* OrderCirclatonVC.h */,
+				846E0E211F0C932C00854C7F /* OrderCirclatonVC.m */,
+				846E0E231F0C938500854C7F /* OrderCirCell.h */,
+				846E0E241F0C938500854C7F /* OrderCirCell.m */,
+			);
+			path = orderCirculation;
+			sourceTree = "<group>";
+		};
 		8498DEE81EEBDC2C00BEFFFF /* 不用的 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2138,6 +2155,7 @@
 		84E532451E80D0DC009E63E6 /* Self */ = {
 			isa = PBXGroup;
 			children = (
+				846E0E1F1F0C930700854C7F /* orderCirculation */,
 				84E803711EF7CC8A00ECE8B9 /* delegateDetail */,
 				84075DA81EE584F500139636 /* Authorization */,
 				84075DA71EE584C900139636 /* Rebate */,
@@ -2704,6 +2722,7 @@
 				84E0A19A1EFA43BB00213A0E /* TPKeyboardAvoidingTableView.m in Sources */,
 				84075D801EE50B9100139636 /* MOFSAddressPickerView.m in Sources */,
 				84E5325E1E80D48F009E63E6 /* HomePage.m in Sources */,
+				846E0E251F0C938500854C7F /* OrderCirCell.m in Sources */,
 				84E531A91E80C8D4009E63E6 /* AFNetworkReachabilityManager.m in Sources */,
 				845D99971F05009A005CF7A7 /* NSDataEx.m in Sources */,
 				84E532311E80C8D4009E63E6 /* MASCompositeConstraint.m in Sources */,
@@ -2713,6 +2732,7 @@
 				84075DAB1EE586CF00139636 /* MemberOrderVC.m in Sources */,
 				845D99B01F05D9A8005CF7A7 /* WXApiManager.m in Sources */,
 				84E531D11E80C8D4009E63E6 /* TADotView.m in Sources */,
+				846E0E221F0C932C00854C7F /* OrderCirclatonVC.m in Sources */,
 				84E5320F1E80C8D4009E63E6 /* GTMBase64.m in Sources */,
 				84E531CD1E80C8D4009E63E6 /* SBJsonWriter.m in Sources */,
 				84E0A18E1EFA25B400213A0E /* DelegateCenterVC.m in Sources */,

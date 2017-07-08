@@ -63,7 +63,7 @@
     [topBgView setBackgroundColor:[UIColor whiteColor]];
     [bgScrollView addSubview:topBgView];
    
-    NSArray *reviewArr =[dict objectForKey:@"review"];
+    NSArray *reviewArr =[dict objectForKey:@"agenstock"];
     NSMutableArray* topLeftArr =[[NSMutableArray alloc]init];
     [topLeftArr addObject:@"    当前产品数量"];
     
@@ -299,23 +299,39 @@
     UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0, bottomBgView.bottom+1*Width, CXCWidth, 80*Width)];
     btnView.backgroundColor =[UIColor whiteColor];
     [bgScrollView addSubview:btnView];
-    UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(580*Width, 15*Width, 145*Width,50*Width)];
-    [btnView addSubview:examineBtn];
-    
-    [examineBtn setBackgroundColor:[UIColor whiteColor]];
-    [examineBtn.layer setCornerRadius:4*Width];
-    [examineBtn.layer setBorderWidth:1.0*Width];
-    [examineBtn.layer setMasksToBounds:YES];
-    [examineBtn setTitleColor:NavColor forState:UIControlStateNormal];
-    examineBtn.layer.borderColor =NavColor.CGColor;
-    [examineBtn setTitle:@"审核通过" forState:UIControlStateNormal];
-    [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
-    [examineBtn addTarget:self action:@selector(examinePass) forControlEvents:UIControlEventTouchUpInside];
-    [btnView addSubview:examineBtn];
-    
+       if (![[dict objectForKey:@"agen"]isEqual:[NSNull null]]) {
+           UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(580*Width, 15*Width, 145*Width,50*Width)];
+           [btnView addSubview:examineBtn];
+           
+           [examineBtn setBackgroundColor:[UIColor whiteColor]];
+           [examineBtn.layer setCornerRadius:4*Width];
+           [examineBtn.layer setBorderWidth:1.0*Width];
+           [examineBtn.layer setMasksToBounds:YES];
+           [examineBtn setTitleColor:NavColor forState:UIControlStateNormal];
+           examineBtn.layer.borderColor =NavColor.CGColor;
 
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, btnView.bottom)];
+        if([[[dict objectForKey:@"agen"] objectForKey:@"level"] integerValue]>[[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"level"]] integerValue])
+        {
+            [examineBtn setTitle:@"审核通过" forState:UIControlStateNormal];
+            [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
+            [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+            [examineBtn addTarget:self action:@selector(examinePass) forControlEvents:UIControlEventTouchUpInside];
+            [btnView addSubview:examineBtn];
+            
+            
+        }else
+        {
+            
+            [examineBtn setTitle:@"流转" forState:UIControlStateNormal];
+            [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
+            [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+            [examineBtn addTarget:self action:@selector(cirAgen) forControlEvents:UIControlEventTouchUpInside];
+            [btnView addSubview:examineBtn];
+            
+        }
+
+    }
+        [bgScrollView setContentSize:CGSizeMake(CXCWidth, btnView.bottom)];
 
     
     
@@ -404,10 +420,9 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                          @"id":[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"id"]],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                         @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           }
      ];
-    
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/auditagenreview" paraments:dic1  addView:self.view success:^(id responseDic) {
       NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
         if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
@@ -426,6 +441,36 @@
 {
     
     [ProgressHUD showSuccess:@"审核通过"];
+    [self.delegate reloadTheinformation];
+    
+}
+- (void)cirAgen
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"id":[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"id"]],
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          }
+     ];
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/flowagenreview" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
+        if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+            [self performSelector:@selector(cirAgenSucess) withObject:nil afterDelay:0.5f];
+        }
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)cirAgenSucess
+{
+    
+    [ProgressHUD showSuccess:@"流转成功"];
     [self.delegate reloadTheinformation];
     
 }

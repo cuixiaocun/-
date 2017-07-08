@@ -10,7 +10,7 @@
 #import "GoodsModel.h"
 #import "GoodsCell.h"
 
-@interface GoToDeclarVC ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface GoToDeclarVC ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,GoodsCellDelegate>
 {
     
     UIScrollView *bgScrollView;//上半部分
@@ -173,30 +173,56 @@
 //系统计算
 - (void)calculateTheGoods
 {
-    goodsTableview.hidden =NO;//显示tableview
     
-    UITextField *textF =[self.view viewWithTag:2];
-    [textF resignFirstResponder];
-    NSString*num =[NSString stringWithFormat:@"%ld",[textF.text integerValue]/(10*4)+([textF.text integerValue]%(10*4)>0?1:0)];//通过:输入的金额/4种产品的单价之和 取整（有小数则进一）
+    UITextField *moneyText =[self.view viewWithTag:2];
+   
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"level":[[PublicMethod getDataKey:agen] objectForKey:@"level"],
+                          @"money":moneyText.text
+                          }];
+    NSLog(@"%@",dic1);
     
-    infoArr =[[NSMutableArray alloc]init];
-    
-    for (int i = 0; i<4; i++)
-    {
-        NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
-        [infoDict setValue:@"这是商品标题" forKey:@"goodsTitle"];
-        [infoDict setValue:@"10.00" forKey:@"goodsPrice"];
-        [infoDict setValue:[NSNumber numberWithBool:YES] forKey:@"selectState"];
-        [infoDict setValue:[NSString stringWithFormat:@"%.2f",([@"10.0" floatValue] *[num floatValue])] forKey:@"goodsTotalPrice"];
-        [infoDict setValue:[NSNumber numberWithInt:[num intValue]] forKey:@"goodsNum"];
+    [PublicMethod AFNetworkPOSTurl:@"Home/Login/getAgenBuyInfo" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+            goodsTableview.hidden =NO;//显示tableview
+            NSDictionary *prolistDic =[[dict objectForKey:@"data"]objectForKey:@"prolist"];
+            NSArray *values = [prolistDic allValues];
+            infoArr =[[NSMutableArray alloc]init];
+            for (int i = 0; i<values.count; i++)
+            {
+                NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
+                [infoDict setValue:[NSString stringWithFormat:@"%@",[values[i] objectForKey:@"name"]] forKey:@"goodsTitle"];
+                [infoDict setValue:[NSString stringWithFormat:@"%@",[values[i] objectForKey:@"myprice"]] forKey:@"goodsPrice"];
+                [infoDict setValue:[NSNumber numberWithBool:YES] forKey:@"selectState"];
+                [infoDict setValue:[NSString stringWithFormat:@"%.2f",([[values[i] objectForKey:@"myprice"] floatValue] *[[values[i] objectForKey:@"num"] floatValue])] forKey:@"goodsTotalPrice"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"num"] floatValue]] forKey:@"goodsNum"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"boxnum"] floatValue]] forKey:@"boxnum"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"id"] floatValue]] forKey:@"goodID"];
+                
+                //封装数据模型
+                GoodsModel *goodsModel = [[GoodsModel alloc]initWithDict:infoDict];
+                //将数据模型放入数组中
+                [infoArr addObject:goodsModel];
+                
+            }
+            [self totalPrice];//求总和
+            [goodsTableview reloadData];//更新一下tableView
+            
+            
+            
+            
+            
+        }
         
-        //封装数据模型
-        GoodsModel *goodsModel = [[GoodsModel alloc]initWithDict:infoDict];
-        //将数据模型放入数组中
-        [infoArr addObject:goodsModel];
-    }
-    [self totalPrice];//求总和
-    [goodsTableview reloadData];//更新一下tableView
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
     
     
     
@@ -226,9 +252,11 @@
     if (!cell)
     {
         cell = [[GoodsCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-        cell.delegate = self;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
     }
+    cell.delegate = self;
+    
+   
     //调用方法，给单元格赋值
     [cell addTheValue:infoArr[indexPath.row]];
     
@@ -599,6 +627,7 @@
     alterView.hidden =YES;
     
 }
+
 
 /*
 #pragma mark - Navigation
