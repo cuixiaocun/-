@@ -293,20 +293,34 @@
     
     [bgScrollView addSubview:topView];
     
-    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 150*Width, 50*Width)];
-    nameLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"receivename"]];
+    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 250*Width, 50*Width)];
+    if([[[PublicMethod getDataKey:member] objectForKey:@"receivename"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:member] objectForKey:@"receivename"]isEqualToString:@"<null>"])
+    {
+        nameLabel.text =@"请完善";
+        
+        
+    }else
+    {
+        
+        nameLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"receivename"]];
+        
+    }
     nameLabel.tag=450;
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    numberLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"receivephone"]];
+    NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"phone"]];
+    BOOL isNil =IsNilString(numstr);
+    NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"phone"]];
+    numberLabel.text = numberStr;
+
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     numberLabel.tag=451;
     
-    UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(490*Width, nameLabel.top+5*Width, 80*Width, 40*Width)];
+    UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(580*Width, nameLabel.top+5*Width, 80*Width, 40*Width)];
     defaultLabel.textColor =NavColor;
     defaultLabel.text =@"默认";
     defaultLabel.font =[UIFont systemFontOfSize:12];

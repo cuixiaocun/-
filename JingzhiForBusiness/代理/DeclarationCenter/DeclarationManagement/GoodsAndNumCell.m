@@ -55,9 +55,24 @@
 {
     _dic=dic;
     UILabel*nameLabel =[self viewWithTag:230];
-    UILabel*numLabel =[self viewWithTag:240];
+    UILabel*numberLabel =[self viewWithTag:240];
+    int box =[[_dic objectForKey:@"num"] intValue]/[[_dic objectForKey:@"boxnum"] intValue];
+    int he =[[_dic objectForKey:@"num"] intValue]%[[_dic objectForKey:@"boxnum"] intValue];
+    
+    if (box==0) {
+        numberLabel.text  = [NSString stringWithFormat:@"%d盒",he];
+        
+    }else if(box>0&&he>0)
+    {
+        numberLabel.text  = [NSString stringWithFormat:@"%d箱%d盒",box,he];
+        
+    }else if(box>0&&he==0)
+    {
+        numberLabel.text  = [NSString stringWithFormat:@"%d箱",box];
+        
+    }
+
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
-    numLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"num"]];
 
     
     

@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AddBankCardVC : UIViewController
-@property(nonatomic,copy)NSArray *bankArr;
+@property(nonatomic,strong)NSArray *bankArr;
+@property(nonatomic,strong)NSDictionary *bankDetailDic;
+
 @end

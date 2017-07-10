@@ -87,7 +87,7 @@
     [self getNotice];
     [self getDetail];
     [self getGoods];
-    [PublicMethod getAppKey];
+//    [PublicMethod getAppKey];
 }
 -(void)getBanner
 {

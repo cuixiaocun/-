@@ -49,9 +49,10 @@
     [PublicMethod removeObjectForKey: member];
     [PublicMethod removeObjectForKey: shopingCart];
     [PublicMethod removeObjectForKey: @"token"];
-
     [self getToken];
+//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
+
     /*******************************************向微信注册********************************/
     [WXApi registerApp:@"wxd930ea5d5a258f4f" enableMTA:YES];
     
@@ -74,25 +75,25 @@
     // Optional
     // 获取IDFA
     // 如需使用IDFA功能请添加此代码并在初始化方法的advertisingIdentifier参数中填写对应值
-    NSString *advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-    
-    //如不需要使用IDFA，advertisingIdentifier 可为nil
-    [JPUSHService setupWithOption:launchOptions appKey:appKey
-                          channel:channel
-                 apsForProduction:isProduction
-            advertisingIdentifier:advertisingId];
-    
-    //2.1.9版本新增获取registration id block接口。
-    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
-        if(resCode == 0){
-            NSLog(@"registrationID获取成功：%@",registrationID);
-            
-        }
-        else{
-            NSLog(@"registrationID获取失败，code：%d",resCode);
-        }
-    }];
-    
+//    NSString *advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+//    
+//    //如不需要使用IDFA，advertisingIdentifier 可为nil
+//    [JPUSHService setupWithOption:launchOptions appKey:appKey
+//                          channel:channel
+//                 apsForProduction:isProduction
+//            advertisingIdentifier:advertisingId];
+//    
+//    //2.1.9版本新增获取registration id block接口。
+//    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
+//        if(resCode == 0){
+//            NSLog(@"registrationID获取成功：%@",registrationID);
+//            
+//        }
+//        else{
+//            NSLog(@"registrationID获取失败，code：%d",resCode);
+//        }
+//    }];
+//    
     
     
     return YES;

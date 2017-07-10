@@ -110,6 +110,7 @@
 //urlString+SERVERURL（post）请求网络
 +(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
 {
+    [ProgressHUD show:@"请等待"];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
@@ -126,12 +127,14 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if (success) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             success(responseObject);
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@请求成功JSON:%@", urlString,dict);
             NSLog(@"请求成功JSON:%@", [self logDic:dict]);
             if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-                                
+                [ProgressHUD dismiss];
+         
                 
             }else
             {

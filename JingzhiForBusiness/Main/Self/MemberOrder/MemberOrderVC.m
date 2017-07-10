@@ -215,11 +215,7 @@
 }
 -(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
-    IsTureAlterView *isture = [self.view viewWithTag:180];
-
-    [isture removeFromSuperview];
-    NSLog(@"删除订单");
-    [self deleateOrder];
+        [self deleateOrder];
 //删除
 
 }
@@ -233,7 +229,11 @@
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/cancel" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            IsTureAlterView *isture = [self.view viewWithTag:180];
             
+            [isture removeFromSuperview];
+            NSLog(@"删除订单");
+
             [ProgressHUD showSuccess:@"订单已驳回"];
             currentPage =0;
             [self getInfoList ];

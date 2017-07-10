@@ -106,7 +106,6 @@
                 UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(210*Width, 30*Width,titleSize.width,45*Width )];
                 numberLabel.tag =890+i;
                 numberLabel.backgroundColor =NavColor;
-                numberLabel.text =@"99+";
                 numberLabel.textColor =[UIColor whiteColor];
                 numberLabel.textAlignment =NSTextAlignmentCenter;
                 numberLabel.clipsToBounds = YES;
@@ -203,20 +202,52 @@
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/countAgenorderStatus" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-           
-            NSArray *countArr  =[[dict objectForKey:@"data"] objectForKey:@"statusSum"];
-            for (int i=0; i<countArr.count; i++) {
-                
-                CGSize titleSize;//通过文本得到高度
-                NSString *str =[NSString stringWithFormat:@" %@ ",[countArr[i] objectForKey:@"sums"]];
-                titleSize = [str boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-                
-                UILabel *numberOne =[self.view viewWithTag:893+i];
-                numberOne.width =titleSize.width;
-                numberOne.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+            UILabel *numberOne =[self.view viewWithTag:893];
+            UILabel *numberTwo =[self.view viewWithTag:894];
+            UILabel *numberthree =[self.view viewWithTag:895];
 
+            NSArray *countArr  =[[dict objectForKey:@"data"] objectForKey:@"statusSum"];
+            if (![countArr isEqual:[NSNull null]]) {
+                
+                numberOne.hidden =YES;
+                numberTwo.hidden =YES;
+                numberthree.hidden =YES;
+
+                for (int i=0; i<countArr.count; i++) {
+                    if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"2"]){
+                        numberOne.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+                        CGSize titleSize = [[NSString stringWithFormat:@"  %@ ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+                        numberOne.width =titleSize.width;
+                        numberOne.hidden =NO;
+                    }else if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"3"])
+                    {
+                        numberTwo.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+                        CGSize titleSize = [[NSString stringWithFormat:@"  %@ ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+                        numberTwo.width =titleSize.width;
+                        numberTwo.hidden =NO;
+                        
+                        
+                    }else if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"4"])
+                    {
+                        numberthree.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+                        CGSize titleSize = [[NSString stringWithFormat:@"  %@ ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+                        numberthree.width =titleSize.width;
+                        numberthree.hidden =NO;
+                        
+                        
+                    }
+
+                }
+                
+            }else
+            {
+                
+                
+                numberOne.hidden =YES;
+                numberTwo.hidden =YES;
+                numberthree.hidden =YES;
+                
             }
-            
         }
         
     } fail:^(NSError *error) {

@@ -115,10 +115,9 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             [self.navigationController popViewControllerAnimated:YES];
-            successMessage =[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]];
+            successMessage =[NSString stringWithFormat:@"%@",[dict objectForKey:@"data"]];
             [self performSelector:@selector(delayMethodSucess) withObject:nil afterDelay:0.5f];
 
-            [ProgressHUD showSuccess:@"此产品为本公司正品"];
         }else
         {
 

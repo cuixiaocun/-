@@ -108,10 +108,8 @@
     DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
     self.footerView = footerView;
     infoArray = [[NSMutableArray alloc] init];
-    //  [self performSelector:@selector(getInfoList)];
+    [self performSelector:@selector(getInfoList)];
 }
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
@@ -363,18 +361,22 @@
 {
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
+    [dic1 setDictionary:@{
+                          @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
                           @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"status":statuString
                           }
      ];
-    
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/myagenonlineorderlist" paraments:dic1  addView:self.view success:^(id responseDic) {
+        //没有为-1
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        NSMutableArray *array =[[NSMutableArray alloc]init];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+           array =[[dict objectForKey:@"data"] objectForKey:@"agenorder"];
+        }
         if (currentPage==0) {
             [infoArray removeAllObjects];
         }
-        NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"agenorder"];
         if ([array isKindOfClass:[NSNull class]]) {
             [self.tableView reloadData];
             
@@ -407,7 +409,6 @@
         
         [self.tableView reloadData];
         if (currentPage==0) {
-            //                [self.tableView setScrollsToTop:YES];
             [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
         }
         

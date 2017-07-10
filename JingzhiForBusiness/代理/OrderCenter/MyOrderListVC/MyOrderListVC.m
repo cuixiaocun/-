@@ -78,7 +78,6 @@
             xian.frame =CGRectMake(statuBtn.right,25*Width, Width, 50*Width);
             
         }
-        //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
         statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
         [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
         [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
@@ -449,7 +448,7 @@
         LogisticsDetailVC *logisticsDetailVC =[[LogisticsDetailVC alloc]init];
         NSDictionary *dic=infoArray[index.row];
         NSMutableDictionary *dicDetail =[NSMutableDictionary dictionary];
-        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"name"]] forKey:@"name"];
+        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"receivename"]] forKey:@"name"];
         [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"phone"]] forKey:@"phone"];
         [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"address"]] forKey:@"address"];
         [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"status"]] forKey:@"status"];

@@ -8,7 +8,8 @@
 
 #import "DeclarDetailVC.h"
 #import "MyDeclarationCell.h"
-@interface DeclarDetailVC ()<UITableViewDelegate,UITableViewDataSource>
+#import "IsTureAlterView.h"
+@interface DeclarDetailVC ()<UITableViewDelegate,UITableViewDataSource,IsTureAlterViewDelegate>
 {
     NSArray *inforArray;
     NSDictionary *agenDic;
@@ -68,8 +69,49 @@
 }
 - (void)examinePass:(UIButton *)btn
 {
+    //审核通过
+    IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要通过审核吗？"];
+    isture.delegate =self;
+    isture.tag =180;
+    [self.view addSubview:isture];
+    
+    NSLog(@"驳回");
 
+   }
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    NSLog(@"取消");
+    
+}
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          @"id":_orderId}];
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/auditdagenonlineorder" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+            
+            IsTureAlterView *isture = [self.view viewWithTag:180];
+            [isture removeFromSuperview];
+            [[self rdv_tabBarController] setSelectedIndex:0];
+            [MBProgressHUD showSuccess:@"审核成功" ToView:self.view];
+          
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
 
+    
 }
 -(void)returnBtnAction
 {

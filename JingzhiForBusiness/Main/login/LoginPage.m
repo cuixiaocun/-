@@ -200,7 +200,7 @@
     arrOfName =[PublicMethod getArrData:@"nameArr"];
     
 
-    _nameTableView =[[UITableView alloc]initWithFrame:CGRectMake( 126*Width,140*Width , 580*Width ,arrOfName.count*80*Width)];
+    _nameTableView =[[UITableView alloc]initWithFrame:CGRectMake( 126*Width,140*Width , 580*Width ,arrOfName.count*100*Width)];
     self.nameTableView.delegate = self;
     self.nameTableView.dataSource = self;
     self.nameTableView.showsVerticalScrollIndicator = NO;
@@ -361,7 +361,15 @@
             {
                 isbool = NO;
                 _nameTableView.hidden =NO;
-                _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width, arrOfName.count*Width*80);
+                if(arrOfName.count<3)
+                {
+                    _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width, arrOfName.count*Width*100);
+
+                }else
+                {
+                    _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width, 3*Width*100);
+
+                }
             }
             else
             {
@@ -377,7 +385,14 @@
                     }
                     
                 }
-                _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width , _searchResultArray.count*Width*80);
+                if (_searchResultArray.count<3) {
+                    _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width , _searchResultArray.count*Width*100);
+
+                }else
+                {
+                    _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width , 2*Width*100);
+
+                }
                 
                 [_nameTableView reloadData];
                 
@@ -661,7 +676,7 @@
 //高
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80*Width;
+    return 100*Width;
     
 }
 //组

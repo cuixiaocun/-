@@ -460,6 +460,11 @@
 //tableview点击方法
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(indexPath.row==0)
+    {
+    
+        [self hiddenBtn];
+    }
            if (indexPath.row == 2)
         {
             self.selectPayTreasureButton.hidden = NO;

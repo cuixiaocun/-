@@ -11,6 +11,6 @@
 @interface DeclarDetailVC : UIViewController
 @property(nonatomic,copy)NSString *isHavePass;
 @property(nonatomic,copy)NSString *ismy;//0代理报单，1下级报单
-@property(nonatomic,copy)NSString *orderId;//0代理报单，1下级报单
+@property(nonatomic,copy)NSString *orderId;//
 
 @end

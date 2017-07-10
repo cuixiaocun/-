@@ -112,7 +112,7 @@
     
     nameLabel.font =[UIFont systemFontOfSize:16];
     [middleBgView addSubview:nameLabel];
-    UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(400*Width, nameLabel.top, 80*Width, 36*Width)];
+    UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(580*Width, nameLabel.top, 80*Width, 36*Width)];
     defaultLabel.textColor =NavColor;
     defaultLabel.text =@"默认";
     defaultLabel.font =[UIFont systemFontOfSize:12];

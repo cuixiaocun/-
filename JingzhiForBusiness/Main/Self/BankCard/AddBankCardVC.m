@@ -82,6 +82,7 @@
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
     NSArray*leftArr =@[@"姓名",@"银行卡账号",@"开户行",@"支行",@"设置成默认银行卡",@"代理级别",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
+   
     NSArray *rightArr =@[@"输入姓名",@"输入银行卡账号",@"选择开户行",@"输入支行",@"",@"",@"",@"",];
     //列表
     for (int i=0; i<5; i++) {

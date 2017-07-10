@@ -23,7 +23,8 @@
 @implementation DeclarationCenterVC
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self geyCount];
+    [self getStoke];
+
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     
 }
@@ -49,8 +50,8 @@
     [self.view addSubview:navTitle];
     [self makeThisView];
     [PublicMethod getAppKey];
+
     [self getStoke];
-    [self geyCount];
 
 }
 - (void)makeThisView
@@ -181,6 +182,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
+    if (!bgScrollView) {
+        
     //底部scrollview
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, CXCWidth, CXCHeight-44-20)];
     [bgScrollView setUserInteractionEnabled:YES];
@@ -224,16 +227,9 @@
             topImgV.tag =1100+i;
             [btn addSubview:topImgV];
             if (i>2) {
-                CGSize titleSize;//通过文本得到高度
-                
-                titleSize = [@" 99+ " boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-                
-                
-                
-                UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(210*Width, 30*Width,titleSize.width,45*Width )];
+                UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(210*Width, 30*Width,45*Width,45*Width )];
                 numberLabel.tag =890+i;
                 numberLabel.backgroundColor =NavColor;
-                numberLabel.text =@"99+";
                 numberLabel.textColor =[UIColor whiteColor];
                 numberLabel.textAlignment =NSTextAlignmentCenter;
                 numberLabel.clipsToBounds = YES;
@@ -241,6 +237,7 @@
                 [numberLabel.layer setMasksToBounds:YES];
                 numberLabel.layer.cornerRadius=22.5*Width;
                 [btn addSubview:numberLabel];
+                numberLabel.hidden =YES;
                 
                 
                 
@@ -261,7 +258,7 @@
     }
     
     
-    
+    }
 
     return bgScrollView;
     
@@ -281,6 +278,8 @@
         if([ [NSString stringWithFormat:@"%@",[goodsDict objectForKey:@"code"]]isEqualToString:@"0"])
         {
             
+            [self geyCount];
+
             infoArray =[goodsDict objectForKey:@"data"];
             [declarTabel reloadData];
         }
@@ -303,21 +302,83 @@
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/countOnlineorderStatus" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            UILabel *numberOne =[self.view viewWithTag:893];
+            UILabel *numberTwo =[self.view viewWithTag:894];
             
             NSArray *countArr  =[[dict objectForKey:@"data"] objectForKey:@"statusSum"];
-            for (int i=0; i<countArr.count; i++) {
+            if (![countArr isEqual:[NSNull null]]) {
+              
+                numberOne.hidden =YES;
+                numberTwo.hidden =YES;
+
+                for (int i=0; i<countArr.count; i++) {
+                 if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"1"]){
+                            numberOne.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+                             CGSize titleSize = [[NSString stringWithFormat:@"%@   ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+                            numberOne.width =titleSize.width;
+                            numberOne.hidden =NO;
+                    }else if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"3"])
+                        {
+                            numberTwo.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+                            CGSize titleSize = [[NSString stringWithFormat:@"%@   ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+                            numberTwo.width =titleSize.width;
+                            numberTwo.hidden =NO;
+
+                        
+                        }
+                     }
+                    
+                }else
+                {
+                    
+                    numberOne.hidden =YES;
+                    numberTwo.hidden =YES;
                 
-                CGSize titleSize;//通过文本得到高度
-                NSString *str =[NSString stringWithFormat:@" %@ ",[countArr[i] objectForKey:@"sums"]];
-                titleSize = [str boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-                
-                UILabel *numberOne =[self.view viewWithTag:893+i];
-                numberOne.width =titleSize.width;
-                numberOne.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
-                
-            }
-            
+                }
         }
+//
+//                    UILabel *numberOne =[self.view viewWithTag:893+i];
+//                    numberOne.width =titleSize.width;
+//                    if ([[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]]isEqualToString:@"0"]) {
+//                        numberOne.hidden =YES;
+//                    }else
+//                    {
+//                        numberOne.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+//                        numberOne.hidden =NO;
+//
+//
+//                    }
+//                    
+//                    
+//                }
+//                
+//
+//            }else
+//            {
+//                for (int i=0; i<3; i++) {
+//                    
+//                    CGSize titleSize;//通过文本得到高度
+//                    NSString *str =[NSString stringWithFormat:@" %@ ",[countArr[i] objectForKey:@"sums"]];
+//                    titleSize = [str boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+//                    
+//                    UILabel *numberOne =[self.view viewWithTag:893+i];
+//                    numberOne.width =titleSize.width;
+//                    
+//                    if ([[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]]isEqualToString:@"0"]) {
+//                        numberOne.hidden =YES;
+//                    }else
+//                    {
+//                        numberOne.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+//                        numberOne.hidden =NO;
+//                        
+//                    }
+//                    
+//                    
+//                }
+//
+//            
+//            }
+//                    }
         
     } fail:^(NSError *error) {
         

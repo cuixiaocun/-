@@ -76,14 +76,13 @@
     UILabel *wxLabel =[self viewWithTag:203];
     UILabel *addressLabel =[self viewWithTag:204];
     UILabel *distanceLabel =[self viewWithTag:205];
-    ;
     
     numLabel.text = [PublicMethod stringNilString:[_dic objectForKey:@"account"]];
     nameLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]]];
     telLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]] ];
     wxLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"webchat"]]];
     addressLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name_path"]]];
-    distanceLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"juli"]]];
+    distanceLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%.2fkm",[[_dic objectForKey:@"juli"] floatValue]/1000.00]];
     
 }
 -(NSString*)stringNilString:(NSString *)string

@@ -528,7 +528,7 @@
             [memberDic setObject:[infoArray[indexRow] objectForKey:@"name_path"] forKey:@"name_path"];
             [memberDic setObject:[infoArray[indexRow] objectForKey:@"address"] forKey:@"address"];
             [memberDic setObject:[infoArray[indexRow] objectForKey:@"name"] forKey:@"receivename"];
-            [memberDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"receivephone"];
+            [memberDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"phone"];
 
                 [PublicMethod saveData:memberDic withKey:member];
             
@@ -539,7 +539,7 @@
                 [agenDic setObject:[infoArray[indexRow] objectForKey:@"name_path"] forKey:@"name_path"];
                 [agenDic setObject:[infoArray[indexRow] objectForKey:@"address"] forKey:@"address"];
                 [agenDic setObject:[infoArray[indexRow] objectForKey:@"name"] forKey:@"receivename"];
-                [agenDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"receivephone"];
+                [agenDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"phone"];
 
                 [PublicMethod saveData:agenDic withKey:agen];
             }

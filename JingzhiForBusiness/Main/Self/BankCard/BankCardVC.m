@@ -124,7 +124,7 @@
         bankCardLabel.tag =400+i;
         
         //默认label
-        UILabel *defaultLabel =[[UILabel alloc]initWithFrame:CGRectMake(620*Width, nameLabel.top, 80*Width, 35*Width)];
+        UILabel *defaultLabel =[[UILabel alloc]initWithFrame:CGRectMake(580*Width, nameLabel.top, 80*Width, 35*Width)];
         defaultLabel.textColor =[UIColor whiteColor];
         defaultLabel.text =@"默认";
         defaultLabel.tag=500+i;

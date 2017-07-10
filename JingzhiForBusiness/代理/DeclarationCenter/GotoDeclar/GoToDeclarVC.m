@@ -167,9 +167,55 @@
 //确认提交按钮
 - (void)confirmButtonAction
 {
+    NSString *stringForGoods =@"";//代理注册提交报单的拼接字符串
+    for (int i=0; i<infoArr.count; i++) {
+        GoodsModel *goodsModel=infoArr[i];
+        NSString *idStr =goodsModel.goodID;
+        int numStr =goodsModel.goodsNum;
+        if (i<infoArr.count-1) {
+            stringForGoods = [stringForGoods stringByAppendingFormat:@"%@,%d,",idStr,numStr];
+        }else
+        {
+            stringForGoods = [stringForGoods stringByAppendingFormat:@"%@,%d",idStr,numStr];
+        }
+        
+    }
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    NSString *url ;
+
+    //参数
+    [dic1 setDictionary:@{
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          @"products":stringForGoods
+                          }];
+    url=@"home/AgentOnlineorder/addagenonlineorder";
     
+    //网络请求
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self performSelector:@selector(successTheAction) withObject:nil afterDelay:0.5f];
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+        
+        
+    }];
+    
+
     
 }
+- (void)successTheAction
+{
+    
+       [ProgressHUD showSuccess:@"报单成功"];
+    
+}
+
 //系统计算
 - (void)calculateTheGoods
 {
@@ -278,7 +324,8 @@
 //单元格选中事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
+
 }
 -(void)selectBtnClick:(UIButton *)sender
 {
@@ -287,7 +334,6 @@
     if (sender.tag)
     {
         [sender setImage:[UIImage imageNamed:@"复选框-选中.png"] forState:UIControlStateNormal];
-        
     }else{
         [sender setImage:[UIImage imageNamed:@"复选框-未选中.png"] forState:UIControlStateNormal];
     }

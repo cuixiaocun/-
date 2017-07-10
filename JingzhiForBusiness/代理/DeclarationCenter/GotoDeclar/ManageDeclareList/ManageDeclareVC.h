@@ -7,8 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "STableViewController.h"
+#import "DemoTableHeaderView.h"
+#import "DemoTableFooterView.h"
 
-@interface ManageDeclareVC : UIViewController
+
+@interface ManageDeclareVC : STableViewController
+{
+    NSMutableArray *infoArray;  //存放列表数据
+    NSInteger currentPage; //当前页
+    NSInteger pageCount;   //总页数
+    NSString* status;
+    
+}
+
+
 @property(nonatomic,copy)NSString *statusString;
 
 @end

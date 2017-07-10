@@ -22,6 +22,8 @@
         timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
         timeLabel.backgroundColor =BGColor;
         timeLabel.textColor = TextGrayColor;
+        timeLabel.tag=100;
+
         //总额
         UILabel* pricesLabel  = [[UILabel alloc]init];
         pricesLabel.font = [UIFont systemFontOfSize:13];
@@ -30,6 +32,8 @@
         NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
         NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
         [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+        
+        pricesLabel.tag =101;
         [pricesLabel setAttributedText:textColor];
         [self addSubview:pricesLabel];
         pricesLabel.frame= CGRectMake(400*Width, 0,325*Width,74*Width);
@@ -41,6 +45,8 @@
         orderNumberLabel.text = @"    订单号：1953056874376";
         [self addSubview:orderNumberLabel];
         orderNumberLabel.frame= CGRectMake(0*Width, timeLabel.bottom,CXCWidth,74*Width);
+        orderNumberLabel.tag =102;
+
         orderNumberLabel.textColor = TextGrayColor;
         //状态
         UILabel* orderStatuerLabel  = [[UILabel alloc]init];
@@ -49,6 +55,8 @@
         orderStatuerLabel.textAlignment =NSTextAlignmentRight;
         [self addSubview:orderStatuerLabel];
         orderStatuerLabel.frame= CGRectMake(400*Width, timeLabel.bottom,325*Width,74*Width);
+        orderStatuerLabel.tag=103;
+
         orderStatuerLabel.textColor = NavColor;
         
         NSArray*leftArr =@[@"代理名称",@"账号",@"等级",@"",@"",@"",@"",@"",];
@@ -88,7 +96,7 @@
             if (i==3) {
                 bgview.backgroundColor =[UIColor whiteColor];
                 
-                UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(580*Width, 15*Width, 145*Width,50*Width)];
+                UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(475*Width, 15*Width, 90*Width,50*Width)];
                 
                 [examineBtn setBackgroundColor:[UIColor whiteColor]];
                 [examineBtn.layer setCornerRadius:4*Width];
@@ -148,14 +156,74 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *typeLabel =[self viewWithTag:199];
-    UILabel *statuLabel =[self viewWithTag:200];
-    UILabel *levelLabel =[self viewWithTag:201];
-    UILabel *accountLabel =[self viewWithTag:202];
-    UILabel *lastAccountLabel =[self viewWithTag:203];
-    UIButton *passBtn =[self viewWithTag:2000];
-    UIButton *detailBtn =[self viewWithTag:2001];
-//按钮改frame与隐藏
+    UILabel*timeLabel =[self viewWithTag:100];
+    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"updatetime"]];
+    UILabel*pricesLabel =[self viewWithTag:101];
+    NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[_dic objectForKey:@"total"]];//总和
+    NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
+    NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:3]];
+    [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+    [pricesLabel setAttributedText:textColor];
+    
+    
+    UILabel*orderNumLabel =[self viewWithTag:102];
+    orderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"id"]];
+    
+    UILabel*statuLabel =[self viewWithTag:103];
+    UIButton*seeBtn =[self viewWithTag:2000];
+    UIButton*shBtn =[self viewWithTag:2001];
+
+    //    0全部  1 待审核  2 已驳回  3 已审核   4 已完成 5 已取消
+    if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"1"])
+    {
+        statuLabel.text =@"待审核";
+        seeBtn.hidden =NO;
+        shBtn.hidden =NO;
+        seeBtn.frame =CGRectMake(475*Width, 15*Width, 90*Width,50*Width);
+        shBtn.frame =CGRectMake(580*Width, 15*Width, 145*Width,50*Width);
+
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"3"])
+    {
+        seeBtn.hidden =NO;
+        shBtn.hidden =YES;
+        seeBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
+
+        statuLabel.text =@"已审核";
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"2"])
+    {
+        statuLabel.text =@"已驳回";
+        seeBtn.hidden =NO;
+        shBtn.hidden =YES;
+        seeBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
+
+
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"4"])
+    {
+        seeBtn.hidden =NO;
+        shBtn.hidden =YES;
+        seeBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
+
+        statuLabel.text =@"已完成";
+    }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"5"])
+    {
+        seeBtn.hidden =NO;
+        shBtn.hidden =YES;
+        seeBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
+
+        statuLabel.text =@"已取消";
+    }
+    
+    UILabel *nameLabel =[self viewWithTag:200];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"agenname"]];
+    
+    UILabel *accountLabel =[self viewWithTag:201];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
+    
+    UILabel *levelLabel =[self viewWithTag:202];
+    levelLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"levelname"]];
+    
+    
+    
     
     
 }
