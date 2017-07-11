@@ -11,7 +11,7 @@
 #import "AddAddressVC.h"
 #import "IsTureAlterView.h"
 
-@interface ManageAddressTableVC ()<ManageAddCellDelegate,IsTureAlterViewDelegate>
+@interface ManageAddressTableVC ()<ManageAddCellDelegate,IsTureAlterViewDelegate,AddAddressDelegate>
 {
 
     NSIndexPath *index;
@@ -22,8 +22,8 @@
 @implementation ManageAddressTableVC
 - (void)viewDidAppear:(BOOL)animated
 {
-    infoArray =[[NSMutableArray alloc]init];
-    [self getInfoList];
+//    infoArray =[[NSMutableArray alloc]init];
+//    [self getInfoList];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -103,6 +103,7 @@
 - (void)addAddressBtnAction
 {
     AddAddressVC *addVC =[[AddAddressVC alloc]init];
+    addVC.delegate =self;
     [self.navigationController pushViewController:addVC animated:YES];
 
 
@@ -131,6 +132,7 @@
 
             AddAddressVC *addVC =[[AddAddressVC alloc]init];
             addVC.dic =infoArray[index.row] ;
+            addVC.delegate =self;
             [self.navigationController pushViewController:addVC animated:YES];
             
 
@@ -565,6 +567,10 @@
         
     }];
     
+}
+-(void)needReloadDataAddress
+{
+    [self getInfoList];
 }
 /*
 #pragma mark - Navigation

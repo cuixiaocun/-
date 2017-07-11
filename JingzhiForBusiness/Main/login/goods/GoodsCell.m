@@ -21,14 +21,17 @@
      
         //商品名称
         _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0, 380*Width, 100*Width)];
-        _goodsTitleLab.text = @"商品A-几万块合法";
+        _goodsTitleLab.text = @"";
         _goodsTitleLab.textColor=BlackColor;
+        _goodsTitleLab.font =[UIFont systemFontOfSize:14];
         _goodsTitleLab.backgroundColor = [UIColor clearColor];
         [bgView addSubview:_goodsTitleLab];
         
         //数量（箱盒）
-        _numTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(300*Width, 0, 200*Width,100*Width)];
-        _numTitleLab.text = @"1箱2盒";
+        _numTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(380*Width, 0, 150*Width,100*Width)];
+        _numTitleLab.text = @"";
+        _numTitleLab.font =[UIFont systemFontOfSize:14];
+
         _numTitleLab.textColor=[UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
 
         _numTitleLab.backgroundColor = [UIColor clearColor];
@@ -80,7 +83,7 @@
         //价格
         UILabel* priceLabel =[[UILabel alloc]initWithFrame:CGRectMake(40*Width, 90*Width, 300*Width, 90*Width)];
         priceLabel.text =@"¥400.00";
-        priceLabel.font =[UIFont systemFontOfSize:16];
+        priceLabel.font =[UIFont systemFontOfSize:14];
         priceLabel.textColor =NavColor;
         [bgView addSubview:priceLabel];
         _priceLab =priceLabel;
@@ -88,7 +91,7 @@
         _priceTotalLab   =[[UILabel alloc]initWithFrame:CGRectMake(400*Width, 90*Width, 310*Width, 90*Width)];
         _priceTotalLab.text =@"¥3000.00";
         _priceTotalLab.textAlignment =NSTextAlignmentRight;
-        _priceTotalLab.font =[UIFont systemFontOfSize:16];
+        _priceTotalLab.font =[UIFont systemFontOfSize:14];
         _priceTotalLab.textColor =TextColor;
         [bgView addSubview:_priceTotalLab];
         

@@ -9,15 +9,15 @@
 #import "WithDrawlsMoneyVC.h"
 #import "WithDrawlsCell.h"
 #import "WithDrawDetail.h"
-@interface WithDrawlsMoneyVC ()
+@interface WithDrawlsMoneyVC ()<WithdrawMoneyDelegate>
 
 @end
 
 @implementation WithDrawlsMoneyVC
 - (void)viewDidAppear:(BOOL)animated
 {
-    infoArray =[[NSMutableArray alloc]init];
-    [self getInfoList];
+//    infoArray =[[NSMutableArray alloc]init];
+//    [self getInfoList];
 }
 
 
@@ -63,10 +63,12 @@
 - (void)withDrawlsBtnAction
 {
     WithDrawDetail *withDraw =[[WithDrawDetail alloc]init];
+    withDraw.delegate =self;
     [self.navigationController pushViewController:withDraw animated:YES];
 
 
 }
+
 - (void)returnBtnAction
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -368,6 +370,12 @@
         
     }];
     
+}
+- (void)needReloadDataWithdrawMoney
+{
+    currentPage =0;
+    [self getInfoList];
+
 }
 /*
  #pragma mark - Navigation

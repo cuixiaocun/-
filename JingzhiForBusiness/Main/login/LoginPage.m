@@ -247,6 +247,8 @@
 -(void)loginAdmin
 {
     
+
+    
     UITextField *admin = (UITextField *)[self.view viewWithTag:1];
     UITextField *password = (UITextField *)[self.view viewWithTag:2];
     if (admin.text.length!=18&&admin.text.length!=11) {
@@ -390,7 +392,7 @@
 
                 }else
                 {
-                    _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width , 2*Width*100);
+                    _nameTableView.frame =CGRectMake(140*Width, 126*Width,580*Width , 3*Width*100);
 
                 }
                 
@@ -515,7 +517,7 @@
 }
 - (void)setupViewControllers {
     //    if ([[PublicMethod getDataStringKey:@"WetherFirstInput"]isEqualToString:@"1"]) {//若为1，表示登录了
-    [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
+//    [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
     
     UIViewController *firstViewController = [[DeclarationCenterVC alloc] init];
     UINavigationController *firstNavigationController = [[UINavigationController alloc]

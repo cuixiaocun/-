@@ -38,11 +38,13 @@
     //底部scrollview
     UIScrollView *bgScrollView;
     NSString *levelString;//代理升级的时候选择的代理
+    NSDictionary*dic;
 }
 @end
 @implementation PersonalCenter
 - (void)viewWillAppear:(BOOL)animated
 {
+    
     
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     if (![PublicMethod getDataStringKey:@"IsLogin"]) {//若没登录请登录
@@ -51,6 +53,16 @@
     
         return;
     }
+    dic =[[NSDictionary alloc]init];
+
+    dic  =[PublicMethod getDataKey:agen];
+
+    UILabel *levelLabel =[self.view viewWithTag:3331];
+    levelLabel.text =[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"name"])?@"":[dic objectForKey:@"name"]];
+    
+    UILabel *telphoneL =[self.view viewWithTag:3332];
+    telphoneL.text=[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"account"])?@"":[dic objectForKey:@"account"]];
+
 
 }
 - (void)viewDidLoad {
@@ -90,8 +102,6 @@
 }
 - (void)mainView
 {
-    NSDictionary*dic =[[NSDictionary alloc]init];
-    dic  =[PublicMethod getDataKey:agen];
 
     
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,CXCWidth, CXCHeight-100*Width)];
@@ -136,9 +146,10 @@
     levelLabel.text =[NSString stringWithFormat:@"%@",IsNilString([dic objectForKey:@"name"])?@"":[dic objectForKey:@"name"]];
     levelLabel.textAlignment = NSTextAlignmentLeft;
     levelLabel.font = [UIFont boldSystemFontOfSize:16];
+    
     levelLabel.textColor = [UIColor whiteColor];
     [bgImageV   addSubview:levelLabel];
-    
+   
     //电话
     UILabel *telphoneL = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+24*Width,levelLabel.bottom, 400*Width, 60*Width)];
     telphoneL.textColor = [UIColor whiteColor];

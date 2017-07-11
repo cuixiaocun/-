@@ -25,7 +25,7 @@
         leftTopLabe.frame= CGRectMake(24*Width, 0,300*Width , 80*Width);
         leftTopLabe.tag =230;
         //        leftTopLabe.backgroundColor =BGColor;
-        leftTopLabe.textColor = TextGrayColor;
+        leftTopLabe.textColor = TextColor;
         [bgview addSubview:leftTopLabe];
         //数量
         UILabel* rightLabel = [[UILabel alloc]init];
@@ -34,7 +34,7 @@
         rightLabel.textAlignment=NSTextAlignmentRight;
         rightLabel.tag =240;
         rightLabel.font = [UIFont systemFontOfSize:14];
-        rightLabel.textColor = TextGrayGrayColor;
+        rightLabel.textColor = TextGrayColor;
         [bgview addSubview:rightLabel];
         //横线
         UIImageView*xian =[[UIImageView alloc]init];

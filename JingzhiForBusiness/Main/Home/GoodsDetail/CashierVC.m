@@ -504,7 +504,7 @@
         if (retcode.intValue == 0){
             NSMutableString *stamp  = [dictionary objectForKey:@"timestamp"];
             NSString *demostr =[NSString stringWithFormat:@"appid=%@&noncestr=%@&package=%@&partnerid=%@&prepayid=%@&timestamp=%@",
-                                @"wxe544423c9955d614",
+                                @"wxa4ab2adb1a8934e4",
                                 [dictionary objectForKey:@"noncestr"],
                                 @"Sign=WXPay",
                                 @"1374867202",
@@ -572,14 +572,14 @@
     /*=======================需要填写商户app申请的===================================*/
     /*============================================================================*/
     NSString *pid = @"";
-    NSString *appID = @"";
+    NSString *appID = @"2017071107711557";
     
     // 如下私钥，rsa2PrivateKey 或者 rsaPrivateKey 只需要填入一个
     // 如果商户两个都设置了，优先使用 rsa2PrivateKey
     // rsa2PrivateKey 可以保证商户交易在更加安全的环境下进行，建议使用 rsa2PrivateKey
     // 获取 rsa2PrivateKey，建议使用支付宝提供的公私钥生成工具生成，
     // 工具地址：https://doc.open.alipay.com/docs/doc.htm?treeId=291&articleId=106097&docType=1
-    NSString *rsa2PrivateKey = @"";
+    NSString *rsa2PrivateKey = @"MIIEowIBAAKCAQEAlzrdwS7XC1HZRVKfo0SSs2bVh6f1hbarEn3Q65wtQMSZ6Gqlgvwt/R6pxCLItE9WnixXNO+5WY/i3IVtHxV2b+9IWU4jKzQ+QYSqaMyPh4JoMuM1P/K71h4IdBphdqf3BXPM19Ng9HCMr+COR3jGtVMjMJLUI50w0DwRM76/QLZZ9uvfaA7BNNPsefd4BpRZ83D03za9bfhdsUVASiMzFbXXeSJBrhqv3YJhA3CHIRJoRQJLewkye6fdtlooS75PBkfzsXGeyRSJ9aeLocSm5zvGod9awkHB/3h5u0nO7eGdPw2e8NuOIv2mlC0IjWXpwO04ytFI08N3kAeniDEkZQIDAQABAoIBACcIP4ID5+b5Ch31VFScd0yshwJLXHhVjFPqe0jEd32XAK5XED79fZUuG90OqUS4kX+jrCJymSE/nOsT2PVD4dzEIqVCIJufEU5xwlXoLkdoZiJ0OCM4MDj0aXQl9u/cLEqQ99bgrM6KWhVu3OofhxH30kZQL0a95IJqbnovikdWI9F1falVgY6RHoq84k+mNxUvAc1NoiwrS0KczMbqtXvt/HBllaV/DuLlrg76lLfG/JDkxZlxv+Wbf1kKmlKmchzyYG+PvP76cWMxPCCucRWjvTTR3I0Sb9336X8LIke52MMiluAngdVgfjNtHzXnQ8WgVyUkyRfGKYQoTgFStgUCgYEAxpGMeUbxijKlbQ+Vteoa07M9R3RJAAfbk1h47sy5U6DsZGKpPeJSxJLWRoGsHvkP56NAIw6Jp/6AGDQIyuj0Zc0wB3bU5dbeRh6kAWvPweoenAWXOz9JLI0QcUehg/03W71vPizWPu1byCgx2+StAOjmLT7GQi3oT3H7GHqFsNcCgYEAwvhDbbbh70j4d0Z91P2yxGMSBL0xdaJTWAHVmuGgeNmLltwk3crFegaal/Y/bLTTWnMIev6OUnxgpctMD+x4gZN4IIEi5X3CsUSQIm9OyCQiIgVQaUNUpdi4CsSeDpIaUcazywtEpcAT5gVCKSXBneZEcv/HEYlHPi27KbvL4SMCgYEAwpM/HlvpNa15MoxR/GdBEG8Tvh/xpIkOnazVG9MaSxtmaNvQ0WYkCqGEPKS2X8dY0XfD0lZdh3O4W38pmoN5cQQGa1oDNpE9T2KY/ReDBpZ+lg5YaeMStggos4goeei3xTq0di2DZzg5dsIEUWAcMscFPhLEPXc0rByZmxv8QxMCgYAU5WbUq3UroDaBEh0KZuZyBew4dc6HPQ6RsCCkqOn6CdbcJFwPKVxg57RJ9Sp3DCpa11lhVUcLsCjrnA5a5o1D1fpaAX0r+36SYTbRefyHltfRraAgqAa6f6+597i49w+7FADREjQZT6zSSl386v8FXViYurErP/tSvrQAlRAU4QKBgCXrk8wlnCqe/7cKFfjJ/ldxWlbvmjKGiZDnqKiYok5W9FOYNbvhLIBvRkxbjNh/iDCXKxLINKmF6rm+pRLzcNN0UxW8Igh4GTl1XanGJ1b9Pi2dE9SS92uPLH7IgqwwPN1hYTeSteZV8wxsfuq87wrn0tbofKeYemOMS4d2M/4g";
     NSString *rsaPrivateKey = @"";
     /*============================================================================*/
     /*============================================================================*/

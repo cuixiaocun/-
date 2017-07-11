@@ -221,7 +221,7 @@
 {
     
     UITextField *moneyText =[self.view viewWithTag:2];
-   
+    [moneyText resignFirstResponder];
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"level":[[PublicMethod getDataKey:agen] objectForKey:@"level"],

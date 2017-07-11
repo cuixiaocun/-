@@ -184,18 +184,22 @@
              @"webchat":[NSString stringWithFormat:@"%@",wxText.text],
              @"phone":[NSString stringWithFormat:@"%@",phoneText.text],
              @"agenurl":[NSString stringWithFormat:@"%@",hzText.text],
-             @"newregionid":[NSString stringWithFormat:@"%@",addressLabel.text],
-             @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:agen] objectForKey:@"id"] integerValue]]
-    }  addView:self.view success:^(id responseDic)
+             @"xianaddress":[NSString stringWithFormat:@"%@",addressLabel.text],
+//             @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:agen] objectForKey:@"id"] integerValue]]
+    }
+                           addView:self.view success:^(id responseDic)
      {
                                
-                                                                            
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
          
          if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
          
              [MBProgressHUD showSuccess:@"修改成功" ToView:self.view];
              [self.navigationController popToRootViewControllerAnimated:YES];
+             [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"agen"]withKey:agen];
+
+             
+             
          }
          
         } fail:^(NSError *error) {

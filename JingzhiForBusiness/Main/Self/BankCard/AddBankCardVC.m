@@ -50,6 +50,18 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
+    //提现按钮
+    if (_bankDetailDic) {
+        
+    
+    UIButton *  withDrawlsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    withDrawlsBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
+    //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    withDrawlsBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
+    [withDrawlsBtn setTitle:@"删除" forState:UIControlStateNormal];
+    [withDrawlsBtn addTarget:self action:@selector(deleteTheBankCard) forControlEvents:UIControlEventTouchUpInside];
+    [topImageView addSubview:withDrawlsBtn];
+}
     bankTitleArr =[[NSMutableArray  alloc]init];
     bankIdArr=[[NSMutableArray  alloc]init];
     for(int i=0;i<_bankArr.count;i++)
@@ -67,6 +79,35 @@
     
     
     
+}
+- (void)deleteTheBankCard
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    NSString *url ;
+    [dic1 setDictionary:@{
+                          @"id":[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"id"]],
+
+                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }];
+    
+    url =@"home/Account/remove";
+       
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [ProgressHUD showSuccess:@"银行卡删除成功"];
+            
+            [self performSelector:@selector(bankCartDeleteSuccess) withObject:nil afterDelay:0.5f];
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
     
     
 }
@@ -82,8 +123,18 @@
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
     NSArray*leftArr =@[@"姓名",@"银行卡账号",@"开户行",@"支行",@"设置成默认银行卡",@"代理级别",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
-   
-    NSArray *rightArr =@[@"输入姓名",@"输入银行卡账号",@"选择开户行",@"输入支行",@"",@"",@"",@"",];
+    NSArray *rightArr =[[NSArray alloc]init];
+    if (_bankDetailDic) {
+        
+        rightArr =@[[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"number"]],[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"bankname"]],[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"branch"]]];
+    }else
+    {
+        rightArr =@[@"",@"",@"",@"",@"",@"",@"",@""];
+        
+        
+        
+    }
+
     //列表
     for (int i=0; i<5; i++) {
         UIView *bgview =[[UIView alloc]init];
@@ -101,6 +152,9 @@
             UITextField *inputText = [[UITextField alloc] init];
             [inputText setTag:i+10];
             [inputText setPlaceholder:rightArr[i]];
+        
+            [inputText setText:rightArr[i]];
+            
             [inputText setDelegate:self];
             inputText.textAlignment =NSTextAlignmentRight;
             [inputText setFont:[UIFont systemFontOfSize:16]];
@@ -121,9 +175,18 @@
             UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,380*Width , 80*Width)];
             wzlabe.text = rightArr[i];
             wzlabe.tag =20+i;
+            [wzlabe setText:rightArr[i]];
+
             wzlabe.textAlignment=NSTextAlignmentRight;
             wzlabe.font = [UIFont systemFontOfSize:16];
-            wzlabe.textColor = TextGrayGrayColor;
+            if (_bankDetailDic) {
+                wzlabe.textColor = [UIColor blackColor];
+
+            }else
+            {
+                wzlabe.textColor = TextGrayGrayColor;
+
+            }
             [chooseBtn addSubview:wzlabe];
             //箭头
             UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 20*Width,30*Width , 30*Width)];
@@ -145,7 +208,30 @@
             UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(0*Width, 20*Width,40*Width , 40*Width)];
             [chooseBtn addSubview:jiantou];
             jiantou.tag=2001;
-            [jiantou setImage:[UIImage imageNamed:@"adress_btn_radio"]];
+            
+            if (_bankDetailDic) {
+                
+                if ([[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"isdefault"]]isEqualToString:@"1"]) {
+                    [jiantou setImage:[UIImage imageNamed:@"adress_btn_radio_sel"]];
+                    isDefultStr =@"ture";
+                    chooseBtn.selected =YES;
+
+                    
+                }else if([[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"isdefault"]]isEqualToString:@"2"])
+                {
+                    [jiantou setImage:[UIImage imageNamed:@"adress_btn_radio"]];
+                    isDefultStr =@"false";
+                    chooseBtn.selected =NO;
+
+                    
+                }
+
+            }else
+            {
+            
+                [jiantou setImage:[UIImage imageNamed:@"adress_btn_radio"]];
+
+            }
 
             //文字
             UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(jiantou.right+20*Width, 0,580*Width , 80*Width)];
@@ -173,7 +259,7 @@
     [nextBtn setBackgroundColor:NavColor];
     [nextBtn.layer setCornerRadius:4];
     [nextBtn.layer setMasksToBounds:YES];
-    [nextBtn setTitle:@"确认添加" forState:UIControlStateNormal];
+    [nextBtn setTitle:@"保存" forState:UIControlStateNormal];
     [nextBtn.titleLabel setTextColor:[UIColor whiteColor]];
     [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [nextBtn addTarget:self action:@selector(nextStep) forControlEvents:UIControlEventTouchUpInside];
@@ -182,10 +268,19 @@
     
     
     
-    
 }
 - (void)chooseBank
 {
+    
+    UITextField *nameTF =[self.view viewWithTag:10];
+    UITextField *bankNumTF =[self.view viewWithTag:11];
+    UITextField *bankAddressTF =[self.view viewWithTag:13];
+    
+
+    [nameTF resignFirstResponder];
+    [bankNumTF resignFirstResponder];
+    [bankAddressTF resignFirstResponder];
+
     
     //选择银行
     SRActionSheet *actionSheet = [SRActionSheet sr_actionSheetViewWithTitle:@"选择银行" cancelTitle:@"取消"destructiveTitle:nil                                                            withNumber:@"7"
@@ -246,33 +341,62 @@
     UITextField *nameTF =[self.view viewWithTag:10];
     UITextField *bankNumTF =[self.view viewWithTag:11];
     UITextField *bankAddressTF =[self.view viewWithTag:13];
-
-    
-    
+  
+    [nameTF resignFirstResponder];
+    [bankNumTF resignFirstResponder];
+    [bankAddressTF resignFirstResponder];
     NSString *bankNameId=bankIdArr[[bankNameIndex integerValue]];
     NSString *bankNamestr=bankTitleArr[[bankNameIndex integerValue]];
 
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     NSString *url ;
-    [dic1 setDictionary:@{
-                          @"name":[NSString stringWithFormat:@"%@",nameTF.text],
-                          @"code":bankNameId,
-                          @"branch":bankNamestr,
-                          @"number":[NSString stringWithFormat:@"%@",bankNumTF.text],
-                          @"bankname":[NSString stringWithFormat:@"%@",bankAddressTF.text],
-                          @"default":isDefultStr,
-
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
-                          }];
-    url =@"home/Account/addbank";
     
+    if (_bankDetailDic) {
+        url =@"home/Account/savebank";
+        [dic1 setDictionary:@{
+                              @"id":[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"id"]],
+                              @"number":[NSString stringWithFormat:@"%@",bankNumTF.text],
+
+                              @"name":[NSString stringWithFormat:@"%@",nameTF.text],
+                              @"code":bankNameId,
+                              @"branch":[NSString stringWithFormat:@"%@",bankAddressTF.text],
+                              @"bankname":bankNamestr,
+                              @"default":isDefultStr,
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                              }];
+
+    }else
+    {
+        url =@"home/Account/addbank";
+        [dic1 setDictionary:@{
+                              @"name":[NSString stringWithFormat:@"%@",nameTF.text],
+                              @"code":bankNameId,
+                              @"branch":bankNamestr,
+                              @"number":[NSString stringWithFormat:@"%@",bankNumTF.text],
+                              @"bankname":[NSString stringWithFormat:@"%@",bankAddressTF.text],
+                              @"default":isDefultStr,
+                              
+                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                              }];
+
+
+        
+    }
+
     [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            [self.navigationController popViewControllerAnimated:YES];
+            if (_bankDetailDic) {
+                [MBProgressHUD  showSuccess:@"修改成功" ToView:self.view];
+//                [ProgressHUD showSuccess:@"修改成功"];
+            }else
+            {
+                [MBProgressHUD  showSuccess:@"添加成功" ToView:self.view];
+//                [ProgressHUD showSuccess:@"添加成功"];
+            }
 
-            [self performSelector:@selector(bankCartSuccess) withObject:nil afterDelay:0.5f];
+            [self performSelector:@selector(bankCartSuccess) withObject:nil afterDelay:1];
         
         
             }
@@ -305,11 +429,19 @@
     [addressTextF resignFirstResponder];
 }
 - (void)bankCartSuccess{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    [_delegate needReloadData  ];
 
-    [ProgressHUD showSuccess:@"添加银行卡成功"];
+}
+- (void)bankCartDeleteSuccess{
+    [self.navigationController popViewControllerAnimated:YES];
 
+    [_delegate needReloadData  ];
 
-}/*
+    
+}
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

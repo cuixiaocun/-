@@ -91,9 +91,9 @@
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"phone"]];
+    NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivephone"]];
     BOOL isNil =IsNilString(numstr);
-    NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"phone"]];
+    NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivephone"]];
     
     numberLabel.text = numberStr;
     numberLabel.font =[UIFont systemFontOfSize:16];
@@ -131,6 +131,7 @@
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
     [topView addSubview:addressLabel];
     if ([[[PublicMethod getDataKey:agen] objectForKey:@"name_path"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:agen] objectForKey:@"name_path"]isEqualToString:@"<null>"]) {
+        
         addressLabel.text =@"请完善";
         defaultLabel.hidden =YES;
         

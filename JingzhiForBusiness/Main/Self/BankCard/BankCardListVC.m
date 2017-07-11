@@ -9,19 +9,13 @@
 #import "BankCardListVC.h"
 #import "BankCardCell.h"
 #import "AddBankCardVC.h"
-@interface BankCardListVC ()<BankCardCellDelegate>
+@interface BankCardListVC ()<BankCardCellDelegate,AddBankDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     NSArray *bankArr;
 }
 @end
 
 @implementation BankCardListVC
-- (void)viewDidAppear:(BOOL)animated
-{
-    infoArray =[[NSMutableArray alloc]init];
-    [self getInfoList];
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -51,6 +45,8 @@
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     bankArr =[[NSArray alloc]init];
+    infoArray =[[NSMutableArray alloc]init];
+
     [self getInfoList];
    
     
@@ -66,32 +62,29 @@
     promLabel.text =@"务必保证收款账户姓名、账户等信息真实有效";
     [self.view addSubview:promLabel];
     promLabel.font =[UIFont systemFontOfSize:13];
-    
+    self.tableView =[[UITableView alloc]init];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableView setFrame:CGRectMake(0,64+84*Width, CXCWidth, CXCHeight-20-44-80*Width)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     self.tableView .showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.tableView];
     
     infoArray = [[NSMutableArray alloc] init];
     UIView *bgview= [[UIView alloc]initWithFrame:CGRectMake(0*Width,0 ,750*Width , 300*Width)];
-    
     UIButton *addBtn = [[UIButton alloc]initWithFrame:CGRectMake(25*Width,0, 700*Width, 270*Width)];//(3)为卡片数量
     [addBtn setImage:[UIImage imageNamed:@"bcard_bg_addcard"] forState:UIControlStateNormal];
     [addBtn addTarget:self action:@selector(addBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [bgview addSubview:addBtn];
-    self.footerView = bgview;
-    
-    
-    
-    
+    self.tableView.tableFooterView = bgview;
     
 }
 - (void)addBtnAction
 {
     AddBankCardVC *addBtnVC =[[AddBankCardVC alloc]init];
     addBtnVC.bankArr =bankArr;
+    addBtnVC.delegate =self;
     [self.navigationController pushViewController:addBtnVC animated:YES];
     
     
@@ -145,7 +138,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-        return infoArray.count ;
+    return infoArray.count ;
 }
 
 
@@ -165,9 +158,8 @@
         cell = [[BankCardCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:CellIdentifier ];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        
     }
-    cell.delegate =self;
+        cell.delegate =self;
         NSDictionary *dict = [infoArray objectAtIndex:row];
         [cell setDic:dict];
     return cell;
@@ -175,16 +167,16 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    if (indexPath.row==1) {
-    //        DelegateDetailVC *delegateDetail =[[DelegateDetailVC  alloc]init];
-    //        [self.navigationController pushViewController:delegateDetail animated:YES];
-    //
-    //    }else
-    //    {
-    //        DelegateExamineDetailVC *delegateDetail =[[DelegateExamineDetailVC  alloc]init];
-    //        [self.navigationController pushViewController:delegateDetail animated:YES];
-    //    }
+    AddBankCardVC *addBtnVC =[[AddBankCardVC alloc]init];
+    addBtnVC.bankArr =bankArr;
+    addBtnVC.delegate =self;
     
+    addBtnVC.bankDetailDic = infoArray[indexPath.row];
+    [self.navigationController pushViewController:addBtnVC animated:YES];
+    
+
+
+
 }
 
 - (void)getInfoList
@@ -212,34 +204,11 @@
     }];
     
 }
+- (void)needReloadData
+{
+    [self getInfoList];
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

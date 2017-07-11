@@ -90,7 +90,7 @@
     UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+42*Width,bgtouImg.top-10*Width, 400*Width, 55*Width)];
     nameLabel.textColor = [UIColor whiteColor];
     nameLabel.tag =3330;
-    nameLabel.text =@"代理商:小明";
+    nameLabel.text =@"代理商:";
     nameLabel.textAlignment = NSTextAlignmentLeft;
     nameLabel.font = [UIFont systemFontOfSize:14];
     nameLabel.textColor = [UIColor whiteColor];
@@ -100,7 +100,7 @@
     UILabel *levelLabel = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+42*Width,nameLabel.bottom, 400*Width, 55*Width)];
     levelLabel.textColor = [UIColor whiteColor];
     levelLabel.tag =3331;
-    levelLabel.text =@"等级:二级代理商";
+    levelLabel.text =@"等级:";
     levelLabel.textAlignment = NSTextAlignmentLeft;
     levelLabel.font = [UIFont systemFontOfSize:15];
     levelLabel.textColor = [UIColor whiteColor];
@@ -110,7 +110,7 @@
     UILabel *telphoneL = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+42*Width,levelLabel.bottom+20*Width, 400*Width, 55*Width)];
     telphoneL.textColor = [UIColor whiteColor];
     telphoneL.tag =3332;
-    telphoneL.text=@"手机号:18363671722";
+    telphoneL.text=@"手机号:";
     telphoneL.textAlignment = NSTextAlignmentLeft;
     telphoneL.font = [UIFont systemFontOfSize:15];
     telphoneL.textColor = [UIColor whiteColor];
@@ -120,7 +120,7 @@
     UILabel *wxLabel = [[UILabel alloc]initWithFrame:CGRectMake(bgtouImg.right+42*Width,telphoneL.bottom, 400*Width, 55*Width)];
     wxLabel.textColor = [UIColor whiteColor];
     wxLabel.tag =3333;
-    wxLabel.text=@"微信号:1875433435";
+    wxLabel.text=@"微信号:";
     wxLabel.textAlignment = NSTextAlignmentLeft;
     wxLabel.font = [UIFont systemFontOfSize:15];
     wxLabel.textColor = [UIColor whiteColor];
@@ -144,7 +144,7 @@
     [mainImgView addSubview:numberImg];
     
     UILabel *numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(70*Width,800*Width,500*Width , 80*Width)];
-    numberLabel.text =@"NO.HN0124893573957";
+    numberLabel.text =@"NO.";
     numberLabel.textAlignment =NSTextAlignmentCenter;
     [mainImgView addSubview:numberLabel ];
     numberLabel.tag =3335;

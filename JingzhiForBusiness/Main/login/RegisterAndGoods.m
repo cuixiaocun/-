@@ -300,6 +300,7 @@
 {
     
     UITextField *moneyText =[self.view viewWithTag:2];
+    [moneyText resignFirstResponder ];
     if ([moneyText.text floatValue]<[minMoney floatValue]) {
         [MBProgressHUD showError:@"输入金额不得小于最低金额" ToView:self.view];
         return;

@@ -25,6 +25,7 @@
 #import "OrderCenterVC.h"
 #import "PersonalCenter.h"
 
+#import "ZLCGuidePageView.h"
 @interface AppDelegate ()
 
 @end
@@ -35,6 +36,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
+   
     [self setupViewControllers];
     [self customizeInterface];
     _mapManager = [[BMKMapManager alloc]init];
@@ -54,7 +56,7 @@
     
 
     /*******************************************向微信注册********************************/
-    [WXApi registerApp:@"wxd930ea5d5a258f4f" enableMTA:YES];
+    [WXApi registerApp:@"wxa4ab2adb1a8934e4" enableMTA:YES];
     
     //向微信注册支持的文件类型
     UInt64 typeFlag = MMAPP_SUPPORT_TEXT | MMAPP_SUPPORT_PICTURE | MMAPP_SUPPORT_LOCATION | MMAPP_SUPPORT_VIDEO |MMAPP_SUPPORT_AUDIO | MMAPP_SUPPORT_WEBPAGE | MMAPP_SUPPORT_DOC | MMAPP_SUPPORT_DOCX | MMAPP_SUPPORT_PPT | MMAPP_SUPPORT_PPTX | MMAPP_SUPPORT_XLS | MMAPP_SUPPORT_XLSX | MMAPP_SUPPORT_PDF;
@@ -94,9 +96,24 @@
 //        }
 //    }];
 //    
-    
+    //是否第一次进入
+    if (![PublicMethod getDataStringKey:@"WetherFirstInput"])
+    {
+        [self YinDaoPage];
+    };
+
     
     return YES;
+}
+
+- (void) YinDaoPage
+{
+    
+    //引导页图片数组
+    NSArray *images =  @[[UIImage imageNamed:@"bp_01_1242"],[UIImage imageNamed:@"bp_02_1242"],[UIImage imageNamed:@"bp_03_1242"]];
+    //创建引导页视图
+    ZLCGuidePageView *pageView = [[ZLCGuidePageView alloc]initWithFrame:CGRectMake( 0, 0, CXCWidth, CXCHeight) WithImages:images];
+    [self.window addSubview:pageView];
 }
 
 

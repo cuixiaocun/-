@@ -9,8 +9,8 @@
 #import "WithDrawDetail.h"
 #import "CXCTwoLableSheet.h"
 #import "TPKeyboardAvoidingScrollView.h"
-
-@interface WithDrawDetail ()<UITextFieldDelegate,CXCTwoLableSheetDelegate >
+#import "AddBankCardVC.h"
+@interface WithDrawDetail ()<UITextFieldDelegate,CXCTwoLableSheetDelegate,AddBankDelegate >
 {
     TPKeyboardAvoidingScrollView *bgScrollView;
     BOOL isHaveDian;//判断小数点
@@ -71,7 +71,6 @@
     topView.backgroundColor =[UIColor whiteColor];
     [bgScrollView addSubview:topView];
     
-    
     UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(300*Width, 50*Width, 150*Width, 150*Width)];
     [topImgV setImage:[UIImage imageNamed:@"withdrawcash_icon_glod"]];
     [topView addSubview:topImgV];
@@ -84,7 +83,7 @@
     [topView addSubview:promeLabel ];
     
     UILabel *coinLabel =[[UILabel alloc]initWithFrame:CGRectMake(0, promeLabel.bottom, CXCWidth, 132*Width)];
-    coinLabel.text =@"1000";
+//    coinLabel.text =@"1000";
     coinLabel.tag =200;
     coinLabel.textAlignment =NSTextAlignmentCenter;
     coinLabel.textColor =BlackColor ;
@@ -107,7 +106,7 @@
     UILabel *nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(cardPhoto.right+20*Width, cardPhoto.top-10*Width, 350*Width, 36*Width)];
     
     nameLabel.textColor =BlackColor;
-    nameLabel.text =@"中国银行";
+//    nameLabel.text =@"中国银行";
     nameLabel.tag =202;
     
     nameLabel.font =[UIFont systemFontOfSize:16];
@@ -129,7 +128,7 @@
     //银行卡号
     UILabel *bankLabel =[[UILabel alloc]initWithFrame:CGRectMake(cardPhoto.right+20*Width, nameLabel.bottom+10*Width, 550*Width, 36*Width)];
     bankLabel.textColor =BlackColor;
-    bankLabel.text =@"6223 9103 0116 0170";
+//    bankLabel.text =@"6223 9103 0116 0170";
     bankLabel.tag =203;
     bankLabel.font =[UIFont systemFontOfSize:14];
     [middleBgView addSubview:bankLabel];
@@ -219,8 +218,6 @@
     [bgview addSubview:butto];
     sendCodeBtn =butto;
 
-    
-    
     UIImageView *imgV =[[UIImageView alloc]initWithFrame:CGRectMake(370*Width, bgview.bottom+20*Width, 24*Width, 24*Width)];
     imgV.image =[UIImage imageNamed:@"withdrawcash_icon_remind"];
     [bgScrollView addSubview:imgV];
@@ -273,7 +270,10 @@
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"])
         {
         
-            [ProgressHUD showSuccess:@"提现成功"];
+            [MBProgressHUD  showSuccess:@"提现成功" ToView:self.view];
+            [self performSelector:@selector(withdrawSuccess) withObject:nil afterDelay:1];
+            
+
         }
     } fail:^(NSError *error) {
         
@@ -402,11 +402,42 @@
 -(void)showCXCActionSheetView
 {
     
+    if (bankAllArr.count==0) {
+        {
+            
+            NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+            [dic1 setDictionary:@{
+                                  @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                                  }
+             ];
+            
+            [PublicMethod AFNetworkPOSTurl:@"home/Account/bankcard" paraments:dic1  addView:self.view success:^(id responseDic) {
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+                if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"])         {
+                    NSArray* bankArr =[[dict objectForKey:@"data"] objectForKey:@"bank"];
+                    AddBankCardVC *addbank =[[AddBankCardVC alloc]init];
+                    addbank.bankArr =bankArr;
+                    addbank.delegate =self;
+                    [self.navigationController pushViewController:addbank animated:YES];
+                    
+                }
+                
+            } fail:^(NSError *error) {
+                
+            }];
+            
+        }
+       
+        
+    }else
+    {
     
-    CXCTwoLableSheet *sheet =[[CXCTwoLableSheet alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight) with:bankAllArr];
-    sheet.tag=1111;
-    sheet.delegate=self;
-    [self.view addSubview:sheet];
+        CXCTwoLableSheet *sheet =[[CXCTwoLableSheet alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight) with:bankAllArr];
+        sheet.tag=1111;
+        sheet.delegate=self;
+        [self.view addSubview:sheet];
+    }
+   
     
     
 
@@ -564,18 +595,20 @@
     
     [PublicMethod AFNetworkPOSTurl:@"home/Account/cash" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        UILabel*coinLabel =[self.view viewWithTag:200];
+        UILabel*balanceLabel =[self.view viewWithTag:205];
+        UILabel*nameLabel =[self.view viewWithTag:202];
+        UILabel*defaultLabel =[self.view viewWithTag:302];
+        UILabel*bankLabel =[self.view viewWithTag:203];
+        bankAllArr =[[NSArray alloc]init];
+
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"])
         {
             NSDictionary*rechargeDic =[[dict objectForKey:@"data"] objectForKey:@"recharge"];
             NSDictionary*bankDic =[[dict objectForKey:@"data"] objectForKey:@"user_bank"];
             
 
-            UILabel*coinLabel =[self.view viewWithTag:200];
-            UILabel*balanceLabel =[self.view viewWithTag:205];
-            UILabel*nameLabel =[self.view viewWithTag:202];
-            UILabel*defaultLabel =[self.view viewWithTag:302];
-            UILabel*bankLabel =[self.view viewWithTag:203];
-            coinLabel.text =[NSString stringWithFormat:@"%@",[rechargeDic objectForKey:@"balance"]];
+                     coinLabel.text =[NSString stringWithFormat:@"%@",[rechargeDic objectForKey:@"balance"]];
             
             if ([[[dict objectForKey:@"data"] objectForKey:@"user_bank"]isEqual:[NSNull null]]||[[NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"user_bank"]]isEqualToString:@"<null>"]) {
                 //若有默认值
@@ -608,10 +641,17 @@
             NSRange rangel = [[textColor string] rangeOfString:[totalString substringFromIndex:textColor.length-4]];
             [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
             [balanceLabel setAttributedText:textColor];
-            bankAllArr =[[NSArray alloc]init];
             bankAllArr =[[dict objectForKey:@"data"] objectForKey:@"user_all_bank"];
             
             
+        }else
+        {
+            //若有默认值
+            nameLabel.text =[NSString stringWithFormat:@"%@",@"请选择"];
+            bankLabel.text =[NSString stringWithFormat:@"%@",@"请选择"];
+            defaultLabel.hidden =YES;
+
+        
         }
     } fail:^(NSError *error) {
         
@@ -619,6 +659,18 @@
     
     
     
+}
+-(void)withdrawSuccess
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    [_delegate needReloadDataWithdrawMoney];
+
+}
+-(void)needReloadData
+{
+    [self withdrawalsMoneyInfo];
+
+
 }
 /*
 #pragma mark - Navigation

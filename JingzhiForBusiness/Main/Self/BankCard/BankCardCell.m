@@ -115,7 +115,7 @@
     UILabel *bankCardLabel =[self viewWithTag:400];
     UILabel *defaultLabel =[self viewWithTag:500];
     UIButton *defaultBtn =[self viewWithTag:600];
-    bankLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"branch"]];
+    bankLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"bankname"]];
     bankCardLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"number"]];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
 

@@ -134,8 +134,10 @@
     if (view == nil) view = (UIView*)[UIApplication sharedApplication].delegate.window;
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    hud.labelText=title;
-    hud.labelFont=[UIFont fontWithName:@"Heiti SC" size:15];
+//    hud.labelText=title;
+    hud.detailsLabelText = title;
+
+    hud.detailsLabelFont=[UIFont fontWithName:@"Heiti SC" size:15];
     // 设置图片
     hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:iconName]];
     

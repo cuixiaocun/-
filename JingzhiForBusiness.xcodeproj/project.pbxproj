@@ -30,7 +30,6 @@
 		84075DA11EE57F8F00139636 /* CirculationRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84075DA01EE57F8F00139636 /* CirculationRecordCell.m */; };
 		84075DA41EE57FA700139636 /* CirculationRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84075DA31EE57FA700139636 /* CirculationRecordVC.m */; };
 		84075DAB1EE586CF00139636 /* MemberOrderVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84075DAA1EE586CF00139636 /* MemberOrderVC.m */; };
-		84075DAE1EE58A8300139636 /* BankCardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84075DAD1EE58A8300139636 /* BankCardVC.m */; };
 		84075DB11EE58A9800139636 /* RebateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84075DB01EE58A9800139636 /* RebateVC.m */; };
 		84075DB41EE58AD000139636 /* MyAuthorizationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84075DB31EE58AD000139636 /* MyAuthorizationVC.m */; };
 		840CE60F1EE242AE0016D82F /* NextDelegateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 840CE60E1EE242AE0016D82F /* NextDelegateVC.m */; };
@@ -299,6 +298,12 @@
 		84F6DAE41EDFB3B0001C80AE /* SetIDNumberVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F6DAE31EDFB3B0001C80AE /* SetIDNumberVC.m */; };
 		84F6DAE71EDFB505001C80AE /* UIScrollView+Myscrollview.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F6DAE61EDFB505001C80AE /* UIScrollView+Myscrollview.m */; };
 		84F6DAEA1EDFF73B001C80AE /* PhotoSampleVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F6DAE91EDFF73B001C80AE /* PhotoSampleVC.m */; };
+		84F6E0BD1F14A9AA005DC402 /* image1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84F6E0A91F14A9AA005DC402 /* image1.jpg */; };
+		84F6E0BE1F14A9AA005DC402 /* image2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84F6E0AA1F14A9AA005DC402 /* image2.jpg */; };
+		84F6E0BF1F14A9AA005DC402 /* image3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84F6E0AB1F14A9AA005DC402 /* image3.jpg */; };
+		84F6E0C01F14A9AA005DC402 /* image4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84F6E0AC1F14A9AA005DC402 /* image4.jpg */; };
+		84F6E0C11F14A9AA005DC402 /* image5.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 84F6E0AD1F14A9AA005DC402 /* image5.jpg */; };
+		84F6E0C21F14A9AA005DC402 /* ZLCGuidePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84F6E0AF1F14A9AA005DC402 /* ZLCGuidePageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -358,8 +363,6 @@
 		84075DA31EE57FA700139636 /* CirculationRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CirculationRecordVC.m; sourceTree = "<group>"; };
 		84075DA91EE586CF00139636 /* MemberOrderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberOrderVC.h; sourceTree = "<group>"; };
 		84075DAA1EE586CF00139636 /* MemberOrderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberOrderVC.m; sourceTree = "<group>"; };
-		84075DAC1EE58A8300139636 /* BankCardVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BankCardVC.h; sourceTree = "<group>"; };
-		84075DAD1EE58A8300139636 /* BankCardVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BankCardVC.m; sourceTree = "<group>"; };
 		84075DAF1EE58A9800139636 /* RebateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RebateVC.h; sourceTree = "<group>"; };
 		84075DB01EE58A9800139636 /* RebateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RebateVC.m; sourceTree = "<group>"; };
 		84075DB21EE58AD000139636 /* MyAuthorizationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAuthorizationVC.h; sourceTree = "<group>"; };
@@ -937,6 +940,13 @@
 		84F6DAE61EDFB505001C80AE /* UIScrollView+Myscrollview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+Myscrollview.m"; path = "../UIScrollView+Myscrollview.m"; sourceTree = "<group>"; };
 		84F6DAE81EDFF73B001C80AE /* PhotoSampleVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoSampleVC.h; sourceTree = "<group>"; };
 		84F6DAE91EDFF73B001C80AE /* PhotoSampleVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSampleVC.m; sourceTree = "<group>"; };
+		84F6E0A91F14A9AA005DC402 /* image1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image1.jpg; sourceTree = "<group>"; };
+		84F6E0AA1F14A9AA005DC402 /* image2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image2.jpg; sourceTree = "<group>"; };
+		84F6E0AB1F14A9AA005DC402 /* image3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image3.jpg; sourceTree = "<group>"; };
+		84F6E0AC1F14A9AA005DC402 /* image4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image4.jpg; sourceTree = "<group>"; };
+		84F6E0AD1F14A9AA005DC402 /* image5.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image5.jpg; sourceTree = "<group>"; };
+		84F6E0AE1F14A9AA005DC402 /* ZLCGuidePageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZLCGuidePageView.h; sourceTree = "<group>"; };
+		84F6E0AF1F14A9AA005DC402 /* ZLCGuidePageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZLCGuidePageView.m; sourceTree = "<group>"; };
 		9F77646407098D67CEFD56ED /* Pods_JingzhiForBusiness.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JingzhiForBusiness.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5653D27A4384D6C85214FA4 /* Pods-JingzhiForBusiness.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JingzhiForBusiness.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JingzhiForBusiness/Pods-JingzhiForBusiness.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1124,8 +1134,6 @@
 				84EA70C11EE8DCD300F9A4D2 /* BankCardListVC.m */,
 				84EA70C31EE8DD0200F9A4D2 /* BankCardCell.h */,
 				84EA70C41EE8DD0200F9A4D2 /* BankCardCell.m */,
-				84075DAC1EE58A8300139636 /* BankCardVC.h */,
-				84075DAD1EE58A8300139636 /* BankCardVC.m */,
 				842E43B71EE7915300912AFD /* AddBankCardVC.h */,
 				842E43B81EE7915300912AFD /* AddBankCardVC.m */,
 			);
@@ -1643,6 +1651,7 @@
 		84E5303E1E80C8D3009E63E6 /* ThirdResource */ = {
 			isa = PBXGroup;
 			children = (
+				84F6E0A71F14A9AA005DC402 /* ZLCGuidePage */,
 				845D991C1F04FBB6005CF7A7 /* 微信支付 */,
 				845D991D1F04FBB6005CF7A7 /* 支付宝支付 */,
 				84E0A18F1EFA43BB00213A0E /* TPKeyboardAvoiding */,
@@ -2374,6 +2383,28 @@
 			path = ScanAndTrac;
 			sourceTree = "<group>";
 		};
+		84F6E0A71F14A9AA005DC402 /* ZLCGuidePage */ = {
+			isa = PBXGroup;
+			children = (
+				84F6E0A81F14A9AA005DC402 /* Resource */,
+				84F6E0AE1F14A9AA005DC402 /* ZLCGuidePageView.h */,
+				84F6E0AF1F14A9AA005DC402 /* ZLCGuidePageView.m */,
+			);
+			path = ZLCGuidePage;
+			sourceTree = "<group>";
+		};
+		84F6E0A81F14A9AA005DC402 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				84F6E0A91F14A9AA005DC402 /* image1.jpg */,
+				84F6E0AA1F14A9AA005DC402 /* image2.jpg */,
+				84F6E0AB1F14A9AA005DC402 /* image3.jpg */,
+				84F6E0AC1F14A9AA005DC402 /* image4.jpg */,
+				84F6E0AD1F14A9AA005DC402 /* image5.jpg */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2452,6 +2483,7 @@
 				84075D851EE50B9100139636 /* province_data.xml in Resources */,
 				84E531BC1E80C8D4009E63E6 /* DemoTableHeaderView.xib in Resources */,
 				84E532181E80C8D4009E63E6 /* YBimgPickerView.bundle in Resources */,
+				84F6E0C01F14A9AA005DC402 /* image4.jpg in Resources */,
 				8443920F1ED6D33200FA4927 /* QR@2x.png in Resources */,
 				84E531E91E80C8D4009E63E6 /* loading_04.jpg in Resources */,
 				84E531EB1E80C8D4009E63E6 /* loading_06.jpg in Resources */,
@@ -2462,16 +2494,20 @@
 				84E531E61E80C8D4009E63E6 /* loading_01.jpg in Resources */,
 				84E5322E1E80C8D4009E63E6 /* right_arrow.png in Resources */,
 				84E531BA1E80C8D4009E63E6 /* DemoTableFooterView.xib in Resources */,
+				84F6E0BE1F14A9AA005DC402 /* image2.jpg in Resources */,
 				84E532301E80C8D4009E63E6 /* Info.plist in Resources */,
 				84E5322B1E80C8D4009E63E6 /* error.png in Resources */,
 				84E5322F1E80C8D4009E63E6 /* right_arrow@2x.png in Resources */,
 				84E531B11E80C8D4009E63E6 /* city.plist in Resources */,
+				84F6E0BD1F14A9AA005DC402 /* image1.jpg in Resources */,
 				84E531B31E80C8D4009E63E6 /* HZAreaPickerView.xib in Resources */,
 				84E530341E80C79A009E63E6 /* Assets.xcassets in Resources */,
 				84E5321A1E80C8D4009E63E6 /* YBImgPickerViewCell.xib in Resources */,
 				845D99201F04FC86005CF7A7 /* AlipaySDK.bundle in Resources */,
 				84A3B3B01EF293680084817E /* 2.jpg in Resources */,
+				84F6E0C11F14A9AA005DC402 /* image5.jpg in Resources */,
 				84E531E71E80C8D4009E63E6 /* loading_02.jpg in Resources */,
+				84F6E0BF1F14A9AA005DC402 /* image3.jpg in Resources */,
 				84E531E81E80C8D4009E63E6 /* loading_03.jpg in Resources */,
 				84E531EA1E80C8D4009E63E6 /* loading_05.jpg in Resources */,
 				84E5323C1E80C8D4009E63E6 /* star_huang.png in Resources */,
@@ -2549,7 +2585,6 @@
 				84E531BD1E80C8D4009E63E6 /* STableViewController.m in Sources */,
 				84E531C71E80C8D4009E63E6 /* FileDetail.m in Sources */,
 				84E531AA1E80C8D4009E63E6 /* AFSecurityPolicy.m in Sources */,
-				84075DAE1EE58A8300139636 /* BankCardVC.m in Sources */,
 				84E531AC1E80C8D4009E63E6 /* AFURLResponseSerialization.m in Sources */,
 				84E531DD1E80C8D4009E63E6 /* SDWebImageManager.m in Sources */,
 				84E5302C1E80C79A009E63E6 /* ViewController.m in Sources */,
@@ -2732,6 +2767,7 @@
 				84075DAB1EE586CF00139636 /* MemberOrderVC.m in Sources */,
 				845D99B01F05D9A8005CF7A7 /* WXApiManager.m in Sources */,
 				84E531D11E80C8D4009E63E6 /* TADotView.m in Sources */,
+				84F6E0C21F14A9AA005DC402 /* ZLCGuidePageView.m in Sources */,
 				846E0E221F0C932C00854C7F /* OrderCirclatonVC.m in Sources */,
 				84E5320F1E80C8D4009E63E6 /* GTMBase64.m in Sources */,
 				84E531CD1E80C8D4009E63E6 /* SBJsonWriter.m in Sources */,

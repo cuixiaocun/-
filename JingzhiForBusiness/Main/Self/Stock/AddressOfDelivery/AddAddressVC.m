@@ -203,7 +203,14 @@
     [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            [self.navigationController popViewControllerAnimated:YES];
+            if (_dic) {
+                [MBProgressHUD  showSuccess:@"修改成功" ToView:self.view];
+            }else
+            {
+                [MBProgressHUD  showSuccess:@"添加成功" ToView:self.view];
+            }
+            
+            [self performSelector:@selector(addressSuccess) withObject:nil afterDelay:1];
 
               }
         
@@ -213,6 +220,14 @@
     
 
 
+
+}
+- (void)addressSuccess
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    
+    [_delegate needReloadDataAddress];
+    
 
 }
 - (void)returnBtnAction

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol WithdrawMoneyDelegate <NSObject>
+- (void)needReloadDataWithdrawMoney;
+@end
 
 @interface WithDrawDetail : UIViewController
+@property(assign,nonatomic)id<WithdrawMoneyDelegate>delegate;
 
 @end
