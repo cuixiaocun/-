@@ -62,8 +62,8 @@
     bgScrollView.showsVerticalScrollIndicator =
     NO;
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
-    NSArray*leftArr =@[@"会员号",@"推荐人",@"已消费",@"余额",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"",@"",@"¥",@"¥",];
+    NSArray*leftArr =@[@"会员号",@"推荐人",@"已消费",@"积分",@"",@"",@"",] ;
+    NSArray *rightArr =@[@"",@"",@"¥",@"",];
     //列表
     for (int i=0; i<4; i++) {
         UIView *bgview =[[UIView alloc]init];
@@ -121,7 +121,7 @@
             numberLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"account"]]];
             parentLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"parentaccount"]]];
             yixiaofeiLabel.text =[NSString stringWithFormat:@"¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"sumall"]]]];
-            yueLabel.text =[NSString stringWithFormat:@"¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"balance"]]]];
+            yueLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"integral"]]]];
             [PublicMethod saveData:[dict objectForKey:@"data"] withKey:member];
 
 

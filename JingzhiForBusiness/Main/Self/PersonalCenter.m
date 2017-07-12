@@ -172,8 +172,8 @@
     
     NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_orderliu",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"proxy_me_icon_exit",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
 
-    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"订单流转",@"审核流转",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"退出",@"",] ;
-    for (int i=0; i<15; i++) {
+    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"订单流转",@"审核流转",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"销售数据",@"退出",@"",] ;
+    for (int i=0; i<16; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),bgImageV.bottom+20*Width+187.5*Width*(i/4),186*Width,186*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;

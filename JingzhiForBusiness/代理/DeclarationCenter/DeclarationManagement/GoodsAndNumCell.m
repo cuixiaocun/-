@@ -21,7 +21,7 @@
         //商品名称
         UILabel* leftTopLabe = [[UILabel alloc]init];
         leftTopLabe.font = [UIFont systemFontOfSize:14];
-        leftTopLabe.text = @"商品q";
+//        leftTopLabe.text = @"商品q";
         leftTopLabe.frame= CGRectMake(24*Width, 0,300*Width , 80*Width);
         leftTopLabe.tag =230;
         //        leftTopLabe.backgroundColor =BGColor;
@@ -29,7 +29,7 @@
         [bgview addSubview:leftTopLabe];
         //数量
         UILabel* rightLabel = [[UILabel alloc]init];
-        rightLabel.text =@"100盒";
+//        rightLabel.text =@"100盒";
         rightLabel.frame =CGRectMake(250*Width ,0,475*Width,80*Width );
         rightLabel.textAlignment=NSTextAlignmentRight;
         rightLabel.tag =240;
