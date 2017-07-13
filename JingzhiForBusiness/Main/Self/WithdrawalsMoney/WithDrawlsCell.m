@@ -101,7 +101,7 @@
     UILabel *accountLabel =[self viewWithTag:202];
     UILabel *moneyLabel =[self viewWithTag:203];
     
-    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"updatetime"]];
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"createtime"]];
     statuLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"stname"]];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];

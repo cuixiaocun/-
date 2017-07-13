@@ -61,7 +61,7 @@
     [declarTabel setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [declarTabel setDelegate:self];
     [declarTabel setDataSource:self];
-    [declarTabel setBackgroundColor:[UIColor clearColor]];
+    [declarTabel setBackgroundColor:BGColor];
     declarTabel .showsVerticalScrollIndicator = NO;
     [self.view addSubview:declarTabel];
     
@@ -87,18 +87,19 @@
 }
 -(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"id":_orderId}];
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/auditdagenonlineorder" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
             
-            IsTureAlterView *isture = [self.view viewWithTag:180];
-            [isture removeFromSuperview];
             [[self rdv_tabBarController] setSelectedIndex:0];
             [MBProgressHUD showSuccess:@"审核成功" ToView:self.view];
           
@@ -217,7 +218,7 @@
             orderStatuerLabel.text =@"已取消";
         }
 
-        timeLabel.text = [NSString stringWithFormat:@"      %@",[[agenDic objectForKey:@"oorder"] objectForKey:@"updatetime"]];
+        timeLabel.text = [NSString stringWithFormat:@"      %@",[[agenDic objectForKey:@"oorder"] objectForKey:@"createtime"]];
         
         NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"total"]];//总和
         NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
@@ -329,7 +330,7 @@
     [dic1 setDictionary:@{
                           @"orderid": _orderId,
                           @"flg":_ismy,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           
                           }
      ];

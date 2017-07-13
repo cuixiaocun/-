@@ -219,7 +219,7 @@
 
     // 到时候hidden就好啦两个按钮 source产出
     
-    timeLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"updatetime"]];
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"createtime"]];
     statuLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"statusname"]];
     souceLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"source"]];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dicForOut objectForKey:@"account"]];

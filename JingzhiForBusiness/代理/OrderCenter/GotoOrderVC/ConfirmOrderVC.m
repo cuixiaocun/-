@@ -202,7 +202,8 @@
                           @"productid":[NSString stringWithFormat:@"%@",[_orderDic objectForKey:@"id"]],
                           @"addressid":addressIdString,
                           @"num":[NSString stringWithFormat:@"%@",[_orderDic objectForKey:@"num"]],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]}];
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }];
     
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/addagenorder" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
@@ -239,7 +240,7 @@
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                           }];
     [PublicMethod AFNetworkPOSTurl:@"home/address/agenindex" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];

@@ -93,7 +93,7 @@
     
     [bgScrollView addSubview:topView];
     
-    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 150*Width, 50*Width)];
+    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 250*Width, 50*Width)];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     nameLabel.tag=450;
     nameLabel.font =[UIFont systemFontOfSize:16];

@@ -71,7 +71,7 @@
     
     accountLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]]];
     yixiaofeiLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"sumall"]]]];
-    timeLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"updatetime"]]];
+    timeLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"createtime"]]];
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

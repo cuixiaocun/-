@@ -61,7 +61,7 @@
     UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
     topView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:topView];
-    NSArray *btnArr =@[@"全部",@"待审核",@"已完成"];
+    NSArray *btnArr =@[@"全部",@"待审核",@"已审核"];
     for (int i=0; i<3; i++) {
         UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         statuBtn.frame = CGRectMake(CXCWidth/3*i, 0,CXCWidth/3-2*Width ,100*Width);
@@ -96,7 +96,7 @@
     [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-100*Width-20)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
-    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    [self.tableView setBackgroundColor:BGColor];
     self.tableView .showsVerticalScrollIndicator = NO;
     
     //下拉刷新
@@ -363,7 +363,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"status":statuString
                           }
      ];

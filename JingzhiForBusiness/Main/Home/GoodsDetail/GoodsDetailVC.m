@@ -77,7 +77,7 @@
     topImageView.alpha =0.0;
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"产品详情"];
+    [navTitle setText:@"商品详情"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
@@ -92,11 +92,11 @@
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     //右
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
-    shareBtn.backgroundColor = [UIColor clearColor];
-    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
-    [shareBtn setImage:[UIImage imageNamed:@"details_btn_share_white"] forState:UIControlStateNormal];
-    [topImageView addSubview:shareBtn];
+//    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
+//    shareBtn.backgroundColor = [UIColor clearColor];
+//    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
+//    [shareBtn setImage:[UIImage imageNamed:@"details_btn_share_white"] forState:UIControlStateNormal];
+//    [topImageView addSubview:shareBtn];
     
     
     topImageViewNomal= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
@@ -112,12 +112,12 @@
     [returnBtnNomal setImage:[UIImage imageNamed:@"details_btn_goback"] forState:UIControlStateNormal];
     [returnBtnNomal addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageViewNomal addSubview:returnBtnNomal];
-    //右
-    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
-    shareBtnNomal.backgroundColor = [UIColor clearColor];
-    [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
-    [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_share"] forState:UIControlStateNormal];
-    [topImageViewNomal addSubview:shareBtnNomal];
+//    //右
+//    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
+//    shareBtnNomal.backgroundColor = [UIColor clearColor];
+//    [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
+//    [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_share"] forState:UIControlStateNormal];
+//    [topImageViewNomal addSubview:shareBtnNomal];
     
     cycleScrollView2 =[SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CXCWidth,560*Width) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder@2x"]];
     cycleScrollView2.backgroundColor =TextGrayGray3Color;
@@ -166,7 +166,7 @@
     //显示
     UILabel*  proLabel = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
     proLabel.tag = 10101010;
-    proLabel.text = @"购买数量";
+    proLabel.text = @"数量";
     proLabel.font = [UIFont boldSystemFontOfSize:15];
     proLabel.textColor = [UIColor grayColor];
     [numberBgview addSubview:proLabel];

@@ -102,7 +102,7 @@
     [dic1 setDictionary:@{
                           @"id":[NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"id"]]] ,
                           
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                           }];
     url =@"home/Account/setDefault";
 
@@ -184,7 +184,7 @@
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                           }
      ];
     

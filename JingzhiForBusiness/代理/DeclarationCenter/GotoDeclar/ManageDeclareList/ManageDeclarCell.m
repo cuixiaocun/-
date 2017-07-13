@@ -128,7 +128,23 @@
                 [bgview addSubview:detailBtn];
                 
 
+                UIButton *bhBtn =[[UIButton alloc]initWithFrame:CGRectMake(630*Width, 15*Width, 90*Width,50*Width)];
+                [bgview addSubview:bhBtn];
                 
+                [bhBtn setBackgroundColor:[UIColor whiteColor]];
+                [bhBtn.layer setCornerRadius:4*Width];
+                [bhBtn.layer setBorderWidth:1.0*Width];
+                [bhBtn.layer setMasksToBounds:YES];
+                [bhBtn setTitleColor:NavColor forState:UIControlStateNormal];
+                bhBtn.layer.borderColor =NavColor.CGColor;
+                bhBtn.tag =2003;
+                [bhBtn setTitle:@"驳回" forState:UIControlStateNormal];
+                [bhBtn.titleLabel setTextColor:[UIColor whiteColor]];
+                [bhBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+                [bhBtn addTarget:self action:@selector(examinePass:) forControlEvents:UIControlEventTouchUpInside];
+                [bgview addSubview:bhBtn];
+                
+
                 
             }
             
@@ -157,7 +173,7 @@
 {
     _dic=Dict;
     UILabel*timeLabel =[self viewWithTag:100];
-    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"updatetime"]];
+    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"createtime"]];
     UILabel*pricesLabel =[self viewWithTag:101];
     NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[_dic objectForKey:@"total"]];//总和
     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];
@@ -172,10 +188,13 @@
     UILabel*statuLabel =[self viewWithTag:103];
     UIButton*seeBtn =[self viewWithTag:2000];
     UIButton*shBtn =[self viewWithTag:2001];
+    UIButton *bhBtn =[self viewWithTag:2003];
 
     //    0全部  1 待审核  2 已驳回  3 已审核   4 已完成 5 已取消
     if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"1"])
     {
+        bhBtn.hidden=NO;
+        bhBtn.frame =CGRectMake(365*Width, 15*Width, 90*Width,50*Width);
         statuLabel.text =@"待审核";
         seeBtn.hidden =NO;
         shBtn.hidden =NO;
@@ -186,6 +205,8 @@
     {
         seeBtn.hidden =NO;
         shBtn.hidden =YES;
+        bhBtn.hidden=YES;
+
         seeBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
 
         statuLabel.text =@"已审核";
@@ -194,6 +215,8 @@
         statuLabel.text =@"已驳回";
         seeBtn.hidden =NO;
         shBtn.hidden =YES;
+        bhBtn.hidden=YES;
+
         seeBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
 
 
@@ -202,6 +225,8 @@
         seeBtn.hidden =NO;
         shBtn.hidden =YES;
         seeBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
+        bhBtn.hidden=YES;
+
 
         statuLabel.text =@"已完成";
     }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"5"])
@@ -209,6 +234,7 @@
         seeBtn.hidden =NO;
         shBtn.hidden =YES;
         seeBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
+        bhBtn.hidden=YES;
 
         statuLabel.text =@"已取消";
     }

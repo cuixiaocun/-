@@ -88,7 +88,7 @@
     [dic1 setDictionary:@{
                           @"id":[NSString stringWithFormat:@"%@",[_bankDetailDic objectForKey:@"id"]],
 
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                           }];
     
     url =@"home/Account/remove";
@@ -363,7 +363,7 @@
                               @"branch":[NSString stringWithFormat:@"%@",bankAddressTF.text],
                               @"bankname":bankNamestr,
                               @"default":isDefultStr,
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }];
 
     }else
@@ -377,7 +377,7 @@
                               @"bankname":[NSString stringWithFormat:@"%@",bankAddressTF.text],
                               @"default":isDefultStr,
                               
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }];
 
 

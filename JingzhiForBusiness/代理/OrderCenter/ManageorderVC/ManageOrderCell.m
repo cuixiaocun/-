@@ -121,7 +121,6 @@
                 [deliverBtn addTarget:self action:@selector(examinePass:) forControlEvents:UIControlEventTouchUpInside];
                 [bgview addSubview:deliverBtn];
                 
-
                 
                 
                 
@@ -160,6 +159,7 @@
     UIButton *wuliuBtn =[self viewWithTag:2000];
     UIButton *cirBtn =[self viewWithTag:2001];
     UIButton *fahuoBtn =[self viewWithTag:2002];
+
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"agenname"]];
     accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
     goodnameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
@@ -181,7 +181,7 @@
     
 
     //按钮改frame与隐藏
-    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"updatetime"]];
+    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"createtime"]];
     if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"2"])
     {
         fahuoBtn.hidden =NO;
@@ -189,12 +189,12 @@
         wuliuBtn.hidden =YES;
         fahuoBtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
         cirBtn.frame =CGRectMake(520*Width, 15*Width, 90*Width,50*Width);
+
         statuLabel.text =@"未发货";
     }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"3"])
     {
         
         wuliuBtn.frame =CGRectMake(575*Width, 15*Width, 145*Width,50*Width);
-
         fahuoBtn.hidden =YES;
         cirBtn.hidden =YES;
         wuliuBtn.hidden =NO;
@@ -206,7 +206,6 @@
     {
         statuLabel.text =@"已完成";
         wuliuBtn.frame =CGRectMake(575*Width, 15*Width, 145*Width,50*Width);
-        
         fahuoBtn.hidden =YES;
         cirBtn.hidden =YES;
         wuliuBtn.hidden =NO;

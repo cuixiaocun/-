@@ -84,7 +84,7 @@
 {
     _dic =Dict;
     UILabel *timeLabel =[self viewWithTag:199];
-    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"updatetime"]];
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"createtime"]];
     
     UILabel *cirLabel =[self viewWithTag:201];
     cirLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"sn"]];

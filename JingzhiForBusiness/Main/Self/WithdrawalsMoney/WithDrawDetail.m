@@ -258,7 +258,7 @@
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"amount":[NSString stringWithFormat:@"%@",textMoney.text],
                           @"bankinfo":bankIdString,
                           @"mobilecode":[NSString stringWithFormat:@"%@",textYZM.text],
@@ -407,7 +407,7 @@
             
             NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
             [dic1 setDictionary:@{
-                                  @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                                  @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                                   }
              ];
             
@@ -590,7 +590,8 @@
 {
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+    [dic1 setDictionary:@{
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                           }];
     
     [PublicMethod AFNetworkPOSTurl:@"home/Account/cash" paraments:dic1  addView:self.view success:^(id responseDic) {

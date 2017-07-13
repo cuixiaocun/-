@@ -72,11 +72,25 @@
 {
     _dic=Dict;
     UILabel *nameLabel =[self viewWithTag:200];
-    UILabel *numLabel =[self viewWithTag:201];
+    UILabel *_promptLabel =[self viewWithTag:201];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
-    numLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"num"]];
+//    numLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"num"]];
 
-    
+    NSInteger box =[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"num"]] integerValue]/[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"boxnum"]] integerValue];
+    NSInteger num =[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"num"]] integerValue]%[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"boxnum"]] integerValue];
+    if (box==0) {
+        _promptLabel.text   = [NSString stringWithFormat:@"%ld盒",num];
+        
+    }else if(box>0&&num>0)
+    {
+        _promptLabel.text  = [NSString stringWithFormat:@"%ld箱%ld盒",box,num];
+        
+    }else if(box>0&&num==0)
+    {
+        _promptLabel.text  = [NSString stringWithFormat:@"%ld箱",box];
+        
+    }
+
     
     
 }

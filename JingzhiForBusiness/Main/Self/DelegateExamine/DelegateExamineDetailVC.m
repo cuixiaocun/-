@@ -176,7 +176,7 @@
     //时间
     UILabel* timeLabel  = [[UILabel alloc]init];
     timeLabel.font = [UIFont systemFontOfSize:13];
-    timeLabel.text =[NSString stringWithFormat:@"    %@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"oorder"] objectForKey:@"updatetime"]]] ];
+    timeLabel.text =[NSString stringWithFormat:@"    %@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"oorder"] objectForKey:@"createtime"]]] ];
     [bottomBgView addSubview:timeLabel];
     timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
     timeLabel.backgroundColor =BGColor;
@@ -318,16 +318,16 @@
             [examineBtn addTarget:self action:@selector(examinePass) forControlEvents:UIControlEventTouchUpInside];
             [btnView addSubview:examineBtn];
             
-            
-        }else
-        {
-            
-            [examineBtn setTitle:@"流转" forState:UIControlStateNormal];
-            [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
-            [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
-            [examineBtn addTarget:self action:@selector(cirAgen) forControlEvents:UIControlEventTouchUpInside];
-            [btnView addSubview:examineBtn];
-            
+//            
+//        }else
+//        {
+//            
+//            [examineBtn setTitle:@"流转" forState:UIControlStateNormal];
+//            [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
+//            [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+//            [examineBtn addTarget:self action:@selector(cirAgen) forControlEvents:UIControlEventTouchUpInside];
+//            [btnView addSubview:examineBtn];
+//            
         }
 
     }
@@ -420,7 +420,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                          @"id":[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"id"]],
-                         @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                         @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           }
      ];
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/auditagenreview" paraments:dic1  addView:self.view success:^(id responseDic) {
@@ -441,36 +441,6 @@
 {
     
     [ProgressHUD showSuccess:@"审核通过"];
-    [self.delegate reloadTheinformation];
-    
-}
-- (void)cirAgen
-{
-    
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-                          @"id":[NSString stringWithFormat:@"%@",[_angeDic objectForKey:@"id"]],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
-                          }
-     ];
-    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/flowagenreview" paraments:dic1  addView:self.view success:^(id responseDic) {
-        NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
-        if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
-        {
-            [self.navigationController popViewControllerAnimated:YES];
-            [self performSelector:@selector(cirAgenSucess) withObject:nil afterDelay:0.5f];
-        }
-        
-        
-    } fail:^(NSError *error) {
-        
-    }];
-    
-}
-- (void)cirAgenSucess
-{
-    
-    [ProgressHUD showSuccess:@"流转成功"];
     [self.delegate reloadTheinformation];
     
 }

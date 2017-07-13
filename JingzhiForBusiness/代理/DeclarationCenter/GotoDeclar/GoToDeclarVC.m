@@ -12,6 +12,8 @@
 
 @interface GoToDeclarVC ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,GoodsCellDelegate>
 {
+    NSString *minMoney;//最低拿货金额
+
     
     UIScrollView *bgScrollView;//上半部分
     UITableView *goodsTableview;//中间商品
@@ -54,6 +56,8 @@
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     [self mainView];
+    [self minimumMoney];
+
 }
 - (void)mainView
 {
@@ -63,10 +67,10 @@
     [self.view addSubview:bgScrollView];
     
     //顶部提示
-    UILabel *promptLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 20*Width)];
-    promptLabel.backgroundColor  =BGColor;
-//    promptLabel.textColor =[UIColor colorWithRed:249/255.0 green:98/255.0 blue:48/255.0 alpha:1];
-//    promptLabel.text =@"    提示：最低拿货金额1000元";
+    UILabel *promptLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 60*Width)];
+    promptLabel.backgroundColor  =[UIColor colorWithRed:255/255.0 green:239/255.0 blue:212/255.0 alpha:1];
+    promptLabel.textColor =[UIColor colorWithRed:249/255.0 green:98/255.0 blue:48/255.0 alpha:1];
+    promptLabel.tag =1122;
     promptLabel.font =[UIFont systemFontOfSize:14];
     [bgScrollView addSubview:promptLabel];
     
@@ -185,7 +189,7 @@
 
     //参数
     [dic1 setDictionary:@{
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"products":stringForGoods
                           }];
     url=@"home/AgentOnlineorder/addagenonlineorder";
@@ -222,14 +226,19 @@
     
     UITextField *moneyText =[self.view viewWithTag:2];
     [moneyText resignFirstResponder];
+
+    if ([moneyText.text floatValue]<[minMoney floatValue]) {
+        [MBProgressHUD showError:@"输入金额不得小于最低金额" ToView:self.view];
+        return;
+    }
+
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          @"level":[[PublicMethod getDataKey:agen] objectForKey:@"level"],
                           @"money":moneyText.text
                           }];
     NSLog(@"%@",dic1);
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/Login/getAgenBuyInfo" paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"home/Agen/getAgenBuyInfo" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
@@ -673,7 +682,30 @@
     alterView.hidden =YES;
     
 }
-
+-(void)minimumMoney
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          }];
+    NSLog(@"%@",dic1);
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/Agen/getAgenBuyInfo" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            minMoney=  [NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"]objectForKey:@"minmoney"]];
+            
+            UILabel *promptLabel =[self.view viewWithTag:1122];
+            promptLabel.text =[NSString stringWithFormat:@"    提示：最低拿货金额%@元",minMoney];
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+}
 
 /*
 #pragma mark - Navigation

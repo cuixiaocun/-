@@ -35,16 +35,16 @@
         orderStatuerLabel.frame= CGRectMake(400*Width, 0,325*Width,74*Width);
         orderStatuerLabel.textColor = NavColor;
         
-        NSArray*leftArr =@[@"代理名称",@"电话",@"商品",@"数量",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@"代理",@"商品",@"数量",@"",@"",@"",@"",];
         
-        NSArray*rightArr =@[@"等待审核",@"一级",@"商品A",@"51",@"",@"",@"",@"",];
-        for (int i=0; i<5; i++) {
+        NSArray*rightArr =@[@"",@"",@"",@"",@"",@"",@"",];
+        for (int i=0; i<4; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];
             [self addSubview:bgview];
             bgview.frame =CGRectMake(0, orderStatuerLabel.bottom+82*i*Width, CXCWidth, 82*Width);
-            if (i<4) {
+            if (i<3) {
                 //左边提示
                 UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
                 labe.text = leftArr[i];
@@ -58,7 +58,7 @@
                 rightLabel.textColor = NavColor;
                 rightLabel.textColor = BlackColor;
                 rightLabel.textAlignment=NSTextAlignmentRight;
-                rightLabel.tag =200+i;
+                rightLabel.tag =201+i;
                 rightLabel.font = [UIFont systemFontOfSize:14];
                 [bgview addSubview:rightLabel];
                 //细线
@@ -69,7 +69,7 @@
                 
                 
             }
-            if (i==4) {
+            if (i==3) {
                 bgview.backgroundColor =[UIColor whiteColor];
                 
                 UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(420*Width, 15*Width, 145*Width,50*Width)];
@@ -138,16 +138,16 @@
         orderStatuerLabel.frame= CGRectMake(400*Width, 0,325*Width,74*Width);
         orderStatuerLabel.textColor = NavColor;
         
-        NSArray*leftArr =@[@"代理名称",@"电话",@"商品",@"数量",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@"代理",@"商品",@"数量",@"",@"",@"",@"",];
         
-        NSArray*rightArr =@[@"等待审核",@"一级",@"商品A",@"51",@"",@"",@"",@"",];
-        for (int i=0; i<4; i++) {
+        NSArray*rightArr =@[@"",@"",@"",@"",@"",];
+        for (int i=0; i<3; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];
             [self addSubview:bgview];
             bgview.frame =CGRectMake(0, orderStatuerLabel.bottom+82*i*Width, CXCWidth, 82*Width);
-            if (i<4) {
+            if (i<3) {
                 //左边提示
                 UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
                 labe.text = leftArr[i];
@@ -161,7 +161,7 @@
                 rightLabel.textColor = NavColor;
                 rightLabel.textColor = BlackColor;
                 rightLabel.textAlignment=NSTextAlignmentRight;
-                rightLabel.tag =200+i;
+                rightLabel.tag =201+i;
                 rightLabel.font = [UIFont systemFontOfSize:14];
                 [bgview addSubview:rightLabel];
                 //细线
@@ -195,7 +195,7 @@
 {
     _dic=Dict;
     UILabel*timeLabel =[self viewWithTag:100];
-    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"updatetime"]];
+    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"createtime"]];
     UILabel*statuLabel =[self viewWithTag:103];
     UIButton *passBtn =[self viewWithTag:2000];
     UIButton *detailBtn =[self viewWithTag:2001];
@@ -224,15 +224,28 @@
         detailBtn.hidden =YES;
         passBtn.frame =CGRectMake(580*Width, 15*Width, 145*Width,50*Width);
     }
-    UILabel *nameLabel =[self viewWithTag:200];
-    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
+
     UILabel *accountLabel =[self viewWithTag:201];
-    accountLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]]];
+    accountLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]]];
     
     UILabel *goodLabel =[self viewWithTag:202];
     goodLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     UILabel *numberLabel =[self viewWithTag:203];
-    numberLabel.text=[NSString stringWithFormat:@"%@",[_dic objectForKey:@"num"]];
+//    int box =[[_dic objectForKey:@"num"] intValue]/[[_dic objectForKey:@"boxnum"] intValue];
+//    int he =[[_dic objectForKey:@"num"] intValue]%[[_dic objectForKey:@"boxnum"] intValue];
+//    
+//    if (box==0) {
+        numberLabel.text  = [NSString stringWithFormat:@"%d盒",[[_dic objectForKey:@"num"] intValue]];
+//        
+//    }else if(box>0&&he>0)
+//    {
+//        numberLabel.text  = [NSString stringWithFormat:@"%d箱%d盒",box,he];
+//        
+//    }else if(box>0&&he==0)
+//    {
+//        numberLabel.text  = [NSString stringWithFormat:@"%d箱",box];
+//        
+//    }
       }
 
 - (void)awakeFromNib {

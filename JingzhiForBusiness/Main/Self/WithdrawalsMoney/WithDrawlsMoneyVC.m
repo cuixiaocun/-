@@ -316,7 +316,7 @@
     [dic1 setDictionary:@{
                           @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
                           
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                           }
      ];
     

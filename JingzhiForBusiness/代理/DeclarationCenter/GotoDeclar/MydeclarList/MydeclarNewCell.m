@@ -132,7 +132,7 @@
 {
     _dic=Dict;
     UILabel*timeLabel =[self viewWithTag:100];
-    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"updatetime"]];
+    timeLabel.text =[NSString stringWithFormat:@"     %@",[_dic objectForKey:@"createtime"]];
     UILabel*pricesLabel =[self viewWithTag:101];
     NSString *totalString =[NSString stringWithFormat:@"总额：¥%@",[_dic objectForKey:@"total"]];//总和
     NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:totalString];

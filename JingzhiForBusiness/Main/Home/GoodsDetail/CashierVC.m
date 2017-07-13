@@ -170,7 +170,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                          @"id":[NSString stringWithFormat:@"%@",_orderId] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                           }];
     [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/pay" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
@@ -472,7 +472,7 @@
             self.orderType = @"alipay";
             UILabel *nameLabel= [self.view viewWithTag:202];
             [nameLabel setText:@"支付宝支付"];
-            [self ProPayRequest];
+//            [self ProPayRequest];
             
             [self zhifubaoPay];
             
@@ -510,7 +510,6 @@
                                 @"1374867202",
                                 [dictionary objectForKey:@"prepay_id"],
                                 [NSString stringWithFormat:@"%ld",(long)stamp.intValue]
-                                
                                 ];
             
             NSString *stringA=[NSString stringWithFormat:@"%@&key=%@",demostr,@"communityappzhifu18660255283admi"];
@@ -571,7 +570,7 @@
     /*============================================================================*/
     /*=======================需要填写商户app申请的===================================*/
     /*============================================================================*/
-    NSString *pid = @"";
+    NSString *pid = @"2088721225565115";
     NSString *appID = @"2017071107711557";
     
     // 如下私钥，rsa2PrivateKey 或者 rsaPrivateKey 只需要填入一个
@@ -609,6 +608,8 @@
     if (authType) {
         authInfo.authType = authType;
     }
+  
+
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
     NSString *appScheme = @"alisdkdemo";

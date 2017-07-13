@@ -129,6 +129,7 @@
 		84B0DC771EE67D830010303B /* SRActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B0DC761EE67D830010303B /* SRActionSheet.m */; };
 		84B0DC7A1EE682020010303B /* MemberDeliverVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B0DC791EE682020010303B /* MemberDeliverVC.m */; };
 		84B0DC7D1EE687F30010303B /* IsTureAlterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B0DC7C1EE687F30010303B /* IsTureAlterView.m */; };
+		84B617271F17527F008C83D7 /* AllDateVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B617261F17527F008C83D7 /* AllDateVC.m */; };
 		84E0A18B1EFA075B00213A0E /* NoticeDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A18A1EFA075B00213A0E /* NoticeDetailVC.m */; };
 		84E0A18E1EFA25B400213A0E /* DelegateCenterVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A18D1EFA25B400213A0E /* DelegateCenterVC.m */; };
 		84E0A1981EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E0A1911EFA43BB00213A0E /* TPKeyboardAvoidingCollectionView.m */; };
@@ -621,6 +622,8 @@
 		84B0DC791EE682020010303B /* MemberDeliverVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberDeliverVC.m; sourceTree = "<group>"; };
 		84B0DC7B1EE687F30010303B /* IsTureAlterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IsTureAlterView.h; sourceTree = "<group>"; };
 		84B0DC7C1EE687F30010303B /* IsTureAlterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IsTureAlterView.m; sourceTree = "<group>"; };
+		84B617251F17527F008C83D7 /* AllDateVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllDateVC.h; sourceTree = "<group>"; };
+		84B617261F17527F008C83D7 /* AllDateVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllDateVC.m; sourceTree = "<group>"; };
 		84E0A1891EFA075B00213A0E /* NoticeDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeDetailVC.h; sourceTree = "<group>"; };
 		84E0A18A1EFA075B00213A0E /* NoticeDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeDetailVC.m; sourceTree = "<group>"; };
 		84E0A18C1EFA25B400213A0E /* DelegateCenterVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateCenterVC.h; sourceTree = "<group>"; };
@@ -1584,6 +1587,15 @@
 			path = login;
 			sourceTree = "<group>";
 		};
+		84B617241F175259008C83D7 /* allData */ = {
+			isa = PBXGroup;
+			children = (
+				84B617251F17527F008C83D7 /* AllDateVC.h */,
+				84B617261F17527F008C83D7 /* AllDateVC.m */,
+			);
+			path = allData;
+			sourceTree = "<group>";
+		};
 		84E0A18F1EFA43BB00213A0E /* TPKeyboardAvoiding */ = {
 			isa = PBXGroup;
 			children = (
@@ -2164,6 +2176,7 @@
 		84E532451E80D0DC009E63E6 /* Self */ = {
 			isa = PBXGroup;
 			children = (
+				84B617241F175259008C83D7 /* allData */,
 				846E0E1F1F0C930700854C7F /* orderCirculation */,
 				84E803711EF7CC8A00ECE8B9 /* delegateDetail */,
 				84075DA81EE584F500139636 /* Authorization */,
@@ -2740,6 +2753,7 @@
 				84E531CF1E80C8D4009E63E6 /* TAAbstractDotView.m in Sources */,
 				84E530291E80C79A009E63E6 /* AppDelegate.m in Sources */,
 				84E532321E80C8D4009E63E6 /* MASConstraint.m in Sources */,
+				84B617271F17527F008C83D7 /* AllDateVC.m in Sources */,
 				84075D8B1EE532B100139636 /* ChangePasswordVC.m in Sources */,
 				84E531C31E80C8D4009E63E6 /* EGOImageLoadConnection.m in Sources */,
 				84EAD9F71EF3CE52001C041D /* FundrecordVC.m in Sources */,

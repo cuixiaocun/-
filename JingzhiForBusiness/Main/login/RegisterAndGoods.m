@@ -251,7 +251,7 @@
     {
         //参数
         [dic1 setDictionary:@{
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                               @"level":[NSString stringWithFormat:@"%ld",[_levelString integerValue]+1],
                               @"zong":[NSString stringWithFormat:@"%.2f",allPrice],
                               @"products":stringForGoods
@@ -306,13 +306,32 @@
         return;
     }
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-                          @"level":[NSString stringWithFormat:@"%ld",[_levelString integerValue]+1],
-                          @"money":moneyText.text
-                          }];
-    NSLog(@"%@",dic1);
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/Login/getAgenBuyInfo" paraments:dic1  addView:self.view success:^(id responseDic) {
+    NSString *url ;
+
+    if([_navTitle isEqualToString:@"注册提报"])//@"代理升级"
+    {
+        //参数
+        [dic1 setDictionary:@{
+                              @"level":[NSString stringWithFormat:@"%ld",[_levelString integerValue]+1],
+                              @"money":moneyText.text
+                              }];
+        url=@"Home/Login/getAgenBuyInfo";
+        
+        
+        
+    }else if ([_navTitle isEqualToString:@"代理升级"])
+    {
+        //参数
+        [dic1 setDictionary:@{
+                              @"level":[NSString stringWithFormat:@"%ld",[_levelString integerValue]+1],
+                              @"money":moneyText.text
+                              }];
+        url=@"home/Agen/changelevel";
+        
+        
+    }
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
            

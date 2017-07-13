@@ -207,7 +207,7 @@
     if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
         [dic1 setDictionary:@{
                               @"id":[infoArray[index.row] objectForKey:@"id"] ,
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                               }];
 ;
         url =@"Home/Address/remove";
@@ -215,7 +215,7 @@
     {
         [dic1 setDictionary:@{
                               @"id":[infoArray[index.row] objectForKey:@"id"] ,
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }];
         url =@"home/address/agenremove";
         
@@ -469,13 +469,13 @@
     NSString *url ;
     if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
         [dic1 setDictionary:@{
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                               }];
         url =@"Home/address/index";
     }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
     {
         [dic1 setDictionary:@{
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }];
         url =@"home/address/agenindex";
     
@@ -504,7 +504,7 @@
     if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
         [dic1 setDictionary:@{
                               @"id":[NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[infoArray[indexRow] objectForKey:@"id"]]] ,
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                               }];
         url =@"Home/Address/setDefault";
     }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
@@ -512,7 +512,7 @@
         [dic1 setDictionary:@{
                               @"id":[NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[infoArray[indexRow] objectForKey:@"id"]]] ,
 
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }];
         url =@"home/address/agensetDefault";
         

@@ -132,7 +132,7 @@
         [dic1 setDictionary:@{@"oldpwd":[NSString stringWithFormat:@"%@",beforeTextfield.text],
                               @"newpwd1":[NSString stringWithFormat:@"%@",passtwordTextfield.text],
                               @"newpwd2":[NSString stringWithFormat:@"%@",secondtextfield.text],
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                               
                               }];
         ;
@@ -142,7 +142,7 @@
         [dic1 setDictionary:@{
                               @"oldpwd":[NSString stringWithFormat:@"%@",beforeTextfield.text],
                               @"newpwd1":[NSString stringWithFormat:@"%@",passtwordTextfield.text],
-                              @"newpwd2":[NSString stringWithFormat:@"%@",secondtextfield.text],                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                              @"newpwd2":[NSString stringWithFormat:@"%@",secondtextfield.text],                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }];
         url =@"home/Agen/editpwd";
         

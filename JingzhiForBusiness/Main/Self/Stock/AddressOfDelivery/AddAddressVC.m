@@ -178,7 +178,7 @@
                               @"name":nameTF.text ,
                               @"newaddress":addressTF.text ,
                               @"xianaddress":wzlabe.text ,
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                               }];
         url =@"Home/address/save";
     }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
@@ -188,7 +188,7 @@
                               @"name":nameTF.text ,
                               @"newaddress":addressTF.text ,
                               @"xianaddress":wzlabe.text ,
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }];
         url =@"home/address/agensave";
         

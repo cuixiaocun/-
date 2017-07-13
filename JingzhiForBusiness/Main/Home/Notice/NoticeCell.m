@@ -83,7 +83,7 @@
     }
     
     UILabel *timeLabel =[self viewWithTag:201];
-    timeLabel.text =[_dic objectForKey:@"updatetime"];
+    timeLabel.text =[_dic objectForKey:@"createtime"];
     NSLog(@"%f",cirLabel.frame.size.height);
     UIImageView *jiantou =[self viewWithTag:909];
 //    jiantou.backgroundColor =[UIColor redColor ];

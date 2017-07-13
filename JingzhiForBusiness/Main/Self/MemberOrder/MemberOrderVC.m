@@ -121,7 +121,7 @@
 
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-100*Width-20)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -215,7 +215,12 @@
 }
 -(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
-        [self deleateOrder];
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    
+    [isture removeFromSuperview];
+    NSLog(@"删除订单");
+
+    [self deleateOrder];
 //删除
 
 }
@@ -224,17 +229,13 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     
     [dic1 setDictionary:@{@"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]}];
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+                          }];
     
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/cancel" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            IsTureAlterView *isture = [self.view viewWithTag:180];
-            
-            [isture removeFromSuperview];
-            NSLog(@"删除订单");
-
-            [ProgressHUD showSuccess:@"订单已驳回"];
+                      [ProgressHUD showSuccess:@"订单已驳回"];
             currentPage =0;
             [self getInfoList ];
         }
@@ -310,7 +311,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-100*Width-20)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
@@ -489,7 +490,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"status":statuString
                           }
      ];

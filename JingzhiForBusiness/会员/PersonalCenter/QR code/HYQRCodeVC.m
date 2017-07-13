@@ -153,7 +153,8 @@
         
         NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
         [dic1 setDictionary:@{
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]}];
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                              }];
         
         [PublicMethod AFNetworkPOSTurl:@"Home/Member/code" paraments:dic1  addView:self.view success:^(id responseDic) {
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];

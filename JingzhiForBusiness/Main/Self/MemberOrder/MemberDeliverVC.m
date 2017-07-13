@@ -184,7 +184,7 @@
                           @"code":[NSString stringWithFormat:@"%@",codeArr[[indexOfArr integerValue]]],
                           @"logistics":[NSString stringWithFormat:@"%@",inputText.text],
 
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           }
      ];
     [PublicMethod AFNetworkPOSTurl:@"home/AgenOrder/deliver" paraments:dic1  addView:self.view success:^(id responseDic) {

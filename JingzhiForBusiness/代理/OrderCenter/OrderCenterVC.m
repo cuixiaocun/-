@@ -194,7 +194,7 @@
     //
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           
                           }
      ];
@@ -227,15 +227,16 @@
                         numberTwo.hidden =NO;
                         
                         
-                    }else if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"4"])
-                    {
-                        numberthree.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
-                        CGSize titleSize = [[NSString stringWithFormat:@"  %@ ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-                        numberthree.width =titleSize.width;
-                        numberthree.hidden =NO;
-                        
-                        
                     }
+//                    else if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"4"])
+//                    {
+//                        numberthree.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+//                        CGSize titleSize = [[NSString stringWithFormat:@"  %@ ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+//                        numberthree.width =titleSize.width;
+//                        numberthree.hidden =NO;
+//                        
+//                        
+//                    }
 
                 }
                 

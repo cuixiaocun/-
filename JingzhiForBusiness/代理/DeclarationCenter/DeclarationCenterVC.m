@@ -269,7 +269,7 @@
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           }
      ];
     
@@ -295,7 +295,7 @@
     //
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           }
      ];
     
@@ -317,15 +317,16 @@
                              CGSize titleSize = [[NSString stringWithFormat:@"%@   ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
                             numberOne.width =titleSize.width;
                             numberOne.hidden =NO;
-                    }else if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"3"])
-                        {
-                            numberTwo.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
-                            CGSize titleSize = [[NSString stringWithFormat:@"%@   ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-                            numberTwo.width =titleSize.width;
-                            numberTwo.hidden =NO;
-
-                        
-                        }
+                    }
+//                 else if([[NSString stringWithFormat:@"%@",[countArr[i]objectForKey:@"status"]]isEqualToString:@"3"])
+//                        {
+//                            numberTwo.text =[NSString stringWithFormat:@"%@",[countArr[i] objectForKey:@"sums"]];
+//                            CGSize titleSize = [[NSString stringWithFormat:@"%@   ",[countArr[i] objectForKey:@"sums"]] boundingRectWithSize:CGSizeMake( MAXFLOAT,45*Width) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+//                            numberTwo.width =titleSize.width;
+//                            numberTwo.hidden =NO;
+//
+//                        
+//                        }
                      }
                     
                 }else

@@ -69,7 +69,7 @@
     UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
     topView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:topView];
-    NSArray *btnArr =@[@"全部",@"待付款",@"待发货",@"待收货",@"已完成"];
+    NSArray *btnArr =@[@"全部",@"待支付",@"待发货",@"待收货",@"已完成"];
     for (int i=0; i<5; i++) {
         UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         statuBtn.frame = CGRectMake(CXCWidth/5*i, 0,CXCWidth/5-2*Width ,100*Width);
@@ -474,7 +474,8 @@
     
     [dic1 setDictionary:@{
                           @"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]}];
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                          }];
     
     [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/cancel" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
@@ -498,7 +499,8 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     
     [dic1 setDictionary:@{@"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]}];
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                          }];
     
     [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/receive" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
@@ -523,7 +525,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]],
                           @"status":statuString
 //                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
 }

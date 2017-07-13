@@ -92,7 +92,7 @@
     [bgScrollView addSubview:topView];
     
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(30*Width, 25*Width, 260*Width, 50*Width)];
-    nameLabel.text =[NSString stringWithFormat:@"收件人:%@",[_orderDetailDic objectForKey:@"receivename"]];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"receivename"]];
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
@@ -201,7 +201,7 @@
                           @"code":[NSString stringWithFormat:@"%@",codeArr[[indexOfArr integerValue]]],
                           @"logistics":[NSString stringWithFormat:@"%@",inputText.text],
                           
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           }
      ];
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/editagenorder" paraments:dic1  addView:self.view success:^(id responseDic) {

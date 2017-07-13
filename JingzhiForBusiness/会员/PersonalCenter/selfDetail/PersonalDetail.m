@@ -107,7 +107,7 @@
 //    [NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
     [PublicMethod AFNetworkPOSTurl:@"Home/member/usermessage" paraments:@{
                                                                           
-      @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:member] objectForKey:@"id"] integerValue]]
+//      @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:member] objectForKey:@"id"] integerValue]]
 //      @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
 }  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];

@@ -23,6 +23,10 @@
     NSString *memberlat;
     NSString *memberlng;
     NSString *photoString;
+    NSInteger listTime;
+    NSTimer *huoquTimer;
+    UIButton *sendCodeBtn;
+
 }
 @end
 
@@ -84,11 +88,11 @@
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
-    NSArray*leftArr =@[@"上级代理号",@"昵称",@"链接后缀",@"手机号",@"密码",@"确认密码",@"微信号",@"代理级别",@"所属地区",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"上级代理号",@"填写代理昵称",@"填写属于自己的后缀",@"手机号",@"6-16位数字、字母或字符",@"确认密码",@"微信号",@"选择级别",@"选择地区",@"身份证号",@"上传身份证件",@"",@"",@""];
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1610*Width)];
+    NSArray*leftArr =@[@"上级代理号",@"昵称",@"链接后缀",@"手机号",@"密码",@"确认密码",@"微信号",@"代理级别",@"所属地区",@"身份证号",@"身份证件",@"获取验证码",@"",@"",@"",] ;
+    NSArray *rightArr =@[@"上级代理号",@"填写代理昵称",@"填写属于自己的后缀",@"手机号",@"6-16位数字、字母或字符",@"确认密码",@"微信号",@"选择级别",@"选择地区",@"身份证号",@"上传身份证件",@"获取验证码",@"",@""];
     //列表
-    for (int i=0; i<11; i++) {
+    for (int i=0; i<12; i++) {
         UIView *bgview =[[UIView alloc]init];
         bgview.backgroundColor =[UIColor whiteColor];
         [bgScrollView addSubview:bgview];
@@ -116,7 +120,23 @@
         [inputText setFrame:CGRectMake(290*Width, 0,580*Width,106*Width)];
         [inputText setClearButtonMode:UITextFieldViewModeWhileEditing];
         [bgview addSubview:inputText];
-        
+            if (i==11) {
+                {
+                    inputText.frame =CGRectMake(290*Width, 0*Width,250*Width,106*Width);
+                    UIButton *butto = [[UIButton alloc]initWithFrame:CGRectMake(520*Width, 13*Width, 200*Width, 80*Width)];
+                    [butto.titleLabel setFont:[UIFont systemFontOfSize:14]];
+                    [butto setTitle:@"获取验证码" forState:UIControlStateNormal];
+                    [butto setTitle:[NSString stringWithFormat:@"%lds",listTime] forState:UIControlStateSelected];
+                    butto.tag = 345;
+                    butto.backgroundColor =BGColor;
+                    [butto setTitleColor:NavColor forState:UIControlStateNormal];
+                    [butto setTitleColor:[UIColor colorWithRed:180/255.0 green:180/255.0 blue:180/255.0 alpha:1] forState:UIControlStateSelected];
+                    [butto addTarget:self action:@selector(yanzhengma:) forControlEvents:UIControlEventTouchUpInside];
+                    [bgview addSubview:butto];
+                    
+                    
+                }
+            }
         }else
         {
             //代理级别、选择地区、上传身份证
@@ -160,7 +180,7 @@
     }
     //下一步按钮
     UIButton*nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [nextBtn setFrame:CGRectMake(40*Width,1358*Width , 670*Width, 88*Width)];
+    [nextBtn setFrame:CGRectMake(40*Width,1358*Width+106*Width , 670*Width, 88*Width)];
     [nextBtn setBackgroundColor:NavColor];
     [nextBtn.layer setCornerRadius:4];
     [nextBtn.layer setMasksToBounds:YES];
@@ -178,7 +198,7 @@
 - (void)nextStep
 {
     //判断
-    for (int i = 0; i<11; i++) {
+    for (int i = 0; i<12; i++) {
         //收起所有键盘
         UITextField *inputTExt = (UITextField *)[self.view viewWithTag:i+10];
         [inputTExt resignFirstResponder];
@@ -220,13 +240,15 @@
     UITextField *phoneTF = (UITextField *)[self.view viewWithTag:13];
     UITextField *inputTExtMM = (UITextField *)[self.view viewWithTag:14];
     UITextField *inputTExtQRMM = (UITextField *)[self.view viewWithTag:15];
-    
+    UITextField *dxTF = (UITextField *)[self.view viewWithTag:21];
+
     UITextField *wxTF = (UITextField *)[self.view viewWithTag:16];
     UILabel *levelLabel = (UILabel *)[self.view viewWithTag:27];
     UILabel *adressTF = (UILabel *)[self.view viewWithTag:28];
     
     UITextField *idNumTF = (UITextField *)[self.view viewWithTag:19];
 
+  
     //判断密码是否一致
     if (![inputTExtMM.text isEqualToString:inputTExtQRMM.text]) {
         [MBProgressHUD showError:@"两次密码不一致" ToView:self.view];
@@ -259,7 +281,7 @@
                           @"xianaddress":[NSString stringWithFormat:@"%@",adressTF.text],
                           @"lng":[NSString stringWithFormat:@"%@",memberlng],
                           @"lat":[NSString stringWithFormat:@"%@",memberlat],
-                        
+                          @"mobilecode":[NSString stringWithFormat:@"%@",dxTF.text]
                           
                          }];
     NSLog(@"%@",dic1);
@@ -312,7 +334,7 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     //点击其他地方收起键盘
-    for (int i = 0; i<11; i++) {
+    for (int i = 0; i<12; i++) {
         UITextField *inputTExt = (UITextField *)[self.view viewWithTag:i+10];
         [inputTExt resignFirstResponder];
     }
@@ -322,7 +344,7 @@
 - (void)levelChoosen:(UIButton *)btn
 {
     //收起键盘
-    for (int i = 0; i<11; i++) {
+    for (int i = 0; i<12; i++) {
         UITextField *inputTExt = (UITextField *)[self.view viewWithTag:i+10];
         [inputTExt resignFirstResponder];
     }
@@ -504,7 +526,112 @@
 
     
 }
+- (void)getInfoLLL
+{
+    UITextField *accountLabel =[self.view viewWithTag:13];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"account":accountLabel.text,
+                          @"type":@"3"
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"Home/Login/getnum" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            UIButton *sender = (UIButton *)[self.view  viewWithTag:345];
+            [MBProgressHUD showSuccess:@"验证码正在发送中" ToView:self.view];
+            sender.selected=!sender.selected;
+            [huoquTimer invalidate];
+            listTime =60;
+            huoquTimer =[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(daoshu) userInfo:nil repeats:YES];
+            [huoquTimer fire];
+            [sender setUserInteractionEnabled:NO];
+            
+        }else
+        {
+            UIButton *sender = (UIButton *)[self.view  viewWithTag:345];
+            [sender setUserInteractionEnabled:YES];
+            
+        }
+        
+    } fail:^(NSError *error) {
+        UIButton *sender = (UIButton *)[self.view  viewWithTag:345];
+        [sender setUserInteractionEnabled:YES];
+    }];
+    
+    
+    
+}
+- (void)yanzhengma:(UIButton *)sender
+{
+    if (sender.selected) {
+        sender.userInteractionEnabled =YES;
+        
+        
+        return;
+    }else{
+        
+        sender.userInteractionEnabled =NO;
+        
+        
+    }
+    [UIView animateWithDuration:0.3 animations:^{
+        
+        self.view.transform =CGAffineTransformIdentity;
+        
+    }];
+    
+    [self getInfoLLL];
+    
+    
+    
+}
+-(void)daoshu
+{
+    listTime-=1;
+    UIButton *yanzhengBtn = (UIButton *)[self.view viewWithTag:345];
+    
+    if (listTime==0) {
+        [yanzhengBtn setSelected:NO];
+        [huoquTimer invalidate];
+        listTime =60;
+        [yanzhengBtn setUserInteractionEnabled:YES];
+        
+    }else{
+        [yanzhengBtn setTitle:[NSString stringWithFormat:@"%lds",listTime] forState:UIControlStateSelected];
+        
+    }
+}
 
+-(void)sendCodeBtnPressed
+{
+    if (huoquTimer) {
+        [huoquTimer fire];
+    }else{
+        huoquTimer =[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(waitCode) userInfo:nil repeats:YES];
+        [huoquTimer fire];
+    }
+}
+-(void)waitCode
+{
+    [self getInfoLLL];
+    
+    if (listTime>1) {
+        listTime--;
+        [sendCodeBtn setTitle:[NSString stringWithFormat:@"%lds",listTime] forState:UIControlStateNormal];
+        [sendCodeBtn setTitleColor:[UIColor colorWithWhite:189/255.0 alpha:1] forState:UIControlStateNormal];
+        
+        [sendCodeBtn setUserInteractionEnabled:NO];
+    }else{
+        listTime=60;
+        [sendCodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+        [sendCodeBtn setTitleColor:[UIColor colorWithRed:201/255.0 green:33/255.0 blue:44/255.0 alpha:1] forState:UIControlStateNormal];
+        [sendCodeBtn setUserInteractionEnabled:YES];
+        [huoquTimer invalidate];
+        
+    }
+}
 
 /*
 #pragma mark - Navigation

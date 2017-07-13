@@ -12,9 +12,10 @@
 {
     NSInteger listTime;
     NSTimer *huoquTimer;
+    UIButton *sendCodeBtn;
+
     TPKeyboardAvoidingScrollView *bgScrollView;
 
-    UIButton *sendCodeBtn;
 }
 @end
 

@@ -110,7 +110,7 @@
     [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-100*Width-20)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
-    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    [self.tableView setBackgroundColor:BGColor];
     self.tableView .showsVerticalScrollIndicator = NO;
     //下拉刷新
     NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableHeaderView" owner:self options:nil];
@@ -313,6 +313,22 @@
             break;
 
         }
+        case 2003:
+        {
+            //审核通过
+            IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要驳回次报单吗？"];
+            isture.delegate =self;
+            isture.tag =181;
+            [self.view addSubview:isture];
+            
+            NSLog(@"驳回");
+            return;
+            
+            
+            break;
+            
+        }
+
     
   }
 }
@@ -324,35 +340,60 @@
 
 -(void)cancelBtnActinAndTheAlterView:(UIView *)alter
 {
-    IsTureAlterView *isture = [self.view viewWithTag:180];
-    [isture removeFromSuperview];
+    [alter removeFromSuperview];
     NSLog(@"取消");
     
 }
 -(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
-    
-    
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-            @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
-            @"id":[[infoArray objectAtIndex: index.row] objectForKey:@"id"]}];
-     
-    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/auditdagenonlineorder" paraments:dic1  addView:self.view success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
-            
-            IsTureAlterView *isture = [self.view viewWithTag:180];
-            [isture removeFromSuperview];
-            [[self rdv_tabBarController] setSelectedIndex:0];
-            [MBProgressHUD showSuccess:@"审核成功" ToView:self.view];
-            [self.tableView reloadData];
-        }
+    if(alter.tag==180)
+    {
+        IsTureAlterView *isture = [self.view viewWithTag:180];
+        [isture removeFromSuperview];
+        NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+        [dic1 setDictionary:@{
+                              //            @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                              @"id":[[infoArray objectAtIndex: index.row] objectForKey:@"id"]}];
         
-    } fail:^(NSError *error) {
+        [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/auditdagenonlineorder" paraments:dic1  addView:self.view success:^(id responseDic) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+                
+                
+                
+                [[self rdv_tabBarController] setSelectedIndex:0];
+                [MBProgressHUD showSuccess:@"审核成功" ToView:self.view];
+                [self.tableView reloadData];
+            }
+            
+        } fail:^(NSError *error) {
+            
+        }];
+
+    
+    }else
+    {
+        IsTureAlterView *isture = [self.view viewWithTag:181];
+        [isture removeFromSuperview];
+        NSLog(@"确认");
+        NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+        [dic1 setDictionary:@{
+                              @"id": [[infoArray objectAtIndex: index.row] objectForKey:@"id"],
+                              }
+         ];
+        [PublicMethod AFNetworkPOSTurl:@"Home/AgentOnlineorder/rejectReport" paraments:dic1  addView:self.view success:^(id responseDic) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+                [ProgressHUD showSuccess:@"驳回成功"];
+                currentPage=0;
+                [self getInfoList];
+            }
+            
+        } fail:^(NSError *error) {
+            
+        }];
         
-    }];
+    }
     
     
 }
@@ -543,7 +584,7 @@
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{@"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"status":status
                           }
      ];

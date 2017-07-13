@@ -208,7 +208,7 @@
     UILabel *statusLabel = [self viewWithTag:334];
     oderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"id"]];
     if ([[_dic objectForKey:@"status"]isEqualToString:@"1"]) {
-        statusLabel.text =@"待付款";
+        statusLabel.text =@"待支付";
 
     }else if([[_dic objectForKey:@"status"]isEqualToString:@"2"])
     {

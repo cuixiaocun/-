@@ -174,7 +174,8 @@
             goodsArr =[[NSArray alloc]init];
             goodsArr =[dict objectForKey:@"data"];
             [_mainCMallCollectionView reloadData];
-            _mainCMallCollectionView.height = (goodsArr.count/2+1)*440*Width+20*Width ;//高度=(数量/2+1)*440*width+20*width
+    
+            _mainCMallCollectionView.height = (goodsArr.count/2+goodsArr.count%2)*440*Width+20*Width ;//高度=(数量/2+1)*440*width+20*width
             bottomView.top =  _mainCMallCollectionView.bottom;//得到数量的时候
             [bgScrollView setContentSize:CGSizeMake(CXCWidth, bottomView.bottom+64)];
 
@@ -443,23 +444,23 @@
 
 }
 
-- (void)getInfor
-{
-
-    _mainCMallCollectionView.frame = CGRectMake(0, goodsXian.bottom, CXCWidth, 1320*Width);//高度=(数量/2+1)*440*width+20*width
-    bottomView =[[UIView alloc]initWithFrame:CGRectMake(0,  _mainCMallCollectionView.bottom, CXCWidth, 1000*Width)];//得到数量的时候再往下移  顺便计算介绍公司文字的高度
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2800*Width+1000*Width)];
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"uname":@"123",@"a":@"e24354",@"password":@"213",@"deviceType":@"2",@"w":@"2345"}];
-    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];
-    NSLog(@"%@",dic);
-    [PublicMethod AFNetworkPOSTurl:@"接口名" paraments:dic success:^(id responseDic) {
-        
-    } fail:^(NSError *error) {
-    
-    }];
-
-}
+//- (void)getInfor
+//{
+//
+//    _mainCMallCollectionView.frame = CGRectMake(0, goodsXian.bottom, CXCWidth, 1320*Width);//高度=(数量/2+1)*440*width+20*width
+//    bottomView =[[UIView alloc]initWithFrame:CGRectMake(0,  _mainCMallCollectionView.bottom, CXCWidth, 1000*Width)];//得到数量的时候再往下移  顺便计算介绍公司文字的高度
+//    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2800*Width+1000*Width)];
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    [dic1 setDictionary:@{}];
+//    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];
+//    NSLog(@"%@",dic);
+//    [PublicMethod AFNetworkPOSTurl:@"接口名" paraments:dic success:^(id responseDic) {
+//        
+//    } fail:^(NSError *error) {
+//    
+//    }];
+//
+//}
 static MLLinkLabel * kProtypeLabel() {
     static MLLinkLabel *_protypeLabel = nil;
     static dispatch_once_t onceToken;

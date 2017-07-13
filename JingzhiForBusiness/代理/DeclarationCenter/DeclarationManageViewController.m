@@ -35,7 +35,7 @@
     [topImageView addSubview:returnBtn];
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"报单管理"];
+//    [navTitle setText:@"报单管理"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
@@ -94,7 +94,7 @@
     [declarTabel setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-100-20*Width)];
     [declarTabel setDelegate:self];
     [declarTabel setDataSource:self];
-    [declarTabel setBackgroundColor:[UIColor clearColor]];
+    [declarTabel setBackgroundColor:BGColor];
     declarTabel .showsVerticalScrollIndicator = NO;
     [self.view addSubview:declarTabel];
     

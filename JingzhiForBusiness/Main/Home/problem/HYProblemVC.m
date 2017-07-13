@@ -34,7 +34,7 @@
     [topImageView addSubview:returnBtn];
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"公告"];
+    [navTitle setText:@"常见问题"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];

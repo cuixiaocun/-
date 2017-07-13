@@ -21,7 +21,7 @@
         [self addSubview:xian];
         xian.frame =CGRectMake(0,0*Width, CXCWidth, 20*Width);
         
-        NSArray*leftArr =@[@"",@"会员账号",@"下单时间",@"收货地址",@"",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@"",@"会员昵称",@"下单时间",@"收货地址",@"",@"",@"",@"",@"",];
         
         NSArray*rightArr =@[@"",@"",@"",@"",@"",@"",@"",@"",@"",];
         for (int i=0; i<5; i++) {
@@ -93,7 +93,7 @@
                 [_seeBtn.layer setBorderWidth:1.5*Width];
                 [_seeBtn.layer setMasksToBounds:YES];
                 [_seeBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
-                [_seeBtn setTitle:@"查看" forState:UIControlStateNormal];
+                [_seeBtn setTitle:@"详情" forState:UIControlStateNormal];
                 [_seeBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
                 [_seeBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
                 _seeBtn.layer.borderColor =TextGrayColor.CGColor;
@@ -196,8 +196,8 @@
     UILabel *timeLabel =[self viewWithTag:202];
     UILabel *addressLabel =[self viewWithTag:203];
     
-    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]];
-    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"updatetime"]];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"createtime"]];
     addressLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]];
     if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"5"]) {
         [_seeBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];

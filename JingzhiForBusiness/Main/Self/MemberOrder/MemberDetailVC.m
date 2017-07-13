@@ -62,7 +62,7 @@
     //时间
     UILabel* timeLabel  = [[UILabel alloc]init];
     timeLabel.font = [UIFont systemFontOfSize:13];
-    timeLabel.text = [NSString stringWithFormat:@"    %@",[_detailDic objectForKey:@"updatetime"] ];
+    timeLabel.text = [NSString stringWithFormat:@"    %@",[_detailDic objectForKey:@"createtime"] ];
     [bottomBgView addSubview:timeLabel];
     timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
     timeLabel.backgroundColor =BGColor;

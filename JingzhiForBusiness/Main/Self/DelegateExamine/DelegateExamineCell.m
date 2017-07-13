@@ -71,24 +71,60 @@
  
             }else
             {
-                //系统计算按钮
-                UILabel * seeBtn = [[UILabel alloc]init];
-                [seeBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
-                [seeBtn setBackgroundColor:[UIColor whiteColor]];
-                [seeBtn.layer setCornerRadius:2*Width];
-                [seeBtn.layer setBorderWidth:1.5*Width];
-                [seeBtn.layer setMasksToBounds:YES];
-                seeBtn.textColor =NavColor;
-                seeBtn.text =@"查看";
-                seeBtn.textAlignment =NSTextAlignmentCenter;
-                seeBtn.font =[UIFont systemFontOfSize:14];
-                seeBtn.layer.borderColor =NavColor.CGColor;
-//                [seeBtn setTitleColor:NavColor forState:UIControlStateNormal];
-//                [seeBtn setTitle:@"查看" forState:UIControlStateNormal];
-//                [seeBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
-//                [seeBtn addTarget:self action:@selector(calculateTheGoods) forControlEvents:UIControlEventTouchUpInside];
-                [bgview addSubview:seeBtn];
-                
+                {
+                    bgview.backgroundColor =[UIColor whiteColor];
+                    
+                    UIButton *seeBtn =[[UIButton alloc]initWithFrame:CGRectMake(405*Width, 15*Width, 90*Width,50*Width)];
+                    [bgview addSubview:seeBtn];
+                    
+                    [seeBtn setBackgroundColor:[UIColor whiteColor]];
+                    [seeBtn.layer setCornerRadius:4*Width];
+                    [seeBtn.layer setBorderWidth:1.0*Width];
+                    [seeBtn.layer setMasksToBounds:YES];
+                    [seeBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+                    seeBtn.layer.borderColor =TextGrayColor.CGColor;
+                    seeBtn.tag =2000;
+                    [seeBtn setTitle:@"详情" forState:UIControlStateNormal];
+                    [seeBtn.titleLabel setTextColor:[UIColor whiteColor]];
+                    [seeBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+                    [seeBtn addTarget:self action:@selector(detail:) forControlEvents:UIControlEventTouchUpInside];
+                    [bgview addSubview:seeBtn];
+                    UIButton *circulationBtn =[[UIButton alloc]initWithFrame:CGRectMake(520*Width, 15*Width, 90*Width,50*Width)];
+                    [bgview addSubview:circulationBtn];
+                    [circulationBtn setBackgroundColor:[UIColor whiteColor]];
+                    [circulationBtn.layer setCornerRadius:4*Width];
+                    [circulationBtn.layer setBorderWidth:1.0*Width];
+                    [circulationBtn.layer setMasksToBounds:YES];
+                    [circulationBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+                    circulationBtn.layer.borderColor =TextGrayColor.CGColor;
+                    circulationBtn.tag =2001;
+                    [circulationBtn setTitle:@"流转" forState:UIControlStateNormal];
+                    [circulationBtn.titleLabel setTextColor:[UIColor whiteColor]];
+                    [circulationBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+                    [circulationBtn addTarget:self action:@selector(detail:) forControlEvents:UIControlEventTouchUpInside];
+                    [bgview addSubview:circulationBtn];
+                    
+                    UIButton *deliverBtn =[[UIButton alloc]initWithFrame:CGRectMake(630*Width, 15*Width, 90*Width,50*Width)];
+                    [bgview addSubview:deliverBtn];
+
+                    [deliverBtn setBackgroundColor:[UIColor whiteColor]];
+                    [deliverBtn.layer setCornerRadius:4*Width];
+                    [deliverBtn.layer setBorderWidth:1.0*Width];
+                    [deliverBtn.layer setMasksToBounds:YES];
+                    [deliverBtn setTitleColor:NavColor forState:UIControlStateNormal];
+                    deliverBtn.layer.borderColor =NavColor.CGColor;
+                    deliverBtn.tag =2002;
+                    [deliverBtn setTitle:@"驳回" forState:UIControlStateNormal];
+                    [deliverBtn.titleLabel setTextColor:[UIColor whiteColor]];
+                    [deliverBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+                    [deliverBtn addTarget:self action:@selector(detail:) forControlEvents:UIControlEventTouchUpInside];
+                    [bgview addSubview:deliverBtn];
+                    
+                    
+                    
+                    
+                    
+                }
 
             
             
@@ -113,8 +149,9 @@
     [super awakeFromNib];
     // Initialization code
 }
--(void)calculateTheGoods
+-(void)detail:(UIButton *)btn
 {
+    [self.delegate btnClick:self andActionTag:btn.tag];
 
 
 }
@@ -126,11 +163,43 @@
     UILabel *levelLabel =[self viewWithTag:201];
     UILabel *accountLabel =[self viewWithTag:202];
     UILabel *lastAccountLabel =[self viewWithTag:203];
+    UIButton *seebtn =[self viewWithTag:2000];
+    UIButton *cirbtn =[self viewWithTag:2001];
+    UIButton *bhbtn =[self viewWithTag:2002];
+
     typeLabel.text =[NSString stringWithFormat:@"类型：%@",[_dic objectForKey:@"typename"]];
     statuLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"stuname"]];
     levelLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"levelname"]]]];
     accountLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]]]];
     lastAccountLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"upagenaccount"]]]];
+    
+    
+    if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]]isEqualToString:@"1"])//待审核
+    {
+        seebtn.hidden =NO;
+        cirbtn.hidden =NO;
+        bhbtn.hidden =NO;
+     seebtn.frame =CGRectMake(405*Width, 15*Width, 90*Width,50*Width);
+     cirbtn.frame =CGRectMake(520*Width, 15*Width, 90*Width,50*Width);
+     bhbtn.frame =CGRectMake  (630*Width, 15*Width, 90*Width,50*Width);
+
+    
+    }else
+    {
+        seebtn.hidden =NO;
+        cirbtn.hidden =YES;
+        bhbtn.hidden =YES;
+        seebtn.frame =CGRectMake(630*Width, 15*Width, 90*Width,50*Width);
+        
+
+
+    
+    }
+    
+    
+    
+    
+    
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -791,7 +791,7 @@
                           @"slctyp":statuString ,//状态0全，1未转，2已转，3已完
                           @"typeid":typeid,
                           @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                           }
      ];
     
@@ -1120,7 +1120,7 @@
         NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
         [dic1 setDictionary:@{
                               @"id":[NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"id"]],
-                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }
          ];
         
@@ -1151,7 +1151,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"id":[NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"id"]],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                           }
      ];
     
@@ -1180,7 +1180,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"skdl":[NSString stringWithFormat:@"%@",shoukuanTF.text],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"idlist":idlist,
                           }
      ];
@@ -1206,7 +1206,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"skdl":[NSString stringWithFormat:@"%@",shoukuanTF.text],
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           @"idlist":idlist,
                           }
      ];

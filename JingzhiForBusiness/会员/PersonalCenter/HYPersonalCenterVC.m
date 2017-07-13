@@ -153,8 +153,8 @@
             //下边文字
             UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom,250*Width,85*Width)];
             botLabel.textAlignment=NSTextAlignmentCenter;
-            botLabel.font =[UIFont systemFontOfSize:13];
-            botLabel.textColor =BlackColor;
+            botLabel.font =[UIFont systemFontOfSize:14];
+            botLabel.textColor =[UIColor    blackColor];
             botLabel.text =[NSString stringWithFormat:@"%@",bottomArr[i]];
             [btn addSubview:botLabel];
             [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
@@ -243,8 +243,11 @@
 }
 -(void)tureBtnActionAndTheAlterView:(UIView *)alter
 {
-
-        
+  
+    
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    
         NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
         [dic1 setDictionary:@{
 //                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
@@ -255,8 +258,7 @@
             if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
         
                 
-                IsTureAlterView *isture = [self.view viewWithTag:180];
-                [isture removeFromSuperview];
+                
                 NSLog(@"确认");
                 [[self rdv_tabBarController] setSelectedIndex:0];
                 

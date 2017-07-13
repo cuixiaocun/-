@@ -10,9 +10,13 @@
 #import "DelegateExamineCell.h"
 #import "DelegateExamineDetailVC.h"
 #import "DelegateDetailVC.h"
-@interface DelegateExamineVC ()<AgenExmineDelegate>
+#import "IsTureAlterView.h"
+
+@interface DelegateExamineVC ()<AgenExmineDelegate,DelegateExamineDelegate,IsTureAlterViewDelegate>
 {
     NSString *statuString;
+    NSInteger indexTag;
+
 
 }
 @end
@@ -152,6 +156,7 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
+        cell.delegate =self;
         NSDictionary *dict = [infoArray objectAtIndex:row];
         [cell setDic:dict];
     return cell;
@@ -353,7 +358,7 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
-                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
 //                          @"status":statuString
 
                           }
@@ -420,6 +425,137 @@
 
 
 }
+-(void)btnClick:(UITableViewCell *)cell andActionTag:(NSInteger)tag
+{
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    indexTag =index.row;
+    
+    if(tag==2000)
+    {
+    //详情
+        DelegateExamineDetailVC *delegateDetail =[[DelegateExamineDetailVC  alloc]init];
+        delegateDetail.angeDic =infoArray[indexTag];
+        delegateDetail.delegate =self;
+        [self.navigationController pushViewController:delegateDetail animated:YES];
+        
+
+        
+    }else if (tag==2001)
+    {
+        IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要流转到上一级吗？"];
+        isture.delegate =self;
+        isture.tag =180;
+        [self.view addSubview:isture];
+        NSLog(@"%@",@"流转");
+        
+        return;
+        
+    }else if (tag==2002)
+    {
+       //驳回
+        IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要驳回吗？"];
+        isture.delegate =self;
+        isture.tag =181;
+        [self.view addSubview:isture];
+        NSLog(@"%@",@"驳回");
+        
+
+    }
+    
+    
+}
+- (void)cirAgen
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"id":[NSString stringWithFormat:@"%@",[infoArray[indexTag] objectForKey:@"id"]],
+                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          }
+     ];
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/flowagenreview" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
+        if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
+        {
+            [ProgressHUD showSuccess:@"流转成功"];
+            currentPage=0;
+            
+            [self getInfoList];
+        }
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)cirAgenSucess
+{
+    
+   
+}
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter
+{
+    if(alter.tag==180)
+    {
+        IsTureAlterView *isture = [self.view viewWithTag:180];
+        [isture removeFromSuperview];
+        NSLog(@"取消");
+    }else
+    {
+        IsTureAlterView *isture = [self.view viewWithTag:181];
+        [isture removeFromSuperview];
+        NSLog(@"取消");
+    
+    }
+    
+    
+}
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter
+{
+    if (alter.tag ==180) {
+        IsTureAlterView *isture = [self.view viewWithTag:180];
+        [isture removeFromSuperview];
+        currentPage=0;
+        [self cirAgen ];
+
+    }else
+    {
+        IsTureAlterView *isture = [self.view viewWithTag:181];
+        [isture removeFromSuperview];
+        currentPage=0;
+        [self bhAgen ];
+
+    
+    }
+    
+}
+- (void)bhAgen
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"id":[NSString stringWithFormat:@"%@",[infoArray[indexTag] objectForKey:@"id"]],
+                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          }
+     ];
+    [PublicMethod AFNetworkPOSTurl:@"Home/AgentOnlineorder/rejectReview" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
+        if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
+        {
+            [MBProgressHUD showWarn:@"驳回成功" ToView:self.view];
+            currentPage=0;
+            
+            [self getInfoList];
+        }
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+
 /*
 #pragma mark - Navigation
 

@@ -128,7 +128,7 @@
     //时间
     UILabel* timeLabel  = [[UILabel alloc]init];
     timeLabel.font = [UIFont systemFontOfSize:13];
-    timeLabel.text = [NSString stringWithFormat:@"      %@",[_orderDetailDic objectForKey:@"updatetime"]];
+    timeLabel.text = [NSString stringWithFormat:@"      %@",[_orderDetailDic objectForKey:@"createtime"]];
     [topView addSubview:timeLabel];
     timeLabel.frame= CGRectMake(0*Width, 0,CXCWidth,74*Width);
     timeLabel.backgroundColor =BGColor;
@@ -395,7 +395,7 @@
 {
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/addtracing" paraments:@{
                                                                                    
-      @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//      @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
       @"tracingsn":scanDataString,
       }
     addView:self.view success:^(id responseDic) {

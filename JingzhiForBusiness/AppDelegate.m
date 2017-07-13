@@ -108,6 +108,8 @@
 
 - (void) YinDaoPage
 {
+    [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];
+    
     
     //引导页图片数组
     NSArray *images =  @[[UIImage imageNamed:@"bp_01_1242"],[UIImage imageNamed:@"bp_02_1242"],[UIImage imageNamed:@"bp_03_1242"]];

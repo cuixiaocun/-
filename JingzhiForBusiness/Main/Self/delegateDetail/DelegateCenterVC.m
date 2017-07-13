@@ -255,7 +255,7 @@
 {
     [PublicMethod AFNetworkPOSTurl:@"Home/Agen/getAgenInfo" paraments:@{
                                                                         
-    @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:agen] objectForKey:@"id"] integerValue]]
+//    @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:agen] objectForKey:@"id"] integerValue]]
     }  addView:self.view success:^(id responseDic) {
         
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];

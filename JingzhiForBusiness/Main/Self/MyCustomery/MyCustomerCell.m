@@ -71,12 +71,12 @@
     UILabel *nameLabel =[self viewWithTag:200];
 
     UILabel *accountLabel =[self viewWithTag:201];
-    UILabel *numLabel =[self viewWithTag:203];
-    UILabel *priceLabel =[self viewWithTag:204];
+    UILabel *numLabel =[self viewWithTag:202];
+    UILabel *priceLabel =[self viewWithTag:203];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     accountLabel.text=[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
     numLabel.text=[NSString stringWithFormat:@"%@",[_dic objectForKey:@"counts"]];
-    priceLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"sum"]];
+    priceLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"sum"]];
 
     
 }

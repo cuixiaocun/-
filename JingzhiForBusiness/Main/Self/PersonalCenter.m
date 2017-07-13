@@ -33,6 +33,7 @@
 #import "ShoppingCartVC.h"
 #import "HYPersonalCenterVC.h"
 #import "OrderCirclatonVC.h"
+#import "AllDateVC.h"
 @interface PersonalCenter ()<SRActionSheetDelegate,IsTureAlterViewDelegate,RDVTabBarControllerDelegate>
 {
     //底部scrollview
@@ -170,7 +171,7 @@
     [jiantou setImage:[UIImage imageNamed:@"proxy_btn_me_next"]];
     
     
-    NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_orderliu",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"proxy_me_icon_exit",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+    NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_orderliu",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"proxy_me_icon_salesdata",@"proxy_me_icon_exit",@"proxy_me_icon_salesdata",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
 
     NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"订单流转",@"审核流转",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"销售数据",@"退出",@"",] ;
     for (int i=0; i<16; i++) {
@@ -181,15 +182,15 @@
         btn.backgroundColor =[UIColor whiteColor];
         [bgScrollView addSubview:btn];
         //上边图片
-        UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(52*Width,45*Width,83.5*Width,60*Width)];
+        UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(52*Width,30*Width,83.5*Width,60*Width)];
         topImgV.image=[UIImage imageNamed:[NSString stringWithFormat:@"%@",topArr[i]]];
         topImgV.tag =1100+i;
         [btn addSubview:topImgV];
         //下边文字
-        UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom,187*Width,60*Width)];
+        UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom+15*Width,187*Width,60*Width)];
         botLabel.textAlignment=NSTextAlignmentCenter;
-        botLabel.font =[UIFont systemFontOfSize:13];
-        botLabel.textColor =BlackColor;
+        botLabel.font =[UIFont systemFontOfSize:14];
+        botLabel.textColor =[UIColor blackColor];
         botLabel.text =[NSString stringWithFormat:@"%@",bottomArr[i]];
         [btn addSubview:botLabel];
     }
@@ -347,7 +348,13 @@
         
     }else if (btn.tag ==314)
     {
+        AllDateVC *myAuth =[[AllDateVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
+        [self.navigationController pushViewController:myAuth animated:YES];
+        
+    }else
+    {
         
         IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要退出吗？"];
         isture.delegate =self;
@@ -355,10 +362,8 @@
         [self.view addSubview:isture];
         
         NSLog(@"showalert");
-        
+
     }
-
-
 
 }
 - (void)actionSheet:(SRActionSheet *)actionSheet didSelectSheet:(NSInteger)buttonIndex
@@ -367,11 +372,20 @@
 }
 - (void)upLevel
 {
-    RegisterAndGoods*changeVC =[[RegisterAndGoods alloc]init];
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-    changeVC.levelString =levelString;
-    changeVC.navTitle =@"代理升级";
-    [self.navigationController pushViewController:changeVC animated:YES];
+    //若现级别小于要升级的级别
+    if ([[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"level"]] integerValue] >([levelString integerValue]+1)) {
+        RegisterAndGoods*changeVC =[[RegisterAndGoods alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        changeVC.levelString =levelString;
+        changeVC.navTitle =@"代理升级";
+        [self.navigationController pushViewController:changeVC animated:YES];
+
+    }else
+    {
+        [MBProgressHUD showSuccess:[NSString stringWithFormat:@"升级级别选择错误"] ToView:self.view];
+    }
+    NSLog(@"%@====%@",[[PublicMethod getDataKey:agen] objectForKey:@"level"] ,levelString);
+    
 }
 
 
