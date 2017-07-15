@@ -34,12 +34,21 @@
 #import "HYPersonalCenterVC.h"
 #import "OrderCirclatonVC.h"
 #import "AllDateVC.h"
-@interface PersonalCenter ()<SRActionSheetDelegate,IsTureAlterViewDelegate,RDVTabBarControllerDelegate>
+#import "NewsBanner.h"
+#import "NoticeDetailVC.h"
+@interface PersonalCenter ()<SRActionSheetDelegate,IsTureAlterViewDelegate,RDVTabBarControllerDelegate,NewsBannerDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
     NSString *levelString;//代理升级的时候选择的代理
     NSDictionary*dic;
+    UIView *bottomView ;
+    NewsBanner *newsView;//这个是上面的公告
+    NSMutableArray *titleArr;//公告
+    UIView *topview ;
+
+
+
 }
 @end
 @implementation PersonalCenter
@@ -100,6 +109,8 @@
 //    [btn addTarget:self action:@selector(startScan) forControlEvents:UIControlEventTouchUpInside];
 //    
 //    [self.view addSubview:btn];
+    [self getNotice];
+
 }
 - (void)mainView
 {
@@ -170,17 +181,43 @@
     [bgImageV addSubview:jiantou];
     [jiantou setImage:[UIImage imageNamed:@"proxy_btn_me_next"]];
     
+    //公告
+
+    topview =[[UIView alloc]initWithFrame:CGRectMake(0,300*Width,CXCWidth, 58*Width)];
+    topview.backgroundColor = [UIColor colorWithRed:253/255.0 green:239/255.0 blue:212/255.0 alpha:1];
+    [bgScrollView addSubview:topview];
+    //公告
+    newsView = [[NewsBanner alloc]initWithFrame:CGRectMake(50*Width,0*Width, 650*Width, 58*Width)];
+    //    newsView.noticeList = @[@"公告：心体荟商城上线大促销即将开始"];
+    newsView.duration = 2;
+    [topview addSubview:newsView];
+    newsView.delegate = self;
+    
+    UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(690*Width, 0*Width, 58*Width, 58*Width)];
+    [btn setImage:[UIImage imageNamed:@"vip_btn_close"] forState:UIControlStateNormal];
+    [btn setImageEdgeInsets:UIEdgeInsetsMake(19*Width, 19*Width, 19*Width, 19*Width)];
+    [btn addTarget:self action:@selector(hiddenTheTopView) forControlEvents:UIControlEventTouchUpInside];
+    [topview addSubview:btn];
+
+    
+    
+    
+    
+    
+    bottomView  =[[UIView alloc]initWithFrame:CGRectMake(0,360*Width,CXCWidth,188*Width*5)];
+    bottomView.backgroundColor =BGColor ;
+    [bgScrollView addSubview:bottomView];
     
     NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_orderliu",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"proxy_me_icon_salesdata",@"proxy_me_icon_exit",@"proxy_me_icon_salesdata",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
 
     NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"订单流转",@"审核流转",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"销售数据",@"退出",@"",] ;
     for (int i=0; i<16; i++) {
         //大按钮
-        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),bgImageV.bottom+20*Width+187.5*Width*(i/4),186*Width,186*Width)];
+        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),20*Width+187.5*Width*(i/4),186*Width,186*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
         btn.tag =i+300;
         btn.backgroundColor =[UIColor whiteColor];
-        [bgScrollView addSubview:btn];
+        [bottomView addSubview:btn];
         //上边图片
         UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(52*Width,30*Width,83.5*Width,60*Width)];
         topImgV.image=[UIImage imageNamed:[NSString stringWithFormat:@"%@",topArr[i]]];
@@ -210,6 +247,12 @@
 
 
 }
+- (void)hiddenTheTopView
+{
+    topview.hidden=YES;
+    bottomView.frame =CGRectMake(0,300*Width,CXCWidth,188*Width*5);
+}
+
 -(void)myBtnAciton:(UIButton *)btn
 {
 
@@ -478,6 +521,53 @@
         [tabBarController setSelectedIndex:2];//若果是登录按钮
         
     }
+    
+}
+
+#pragma mark NewsBannerDelegate
+- (void)NewsBanner:(NewsBanner *)newsBanner didSelectIndex:(NSInteger)selectIndex
+{
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    
+    NoticeDetailVC *notice =[[NoticeDetailVC alloc]init];
+    notice.contentString =[titleArr[selectIndex] objectForKey:@"content"];
+    notice.titleString =[titleArr[selectIndex] objectForKey:@"title"];
+    
+    [self.navigationController pushViewController:notice animated:YES];
+    
+    NSLog(@"%ld",selectIndex);
+}
+- (void)getNotice
+{
+    [PublicMethod AFNetworkPOSTurl:@"Home/Index/notice" paraments:@{}  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+          
+            {
+                NSArray *allArr =[dict objectForKey:@"data"];
+                titleArr=[[NSMutableArray alloc]init];
+                NSMutableArray* titleArray =[[NSMutableArray alloc]init];
+                for (int i=0 ; i<allArr.count; i++) {
+                    
+                    if ([[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"type"]]isEqualToString:@"1"]) {
+                        [titleArray addObject:[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"title"]]];
+                        [titleArr addObject:allArr[i]];
+                        
+                    }
+                    
+                }
+                newsView.noticeList =titleArray;
+                [newsView star];
+                
+                
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
     
 }
 

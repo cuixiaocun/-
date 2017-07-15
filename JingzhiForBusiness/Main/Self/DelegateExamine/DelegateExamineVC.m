@@ -470,7 +470,6 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"id":[NSString stringWithFormat:@"%@",[infoArray[indexTag] objectForKey:@"id"]],
-                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
                           }
      ];
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/flowagenreview" paraments:dic1  addView:self.view success:^(id responseDic) {

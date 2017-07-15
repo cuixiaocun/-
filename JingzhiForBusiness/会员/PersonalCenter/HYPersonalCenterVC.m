@@ -135,7 +135,7 @@
     
     NSArray *topArr =@[@"vip_wo_icon_tuijian",@"vip_wo_icon_order",@"vip_wo_icon_adress",@"vip_wo_icon_cash",@"vip_wo_icon_qrcode",@"vip_wo_icon_pwd",@"vip_wo_icon_true",@"vip_wo_icon_exit",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
     
-    NSArray*bottomArr =@[@"我的推荐",@"我的订单",@"收货地址",@"资金记录",@"推广二维码",@"修改密码",@"防伪查询",@"退出登录",@"",@"",@"",] ;
+    NSArray*bottomArr =@[@"我的推荐",@"我的订单",@"收货地址",@"资金券记录",@"推广二维码",@"修改密码",@"防伪查询",@"退出登录",@"",@"",@"",] ;
     for (int i=0; i<9; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(250*Width*(i%3),bgImageV.bottom+20*Width+250*Width*(i/3),249*Width,249*Width)];

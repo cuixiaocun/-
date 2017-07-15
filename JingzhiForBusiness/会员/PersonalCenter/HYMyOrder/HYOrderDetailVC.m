@@ -253,7 +253,7 @@
     xianBottom.frame =CGRectMake(0*Width,133.5*Width, CXCWidth, 1.5*Width);
     
     UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width, xianBottom.bottom, 725*Width, 80*Width)];
-    NSString*str =[NSString stringWithFormat:@"实付款：%.2f",([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"total"]] floatValue]-[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"integral"]] floatValue])];
+    NSString*str =[NSString stringWithFormat:@"实付款：%.2f",([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"total"]] doubleValue]-[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"integral"]] doubleValue])];
     subPromLabel.textAlignment =NSTextAlignmentRight;
     [subPromLabel setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
     

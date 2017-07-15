@@ -18,7 +18,7 @@
     UIScrollView *bgScrollView;//上半部分
     UITableView *goodsTableview;//中间商品
     NSMutableArray *infoArr;//商品信息
-    float allPrice;//总共价格
+    double allPrice;//总共价格
     UILabel *_allPriceLab;//总共价格Labbel
     BOOL isHaveDian;//判断小数点
     UIView* blackBgView;//输入框背景透明黑
@@ -105,7 +105,7 @@
     bottomXian.frame =CGRectMake(0*Width,200*Width, CXCWidth, 1*Width);
     //系统计算按钮
     UIButton * calculateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [calculateBtn setFrame:CGRectMake(275*Width,bottomXian.bottom+30*Width , 200*Width, 64*Width)];
+    [calculateBtn setFrame:CGRectMake(275*Width,bottomXian.bottom+18*Width , 200*Width, 64*Width)];
     [calculateBtn setBackgroundColor:[UIColor whiteColor]];
     [calculateBtn.layer setCornerRadius:4*Width];
     [calculateBtn.layer setBorderWidth:1.0*Width];
@@ -127,11 +127,12 @@
     
     //中间的tableview
     goodsTableview   =[[UITableView alloc]init];
-    [goodsTableview setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+    [goodsTableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     goodsTableview .showsVerticalScrollIndicator = NO;
     
-    [goodsTableview setFrame:CGRectMake(0,bgScrollView.bottom,CXCWidth,CXCHeight-bgScrollView.height-64-100*Width )];
+    [goodsTableview setFrame:CGRectMake(0,bgScrollView.bottom+20*Width,CXCWidth,CXCHeight-bgScrollView.height-64-100*Width )];
     [goodsTableview setDelegate:self];
+    
     [goodsTableview setDataSource:self];
     [self.view addSubview:goodsTableview];
     goodsTableview.hidden =YES;//先隐藏当系统计算的时候再显示
@@ -227,7 +228,7 @@
     UITextField *moneyText =[self.view viewWithTag:2];
     [moneyText resignFirstResponder];
 
-    if ([moneyText.text floatValue]<[minMoney floatValue]) {
+    if ([moneyText.text doubleValue]<[minMoney doubleValue]) {
         [MBProgressHUD showError:@"输入金额不得小于最低金额" ToView:self.view];
         return;
     }
@@ -252,10 +253,10 @@
                 [infoDict setValue:[NSString stringWithFormat:@"%@",[values[i] objectForKey:@"name"]] forKey:@"goodsTitle"];
                 [infoDict setValue:[NSString stringWithFormat:@"%@",[values[i] objectForKey:@"myprice"]] forKey:@"goodsPrice"];
                 [infoDict setValue:[NSNumber numberWithBool:YES] forKey:@"selectState"];
-                [infoDict setValue:[NSString stringWithFormat:@"%.2f",([[values[i] objectForKey:@"myprice"] floatValue] *[[values[i] objectForKey:@"num"] floatValue])] forKey:@"goodsTotalPrice"];
-                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"num"] floatValue]] forKey:@"goodsNum"];
-                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"boxnum"] floatValue]] forKey:@"boxnum"];
-                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"id"] floatValue]] forKey:@"goodID"];
+                [infoDict setValue:[NSString stringWithFormat:@"%.2f",([[values[i] objectForKey:@"myprice"] doubleValue] *[[values[i] objectForKey:@"num"] doubleValue])] forKey:@"goodsTotalPrice"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"num"] doubleValue]] forKey:@"goodsNum"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"boxnum"] doubleValue]] forKey:@"boxnum"];
+                [infoDict setValue:[NSNumber numberWithInt:[[values[i] objectForKey:@"id"] doubleValue]] forKey:@"goodID"];
                 
                 //封装数据模型
                 GoodsModel *goodsModel = [[GoodsModel alloc]initWithDict:infoDict];
@@ -388,7 +389,7 @@
             if (model.goodsNum > 0)
             {
                 model.goodsNum --;
-                model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
+                model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice doubleValue]*model.goodsNum] ;
                 
             }
         }
@@ -399,7 +400,7 @@
             GoodsModel *model = infoArr[index.row];
             
             model.goodsNum ++;
-            model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
+            model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice doubleValue]*model.goodsNum] ;
             
             
         }
@@ -419,13 +420,15 @@
 #pragma mark -- 计算价格
 -(void)totalPrice
 {
+    //每次算完要重置为0，因为每次的都是全部循环算一遍
+    allPrice = 0.0;
     //遍历整个数据源，然后判断如果是选中的商品，就计算价格（单价 * 商品数量）
     for ( int i =0; i<infoArr.count; i++)
     {
         GoodsModel *model = [infoArr objectAtIndex:i];
         if (model.selectState)
         {
-            allPrice = allPrice + model.goodsNum *[model.goodsPrice intValue];
+            allPrice = allPrice + model.goodsNum *[model.goodsPrice  doubleValue];
         }
     }
     
@@ -433,8 +436,7 @@
     _allPriceLab.text = [NSString stringWithFormat:@"¥%.2f",allPrice];
     NSLog(@"%f",allPrice);
     
-    //每次算完要重置为0，因为每次的都是全部循环算一遍
-    allPrice = 0.0;
+    
 }
 
 
@@ -448,7 +450,7 @@
     NSInteger existedLength = textField.text.length;
     NSInteger selectedLength = range.length;
     NSInteger replaceLength = string.length;
-    if (existedLength - selectedLength + replaceLength > 10) {
+    if (existedLength - selectedLength + replaceLength > 7) {
         //            [ProgressHUD showError:@"不能超过6位"];
         [textField  resignFirstResponder];
         
@@ -660,9 +662,25 @@
     UITextField *textF =[self.view viewWithTag:120];
     [textF resignFirstResponder];
     
+    
     GoodsModel *model = infoArr[indextNum];
-    model.goodsNum =[textF.text intValue];
-    model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
+    NSString*numberstr;
+
+    if ([textF.text integerValue]==0) {
+        [MBProgressHUD showWarn:@"数量有误" ToView:self.view];
+         numberstr=@"1";
+        model.goodsNum =[numberstr intValue];
+
+        
+    }else
+    {
+        numberstr =[NSString stringWithFormat:@"%ld",[textF.text integerValue]];
+        model.goodsNum =[numberstr intValue];
+
+    }
+
+    
+    model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice doubleValue]*model.goodsNum] ;
     
     //刷新表格
     [goodsTableview reloadData];

@@ -22,7 +22,7 @@
         NSArray*leftArr =@[@"代理帐号",@"代理名称",@"电话",@"微信",@"代理地区",@"距离",@"",@"",@"",@"",@"",@"",] ;
         NSArray*rightArr =@[@"18363671722",@"山东桥通天下网络科技有限公司",@"18363672711",@"100000jof",@"山东省潍坊市奎文区",@"20Km",@"",@"",@"",@"",@"",] ;
         
-        for (int i=0; i<5; i++) {
+        for (int i=0; i<6; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];

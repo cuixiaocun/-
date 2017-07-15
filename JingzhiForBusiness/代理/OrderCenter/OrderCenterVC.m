@@ -65,6 +65,7 @@
     
     NSArray *topArr =@[@"order_icon_wodingdan",@"order_icon_to",@"baodan_icon_all",@"baodan_icon_dai",@"order_icon_daifahuo",@"baodan_icon_done",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
     NSArray*bottomArr =@[@"我的订单",@"去下单",@"全部",@"未发货",@"已发货",@"已完成",@"",] ;
+    
     for (int i=0; i<6; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(375*Width*(i%2),20*Width+250*Width*(i/2),374*Width,249*Width)];
@@ -149,10 +150,9 @@
 
         
     }else if (btn.tag==301) {
-        GotoOrderVC *orderVC =[[GotoOrderVC alloc]init];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        [self.navigationController pushViewController:orderVC animated:YES];
-
+       
+        [self getInforStock];
+        
         
     }else if (btn.tag==302) {
         ManageOrderVC *orderVC =[[ManageOrderVC alloc]init];
@@ -257,6 +257,36 @@
     
     
 }
+- (void)getInforStock
+{
+    
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/myagenstock" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary*  goodsDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
+        if([ [NSString stringWithFormat:@"%@",[goodsDict objectForKey:@"code"]]isEqualToString:@"0"])
+        {
+            
+           NSMutableArray * infoArray =[goodsDict objectForKey:@"data"];
+            GotoOrderVC *orderVC =[[GotoOrderVC alloc]init];
+            orderVC.goodsArrForstock =infoArray;
+            
+            [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+            [self.navigationController pushViewController:orderVC animated:YES];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+
+
+   }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

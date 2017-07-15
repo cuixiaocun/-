@@ -120,6 +120,7 @@
  */
 -(void)addTheValue:(NSDictionary *)goodsModel
 {
+    _goodsImgView.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[goodsModel objectForKey:@"img"]]];
     _goodsTitleLab.text = [goodsModel objectForKey:@"goodsTitle" ];//名字
     _priceLab.text = [NSString stringWithFormat:@"¥%@",[goodsModel objectForKey:@"goodsPrice" ]];//单价
     _numCountLab.text = [NSString stringWithFormat:@"%@",[goodsModel objectForKey:@"goodsNum" ]];//数量

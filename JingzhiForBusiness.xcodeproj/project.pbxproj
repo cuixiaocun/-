@@ -2455,7 +2455,7 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = E9NKWLKTG4;
 						LastSwiftMigration = 0830;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -2951,7 +2951,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "JingzhiForBusiness/心体荟.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shandong bridge World Network Technology Co. Ltd. (E9NKWLKTG4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = E9NKWLKTG4;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/JingzhiForBusiness/ThirdResource/支付宝支付",
@@ -3007,8 +3010,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.qtianxia.xintihui;
 				PRODUCT_MODULE_NAME = "乐荟云商";
 				PRODUCT_NAME = "乐荟云商";
-				PROVISIONING_PROFILE = "10b08489-a5bc-401e-bcc8-450b61247140";
-				PROVISIONING_PROFILE_SPECIFIER = DevelopXintihui;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "JingzhiForBusiness/Main/Home/JingzhiForBusiness-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -3024,7 +3027,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "JingzhiForBusiness/心体荟.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shandong bridge World Network Technology Co. Ltd. (E9NKWLKTG4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = E9NKWLKTG4;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/JingzhiForBusiness/ThirdResource/支付宝支付",
@@ -3080,8 +3086,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.qtianxia.xintihui;
 				PRODUCT_MODULE_NAME = "乐荟云商";
 				PRODUCT_NAME = "乐荟云商";
-				PROVISIONING_PROFILE = "10b08489-a5bc-401e-bcc8-450b61247140";
-				PROVISIONING_PROFILE_SPECIFIER = DevelopXintihui;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "JingzhiForBusiness/Main/Home/JingzhiForBusiness-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};

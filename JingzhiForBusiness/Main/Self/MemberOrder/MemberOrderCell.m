@@ -21,7 +21,7 @@
         [self addSubview:xian];
         xian.frame =CGRectMake(0,0*Width, CXCWidth, 20*Width);
         
-        NSArray*leftArr =@[@"",@"会员昵称",@"下单时间",@"收货地址",@"",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@"订单号：",@"会员昵称",@"下单时间",@"收货地址",@"",@"",@"",@"",@"",];
         
         NSArray*rightArr =@[@"",@"",@"",@"",@"",@"",@"",@"",@"",];
         for (int i=0; i<5; i++) {
@@ -37,6 +37,8 @@
                 labe.tag =199;
                 labe.font = [UIFont systemFontOfSize:14];
                 labe.textColor = BlackColor;
+                labe.frame =CGRectMake(32*Width, 0,500*Width , 82*Width);
+
             }else if(i>0&&i<4)
             {
                 if(i==3)
@@ -69,6 +71,8 @@
                 rightLabel.frame =CGRectMake(250*Width ,0, 475*Width,82*Width );
                 if (i==0) {
                     rightLabel.textColor = NavColor;
+                    rightLabel.frame =CGRectMake(400*Width ,0, 325*Width,82*Width );
+
                     
                 }else
                 {
@@ -191,11 +195,13 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
+    UILabel *orderIdLabel =[self viewWithTag:199];
+
     UILabel *typeLabel =[self viewWithTag:200];
     UILabel *accountLabel =[self viewWithTag:201];
     UILabel *timeLabel =[self viewWithTag:202];
     UILabel *addressLabel =[self viewWithTag:203];
-    
+    orderIdLabel.text =[NSString stringWithFormat:@"订单号：%@",[_dic objectForKey:@"id"]];
     accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"createtime"]];
     addressLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]];

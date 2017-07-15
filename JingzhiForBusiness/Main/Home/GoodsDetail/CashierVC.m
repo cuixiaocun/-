@@ -56,7 +56,9 @@
 }
 -(void)returnBtnAction
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    UIViewController * viewVC = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3];
+
+    [self.navigationController popToViewController:viewVC animated:YES];
 }
 
 - (void)mainView
@@ -79,7 +81,7 @@
     [needPayView addSubview:needPayLabel];
     
     UILabel *payLabel =[[UILabel alloc]initWithFrame:CGRectMake(150*Width,0, 575*Width,83*Width )];
-    payLabel.text =@"200.00元";
+    payLabel.text =[NSString stringWithFormat:@"%@",[_orderDic objectForKey:@"total"]];
     payLabel.textColor =NavColor;
     payLabel.textAlignment =NSTextAlignmentRight;
     payLabel.font =[UIFont systemFontOfSize:14];
@@ -156,8 +158,6 @@
     [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [nextBtn addTarget:self action:@selector(surePayTheMoney) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:nextBtn];
-
-    
     
 
 }
@@ -169,10 +169,9 @@
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                         @"id":[NSString stringWithFormat:@"%@",_orderId] ,
-//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+                         @"orderid":[NSString stringWithFormat:@"%@",_orderId] ,
                           }];
-    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/pay" paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"Home/Pay/notify" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
@@ -563,6 +562,8 @@
 }
 - (void)zhifubaoPay
 {
+    self.shadowImage.hidden = YES;
+    self.selectPayTypeTableView.hidden = YES;
     //重要说明
     //这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
     //真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；

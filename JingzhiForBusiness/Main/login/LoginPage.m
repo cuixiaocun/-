@@ -179,6 +179,7 @@
     [RegisteredBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
     [RegisteredBtn addTarget:self action:@selector(registerBtnPressed) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:RegisteredBtn];
+    RegisteredBtn.tag =456789;
     
     RegisteredBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
@@ -574,20 +575,33 @@
         btnAll.selected =NO;
         [btnAll setBackgroundColor:NavColor];
     }
+    
+    
+    [btn setBackgroundColor:[UIColor whiteColor]];
+    btn.selected =YES;
+
+    UIButton *btn1 =[self.view viewWithTag:456789];
+    btn1.hidden =@"NO";
+
     if(btn.tag==120)
     {
         isLeveler=@"NO";//会员登录
+        UIButton *btn11 =[self.view viewWithTag:456789];
+        btn11.hidden =NO;
+        
         
     }else
     {
         isLeveler=@"YES";//代理登录
+        UIButton *btn11 =[self.view viewWithTag:456789];
+        btn11.hidden =YES;
+        
+        
     }
-    [btn setBackgroundColor:[UIColor whiteColor]];
-    btn.selected =YES;
+
     
-
-
-
+    
+    
 }
 - (void)returnBtnAction
 {

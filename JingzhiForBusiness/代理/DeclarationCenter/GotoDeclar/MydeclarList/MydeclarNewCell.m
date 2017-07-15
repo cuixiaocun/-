@@ -165,17 +165,13 @@
     }
     
     UILabel *nameLabel =[self viewWithTag:200];
-    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"agenname"]];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"upagenname"]];
 
     UILabel *accountLabel =[self viewWithTag:201];
-    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"account"]];
+    accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"upagenaccount"]];
 
     UILabel *levelLabel =[self viewWithTag:202];
-    levelLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"levelname"]];
-
-
-    
-    
+    levelLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"upagenlevelname"]];
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

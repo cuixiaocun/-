@@ -130,14 +130,14 @@
     
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    if ([[[PublicMethod getDataKey:agen] objectForKey:@"name_path"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:agen] objectForKey:@"name_path"]isEqualToString:@"<null>"]) {
+    if ([[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"]isEqualToString:@"<null>"]) {
         
         addressLabel.text =@"请完善";
         defaultLabel.hidden =YES;
         
     }else
     {
-        addressLabel.text =[NSString stringWithFormat:@"%@%@",[[PublicMethod getDataKey:agen] objectForKey:@"name_path"],[[PublicMethod getDataKey:agen] objectForKey:@"address"]];
+        addressLabel.text =[NSString stringWithFormat:@"%@%@",[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"],[[PublicMethod getDataKey:agen] objectForKey:@"address"]];
         defaultLabel.hidden =NO;
         
     }
@@ -304,6 +304,7 @@
     [numberLabel setText:@"请选择"];
     UILabel *adressLabel =[self.view viewWithTag:452];
     [adressLabel setText:@"请选择"];
+    addressIdString =@"请选择";
 
     
     

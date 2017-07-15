@@ -101,23 +101,23 @@
     [saveBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [saveBtn addTarget:self action:@selector(saveBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [bgImgView addSubview:saveBtn];
-    
-    UIButton *linkBtn =[[UIButton alloc]initWithFrame:CGRectMake(200*Width, 1110*Width, 350*Width, 60*Width)];
-//    linkBtn=[UIButton buttonWithType:UIButtonTypeSystem];
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"推广链接"];
-    [linkBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-
-    NSRange strRange = {0,[str length]};
-    [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor   ] range:strRange];
-
-    [linkBtn setAttributedTitle:str forState:UIControlStateNormal];
-    [bgScrollView addSubview:linkBtn];
-
-    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    pasteboard.string = @"https://www.baidu.com";
-   
-
+//    
+//    UIButton *linkBtn =[[UIButton alloc]initWithFrame:CGRectMake(200*Width, 1110*Width, 350*Width, 60*Width)];
+////    linkBtn=[UIButton buttonWithType:UIButtonTypeSystem];
+//    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"推广链接"];
+//    [linkBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+//
+//    NSRange strRange = {0,[str length]};
+//    [str addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:strRange];
+//    [str addAttribute:NSForegroundColorAttributeName value:[UIColor grayColor   ] range:strRange];
+//
+//    [linkBtn setAttributedTitle:str forState:UIControlStateNormal];
+//    [bgScrollView addSubview:linkBtn];
+//
+//    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+//    pasteboard.string = @"https://www.baidu.com";
+//   
+//
 
 }
 - (void)saveBtnAction

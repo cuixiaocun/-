@@ -188,7 +188,7 @@
     
     CGPoint  point =  [tap locationInView:tap.view];
     
-    AKLog(@"double tap %@",NSStringFromCGPoint(point));
+//    AKLog(@"double tap %@",NSStringFromCGPoint(point));
     
     if(self.scrollView.zoomScale!=1){
         
@@ -264,7 +264,7 @@
 
 
 -(void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
-    AKLog(@"end zoom %f",scale);
+//    AKLog(@"end zoom %f",scale);
     
 }
 
@@ -335,7 +335,7 @@
 
 
 -(void)userPinch:(UIPinchGestureRecognizer*)pinch{
-    AKLog(@"userPinch scale:%f  velocity:%f",pinch.scale,pinch.velocity);
+//    AKLog(@"userPinch scale:%f  velocity:%f",pinch.scale,pinch.velocity);
     float scale = pinch.scale;
     UIGestureRecognizerState state= pinch.state;
     
@@ -413,7 +413,7 @@
             }
             userPan.enabled=NO;
             
-            AKLog(@"self.interativeDismiss=nil;");
+//            AKLog(@"self.interativeDismiss=nil;");
         }break;
             
         default:
@@ -423,7 +423,7 @@
 }
 
 -(void)scrollViewDidZoom:(UIScrollView *)scrollView{
-    AKLog(@"zoom");
+//    AKLog(@"zoom");
     
     if(scrollView.zoomScale<1){
         
@@ -652,7 +652,7 @@
         
         AKGalleryViewer* viewer = [[AKGalleryViewer alloc]initWithContainer:self index:idx];
         
-        AKLog(@"before %p idx:%ld",viewer,self.index);
+//        AKLog(@"before %p idx:%ld",viewer,self.index);
         
         return viewer;
     }
@@ -669,7 +669,7 @@
         
         AKGalleryViewer* viewer = [[AKGalleryViewer alloc]initWithContainer:self index:idx];
         
-        AKLog(@"after %p idx:%ld selectedIdx:%ld",viewer,idx,self.index);
+//        AKLog(@"after %p idx:%ld selectedIdx:%ld",viewer,idx,self.index);
         
         
         return viewer;
@@ -699,7 +699,7 @@
     [self updateUI];
     //    AKLog(@"didFinishAnimating  finished:%@ viewer:%p  %ld previousViewControllers:%p  completed:%@",@(finished),viewer,self.index,previousViewControllers.firstObject,@(completed));
     
-    AKLog(@"didFinishAnimating idx:%ld",viewer.index);
+//    AKLog(@"didFinishAnimating idx:%ld",viewer.index);
     
     if (completed) {
         //
@@ -721,7 +721,7 @@
     //    return  [AKInterativeDismissToList new];
     AKGalleryViewer* viewer= self.pageVC.viewControllers.firstObject;
     
-    AKLog(@"inter :%@",viewer.interativeDismiss);
+//    AKLog(@"inter :%@",viewer.interativeDismiss);
     return viewer.interativeDismiss;
     
 }
@@ -739,7 +739,7 @@
         
         //        AKGalleryViewerContainer* container = (AKGalleryViewerContainer*)fromVC;
         //        AKGalleryViewer* viewer= self.pageVC.viewControllers.firstObject;
-        AKLog(@"animate %@", AKInterativeDismissToList.new);
+//        AKLog(@"animate %@", AKInterativeDismissToList.new);
         //        return viewer.interativeDismiss;
         return AKInterativeDismissToList.new;
     }

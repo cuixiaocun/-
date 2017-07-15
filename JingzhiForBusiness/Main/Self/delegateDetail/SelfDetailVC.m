@@ -141,6 +141,7 @@
 {
     //去购物
     [self.navigationController popToRootViewControllerAnimated:YES];
+    [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"name"]] withKey:@"Isdelegate"];
 
 
 }
@@ -150,6 +151,8 @@
     UILabel*phoneLabel =[self.view viewWithTag:201];
     HYRegisteredVC*registered =[[HYRegisteredVC alloc]init];
     registered.delegateNumber =phoneLabel.text;
+    [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"name"]] withKey:@"Isdelegate"];
+
     [self.navigationController pushViewController:registered animated:YES];
     
 }

@@ -89,7 +89,7 @@
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             arr =[dict objectForKey:@"data"];
             for (int i=0; i<arr.count; i++) {
-                [delegateArr insertObject:[NSString stringWithFormat:@"%@:%@",[arr[i] objectForKey:@"name"],[arr[i] objectForKey:@"account"]]atIndex:i];
+                [delegateArr insertObject:[NSString stringWithFormat:@"%@:%@   %.2fkm",[arr[i] objectForKey:@"name"],[arr[i] objectForKey:@"account"],[[arr[i] objectForKey:@"juli"] floatValue]/1000.00]atIndex:i];
             }
             
         }else
@@ -114,8 +114,8 @@
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
-    NSArray*leftArr =@[@"推荐人",@"昵称",@"手机号",@"密码",@"确认密码",@"代理",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"推荐人账号(非必填)",@"姓名或昵称",@"手机号",@"6-16位数字、字母或字符",@"确认密码",_delegateNumber?_delegateNumber:@"选择代理" ,@"",@"",@"",@"",];
+    NSArray*leftArr =@[@"推荐人",@"手机号",@"昵称",@"密码",@"确认密码",@"代理",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
+    NSArray *rightArr =@[@"推荐人账号(非必填)",@"手机号",@"姓名或昵称",@"6-16位数字、字母或字符",@"确认密码",_delegateNumber?_delegateNumber:@"选择代理" ,@"",@"",@"",@"",];
     
     //列表
     for (int i=0; i<6; i++) {
@@ -134,7 +134,7 @@
             if (i==3||i==4) {
                 inputText.secureTextEntry =YES;
                 
-            }else if(i==2)
+            }else if(i==1)
             {
                 [inputText setKeyboardType:UIKeyboardTypePhonePad];
                 
@@ -214,11 +214,16 @@
 - (void)nextStep
 {
     UITextField *parent =[self.view viewWithTag:10];
-    UITextField *name =[self.view viewWithTag:11];
-    UITextField *account =[self.view viewWithTag:12];
+    UITextField *name =[self.view viewWithTag:12];
+    UITextField *account =[self.view viewWithTag:11];
     UITextField *password =[self.view viewWithTag:13];
     UITextField *password2 =[self.view viewWithTag:14];
     UILabel*delegateLabel =[self.view viewWithTag:25];
+    if (name.text.length>10) {
+        [MBProgressHUD showError:@"昵称最多为10位" ToView:self.view];
+        return;
+
+    }
     if (IsNilString(name.text)) {
         [MBProgressHUD showError:@"昵称不能为空" ToView:self.view];
         return;
@@ -246,7 +251,7 @@
                           @"password":[NSString stringWithFormat:@"%@",password.text],
                           @"password2":[NSString stringWithFormat:@"%@",password2.text],
                           @"name":[NSString stringWithFormat:@"%@",name.text],
-                          @"belongAgen":[NSString stringWithFormat:@"%@",delegateLabel.text],
+                          @"upagenaccount":[NSString stringWithFormat:@"%@",delegateLabel.text],
                           @"parent":[NSString stringWithFormat:@"%@",parent.text]}];
     NSLog(@"%@",dic1);
     [PublicMethod AFNetworkPOSTurl:@"Home/Login/regMember" paraments:dic1 addView:self.view success:^(id responseDic) {
@@ -311,14 +316,7 @@
         
         
         [actionSheet show];
-        
-        
-        
-        
-        
     }
-    
-    
 }
 -(void) actionSheetButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -331,7 +329,9 @@
         NSRange range = [levelString rangeOfString:@":"];
         range.location =range.location+1;
         levelString = [levelString substringFromIndex:range.location];
-    
+        NSRange range2 = [levelString rangeOfString:@" "];
+        levelString = [levelString substringToIndex:range2.location];
+
         NSLog(@"string:%@",levelString);
         labelOne.text =levelString;
 
@@ -342,7 +342,6 @@
     }
 
     
-    
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -351,7 +350,7 @@
     NSInteger existedLength = textField.text.length;
     NSInteger selectedLength = range.length;
     NSInteger replaceLength = string.length;
-    if (textField.tag==12) {
+    if (textField.tag==11) {
         if (existedLength - selectedLength + replaceLength >= 12) {
             
             [textField resignFirstResponder];

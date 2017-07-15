@@ -128,7 +128,6 @@
     
     _goodsTitleLab.height =  titleSize.height;
     _goodsTitleLab.frame =CGRectMake(40*Width, 20*Width, 280*Width, titleSize.height);
-
     _goodsTitleLab.text =[NSString   stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     _numTitleLab.text   = [NSString stringWithFormat:@"库存%@盒",[_dic objectForKey:@"stockNum"]];
     _numCountLab.text =[NSString stringWithFormat:@"%d",[[_dic objectForKey:@"num"] intValue]];

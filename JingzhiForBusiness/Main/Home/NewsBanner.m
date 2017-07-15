@@ -20,7 +20,7 @@ static int countInt=0;
     if (_noticeList != noticeList) {
         _noticeList = noticeList;
         if (_noticeList.count != 0) {
-            _notice.text = _noticeList[0];
+            _notice.text =[NSString stringWithFormat:@"公告：%@",_noticeList[0]] ;
         }
         
     }
@@ -73,7 +73,7 @@ static int countInt=0;
     animation.type = kCATransitionPush;
     animation.subtype = kCATransitionFromTop;
     [self.notice.layer addAnimation:animation forKey:@"animationID"];
-    self.notice.text = self.noticeList[countInt];
+    self.notice.text =[NSString stringWithFormat:@"公告：%@",self.noticeList[countInt]] ;
     
 }
 - (void)tap:(UITapGestureRecognizer *)tap

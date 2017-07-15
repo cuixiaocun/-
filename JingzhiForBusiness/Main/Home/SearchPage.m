@@ -274,7 +274,6 @@
 
 - (void)searchWeiKeQX:(UIButton *)btn//清除所有记录
 {
-    
     [PublicMethod saveArrData:nil withKey:@"zhangyue_searchJiLu"];
     [PublicMethod saveArrData:nil withKey:@"wantSearch"];
     for (int i=0;i<12; i++) {
@@ -552,7 +551,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 430*Width;
+    return 430*Width+82*Width;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

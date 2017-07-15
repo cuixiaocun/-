@@ -146,19 +146,27 @@
 -(void)saveBtn
 {
     
-      UITextField *nameTF =[self.view viewWithTag:10];
+    UITextField *nameTF =[self.view viewWithTag:10];
     UITextField *phoneTF =[self.view viewWithTag:11];
     UITextField *addressTF =[self.view viewWithTag:13];
     UILabel *wzlabe =[self.view viewWithTag:111];
     [nameTF resignFirstResponder];
     [phoneTF resignFirstResponder];
     [addressTF resignFirstResponder];
+    if (nameTF.text.length>10) {
+        [MBProgressHUD showError:@"姓名不能超过10位" ToView:self.view];
+        return;
+    }
     if (IsNilString(nameTF.text)) {
         [MBProgressHUD showError:@"姓名不能为空!" ToView:self.view];
         return;
     }
     if (IsNilString(phoneTF.text)) {
         [MBProgressHUD showError:@"电话不能为空!" ToView:self.view];
+        return;
+    }
+    if (addressTF.text.length>100) {
+        [MBProgressHUD showError:@"地址不能超过100位" ToView:self.view];
         return;
     }
     if (IsNilString(addressTF.text)) {
@@ -208,6 +216,43 @@
             }else
             {
                 [MBProgressHUD  showSuccess:@"添加成功" ToView:self.view];
+            }
+            
+            
+            
+            if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"isdefault"]]isEqualToString:@"1"])
+            {
+                
+                if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+                    
+                    NSMutableDictionary * memberDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:member]];
+                    [memberDic setObject:[_dic objectForKey:@"id"] forKey:@"addressid"];
+                    [memberDic setObject:wzlabe.text forKey:@"name_path"];
+                    [memberDic setObject:addressTF.text forKey:@"address"];
+                    [memberDic setObject:nameTF.text forKey:@"receivename"];
+                    [memberDic setObject:phoneTF.text forKey:@"phone"];
+                    
+                    [PublicMethod saveData:memberDic withKey:member];
+                    
+                }else
+                {
+                    NSMutableDictionary * agenDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:agen]];
+                    [agenDic setObject:[_dic objectForKey:@"id"] forKey:@"addressid"];
+                    [agenDic setObject:wzlabe.text forKey:@"name_path"];
+                    [agenDic setObject:addressTF.text  forKey:@"address"];
+                    [agenDic setObject:nameTF.text forKey:@"receivename"];
+                    [agenDic setObject:phoneTF.text  forKey:@"phone"];
+                    
+                    [PublicMethod saveData:agenDic withKey:agen];
+                }
+                
+                
+                
+                
+                
+                
+                
+                
             }
             
             [self performSelector:@selector(addressSuccess) withObject:nil afterDelay:1];
@@ -278,7 +323,14 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-
+   
+        
+    
+    
+    
+    
+    
+    
     NSInteger existedLength = textField.text.length;
     NSInteger selectedLength = range.length;
     NSInteger replaceLength = string.length;
@@ -292,6 +344,27 @@
             
         }
         
+    }
+    if (textField.tag ==10) {
+        if (existedLength - selectedLength + replaceLength >= 10) {
+            [MBProgressHUD showWarn:@"名字太长了" ToView:self.view];
+            [textField resignFirstResponder];
+            return NO;
+            
+            
+            
+        }
+        
+    }else if (textField.tag ==13)
+    {
+        if (existedLength - selectedLength + replaceLength >= 100) {
+            [MBProgressHUD showWarn:@"地址太长了" ToView:self.view];
+            [textField resignFirstResponder];
+            return NO;
+            
+            
+            
+        }
     }
     return YES;
 }

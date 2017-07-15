@@ -97,7 +97,14 @@
         
        
         
+        //横线
+        UIImageView*xian =[[UIImageView alloc]init];
+        xian.backgroundColor =BGColor;
+        [bgView addSubview:xian];
+        xian.frame =CGRectMake(0,168.5*Width, CXCWidth, 1.5*Width);
         
+        
+
         
         
         

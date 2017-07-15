@@ -215,9 +215,10 @@
             UILabel*numberLabel =[self.view viewWithTag:3335];
 
             UILabel*timeLabel =[self.view viewWithTag:3337];
-
+            NSArray*arr =@[@"厂家",@"一",@"二",@"三",@"四",@"五",@"六",@"七",@"八",@"九"];
             nameLabel.text=[NSString stringWithFormat:@"代理人：%@",[[dict objectForKey:@"data"] objectForKey:@"name"]];
-            levelLabel.text=[NSString stringWithFormat:@"等级：%@级代理",[[dict objectForKey:@"data"] objectForKey:@"level"]];
+            NSInteger leve= [[[dict objectForKey:@"data"] objectForKey:@"level"] integerValue];
+            levelLabel.text=[NSString stringWithFormat:@"等级：%@级代理",arr[leve]];
             phoneLabel.text=[NSString stringWithFormat:@"手机号：%@",[[dict objectForKey:@"data"] objectForKey:@"phone"]];
             wechatLabel.text =[NSString stringWithFormat:@"微信号：%@",[[dict objectForKey:@"data"] objectForKey:@"webchat"]];
             numberLabel.text =[NSString stringWithFormat:@"NO.%@",[[dict objectForKey:@"data"] objectForKey:@"id"]];

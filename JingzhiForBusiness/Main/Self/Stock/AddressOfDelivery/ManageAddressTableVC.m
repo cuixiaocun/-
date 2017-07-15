@@ -20,11 +20,6 @@
 @end
 
 @implementation ManageAddressTableVC
-- (void)viewDidAppear:(BOOL)animated
-{
-//    infoArray =[[NSMutableArray alloc]init];
-//    [self getInfoList];
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:BGColor];
@@ -136,16 +131,7 @@
             [self.navigationController pushViewController:addVC animated:YES];
             
 
-            
-            //做减法
-            //先获取到当期行数据源内容，改变数据源内容，刷新表格
-//            GoodsModel *model = infoArr[index.row];
-//            if (model.goodsNum > 0)
-//            {
-//                model.goodsNum --;
-//                model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
-//                
-//            }
+        
         }
             break;
         case 112://删除
@@ -155,18 +141,10 @@
             IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要删除此地址吗？"];
             isture.delegate =self;
             isture.tag =180;
+
             [self.view addSubview:isture];
-            
             NSLog(@"showalert");
             return;
-            
-            
-
-            //做加法
-//            GoodsModel *model = infoArr[index.row];
-//            
-//            model.goodsNum ++;
-//            model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
             
             
         }
@@ -207,7 +185,6 @@
     if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
         [dic1 setDictionary:@{
                               @"id":[infoArray[index.row] objectForKey:@"id"] ,
-//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                               }];
 ;
         url =@"Home/Address/remove";
@@ -215,17 +192,41 @@
     {
         [dic1 setDictionary:@{
                               @"id":[infoArray[index.row] objectForKey:@"id"] ,
-//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]]
                               }];
         url =@"home/address/agenremove";
         
     }
 
-    
     [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
+            if ([[NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"isdefault"]]isEqualToString:@"1"])
+            {
+                if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+                    
+                    NSMutableDictionary * memberDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:member]];
+                    [memberDic setObject:@"<null>" forKey:@"addressid"];
+                    [memberDic setObject:@"<null>" forKey:@"name_path"];
+                    [memberDic setObject:@"<null>" forKey:@"address"];
+                    [memberDic setObject:@"<null>" forKey:@"receivename"];
+                    [memberDic setObject:@"<null>" forKey:@"phone"];
+                    
+                    [PublicMethod saveData:memberDic withKey:member];
+                    
+                }else
+                {
+                    NSMutableDictionary * agenDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:agen]];
+                    [agenDic setObject:@"<null>" forKey:@"addressid"];
+                    [agenDic setObject:@"<null>" forKey:@"name_path"];
+                    [agenDic setObject:@"<null>" forKey:@"reveiveaddress"];
+                    [agenDic setObject:@"<null>" forKey:@"receivename"];
+                    [agenDic setObject:@"<null>" forKey:@"phone"];
+                    
+                    [PublicMethod saveData:agenDic withKey:agen];
+                }
+            }
+           
             for (int i=0; i<infoArray.count; i++) {
                 [infoArray [i] setObject:@"2" forKey:@"isdefault"];
                 
@@ -233,7 +234,8 @@
             [infoArray removeObjectAtIndex:index.row];
             
             [self.tableView reloadData];
-            
+
+
             
         }
         
@@ -539,7 +541,7 @@
                 NSMutableDictionary * agenDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:agen]];
                 [agenDic setObject:[infoArray[indexRow] objectForKey:@"id"] forKey:@"addressid"];
                 [agenDic setObject:[infoArray[indexRow] objectForKey:@"name_path"] forKey:@"name_path"];
-                [agenDic setObject:[infoArray[indexRow] objectForKey:@"address"] forKey:@"address"];
+                [agenDic setObject:[infoArray[indexRow] objectForKey:@"address"] forKey:@"reveiveaddress"];
                 [agenDic setObject:[infoArray[indexRow] objectForKey:@"name"] forKey:@"receivename"];
                 [agenDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"phone"];
 

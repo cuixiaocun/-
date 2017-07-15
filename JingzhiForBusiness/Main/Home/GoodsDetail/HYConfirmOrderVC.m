@@ -271,7 +271,8 @@
     [numberLabel setText:@"请选择"];
     UILabel *adressLabel =[self.view viewWithTag:452];
     [adressLabel setText:@"请选择"];
-    
+    addressIdString =@"请选择";
+
     
     
 }

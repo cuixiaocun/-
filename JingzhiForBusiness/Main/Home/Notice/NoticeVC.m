@@ -323,10 +323,18 @@
     [PublicMethod AFNetworkPOSTurl:@"Home/Index/notice" paraments:@{}  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-           infoArray = [dict objectForKey:@"data"];
-            [self.tableView reloadData];
+             NSArray *allArr =[dict objectForKey:@"data"];
             
-            
+            for (int i=0 ; i<allArr.count; i++) {
+                
+                if ([[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"type"]]isEqualToString:@"2"]) {
+                    [infoArray addObject:allArr[i]];
+                    [self.tableView reloadData];
+
+                }
+                
+            }
+
             
         }
         

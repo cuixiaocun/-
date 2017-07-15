@@ -168,8 +168,17 @@
     orderStatuerLabel.textColor = NavColor;
     
     NSArray*leftArr =@[@"代理名称",@"账号",@"等级",@"",@"",@"",@"",@"",];
-    
-    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"account"]],[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"levelname"]],@"",];
+        NSArray*rightArr  =[[NSArray alloc]init];
+        if ([_ismy isEqualToString:@"0"]) {
+            rightArr=@[[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"upagenname"]],[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"upagenaccount"]],[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"upagenlevelname"]],@"",];
+            
+
+        }else
+        {
+            rightArr =@[[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"account"]],[NSString stringWithFormat:@"%@",[[agenDic objectForKey:@"agen"] objectForKey:@"levelname"]],@"",];
+
+        }
+
     for (int i=0; i<3; i++) {
         //背景
         UIView *bgview =[[UIView alloc]init];

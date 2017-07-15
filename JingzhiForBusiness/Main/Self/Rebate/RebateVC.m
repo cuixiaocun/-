@@ -226,6 +226,7 @@
         statuBtn.tag =230+i;
         [statuBtn addTarget:self action:@selector(changeStatuBtnOut:) forControlEvents:UIControlEventTouchUpInside];
         [topViewOut addSubview:statuBtn];
+        
     }
     //横线
     UIImageView*xian =[[UIImageView alloc]init];
@@ -335,6 +336,10 @@
         xian.backgroundColor =BGColor;
         [topView addSubview:xian];
         xian.frame =CGRectMake(0,98*Width, CXCWidth, 2*Width);
+        UIButton *btn =[self.view viewWithTag:220];
+
+        [self changeStatuBtn:btn];
+
         
     }else
     {

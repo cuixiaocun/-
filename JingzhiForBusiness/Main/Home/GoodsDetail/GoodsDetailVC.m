@@ -34,7 +34,13 @@
 @end
 
 @implementation GoodsDetailVC
+- (void)viewWillAppear:(BOOL)animated
+{
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 
+
+
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
@@ -54,9 +60,11 @@
 - (void)shateButton
 {
 
+    [[self rdv_tabBarController] setSelectedIndex:1];
+
+    [self.navigationController popViewControllerAnimated:NO];
     
-    
-    
+
     
     
 
@@ -92,11 +100,11 @@
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     //右
-//    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
-//    shareBtn.backgroundColor = [UIColor clearColor];
-//    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
-//    [shareBtn setImage:[UIImage imageNamed:@"details_btn_share_white"] forState:UIControlStateNormal];
-//    [topImageView addSubview:shareBtn];
+    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
+    shareBtn.backgroundColor = [UIColor clearColor];
+    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
+    [shareBtn setImage:[UIImage imageNamed:@"details_btn_white"] forState:UIControlStateNormal];
+    [topImageView addSubview:shareBtn];
     
     
     topImageViewNomal= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
@@ -113,11 +121,11 @@
     [returnBtnNomal addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageViewNomal addSubview:returnBtnNomal];
 //    //右
-//    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
-//    shareBtnNomal.backgroundColor = [UIColor clearColor];
-//    [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
-//    [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_share"] forState:UIControlStateNormal];
-//    [topImageViewNomal addSubview:shareBtnNomal];
+    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
+    shareBtnNomal.backgroundColor = [UIColor clearColor];
+    [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
+    [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_cart"] forState:UIControlStateNormal];
+    [topImageViewNomal addSubview:shareBtnNomal];
     
     cycleScrollView2 =[SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CXCWidth,560*Width) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder@2x"]];
     cycleScrollView2.backgroundColor =TextGrayGray3Color;
@@ -520,14 +528,21 @@
 {
     
     blackBgView.hidden=YES;
-    
     alterView.hidden =YES;
-    
     
     UITextField *textF =[self.view viewWithTag:120];
     [textF resignFirstResponder];
     UILabel *numberLabel =[self.view viewWithTag:20];
-    numberLabel.text =textF.text;
+    
+    if ([textF.text integerValue]==0) {
+        
+        [MBProgressHUD showWarn:@"数量有误" ToView:self.view];
+        numberLabel.text =@"1";
+        
+    }else
+    {
+        numberLabel.text =[NSString stringWithFormat:@"%ld",[textF.text integerValue]];
+    }
 }
 //取消
 -(void)cancelBtn

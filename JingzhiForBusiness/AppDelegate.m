@@ -51,6 +51,10 @@
     [PublicMethod removeObjectForKey: member];
     [PublicMethod removeObjectForKey: shopingCart];
     [PublicMethod removeObjectForKey: @"token"];
+    [PublicMethod removeObjectForKey: @"Isdelegate"];
+    [PublicMethod removeObjectForKey: @"zhangyue_searchJiLu"];
+    [PublicMethod removeObjectForKey: @"wantSearch"];
+    
     [self getToken];
 //    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     

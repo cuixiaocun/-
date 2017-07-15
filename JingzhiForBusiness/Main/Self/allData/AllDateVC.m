@@ -62,6 +62,7 @@
 - (void)returnBtnAction
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [_pickview  remove];
 
 }
 - (void)mainView
@@ -86,7 +87,7 @@
     sXian.backgroundColor =BGColor;
     [bgScrollView addSubview:sXian];
     
-    NSArray*leftArr =@[@"会员订单",@"总金额",@"订单量",@"下属代理",@"报单量",@"报单额",@"下单量",@"下单额",@"",@"",@"",] ;
+    NSArray*leftArr =@[@"会员订单",@"订单量",@"总金额",@"下属代理",@"报单量",@"报单额",@"下单量",@"下单额",@"",@"",@"",] ;
     NSArray*rightArr =@[@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",] ;
     
     for (int i=0; i<8; i++) {
@@ -278,14 +279,12 @@
             UILabel*fourLabel =[self.view viewWithTag:205];
             UILabel*fiveLabel =[self.view viewWithTag:206];
             UILabel*sixLabel =[self.view viewWithTag:207];
-            oneLabel.text =[NSString stringWithFormat:@"%@元",[[[dict objectForKey:@"data"] objectForKey:@"memberTotal"] objectForKey:@"total"]];
-            twoLabel.text =[NSString stringWithFormat:@"%@",[[[dict objectForKey:@"data"] objectForKey:@"memberTotal"] objectForKey:@"count"]];
+            twoLabel.text =[NSString stringWithFormat:@"%@元",[[[dict objectForKey:@"data"] objectForKey:@"memberTotal"] objectForKey:@"total"]];
+            oneLabel.text =[NSString stringWithFormat:@"%@",[[[dict objectForKey:@"data"] objectForKey:@"memberTotal"] objectForKey:@"count"]];
             fourLabel.text =[NSString stringWithFormat:@"%@元",[[[dict objectForKey:@"data"] objectForKey:@"agenOnlineTotal"] objectForKey:@"total"]];
             threeLabel.text =[NSString stringWithFormat:@"%@",[[[dict objectForKey:@"data"] objectForKey:@"agenOnlineTotal"] objectForKey:@"count"]];
             sixLabel.text =[NSString stringWithFormat:@"%@元",[[[dict objectForKey:@"data"] objectForKey:@"agenOrderTotal"] objectForKey:@"total"]];
             fiveLabel.text =[NSString stringWithFormat:@"%@",[[[dict objectForKey:@"data"] objectForKey:@"agenOrderTotal"] objectForKey:@"count"]];
-
-         
             
         }
         

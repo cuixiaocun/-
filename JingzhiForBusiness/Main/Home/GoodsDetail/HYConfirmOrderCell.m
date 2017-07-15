@@ -73,6 +73,7 @@
          _promptLabel.text  = [NSString stringWithFormat:@"%ld箱",box];
         
     }
+    _priceLab.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
 
         
 }

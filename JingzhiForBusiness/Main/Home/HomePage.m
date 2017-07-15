@@ -42,7 +42,7 @@
     //商品
     UIView *goodsXian;
     NSArray *goodsArr;
-    NSArray *titleArr;//公告
+    NSMutableArray *titleArr;//公告
     NSArray *imgArr;//banner
 
 }
@@ -59,7 +59,16 @@
 {
     self.navigationController.navigationBarHidden =YES;
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
-
+    UILabel *navTitle =[self.view viewWithTag:1100];
+    if (![PublicMethod getDataStringKey:@"Isdelegate"]) {
+        [navTitle setText:[NSString stringWithFormat:@"%@",@"乐荟云商"]];
+        
+    }else
+    {
+        
+        [navTitle setText:[NSString stringWithFormat:@"%@  %@",@"乐荟云商",[PublicMethod getDataStringKey:@"Isdelegate"]]];
+        
+    }
 }
 //首页
 - (void)viewDidLoad {
@@ -76,11 +85,20 @@
             [self.view sendSubviewToBack:imageview];
             //标题
             UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(0, 20, CXCWidth, 44)];
-            [navTitle setText:@"心体荟控价管理系统"];
+    if (![PublicMethod getDataStringKey:@"Isdelegate"]) {
+        [navTitle setText:[NSString stringWithFormat:@"%@",@"乐荟云商"]];
+
+    }else
+    {
+    
+        [navTitle setText:[NSString stringWithFormat:@"%@  %@",@"乐荟云商",[PublicMethod getDataStringKey:@"Isdelegate"]]];
+
+    }
             [navTitle setTextAlignment:NSTextAlignmentCenter];
             [navTitle setBackgroundColor:[UIColor clearColor]];
             [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
             [navTitle setNumberOfLines:0];
+    navTitle.tag =1100;
             [navTitle setTextColor:[UIColor whiteColor]];
             [self.view addSubview:navTitle];
     [self makeThisView];
@@ -116,13 +134,17 @@
     [PublicMethod AFNetworkPOSTurl:@"Home/Index/notice" paraments:@{}  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            titleArr=[[NSArray alloc]init];
-            titleArr =  [dict objectForKey:@"data"];
+            NSArray *allArr =[dict objectForKey:@"data"];
+            titleArr=[[NSMutableArray alloc]init];
             NSMutableArray* titleArray =[[NSMutableArray alloc]init];
-            for (int i=0 ; i<titleArr.count; i++) {
+            for (int i=0 ; i<allArr.count; i++) {
 
+                if ([[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"type"]]isEqualToString:@"2"]) {
+                    [titleArray addObject:[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"title"]]];
+                    [titleArr addObject:allArr[i]];
 
-                [titleArray insertObject:[titleArr[i] objectForKey:@"title"] atIndex:i];
+                }
+
             }
             newsView.noticeList =titleArray;
             [newsView star];

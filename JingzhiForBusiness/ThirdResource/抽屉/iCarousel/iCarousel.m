@@ -1612,7 +1612,7 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
     distance = endOffset - startOffset;
     
     startTime = CACurrentMediaTime();
-    scrollDuration = fabsf(distance) / fabsf(0.5f * startVelocity);   
+    scrollDuration = fabsf(distance) / fabsf(0.5f * startVelocity);
     
     if (distance != 0.0f)
     {

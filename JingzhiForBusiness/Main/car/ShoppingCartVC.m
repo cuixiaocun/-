@@ -174,6 +174,7 @@
 //确认提交按钮
 - (void)confirmButtonAction
 {
+
     if (![PublicMethod getDataStringKey:@"IsLogin"]) {//若没登录请登录
         LoginPage *loginPage =[[LoginPage     alloc]init];
         loginPage.status =@"present";
@@ -191,11 +192,18 @@
             [goodsMutableArr addObject:model];
         }
     }
+    if (goodsMutableArr.count==0) {
+        [MBProgressHUD showWarn:@"请选择商品" ToView:self.view];
+        return;
+        
+    }else
+    {
+        HYConfirmOrderVC *hyconfirm =[[HYConfirmOrderVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        hyconfirm.googsArr =goodsMutableArr;
+        [self.navigationController pushViewController:hyconfirm animated:YES];
+    }
 
-    HYConfirmOrderVC *hyconfirm =[[HYConfirmOrderVC alloc]init];
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-    hyconfirm.googsArr =goodsMutableArr;
-    [self.navigationController pushViewController:hyconfirm animated:YES];
 }
 //系统计算
 - (void)calculateTheGoods
@@ -381,6 +389,9 @@
 #pragma mark -- 计算价格
 -(void)totalPrice
 {
+    //每次算完要重置为0，因为每次的都是全部循环算一遍
+    allPrice = 0.0;
+
     //遍历整个数据源，然后判断如果是选中的商品，就计算价格（单价 * 商品数量）
     for ( int i =0; i<infoArr.count; i++)
     {
@@ -393,9 +404,7 @@
     //给总价文本赋值
     _allPriceLab.text = [NSString stringWithFormat:@"¥%.2f",allPrice];
     NSLog(@"%f",allPrice);
-    //每次算完要重置为0，因为每次的都是全部循环算一遍
-    allPrice = 0.0;
-}
+   }
 
 
 
@@ -526,8 +535,16 @@
     UITextField *textF =[self.view viewWithTag:120];
     [textF resignFirstResponder];
     NSMutableDictionary *model =[NSMutableDictionary dictionaryWithDictionary:infoArr[indextNum]];
+    if ([textF.text integerValue]==0) {
+        
+        [MBProgressHUD showWarn:@"数量有误" ToView:self.view];
+        [model setValue:@"1" forKey:@"goodsNum"];
 
-    [model setValue:[NSString stringWithFormat:@"%d",[textF.text intValue]] forKey:@"goodsNum"];
+    }else
+    {
+        [model setValue:[NSString stringWithFormat:@"%d",[textF.text intValue]] forKey:@"goodsNum"];
+    }
+
     [model setValue:[NSString stringWithFormat:@"%d",[textF.text intValue]] forKey:@"goodsTotalPrice"];
     [model setValue:[NSString stringWithFormat:@"%.2f", [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue]] forKey:@"goodsTotalPrice"] ;
     [infoArr replaceObjectAtIndex:indextNum withObject:model];

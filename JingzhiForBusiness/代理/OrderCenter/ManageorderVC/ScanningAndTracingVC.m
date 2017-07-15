@@ -364,15 +364,11 @@
         SendGoodsVC *sendGoods =[[SendGoodsVC alloc]init];
         sendGoods.orderDetailDic =_orderDetailDic;
         [self.navigationController pushViewController:sendGoods animated:YES];
-    }else if (box>tracingArr.count)
-    {
-        [MBProgressHUD showError:[NSString stringWithFormat:@"最多%d箱",box] ToView:self.view];
-        return;
     }else
     {
-        [MBProgressHUD showError:[NSString stringWithFormat:@"最少%d箱",box] ToView:self.view];
+        
+    [MBProgressHUD showError:[NSString stringWithFormat:@"应发箱数：%d箱",box] ToView:self.view];
         return;
-
     }
    
     

@@ -72,14 +72,15 @@
         labe.font = [UIFont systemFontOfSize:15];
         labe.textColor = [UIColor grayColor];
         [bgview addSubview:labe];
-        if (i==5||i==7||i==8||i==9) {
+        if (i==5||i==7) {
             UITextField *inputText = [[UITextField alloc] init];
             [inputText setTag:i+10];
             [inputText setPlaceholder:rightArr[i]];
             [inputText setDelegate:self];
+            inputText.textAlignment =NSTextAlignmentRight;
             [inputText setFont:[UIFont systemFontOfSize:16]];
             [inputText setTextColor:BlackColor];
-            [inputText setFrame:CGRectMake(290*Width, 0,580*Width,82*Width)];
+            [inputText setFrame:CGRectMake(290*Width, 0,430*Width,82*Width)];
             [inputText setClearButtonMode:UITextFieldViewModeWhileEditing];
             [bgview addSubview:inputText];
             
@@ -91,14 +92,16 @@
             chooseBtn.tag =10+i;
             [chooseBtn addTarget:self action:@selector(areaChoosen:) forControlEvents:UIControlEventTouchUpInside];
             //文字
-            UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,580*Width , 82*Width)];
+            UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,400*Width , 82*Width)];
             wzlabe.text = rightArr[i];
             wzlabe.tag =20+i;
             wzlabe.font = [UIFont systemFontOfSize:16];
             wzlabe.textColor = BlackColor;
             [chooseBtn addSubview:wzlabe];
+            wzlabe.textAlignment =NSTextAlignmentRight;
+
             //箭头
-            UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 17.5*Width,25*Width , 25*Width)];
+            UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 28.5*Width,25*Width , 25*Width)];
             [bgview addSubview:jiantou];
             [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
             
@@ -106,9 +109,10 @@
         }else
         {
             
-            UILabel* rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(290*Width, 0,580*Width,82*Width)];
+            UILabel* rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(290*Width, 0,430*Width,82*Width)];
             rightLabel.text = rightArr[i];
             rightLabel.tag =20+i;
+            rightLabel.textAlignment =NSTextAlignmentRight;
             rightLabel.font = [UIFont systemFontOfSize:16];
             rightLabel.textColor = TextGrayColor;
             [bgview addSubview:rightLabel];
@@ -170,14 +174,14 @@
 {
     UITextField *nameText =[self.view viewWithTag:15];
     UITextField *phoneText =[self.view viewWithTag:17];
-    UITextField *wxText =[self.view viewWithTag:18];
-    UITextField *hzText =[self.view viewWithTag:19];
+    UILabel *wxText =[self.view viewWithTag:28];
+    UILabel *hzText =[self.view viewWithTag:29];
     UILabel *addressLabel =[self.view viewWithTag:30];
 
     [nameText resignFirstResponder];
     [phoneText resignFirstResponder];
-    [wxText resignFirstResponder];
-    [hzText resignFirstResponder];
+//    [wxText resignFirstResponder];
+//    [hzText resignFirstResponder];
     
     [PublicMethod AFNetworkPOSTurl:@"home/Agen/updateAgen" paraments:@{
              @"name":[NSString stringWithFormat:@"%@",nameText.text],
@@ -223,13 +227,13 @@
 {
     UITextField *nameText =[self.view viewWithTag:15];
     UITextField *phoneText =[self.view viewWithTag:17];
-    UITextField *wxText =[self.view viewWithTag:18];
-    UITextField *hzText =[self.view viewWithTag:19];
+//    UITextField *wxText =[self.view viewWithTag:18];
+//    UITextField *hzText =[self.view viewWithTag:19];
 
     [nameText resignFirstResponder];
     [phoneText resignFirstResponder];
-    [wxText resignFirstResponder];
-    [hzText resignFirstResponder];
+//    [wxText resignFirstResponder];
+//    [hzText resignFirstResponder];
 
     UILabel*addressLabel = [self.view viewWithTag:30];
     
@@ -265,8 +269,8 @@
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             UITextField*nameLabel =[self.view viewWithTag:15];
             UITextField*phoneLabel =[self.view viewWithTag:17];
-            UITextField*wxLabel =[self.view viewWithTag:18];
-            UITextField*hzLabel =[self.view viewWithTag:19];
+            UILabel*wxLabel =[self.view viewWithTag:28];
+            UILabel*hzLabel =[self.view viewWithTag:29];
             UILabel *accountLabel =[self.view viewWithTag:20];
             UILabel *leveLabel =[self.view viewWithTag:21];
             UILabel *canMoneyLabel =[self.view viewWithTag:22];

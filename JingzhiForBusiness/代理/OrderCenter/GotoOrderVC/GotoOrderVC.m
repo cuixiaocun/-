@@ -52,6 +52,7 @@
     
     [self mainView];
     [self getGoods];
+    
 }
 -(void)returnBtnAction
 {
@@ -146,7 +147,10 @@
             [MBProgressHUD showError:@"数量不能为0" ToView:self.view];
             return;
         }
-        ConfirmOrderVC *confirm =[[ConfirmOrderVC alloc]init];
+        if ([[_goodsArr[index.row] objectForKey:@"num" ] integerValue]==0) {
+            [MBProgressHUD showError:@"数量不能为0" ToView:self.view];
+            return;
+        }ConfirmOrderVC *confirm =[[ConfirmOrderVC alloc]init];
         confirm.orderDic =_goodsArr[index.row];
         [self.navigationController pushViewController:confirm animated:YES];
         
@@ -292,7 +296,19 @@
 //    model.goodsTotalPrice =[NSString stringWithFormat:@"%.2f",[model.goodsPrice floatValue]*model.goodsNum] ;
     
     NSMutableDictionary * model  = [NSMutableDictionary dictionaryWithDictionary:[_goodsArr objectAtIndex:indextNum]];
-    [model setObject:[NSString stringWithFormat:@"%@",textF.text] forKey:@"num"];
+    NSString*numberstr;
+    
+    if ([textF.text integerValue]==0) {
+        [MBProgressHUD showWarn:@"数量有误" ToView:self.view];
+        numberstr=@"1";
+        
+    }else
+    {
+        numberstr =[NSString stringWithFormat:@"%ld",[textF.text integerValue]];
+        
+    }
+
+    [model setObject:[NSString stringWithFormat:@"%@",numberstr] forKey:@"num"];
     [_goodsArr replaceObjectAtIndex:indextNum withObject:model];
     
 
