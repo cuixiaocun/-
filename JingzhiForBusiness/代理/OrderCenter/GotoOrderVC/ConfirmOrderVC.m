@@ -74,28 +74,13 @@
     [bgScrollView addSubview:topView];
     
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 250*Width, 50*Width)];
-    if([[[PublicMethod getDataKey:agen] objectForKey:@"receivename"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:agen] objectForKey:@"receivename"]isEqualToString:@"<null>"])
-    {
-        nameLabel.text =@"请完善";
-
-    
-    }else
-    {
-    
-        nameLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivename"]];
-
-    }
     nameLabel.tag=450;
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivephone"]];
-    BOOL isNil =IsNilString(numstr);
-    NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivephone"]];
-    
-    numberLabel.text = numberStr;
+
     numberLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:numberLabel];
     numberLabel.tag=451;
@@ -126,21 +111,82 @@
     [topView addSubview:imgView];
     
     
-    
-    
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    if ([[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"]isEqualToString:@"<null>"]) {
+   
+
+    [PublicMethod personalAFNetworkSuccess:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         
-        addressLabel.text =@"请完善";
-        defaultLabel.hidden =YES;
+            if ([[dict objectForKey:@"reveiveaddress"]isEqual:[NSNull null]]||[[dict objectForKey:@"reveiveaddress"] isEqualToString:@"<null>"]) {
+                
+                addressLabel.text =@"请完善";
+                defaultLabel.hidden =YES;
+                
+            }else
+            {
+                addressLabel.text =[NSString stringWithFormat:@"%@%@",[dict objectForKey:@"reveiveaddress"],[dict objectForKey:@"address"]];
+                defaultLabel.hidden =NO;
+                
+            }
+            if([[dict objectForKey:@"receivename"]isEqual:[NSNull null]]||[[dict objectForKey:@"receivename"]isEqualToString:@"<null>"])
+            {
+                nameLabel.text =@"请完善";
+                
+                
+            }else
+            {
+                
+                nameLabel.text =[NSString stringWithFormat:@"%@",[dict objectForKey:@"receivename"]];
+                
+            }
+            
+            NSString *numstr =[NSString stringWithFormat:@"%@",[dict objectForKey:@"receivephone"]];
+            BOOL isNil =IsNilString(numstr);
+            NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[dict objectForKey:@"receivephone"]];
+            
+            numberLabel.text = numberStr;
+            
+
         
-    }else
-    {
-        addressLabel.text =[NSString stringWithFormat:@"%@%@",[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"],[[PublicMethod getDataKey:agen] objectForKey:@"address"]];
-        defaultLabel.hidden =NO;
         
-    }
+    } fail:^(NSError *error) {
+        if ([[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"]isEqualToString:@"<null>"]) {
+            
+            addressLabel.text =@"请完善";
+            defaultLabel.hidden =YES;
+            
+        }else
+        {
+            addressLabel.text =[NSString stringWithFormat:@"%@%@",[[PublicMethod getDataKey:agen] objectForKey:@"reveiveaddress"],[[PublicMethod getDataKey:agen] objectForKey:@"address"]];
+            defaultLabel.hidden =NO;
+            
+        }
+        if([[[PublicMethod getDataKey:agen] objectForKey:@"receivename"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:agen] objectForKey:@"receivename"]isEqualToString:@"<null>"])
+        {
+            nameLabel.text =@"请完善";
+            
+            
+        }else
+        {
+            
+            nameLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivename"]];
+            
+        }
+        
+        NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivephone"]];
+        BOOL isNil =IsNilString(numstr);
+        NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"receivephone"]];
+        
+        numberLabel.text = numberStr;
+        
+
+    }];
+
+    
+    
+    
+    
     
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;

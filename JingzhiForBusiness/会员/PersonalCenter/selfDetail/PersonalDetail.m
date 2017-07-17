@@ -62,16 +62,19 @@
     bgScrollView.showsVerticalScrollIndicator =
     NO;
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
-    NSArray*leftArr =@[@"会员号",@"推荐人",@"已消费",@"积分",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"",@"",@"¥",@"",];
+    NSArray*leftArr =@[@"会员号",@"推荐人",@"已消费",@"积分",@"所属代理信息",@"所属代理",@"代理手机号",@"代理微信号"] ;
+    NSArray *rightArr =@[@"",@"",@"¥",@"",@"",@"",@"",@"",@"",@"",];
     //列表
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<8; i++) {
         UIView *bgview =[[UIView alloc]init];
         bgview.backgroundColor =[UIColor whiteColor];
+        if (i==4) {
+            bgview.backgroundColor =BGColor ;
+        }
         bgview.frame =CGRectMake(0, 20*Width+82*i*Width, CXCWidth, 82*Width);
         [bgScrollView addSubview:bgview];
         
-        UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0,200*Width , 82*Width)];
+        UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0,300*Width , 82*Width)];
         labe.text = leftArr[i];
         labe.font = [UIFont systemFontOfSize:15];
         labe.textColor = BlackColor;
@@ -107,7 +110,6 @@
 //    [NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
     [PublicMethod AFNetworkPOSTurl:@"Home/member/usermessage" paraments:@{
                                                                           
-//      @"uid":[NSNumber numberWithInteger:[[[PublicMethod getDataKey:member] objectForKey:@"id"] integerValue]]
 //      @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
 }  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
@@ -117,12 +119,20 @@
             UILabel*parentLabel =[self.view viewWithTag:201];
             UILabel*yixiaofeiLabel =[self.view viewWithTag:202];
             UILabel*yueLabel =[self.view viewWithTag:203];
+
+            UILabel*mjName =[self.view viewWithTag:205];
+            UILabel*mjphone =[self.view viewWithTag:206];
+            UILabel*mjWechat =[self.view viewWithTag:207];
             
             numberLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"account"]]];
             parentLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"parentaccount"]]];
             yixiaofeiLabel.text =[NSString stringWithFormat:@"¥%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"sumall"]]]];
             yueLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"integral"]]]];
             [PublicMethod saveData:[dict objectForKey:@"data"] withKey:member];
+            mjName.text=[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"agen"]]];
+            mjphone.text=[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"agenphone"]]];
+            mjWechat.text=[PublicMethod stringNilString:[NSString stringWithFormat:@"%@", [dataDict objectForKey:@"agenwebchat"]]];
+
 
 
         }

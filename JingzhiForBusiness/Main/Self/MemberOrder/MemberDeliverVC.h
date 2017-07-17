@@ -10,5 +10,5 @@
 
 @interface MemberDeliverVC : UIViewController
 @property(nonatomic,strong)NSString*orderId;
-
+@property(nonatomic,strong)NSDictionary *orderDetailDic;
 @end

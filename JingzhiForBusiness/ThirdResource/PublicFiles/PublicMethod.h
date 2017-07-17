@@ -76,7 +76,7 @@
 + (NSDictionary *) getDataKey:(NSString *)key;
 +(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
 +(void)AFNetworkGETurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
-
++(void)personalAFNetworkSuccess:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
 //存取字符串
 + (void) saveDataString:(NSString *)string withKey:(NSString *)key;
 + (NSString *) getDataStringKey:(NSString *)key;

@@ -81,10 +81,11 @@
     {
         NSMutableDictionary *model =[NSMutableDictionary dictionaryWithDictionary:_googsArr[i]];
         
-        allIntegral = allIntegral + [[model objectForKey:@"deductible"] floatValue] ;//总积分
+        allIntegral = allIntegral + [[model objectForKey:@"deductible"] floatValue]*[[model objectForKey:@"goodsNum"] floatValue] ;//总积分
         allPrice = allPrice + [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue];//总价
+        NSLog(@"%@===%@===%.2f===%.2f",[model objectForKey:@"deductible"],[model objectForKey:@"goodsNum"],allIntegral,allPrice);
+
     }
-    
     if ([[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]] floatValue]<allIntegral) {
         
         canPayIntegral =[[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]] floatValue];
@@ -182,6 +183,7 @@
             
             
             CashierVC *cashVC =[[CashierVC alloc]init];
+            cashVC.googsArr =_googsArr;
             cashVC.orderDic =[[dict objectForKey:@"data"] objectForKey:@"order"];
             cashVC.orderId =[[[dict objectForKey:@"data"] objectForKey:@"order"] objectForKey:@"id"];
             [self.navigationController  pushViewController:cashVC animated:YES];

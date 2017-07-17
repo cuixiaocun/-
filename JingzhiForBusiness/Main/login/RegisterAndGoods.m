@@ -804,7 +804,9 @@
             
             UILabel *promptLabel =[self.view viewWithTag:1122];
             promptLabel.text =[NSString stringWithFormat:@"    提示：最低拿货金额%@元",minMoney];
-
+            UITextField *textF =[self.view viewWithTag:2];
+            textF.text =[NSString stringWithFormat:@"%@",minMoney];
+            [self calculateTheGoods];
             
         }
         

@@ -19,5 +19,6 @@
 @property (nonatomic,strong) NSString *orderId;//支付id
 @property (nonatomic,strong) NSString *orderType;//支付类型
 @property (nonatomic,strong) NSDictionary *orderDic;//支付类型
+@property(nonatomic,retain)NSArray *googsArr;
 
 @end

@@ -14,6 +14,8 @@
     NSString* indexOfArr;
     NSMutableArray *codeArr;
     NSMutableArray *nameArr;
+    UIScrollView *bgScrollView;//底部scrollview
+
     
 }
 @end
@@ -59,20 +61,48 @@
 
 -(void)mainView
 {
-    self.view.backgroundColor =BGColor;
-   //    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2000*Width)];
-    UIView * bottomBgView =[[UIView alloc]init];
-    [bottomBgView setBackgroundColor:[UIColor whiteColor]];
-    bottomBgView.frame =CGRectMake(0, 64+20*Width, CXCWidth,106*2*Width);;
-    [self.view addSubview:bottomBgView];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64)];
+    [bgScrollView setUserInteractionEnabled:YES];
+    [bgScrollView setBackgroundColor:BGColor];
+    [self.view addSubview:bgScrollView];
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
+    
+    UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
+    [topView setBackgroundColor:[UIColor whiteColor]];
+    [bgScrollView addSubview:topView];
+    
+    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(30*Width, 25*Width, 260*Width, 50*Width)];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"receivename"]];
+    nameLabel.font =[UIFont systemFontOfSize:16];
+    [topView addSubview:nameLabel];
+    
+    
+    UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
+    numberLabel.text =[NSString stringWithFormat:@"%@",[_orderDetailDic objectForKey:@"phone"]];
+    numberLabel.font =[UIFont systemFontOfSize:16];
+    [topView addSubview:numberLabel];
+    
+    UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20*Width, nameLabel.bottom+46*Width,24*Width, 32*Width)];
+    [imgView setImage:[UIImage imageNamed:@"wuliu_icon_location"]];
+    [topView addSubview:imgView];
+    
+    
+    
+    UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,640*Width, 125*Width)];
+    [topView addSubview:addressLabel];
+    addressLabel.text =[NSString stringWithFormat:@"%@%@",[_orderDetailDic objectForKey:@"namepath"],[_orderDetailDic objectForKey:@"address"]];
+    addressLabel.font =[UIFont systemFontOfSize:13];
+    addressLabel.numberOfLines= 0;
+    addressLabel.textColor =TextGrayColor;
+    
     NSArray*leftArr =@[@"快递公司",@"运单号"] ;
     NSArray *rightArr =@[@"选择快递",@"填写单号"];
-
+    
     //列表
     for (int i=0; i<2; i++) {
         UIView *bgview =[[UIView alloc]init];
         bgview.backgroundColor =[UIColor whiteColor];
-        [bottomBgView addSubview:bgview];
+        [bgScrollView addSubview:bgview];
         UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 106*Width)];
         labe.text = leftArr[i];
         labe.font = [UIFont systemFontOfSize:15];
@@ -119,14 +149,14 @@
         xian.backgroundColor =BGColor;
         [bgview addSubview:xian];
         xian.frame =CGRectMake(0,104*Width, CXCWidth, 2*Width);
-        bgview.frame =CGRectMake(0, i*106*Width, CXCWidth, 106*Width);
-            
-            
+        bgview.frame =CGRectMake(0, i*106*Width+topView.bottom+20*Width, CXCWidth, 106*Width);
+        
+        
         
     }
     //下一步按钮
     UIButton*nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [nextBtn setFrame:CGRectMake(40*Width,64+410*Width , 670*Width, 88*Width)];
+    [nextBtn setFrame:CGRectMake(40*Width,520*Width , 670*Width, 88*Width)];
     [nextBtn setBackgroundColor:NavColor];
     [nextBtn.layer setCornerRadius:4];
     [nextBtn.layer setMasksToBounds:YES];
@@ -134,7 +164,7 @@
     [nextBtn.titleLabel setTextColor:[UIColor whiteColor]];
     [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [nextBtn addTarget:self action:@selector(nextStep) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:nextBtn];
+    [bgScrollView addSubview:nextBtn];
     
     
     
@@ -161,17 +191,12 @@
     
     [actionSheet show];
     
-    
-    
-    
-    
 }
 - (void)bankName
 {
     UILabel *label =[self.view viewWithTag:20];
     label.textColor =[UIColor blackColor];
     label.text =nameArr[[indexOfArr integerValue]];
-    
 }
 
 - (void)nextStep

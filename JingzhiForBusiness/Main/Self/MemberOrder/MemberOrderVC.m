@@ -9,6 +9,7 @@
 #import "MemberOrderVC.h"
 #import "MemberOrderCell.h"
 #import "MemberDetailVC.h"
+#import "MemberDeliverVC.h"
 #import "IsTureAlterView.h"
 #import "LogisticsDetailVC.h"
 @interface MemberOrderVC ()<UITextFieldDelegate,MemberOrderCellDelegate,IsTureAlterViewDelegate>
@@ -179,8 +180,9 @@
     
     }else if (tag==131)//发货
     {
-        MemberDetailVC *meberVC=[[MemberDetailVC alloc]init];
-        meberVC.detailDic =infoArray[index.row];
+        MemberDeliverVC*meberVC=[[MemberDeliverVC alloc]init];
+        meberVC.orderDetailDic =infoArray[index.row];
+        meberVC.orderId =[infoArray[index.row] objectForKey:@"id"];
 
         [self.navigationController pushViewController:meberVC animated:YES];
         

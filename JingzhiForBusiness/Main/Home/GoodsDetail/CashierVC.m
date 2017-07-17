@@ -181,34 +181,38 @@
         
     }];
 
-    
-    
-    
-    
-    
-    
+
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        [ProgressHUD  showSuccess:@"支付成功"];
         if ([controller isKindOfClass:[ShoppingCartVC  class]]) {
          //从购物车跳进去需要删除购物车里面的东西
            NSMutableArray* infoArr =[[NSMutableArray alloc]init];
             NSArray *arr =[PublicMethod getObjectForKey:shopingCart];
             [infoArr  addObjectsFromArray:arr];
+            [ProgressHUD  showSuccess:@"支付成功"];
+
             //遍历一遍把购物车删除
             for (int i=0; i<infoArr.count; i++) {
-                NSMutableDictionary * mDict = [NSMutableDictionary dictionaryWithDictionary:infoArr[i]];
-                //商品ID暂设为1
-                if ([[mDict objectForKey:@"goodID"]isEqualToString:@"1"]) {
-                    //先删除后保存
-                    [infoArr removeObjectAtIndex:i];
-                    [PublicMethod setObject:infoArr key:shopingCart];
-                    [self.navigationController  popToRootViewControllerAnimated:YES];
-
-                    return;
+                for (int j=0; j<_googsArr.count; j++) {
+                    NSMutableDictionary * mDict = [NSMutableDictionary dictionaryWithDictionary:infoArr[i]];
+                    NSMutableDictionary * jDict = [NSMutableDictionary dictionaryWithDictionary:_googsArr[j]];
+                    
+                    //商品ID暂设为1
+                    if ([[mDict objectForKey:@"goodID"]isEqualToString:[jDict objectForKey:@"goodID"]]) {
+                        //先删除后保存
+                        [infoArr removeObjectAtIndex:i];
+                        [PublicMethod setObject:infoArr key:shopingCart];
+                        [self.navigationController  popToRootViewControllerAnimated:YES];
+                        
+                        
+                    }
                     
                 }
                 
+                
             }
+
+            
+            
             
         }else
         {
@@ -217,6 +221,10 @@
 
         }
     }
+        
+        
+    NSMutableArray* infoArr =[[NSMutableArray alloc]init];
+    
     
 }
 - (void)didReceiveMemoryWarning {

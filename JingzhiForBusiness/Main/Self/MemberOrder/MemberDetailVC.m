@@ -206,6 +206,8 @@
 {
     MemberDeliverVC *membervc =[[MemberDeliverVC alloc]init];
     membervc.orderId =[_detailDic objectForKey:@"id"];
+    membervc.orderDetailDic =_detailDic;
+
     [self.navigationController pushViewController:membervc animated:YES];
 
 

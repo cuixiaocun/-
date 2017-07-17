@@ -64,8 +64,6 @@
 }
 - (void)mainView
 {
-    
-    
     UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
     topView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:topView];

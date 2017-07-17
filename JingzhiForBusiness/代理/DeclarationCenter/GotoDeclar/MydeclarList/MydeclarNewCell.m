@@ -163,7 +163,7 @@
     {
         statuLabel.text =@"已取消";
     }
-    
+
     UILabel *nameLabel =[self viewWithTag:200];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"upagenname"]];
 

@@ -23,6 +23,8 @@
 @property(strong,nonatomic)UILabel *numCountLab;//购买商品的数量
 @property(strong,nonatomic)UIButton *addBtn;//添加商品数量
 @property(strong,nonatomic)UIButton *deleteBtn;//删除商品数量
+@property(strong,nonatomic)UIButton *deleteAllBtn;//删除商品数量
+
 @property(strong,nonatomic)EGOImageView *goodsImgView;//图片
 
 @property(assign,nonatomic)BOOL selectState;//选中状态

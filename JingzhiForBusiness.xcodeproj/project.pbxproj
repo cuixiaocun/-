@@ -959,6 +959,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				845D99231F04FCB5005CF7A7 /* libc++.tbd in Frameworks */,
 				845D99371F04FD2D005CF7A7 /* CoreMotion.framework in Frameworks */,
 				845D99351F04FD20005CF7A7 /* CFNetwork.framework in Frameworks */,
 				845D99331F04FD17005CF7A7 /* Foundation.framework in Frameworks */,
@@ -969,7 +970,6 @@
 				845D99291F04FCDF005CF7A7 /* CoreTelephony.framework in Frameworks */,
 				845D99271F04FCCC005CF7A7 /* SystemConfiguration.framework in Frameworks */,
 				845D99251F04FCC3005CF7A7 /* libz.tbd in Frameworks */,
-				845D99231F04FCB5005CF7A7 /* libc++.tbd in Frameworks */,
 				84075D871EE51C9400139636 /* libxml2.2.tbd in Frameworks */,
 				7C171018B3774094BA0287F5 /* Pods_JingzhiForBusiness.framework in Frameworks */,
 				845D99211F04FC86005CF7A7 /* AlipaySDK.framework in Frameworks */,

@@ -11,7 +11,8 @@
 #import "HYConfirmOrderVC.h"
 #import "GoodsDetailVC.h"
 #import "LoginPage.h"
-@interface ShoppingCartVC ()<UITableViewDataSource,UITableViewDelegate,GoodsInfoCellDelegate>
+#import "IsTureAlterView.h"
+@interface ShoppingCartVC ()<UITableViewDataSource,UITableViewDelegate,IsTureAlterViewDelegate,GoodsInfoCellDelegate>
 {
     UITableView *goodsTableview;//中间商品
     NSMutableArray *infoArr;//商品信息
@@ -21,22 +22,32 @@
     UIView *alterView;//弹出输入框
     NSInteger indextNum;//定位在哪个单元格点击的（alterView 用）
     NSMutableArray *goodsMutableArr;//传到下一个页面的数组
-
+    NSIndexPath *index;
 
 }
 
 @property(strong,nonatomic)UIButton *allSelectBtn;
 @property(strong,nonatomic)UILabel *allPriceLab;
-
-
 @end
 @implementation ShoppingCartVC
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.navigationController.navigationBarHidden =YES;
+      [self calculateTheGoods];
 
+    UIButton *btn =[self.view viewWithTag:1256];
+    btn.selected =NO;
+    self.navigationController.navigationBarHidden =YES;
+    for (int i = 0; i<infoArr.count; i++)
+    {   NSMutableDictionary *goodsModel =[NSMutableDictionary dictionaryWithDictionary:infoArr[i]];
+        [goodsModel setValue:@"1" forKey:@"ishidden"];
+        [infoArr replaceObjectAtIndex:i withObject:goodsModel];
+    }
+    NSLog(@"%@",infoArr);
+
+    [self totalPrice];//求总和
+    [goodsTableview reloadData];//更新一下tableView
+//
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
-    [self calculateTheGoods];
     
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -68,9 +79,47 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
+    //提现按钮
+    UIButton *  withDrawlsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    withDrawlsBtn.frame = CGRectMake(CXCWidth-90, 20, 74, 44);
+    //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    withDrawlsBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
+    [withDrawlsBtn setTitle:@"编辑" forState:UIControlStateNormal];
+    withDrawlsBtn.tag=1256;
+    [withDrawlsBtn setTitle:@"取消编辑" forState:UIControlStateSelected];
+    [withDrawlsBtn addTarget:self action:@selector(editBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [topImageView addSubview:withDrawlsBtn];
+
     //初始化数据
     [self mainView];
 
+}
+- (void)editBtnAction:(UIButton *)btn
+{
+    btn.selected =!btn.selected;
+    if (btn.selected ==NO) {//选中
+        for (int i = 0; i<infoArr.count; i++)
+        {   NSMutableDictionary *goodsModel =[NSMutableDictionary dictionaryWithDictionary:infoArr[i]];
+            [goodsModel setValue:@"1" forKey:@"ishidden"];
+            [infoArr replaceObjectAtIndex:i withObject:goodsModel];
+            
+        }
+        
+    }else
+    {
+        for (int i = 0; i<infoArr.count; i++)
+        {   NSMutableDictionary *goodsModel =[NSMutableDictionary dictionaryWithDictionary:infoArr[i]];
+            [goodsModel setValue:@"0" forKey:@"ishidden"];
+            [infoArr replaceObjectAtIndex:i withObject:goodsModel];
+            
+        }
+
+    
+    }
+    [self totalPrice];//求总和
+    [goodsTableview reloadData];//更新一下tableView
+
+    
 }
 -(void)mainView
 {
@@ -110,15 +159,11 @@
     [bottomBgview addSubview:btn];
     
     
-    
-    
-    
-    
     UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(150*Width, 0, 100*Width, 100*Width)];
     [subPromLabel setText:@"合计:"];
     [subPromLabel  setFont:[UIFont systemFontOfSize:17]];
-    [bottomBgview   addSubview:subPromLabel];
-    [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
+    [bottomBgview  addSubview:subPromLabel];
+    [subPromLabel  setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
     //底部总价
     UILabel *subNumLabel =[[UILabel alloc]initWithFrame:CGRectMake(245*Width, 0, 500*Width, 100*Width)];
     [subNumLabel setText:@"¥0"];
@@ -209,7 +254,6 @@
 - (void)calculateTheGoods
 {
     goodsTableview.hidden =NO;//显示tableview
-    
     NSString*num =[NSString stringWithFormat:@"%d",2];
     infoArr =[[NSMutableArray alloc]init];
     NSArray *arr =[PublicMethod getObjectForKey:shopingCart];
@@ -217,9 +261,7 @@
     
     [self totalPrice];//求总和
     [goodsTableview reloadData];//更新一下tableView
-    
-    
-    
+
     
     
 }
@@ -284,7 +326,7 @@
  */
 -(void)btnClick:(UITableViewCell *)cell andFlag:(int)flag
 {
-    NSIndexPath *index = [goodsTableview indexPathForCell:cell];
+    index = [goodsTableview indexPathForCell:cell];
     
     switch (flag) {
         case 10:
@@ -366,25 +408,52 @@
             [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
                goode.goodsId =[[infoArr objectAtIndex:index.row ] objectForKey:@"goodID"];
                
-            
-               
-               
             [self.navigationController  pushViewController:goode animated:YES];
             
             break;
             
+        }case 17:
+        {
+        //确定要删除吗？
+        
+            IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要删除吗？"];
+            isture.delegate =self;
+            isture.tag =180;
+            [self.view addSubview:isture];
+            
+            NSLog(@"showalert");
+
+        
         }
+            break;
         default:
             break;
     }
     
-    //刷新表格
-    [goodsTableview reloadData];
+    [self totalPrice];//求总和
+    [goodsTableview reloadData];//更新一下tableView
     
-    //计算总价
-    [self totalPrice];
+
     
 }
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    NSLog(@"取消");
+    
+}
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    [infoArr removeObjectAtIndex:index.row];
+    //刷新表格
+    [goodsTableview reloadData];
+    //计算总价
+    [self totalPrice];
+}
+
 
 #pragma mark -- 计算价格
 -(void)totalPrice
@@ -549,7 +618,6 @@
     [model setValue:[NSString stringWithFormat:@"%.2f", [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue]] forKey:@"goodsTotalPrice"] ;
     [infoArr replaceObjectAtIndex:indextNum withObject:model];
 
-    
     //刷新表格
     [goodsTableview reloadData];
     
@@ -557,6 +625,7 @@
     [self totalPrice];
     
 }
+
 //取消
 -(void)cancelBtn
 {

@@ -269,6 +269,7 @@
         [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"boxnum"]] forKey:@"boxnum"];
         [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"img"]] forKey:@"img"];
         [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"deductible"]] forKey:@"deductible"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",@"1"] forKey:@"ishidden"];//@“1”是隐藏所有的x按钮
 
 
 
@@ -309,6 +310,7 @@
             [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"boxnum"]] forKey:@"boxnum"];
             [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"img"]] forKey:@"img"];
             [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"deductible"]] forKey:@"deductible"];
+            [infoDict setValue:[NSString stringWithFormat:@"%@",@"1"] forKey:@"ishidden"];//@“1”是隐藏所有的x按钮
 
 
             [inforArr addObject:infoDict ];
@@ -350,7 +352,8 @@
     [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"boxnum"]] forKey:@"boxnum"];
     [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"img"]] forKey:@"img"];
     [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"deductible"]] forKey:@"deductible"];
-    
+    [infoDict setValue:[NSString stringWithFormat:@"%@",@"1"] forKey:@"ishidden"];//@“1”是隐藏所有的x按钮
+
     
     [goodsMutableArr addObject:infoDict];
 

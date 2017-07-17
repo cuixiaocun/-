@@ -96,7 +96,6 @@
         _deleteBtn.tag = 11;
         [bgView addSubview:_deleteBtn];
         
-        
         //加按钮
         _addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _addBtn.frame = CGRectMake(656*Width, 120*Width, 68*Width, 68*Width);
@@ -109,10 +108,24 @@
         _addBtn.tag = 12;
         [bgView addSubview:_addBtn];
         
+        
+        
+        
+        //删除
+        _deleteAllBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _deleteAllBtn.frame = CGRectMake(640*Width, 10*Width, 80*Width, 80*Width);
+        _deleteAllBtn.imageEdgeInsets = UIEdgeInsetsMake(25*Width, 25*Width,25*Width, 25*Width);
+        
+        [_deleteAllBtn.layer setBorderWidth:1.0*Width];
+        _deleteAllBtn.layer.borderColor =BGColor.CGColor;
+        [_deleteAllBtn setImage:[UIImage imageNamed:@"icon_close"] forState:UIControlStateNormal];
+        [_deleteAllBtn addTarget:self action:@selector(editAction:) forControlEvents:UIControlEventTouchUpInside];
+        _deleteAllBtn.tag = 17;
+        [bgView addSubview:_deleteAllBtn];
+        
     }
     return self;
 }
-
 /**
  *  给单元格赋值
  *
@@ -130,6 +143,13 @@
     [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
     UIButton *brtn =[self viewWithTag:9];
     brtn.selected =[[goodsModel objectForKey:@"selectState" ] boolValue];
+    UIButton *xBtn =[self viewWithTag:17];
+    if ([[goodsModel objectForKey:@"ishidden" ]isEqualToString:@"1"]) {
+        xBtn.hidden =YES;
+    }else
+    {
+        xBtn.hidden =NO;
+    }
     
 }
 
@@ -173,6 +193,13 @@
 {
     //调用代理
     [self.delegate btnClick:self andFlag:(int)sender.tag];
+
+}
+- (void)editAction:(UIButton*)btn
+{
+
+    //调用代理
+    [self.delegate btnClick:self andFlag:(int)btn.tag];
 
 }
 @end
