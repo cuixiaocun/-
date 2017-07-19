@@ -9,9 +9,12 @@
 #import "MydeclarNewListVC.h"
 #import "MydeclarNewCell.h"
 #import "DeclarDetailVC.h"
-@interface MydeclarNewListVC ()
+#import "IsTureAlterView.h"
+@interface MydeclarNewListVC ()<MydeclarDelegate,IsTureAlterViewDelegate>
 {
     NSString *statuString;
+    NSIndexPath *index ;
+
 }
 @end
 
@@ -161,6 +164,7 @@
         
     }
     NSDictionary *dict = [infoArray objectAtIndex:row];
+    cell.delegate =self;
     [cell setDic:dict];
     return cell;
 }
@@ -417,6 +421,66 @@
     } fail:^(NSError *error) {
         
     }];
+    
+}
+-(void)btnClick:(UITableViewCell *)cell andTag:(NSInteger)tag
+{
+  
+    index = [ self.tableView indexPathForCell:cell];
+    
+    if (tag==2000) {//查看详情
+        DeclarDetailVC *declar =[[DeclarDetailVC alloc]init];
+        declar.ismy =@"0";
+        declar.orderId =[infoArray[index.row] objectForKey:@"id"];
+        [self.navigationController pushViewController:declar animated:YES];
+        
+    }else if (tag==2001)//发货
+    {
+        IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要取消吗？"];
+        isture.delegate =self;
+        isture.tag =180;
+        [self.view addSubview:isture];
+        
+        NSLog(@"驳回");
+        return;
+    }
+}
+-(void)cancelBtnActinAndTheAlterView:(UIView *)alter
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    [isture removeFromSuperview];
+    
+}
+-(void)tureBtnActionAndTheAlterView:(UIView *)alter
+{
+    IsTureAlterView *isture = [self.view viewWithTag:180];
+    
+    [isture removeFromSuperview];
+    NSLog(@"取消保单");
+    
+    [self deleateOrder];
+    //删除
+    
+}
+- (void)deleateOrder
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    
+    [dic1 setDictionary:@{@"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/cancelReport" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            [ProgressHUD showSuccess:@"报单已取消"];
+            currentPage =0;
+            [self getInfoList ];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
     
 }
 

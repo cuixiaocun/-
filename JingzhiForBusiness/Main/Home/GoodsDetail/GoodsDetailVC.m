@@ -12,7 +12,7 @@
 #import "LoginPage.h"
 #import "AKGallery.h"
 
-@interface GoodsDetailVC ()<UIScrollViewDelegate,SDCycleScrollViewDelegate,WKNavigationDelegate, WKUIDelegate,UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate>
+@interface GoodsDetailVC ()<UIScrollViewDelegate,SDCycleScrollViewDelegate,WKNavigationDelegate, WKUIDelegate,UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate,UITextFieldDelegate>
 {
     UIScrollView *bgScrollView;//最底下的背景
     //替代导航栏的imageview
@@ -27,6 +27,9 @@
     NSArray*ImgsArr;//下边图片
     UITableView *goodsTableview;//中间商品
     NSDictionary *dataDict ;
+
+
+
 
 }
 @property (strong, nonatomic) WKWebView *webView;
@@ -443,6 +446,7 @@
         UITextField*  _numCountLab = [[UITextField alloc]initWithFrame:CGRectMake(210*Width,label.bottom,190*Width , 90*Width)];
         _numCountLab.textAlignment = NSTextAlignmentCenter;
         _numCountLab.tag=120;
+        _numCountLab.delegate =self;
         _numCountLab.keyboardType =UIKeyboardTypeNumberPad;
         _numCountLab.layer.borderColor =BGColor.CGColor;
         [_numCountLab.layer setBorderWidth:1.0*Width];
@@ -692,6 +696,20 @@
     string = [string stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"]; // Do this last so that, e.g. @"&amp;lt;" goes to @"&lt;" not @"<"
     
     return string;
+}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSInteger existedLength = textField.text.length;
+    NSInteger selectedLength = range.length;
+    NSInteger replaceLength = string.length;
+    if (existedLength - selectedLength + replaceLength > 4)
+    {
+        [ProgressHUD showError:@"数量过大"];
+        [textField  resignFirstResponder];
+        return NO;
+
+    }else
+        return YES;
 }
 /*
 #pragma mark - Navigation

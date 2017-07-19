@@ -207,16 +207,14 @@
     if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"]){
         url =@"Home/Agen/getAgenInfo";
     }
-    NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
-    [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
-    [manager POST:url parameters:[NSString stringWithFormat:@"%@/%@",SERVERURL,url]  progress:^(NSProgress * _Nonnull uploadProgress) {
+    [manager POST:[NSString stringWithFormat:@"%@/%@",SERVERURL,url] parameters:@{@"token":[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]]}  progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@请求成功JSON:%@", url,dict);
+        NSLog(@"请求成功JSON:%@", [self logDic:dict]);
         if (success){
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"%@请求成功JSON:%@", url,dict);
-            NSLog(@"请求成功JSON:%@", [self logDic:dict]);
+           
             if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
                 NSDictionary *personDic =[[NSDictionary  alloc]init];
                 if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
@@ -254,7 +252,7 @@
         }
     
           failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-              NSLog(@"网络连接失败");
+              NSLog(@"%@",error);
               [ProgressHUD showError:@"网络连接失败，请检查网络"];
               
           }];

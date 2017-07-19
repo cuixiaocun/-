@@ -91,20 +91,34 @@
             if (i==3) {
                 bgview.backgroundColor =[UIColor whiteColor];
 
-                //系统计算按钮
-                UILabel * seeBtn = [[UILabel alloc]init];
-                [seeBtn setFrame:CGRectMake(630*Width,13.5*Width , 90*Width, 55*Width)];
-                [seeBtn setBackgroundColor:[UIColor whiteColor]];
-                [seeBtn.layer setCornerRadius:2*Width];
-                [seeBtn.layer setBorderWidth:1.5*Width];
-                [seeBtn.layer setMasksToBounds:YES];
-                seeBtn.textColor =TextColor;
-                seeBtn.text =@"详情";
-                seeBtn.textAlignment =NSTextAlignmentCenter;
-                seeBtn.font =[UIFont systemFontOfSize:14];
-                seeBtn.layer.borderColor =TextColor.CGColor;
-                [bgview addSubview:seeBtn];
+                //系统计算按钮seeLogBtn
+                _seeBtn = [[UIButton alloc]init];
+                [_seeBtn setBackgroundColor:[UIColor whiteColor]];
+                [_seeBtn.layer setCornerRadius:2*Width];
+                [_seeBtn.layer setBorderWidth:1.5*Width];
+                [_seeBtn.layer setMasksToBounds:YES];
+                [_seeBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+                [_seeBtn setTitle:@"详情" forState:UIControlStateNormal];
+                [_seeBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+                [_seeBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                _seeBtn.layer.borderColor =TextGrayColor.CGColor;
+                [bgview addSubview:_seeBtn];
+                _seeBtn.tag=2000;
+                //            _seeBtn.hidden=YES;
+                //取消订单
+                _rejectBtn = [[UIButton alloc]init];
+                [_rejectBtn setBackgroundColor:[UIColor whiteColor]];
+                [_rejectBtn.layer setCornerRadius:2*Width];
+                [_rejectBtn.layer setBorderWidth:1.5*Width];
+                [_rejectBtn.layer setMasksToBounds:YES];
+                [_rejectBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+                [_rejectBtn setTitle:@"取消" forState:UIControlStateNormal];
+                _rejectBtn.tag=2001;
                 
+                [_rejectBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+                [_rejectBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
+                _rejectBtn.layer.borderColor =TextGrayColor.CGColor;
+                [bgview addSubview:_rejectBtn];
                 
 
             }
@@ -128,6 +142,12 @@
     
     
 }
+- (void)btnAction:(UIButton *)btn
+{
+    [_delegate  btnClick:self andTag:btn.tag];
+    
+
+}
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
@@ -142,25 +162,36 @@
 
 
     UILabel*orderNumLabel =[self viewWithTag:102];
-    orderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"id"]];
+    orderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"sn"]];
     
     UILabel*statuLabel =[self viewWithTag:103];
 //    0全部  1 待审核  2 已驳回  3 已审核   4 已完成 5 已取消
     if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"1"])
     {
+        _seeBtn.hidden =NO;
+        _rejectBtn.hidden =NO;
+        _rejectBtn.frame =CGRectMake(520*Width, 15*Width, 90*Width,50*Width);
+        _seeBtn.frame =CGRectMake  (630*Width, 15*Width, 90*Width,50*Width);
+
     statuLabel.text =@"待审核";
-    
     }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"3"])
     {
+        _seeBtn.hidden =YES ;
+        _rejectBtn.hidden =YES;
         statuLabel.text =@"已审核";
     }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"2"])
     {
+        _seeBtn.hidden =YES ;
+        _rejectBtn.hidden =YES;
         statuLabel.text =@"已驳回";
     }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"4"])
-    {
+    {   _seeBtn.hidden =YES ;
+        _rejectBtn.hidden =YES;
         statuLabel.text =@"已完成";
     }else if([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]] isEqualToString:@"5"])
     {
+        _seeBtn.hidden =YES ;
+        _rejectBtn.hidden =YES;
         statuLabel.text =@"已取消";
     }
 

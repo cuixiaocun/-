@@ -75,6 +75,7 @@
     isture.tag =180;
     [self.view addSubview:isture];
     
+    
     NSLog(@"驳回");
 
    }
@@ -102,7 +103,11 @@
             
             [[self rdv_tabBarController] setSelectedIndex:0];
             [MBProgressHUD showSuccess:@"审核成功" ToView:self.view];
-          
+            [self getInfor];
+            [declarTabel reloadData];
+                _isHavePass =@"NO";
+                NSLog(@"%@",_isHavePass);
+
             
         }
         
@@ -116,7 +121,9 @@
 }
 -(void)returnBtnAction
 {
+
     [self.navigationController popViewControllerAnimated:YES];
+    [_delegate needReload];
 
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -235,7 +242,7 @@
         [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
         [pricesLabel setAttributedText:textColor];
         
-        orderNumberLabel.text = [NSString stringWithFormat:@"     订单号:%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"id"]];
+        orderNumberLabel.text = [NSString stringWithFormat:@"     订单号:%@",[[agenDic objectForKey:@"oorder"] objectForKey:@"sn"]];
     }
         return bgView;
 
@@ -301,7 +308,6 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if ([_isHavePass isEqualToString:@"YES"]) {
-        
        //背景
     UIView *bgview =[[UIView alloc]init];
     bgview.backgroundColor =BGColor;
@@ -339,8 +345,6 @@
     [dic1 setDictionary:@{
                           @"orderid": _orderId,
                           @"flg":_ismy,
-//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
-                          
                           }
      ];
     
@@ -349,6 +353,7 @@
         if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             inforArray =[[dict objectForKey:@"data"] objectForKey:@"detail"];
             agenDic =[dict objectForKey:@"data"] ;
+            
             [declarTabel reloadData];
             
         }

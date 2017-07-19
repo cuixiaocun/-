@@ -229,9 +229,14 @@
     [moneyText resignFirstResponder];
 
     if ([moneyText.text doubleValue]<[minMoney doubleValue]) {
-        [MBProgressHUD showError:@"输入金额不得小于最低金额" ToView:self.view];
+        [MBProgressHUD showError:@"输入金额不能大于最大拿货金额" ToView:self.view];
         return;
     }
+    if ([moneyText.text doubleValue]>9999999) {
+        [MBProgressHUD showError:@"" ToView:self.view];
+        return;
+    }
+
 
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
@@ -444,94 +449,112 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if (string.length == 0)
-        return YES;
-    
-    NSInteger existedLength = textField.text.length;
-    NSInteger selectedLength = range.length;
-    NSInteger replaceLength = string.length;
-    if (existedLength - selectedLength + replaceLength > 7) {
-        //            [ProgressHUD showError:@"不能超过6位"];
-        [textField  resignFirstResponder];
-        
-        
-        return NO;
-    }
-    if ([textField.text rangeOfString:@"."].location==NSNotFound) {
-        isHaveDian=NO;
-    }
-    if ([string length]>0)
-    {
-        unichar single=[string characterAtIndex:0];//当前输入的字符
-        if ((single >='0' && single<='9') || single=='.')//数据格式正确
+    if (textField.tag==120) {
+        NSInteger existedLength = textField.text.length;
+        NSInteger selectedLength = range.length;
+        NSInteger replaceLength = string.length;
+        if (existedLength - selectedLength + replaceLength > 4)
         {
-            //首字母不能为0和小数点
-            if([textField.text length]==0){
-                if(single == '.'){
-                    [MBProgressHUD  showError:@"第一个数字不能为小数点" ToView:self.view];
-                    [textField.text stringByReplacingCharactersInRange:range withString:@""];
-                    return NO;
-                    
-                }
-            }
-            if ([textField.text length]==1) {
-                if ([textField.text isEqualToString:@"0"]) {
-                    if(single >='0' && single<='9'){
-                        [textField resignFirstResponder ];
-                        [MBProgressHUD  showError:@"输入金额有误!" ToView:self.view];
-                        
+            [ProgressHUD showError:@"数量过大"];
+            [textField  resignFirstResponder];
+            return NO;
+            
+        }
+
+    }else
+    {
+        if (string.length == 0)
+            return YES;
+        
+        NSInteger existedLength = textField.text.length;
+        NSInteger selectedLength = range.length;
+        NSInteger replaceLength = string.length;
+        if (existedLength - selectedLength + replaceLength > 8) {
+            //            [ProgressHUD showError:@"不能超过6位"];
+            [textField  resignFirstResponder];
+            
+            
+            return NO;
+        }
+        if ([textField.text rangeOfString:@"."].location==NSNotFound) {
+            isHaveDian=NO;
+        }
+        if ([string length]>0)
+        {
+            unichar single=[string characterAtIndex:0];//当前输入的字符
+            if ((single >='0' && single<='9') || single=='.')//数据格式正确
+            {
+                //首字母不能为0和小数点
+                if([textField.text length]==0){
+                    if(single == '.'){
+                        [MBProgressHUD  showError:@"第一个数字不能为小数点" ToView:self.view];
                         [textField.text stringByReplacingCharactersInRange:range withString:@""];
-                        
                         return NO;
                         
+                    }
+                }
+                if ([textField.text length]==1) {
+                    if ([textField.text isEqualToString:@"0"]) {
+                        if(single >='0' && single<='9'){
+                            [textField resignFirstResponder ];
+                            [MBProgressHUD  showError:@"输入金额有误!" ToView:self.view];
+                            
+                            [textField.text stringByReplacingCharactersInRange:range withString:@""];
+                            
+                            return NO;
+                            
+                            
+                        }
                         
                     }
-                    
                 }
-            }
-            if (single=='.')
-            {
-                if(!isHaveDian)//text中还没有小数点
+                if (single=='.')
                 {
-                    isHaveDian=YES;
-                    return YES;
-                }else
-                {
-                    [MBProgressHUD  showError:@"您已经输入过小数点了" ToView:self.view];
-                    
-                    [textField.text stringByReplacingCharactersInRange:range withString:@""];
-                    return NO;
-                }
-            }
-            else
-            {
-                if (isHaveDian)//存在小数点
-                {
-                    //判断小数点的位数
-                    NSRange ran=[textField.text rangeOfString:@"."];
-                    int tt=range.location-ran.location;
-                    if (tt <= 2){
+                    if(!isHaveDian)//text中还没有小数点
+                    {
+                        isHaveDian=YES;
                         return YES;
-                    }else{
+                    }else
+                    {
+                        [MBProgressHUD  showError:@"您已经输入过小数点了" ToView:self.view];
                         
-                        [MBProgressHUD  showError:@"您最多输入两位小数" ToView:self.view];
-                        
+                        [textField.text stringByReplacingCharactersInRange:range withString:@""];
                         return NO;
                     }
                 }
                 else
                 {
-                    return YES;
+                    if (isHaveDian)//存在小数点
+                    {
+                        //判断小数点的位数
+                        NSRange ran=[textField.text rangeOfString:@"."];
+                        int tt=range.location-ran.location;
+                        if (tt <= 2){
+                            return YES;
+                        }else{
+                            
+                            [MBProgressHUD  showError:@"您最多输入两位小数" ToView:self.view];
+                            
+                            return NO;
+                        }
+                    }
+                    else
+                    {
+                        return YES;
+                    }
                 }
+            }else{//输入的数据格式不正确
+                [MBProgressHUD  showError:@"您输入的格式不正确" ToView:self.view];
+                
+                [textField.text stringByReplacingCharactersInRange:range withString:@""];
+                return NO;
             }
-        }else{//输入的数据格式不正确
-            [MBProgressHUD  showError:@"您输入的格式不正确" ToView:self.view];
-            
-            [textField.text stringByReplacingCharactersInRange:range withString:@""];
-            return NO;
         }
+
+    
+    
     }
-    return YES;
+        return YES;
     
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -568,6 +591,8 @@
         UITextField*  _numCountLab = [[UITextField alloc]initWithFrame:CGRectMake(210*Width,label.bottom,190*Width , 90*Width)];
         _numCountLab.textAlignment = NSTextAlignmentCenter;
         _numCountLab.tag=120;
+        _numCountLab.delegate =self;
+
         _numCountLab.keyboardType =UIKeyboardTypeNumberPad;
         _numCountLab.layer.borderColor =BGColor.CGColor;
         [_numCountLab.layer setBorderWidth:1.0*Width];
@@ -726,7 +751,6 @@
     
     
 }
-
 /*
 #pragma mark - Navigation
 

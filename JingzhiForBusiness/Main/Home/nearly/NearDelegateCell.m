@@ -20,10 +20,10 @@
         xian.backgroundColor =BGColor;
         [self addSubview:xian];
         xian.frame =CGRectMake(0,0*Width, CXCWidth, 18*Width);
-        NSArray*leftArr =@[@"代理帐号",@"代理名称",@"电话",@"微信",@"代理地区",@"距离",@"",@"",@"",@"",@"",@"",] ;
-        NSArray*rightArr =@[@"18363671722",@"山东桥通天下网络科技有限公司",@"18363672711",@"100000jof",@"山东省潍坊市奎文区",@"20Km",@"",@"",@"",@"",@"",] ;
+        NSArray*leftArr =@[@"代理帐号",@"官方授权合伙人",@"代理地区",@"距离",@"",@"",@"",@"",@"",@"",] ;
+        NSArray*rightArr =@[@"18363671722",@"山东桥通天下网络科技有限公司",@"山东省潍坊市奎文区",@"20Km",@"",@"",@"",@"",@"",] ;
         
-        for (int i=0; i<6; i++) {
+        for (int i=0; i<4; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];
@@ -72,17 +72,27 @@
     _dic=Dict;
     UILabel *numLabel =[self viewWithTag:200];
     UILabel *nameLabel =[self viewWithTag:201];
-    UILabel *telLabel =[self viewWithTag:202];
-    UILabel *wxLabel =[self viewWithTag:203];
-    UILabel *addressLabel =[self viewWithTag:204];
-    UILabel *distanceLabel =[self viewWithTag:205];
-    
+    UILabel *addressLabel =[self viewWithTag:202];
+    UILabel *distanceLabel =[self viewWithTag:203];
+//    UILabel *addressLabel =[self viewWithTag:204];
+//    UILabel *distanceLabel =[self viewWithTag:205];
+//    
     numLabel.text = [PublicMethod stringNilString:[_dic objectForKey:@"account"]];
     nameLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]]];
-    telLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]] ];
-    wxLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"webchat"]]];
+//    telLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]] ];
+//    wxLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"webchat"]]];
     addressLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name_path"]]];
-    distanceLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%.2fkm",[[_dic objectForKey:@"juli"] floatValue]/1000.00]];
+    if([[_dic objectForKey:@"juli"] floatValue]>100)
+    {
+        distanceLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%.2fkm",[[_dic objectForKey:@"juli"] floatValue]/1000.00]];
+        
+        
+    }else
+    {
+        distanceLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%.2fm",[[_dic objectForKey:@"juli"] floatValue]]];
+        
+        
+    }
     
 }
 -(NSString*)stringNilString:(NSString *)string

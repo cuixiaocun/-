@@ -9,8 +9,14 @@
 #import "SearchPage.h"
 #import "SearchCellTableViewCell.h"
 #import "SelfDetailVC.h"
-@interface SearchPage ()
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>
+#import <BaiduMapAPI_Base/BMKUserLocation.h>
+#import <BaiduMapAPI_Location/BMKLocationService.h>
+@interface SearchPage ()<BMKLocationServiceDelegate>
 {
+    BMKLocationService* _locService;
+    NSString *memberlat;
+    NSString *memberlng;
 
     UIView *nilBgView;
 
@@ -19,6 +25,16 @@
 @end
 
 @implementation SearchPage
+-(void)viewWillAppear:(BOOL)animated {
+    _locService.delegate = self;
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    _locService.delegate = nil;
+}
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -48,6 +64,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    _locService = [[BMKLocationService alloc]init];
+    _locService.delegate = self;
+    [_locService startUserLocationService];
+    
+
     [self.view setBackgroundColor:BGColor];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -506,7 +528,9 @@
     [dic1 setDictionary:@{
                           
      @"check":[NSString stringWithFormat:@"%@",textField.text],
-     
+     @"memberlat":memberlat ,
+     @"memberlng":memberlng ,
+
 }];
     
     NSLog(@"%@",dic1);
@@ -551,7 +575,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 430*Width+82*Width;
+    return 510*Width-164*Width;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -783,6 +807,16 @@
 }
 
 
+- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+{
+    NSLog(@"didUpdateUserLocation lat %f,long %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    memberlat =[NSString stringWithFormat:@"%f",userLocation.location.coordinate.latitude];
+    memberlng =[NSString stringWithFormat:@"%f",userLocation.location.coordinate.longitude];
+    [self performSelector:@selector(getInfoList)];
+    [_locService stopUserLocationService];
+    
+    
+}
 
 
 

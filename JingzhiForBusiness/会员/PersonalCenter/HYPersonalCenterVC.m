@@ -265,7 +265,11 @@
                 [PublicMethod removeObjectForKey: @"IsLogin"];
                 [PublicMethod removeObjectForKey: member];
                 [PublicMethod removeObjectForKey: shopingCart];
-                            }
+                [PublicMethod removeObjectForKey: @"zhangyue_searchJiLu"];
+                [PublicMethod removeObjectForKey: @"wantSearch"];
+
+            
+            }
             
         } fail:^(NSError *error) {
             

@@ -108,7 +108,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 510*Width;
+    return 510*Width-164*Width;
 }
 
 
@@ -323,7 +323,6 @@
     [dic1 setDictionary:@{@"memberlat":memberlat ,
                           @"memberlng":memberlng ,
 }];
-    
     NSLog(@"%@",dic1);
     [PublicMethod AFNetworkPOSTurl:@"Home/Index/nearbyagent" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];

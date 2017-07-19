@@ -201,7 +201,7 @@
     UILabel *accountLabel =[self viewWithTag:201];
     UILabel *timeLabel =[self viewWithTag:202];
     UILabel *addressLabel =[self viewWithTag:203];
-    orderIdLabel.text =[NSString stringWithFormat:@"订单号：%@",[_dic objectForKey:@"id"]];
+    orderIdLabel.text =[NSString stringWithFormat:@"订单号：%@",[_dic objectForKey:@"sn"]];
     accountLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"createtime"]];
     addressLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]];

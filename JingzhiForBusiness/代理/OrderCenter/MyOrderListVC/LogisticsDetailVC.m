@@ -67,10 +67,10 @@
     
     [self.view addSubview:bgScrollView];
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(30*Width, 25*Width, 260*Width, 50*Width)];
-    nameLabel.text =[NSString stringWithFormat:@"%@",[_dicDetail objectForKey:@"name"] ];
+    nameLabel.text =[NSString stringWithFormat:@"%@",[_dicDetail objectForKey:@"receivename"] ];
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
-    
+    NSLog(@"物流====%@",_dicDetail);
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
     numberLabel.text =[NSString stringWithFormat:@"%@",[_dicDetail objectForKey:@"phone"] ];
@@ -85,7 +85,7 @@
     
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,640*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    addressLabel.text =[NSString stringWithFormat:@"%@",[_dicDetail objectForKey:@"address"] ];
+    addressLabel.text =[NSString stringWithFormat:@"%@%@",[_dicDetail objectForKey:@"namepath"],[_dicDetail objectForKey:@"address"] ];
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;
@@ -201,15 +201,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray*arr=@[@{@"key":@"sdlfjhkas17763671722李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气",@"index":@"0",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdl17763671722f卡死了带回家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdl死了带回家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得0536-7371734好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都0536-7371734是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货18363671722了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"}];
+    NSArray*arr=@[];
         NSString *titleContent =[[arr objectAtIndex:indexPath.row] objectForKey:@"key"];
         CGSize titleSize;//通过文本得到高度
         
@@ -226,15 +218,8 @@
                                           reuseIdentifier:CellIdentifier ];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
-    NSArray*arr=@[@{@"key":@"sdlfjhkas17763671722李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气",@"index":@"0",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdl17763671722f卡死了带回家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdl死了带回家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得0536-7371734好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都0536-7371734是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴科维奇人",@"index":@"1",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货18363671722了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"},
-                  @{@"key":@"sdlfjhkas李蝴蝶飞飞拉得好索拉卡惊魂甫定啦鸿福路口沙发来撒看好你都是垃圾发货了客气哈放弃还老是发货未答复普斯发货了看起来好地方就卡死了带回家科维奇人",@"index":@"2",@"time":@"2017-09-09 20：15：23"}];
+    NSArray*arr=@[];
+
         cell.dic =arr[indexPath.row];
         
         

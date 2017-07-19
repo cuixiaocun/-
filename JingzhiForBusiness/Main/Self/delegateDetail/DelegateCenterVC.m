@@ -9,13 +9,18 @@
 #import "DelegateCenterVC.h"
 #import "TPKeyboardAvoidingScrollView.h"
 #import "MOFSPickerManager.h"
+#import "LMJScrollTextView.h"
 
 @interface DelegateCenterVC ()<UITextFieldDelegate >
 {
     TPKeyboardAvoidingScrollView *bgScrollView;
+    LMJScrollTextView * _scrollTextView2;
+    NSString *lianjieString;
 
 }
 @end
+
+
 
 @implementation DelegateCenterVC
 
@@ -59,8 +64,8 @@
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
-    NSArray*leftArr =@[@"账号",@"等级",@"可提现金额",@"发展人",@"上级代理",@"姓名",@"身份证号",@"手机号",@"微信",@"链接后缀",@"地区",@"",] ;
-    NSArray *rightArr =@[@"账号",@"等级",@"可提现金额",@"发展人",@"上级代理",@"姓名",@"身份证号",@"手机号",@"微信",@"链接后缀",@"地区",@"",];
+    NSArray*leftArr =@[@"账号",@"等级",@"可提现金额",@"发展人",@"上级代理",@"姓名",@"身份证号",@"手机号",@"微信",@"云店网址",@"地区",@"",] ;
+    NSArray *rightArr =@[@"账号",@"等级",@"可提现金额",@"发展人",@"上级代理",@"姓名",@"身份证号",@"手机号",@"微信",@"链接",@"地区",@"",];
     //列表
     for (int i=0; i<11; i++) {
         UIView *bgview =[[UIView alloc]init];
@@ -72,7 +77,7 @@
         labe.font = [UIFont systemFontOfSize:15];
         labe.textColor = [UIColor grayColor];
         [bgview addSubview:labe];
-        if (i==5||i==7) {
+        if (i==5||i==7||i==8) {
             UITextField *inputText = [[UITextField alloc] init];
             [inputText setTag:i+10];
             [inputText setPlaceholder:rightArr[i]];
@@ -100,23 +105,43 @@
             [chooseBtn addSubview:wzlabe];
             wzlabe.textAlignment =NSTextAlignmentRight;
 
-            //箭头
-            UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 28.5*Width,25*Width , 25*Width)];
-            [bgview addSubview:jiantou];
-            [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
+//            //箭头
+//            UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 28.5*Width,25*Width , 25*Width)];
+//            [bgview addSubview:jiantou];
+//            [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
             
             
         }else
         {
+            if (i==9) {
+                //往返滚动
+                [self addLabelWithFrame:CGRectMake(290*Width, 0,430*Width,82*Width) text:@""];
+                _scrollTextView2 = [[LMJScrollTextView alloc] initWithFrame:CGRectMake(290*Width, 0,430*Width,82*Width) textScrollModel:LMJTextScrollWandering direction:LMJTextScrollMoveLeft];
+                _scrollTextView2.backgroundColor = [UIColor whiteColor];
+                [bgview addSubview:_scrollTextView2];
+                
+                //地区选择
+                UIButton *chooseBtn =[[UIButton alloc]initWithFrame:CGRectMake(290*Width, 0,580*Width,82*Width)];
+                [bgview addSubview:chooseBtn];
+                chooseBtn.tag =139;
+                [chooseBtn addTarget:self action:@selector(fuzhi:) forControlEvents:UIControlEventTouchUpInside];
+                [bgview addSubview:chooseBtn];
+                
+
+            }else
+            {
+                
+                UILabel* rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(290*Width, 0,430*Width,82*Width)];
+                rightLabel.text = rightArr[i];
+                rightLabel.tag =20+i;
+                rightLabel.textAlignment =NSTextAlignmentRight;
+                rightLabel.font = [UIFont systemFontOfSize:16];
+                rightLabel.textColor = TextGrayColor;
+                [bgview addSubview:rightLabel];
+
             
-            UILabel* rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(290*Width, 0,430*Width,82*Width)];
-            rightLabel.text = rightArr[i];
-            rightLabel.tag =20+i;
-            rightLabel.textAlignment =NSTextAlignmentRight;
-            rightLabel.font = [UIFont systemFontOfSize:16];
-            rightLabel.textColor = TextGrayColor;
-            [bgview addSubview:rightLabel];
-        
+            }
+            
         }
         //横线
         UIImageView*xian =[[UIImageView alloc]init];
@@ -166,6 +191,13 @@
     
     
 }
+- (void)fuzhi:(UIButton *)btn
+{
+    [MBProgressHUD showSuccess:@"复制成功" ToView:self.view];
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = lianjieString;
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -174,7 +206,7 @@
 {
     UITextField *nameText =[self.view viewWithTag:15];
     UITextField *phoneText =[self.view viewWithTag:17];
-    UILabel *wxText =[self.view viewWithTag:28];
+    UITextField *wxText =[self.view viewWithTag:18];
     UILabel *hzText =[self.view viewWithTag:29];
     UILabel *addressLabel =[self.view viewWithTag:30];
 
@@ -225,25 +257,25 @@
 }
 - (void)areaChoosen:(UIButton*)btn
 {
-    UITextField *nameText =[self.view viewWithTag:15];
-    UITextField *phoneText =[self.view viewWithTag:17];
-//    UITextField *wxText =[self.view viewWithTag:18];
-//    UITextField *hzText =[self.view viewWithTag:19];
-
-    [nameText resignFirstResponder];
-    [phoneText resignFirstResponder];
-//    [wxText resignFirstResponder];
-//    [hzText resignFirstResponder];
-
-    UILabel*addressLabel = [self.view viewWithTag:30];
-    
-    [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:@"河南省-郑州市" numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
-        addressLabel.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
-    } cancelBlock:^{
-        
-    }];
-    
-
+//    UITextField *nameText =[self.view viewWithTag:15];
+//    UITextField *phoneText =[self.view viewWithTag:17];
+////    UITextField *wxText =[self.view viewWithTag:18];
+////    UITextField *hzText =[self.view viewWithTag:19];
+//
+//    [nameText resignFirstResponder];
+//    [phoneText resignFirstResponder];
+////    [wxText resignFirstResponder];
+////    [hzText resignFirstResponder];
+//
+//    UILabel*addressLabel = [self.view viewWithTag:30];
+//    
+//    [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:@"河南省-郑州市" numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
+//        addressLabel.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
+//    } cancelBlock:^{
+//        
+//    }];
+//    
+//
 
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -269,8 +301,8 @@
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             UITextField*nameLabel =[self.view viewWithTag:15];
             UITextField*phoneLabel =[self.view viewWithTag:17];
-            UILabel*wxLabel =[self.view viewWithTag:28];
-            UILabel*hzLabel =[self.view viewWithTag:29];
+            UITextField*wxLabel =[self.view viewWithTag:18];
+//            UILabel*hzLabel =[self.view viewWithTag:29];
             UILabel *accountLabel =[self.view viewWithTag:20];
             UILabel *leveLabel =[self.view viewWithTag:21];
             UILabel *canMoneyLabel =[self.view viewWithTag:22];
@@ -281,7 +313,7 @@
             nameLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"name"]]];
             phoneLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"phone"]]];
             wxLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"webchat"]]];
-            hzLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"agenurl"]]];
+//            hzLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"agenurl"]]];
             accountLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"account"]]];
             leveLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"level"]]];
             canMoneyLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"balance"]]];
@@ -289,10 +321,13 @@
             parentLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"recommendaccount"]]];
             idNumLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"idcard"]]];
             addressLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"name_path"]]];
+            lianjieString =[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"allagenurl"]];
+            
+            [_scrollTextView2 startScrollWithText:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"allagenurl"]] textColor:NavColor font:[UIFont systemFontOfSize:14]];
+
             
             }
                                                                               
-        
     } fail:^(NSError *error) {
                                                                               
         
@@ -300,6 +335,18 @@
     
     
 }
+
+-(void)changeSpeed{
+    [_scrollTextView2 setMoveSpeed:0.005];
+}
+-(void)addLabelWithFrame:(CGRect)frame text:(NSString *)text{
+    UILabel * label = [[UILabel alloc] initWithFrame:frame];
+    label.text      = text;
+    label.textColor = [UIColor greenColor];
+    label.font      = [UIFont boldSystemFontOfSize:15];
+    [self.view addSubview:label];
+}
+
 /*
 #pragma mark - Navigation
 

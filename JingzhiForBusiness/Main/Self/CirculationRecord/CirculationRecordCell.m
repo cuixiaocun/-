@@ -20,10 +20,10 @@
         [self addSubview:xian];
         xian.frame =CGRectMake(0,0*Width, CXCWidth, 20*Width);
 
-        NSArray*leftArr =@[@"订单号",@"发起代理",@"流转代理",@"流转时间",@"",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@"订单号",@"发起原因",@"发起代理",@"发起代理名称",@"流转代理",@"流转代理名称",@"流转时间",@"",@"",@"",@"",@"",];
         
-        NSArray*rightArr =@[@"",@"",@"",@"",@"",];
-        for (int i=0; i<4; i++){
+        NSArray*rightArr =@[@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+        for (int i=0; i<7; i++){
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];
@@ -72,15 +72,20 @@
     //待审核，已完成，已驳回
     _dic=Dict;
     UILabel *numberLabel =[self viewWithTag:200];
-    UILabel *upLabel =[self viewWithTag:201];
-    UILabel *downLabel =[self viewWithTag:202];
-    UILabel *timeLabel =[self viewWithTag:203];
+    UILabel *resonLabel =[self viewWithTag:201];
+    UILabel *upLabel =[self viewWithTag:202];
+    UILabel *upNameLabel =[self viewWithTag:203];
+    UILabel *downLabel =[self viewWithTag:204];
+    UILabel *downNameLabel =[self viewWithTag:205];
+    UILabel *timeLabel =[self viewWithTag:206];
     numberLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"sn"]];
     upLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"before"]];
     downLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"after"]];
+    resonLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"info"]];
+    upNameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"beforename"]];
+    downNameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"aftername"]];
     timeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"createtime"]];
 
-    
     
     
     

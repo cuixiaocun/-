@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-//添加代理，用于按钮加减的实现
+//添加代理
 @protocol AddAddressDelegate <NSObject>
 - (void)needReloadDataAddress;
 @end

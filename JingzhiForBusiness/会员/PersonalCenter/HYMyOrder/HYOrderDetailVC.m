@@ -112,7 +112,7 @@
     
     UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
     [topView addSubview:addressLabel];
-    addressLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]];
+    addressLabel.text =[NSString stringWithFormat:@"%@%@",[_dic objectForKey:@"namepath"],[_dic objectForKey:@"address"]];
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;

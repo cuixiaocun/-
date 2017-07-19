@@ -12,7 +12,7 @@
 #import "GoodsDetailVC.h"
 #import "LoginPage.h"
 #import "IsTureAlterView.h"
-@interface ShoppingCartVC ()<UITableViewDataSource,UITableViewDelegate,IsTureAlterViewDelegate,GoodsInfoCellDelegate>
+@interface ShoppingCartVC ()<UITableViewDataSource,UITableViewDelegate,IsTureAlterViewDelegate,GoodsInfoCellDelegate,UITextFieldDelegate>
 {
     UITableView *goodsTableview;//中间商品
     NSMutableArray *infoArr;//商品信息
@@ -35,13 +35,18 @@
       [self calculateTheGoods];
 
     UIButton *btn =[self.view viewWithTag:1256];
+    UIButton *allbtn =[self.view viewWithTag:888];
+    allbtn.selected =NO;
     btn.selected =NO;
     self.navigationController.navigationBarHidden =YES;
     for (int i = 0; i<infoArr.count; i++)
     {   NSMutableDictionary *goodsModel =[NSMutableDictionary dictionaryWithDictionary:infoArr[i]];
         [goodsModel setValue:@"1" forKey:@"ishidden"];
+        [goodsModel setValue:[NSString stringWithFormat:@"NO"] forKey:@"selectState"];
+
         [infoArr replaceObjectAtIndex:i withObject:goodsModel];
     }
+   
     NSLog(@"%@",infoArr);
 
     [self totalPrice];//求总和
@@ -507,6 +512,8 @@
         UITextField*  _numCountLab = [[UITextField alloc]initWithFrame:CGRectMake(210*Width,label.bottom,190*Width , 90*Width)];
         _numCountLab.textAlignment = NSTextAlignmentCenter;
         _numCountLab.tag=120;
+        _numCountLab.delegate =self;
+
         _numCountLab.keyboardType =UIKeyboardTypeNumberPad;
         _numCountLab.layer.borderColor =BGColor.CGColor;
         [_numCountLab.layer setBorderWidth:1.0*Width];
@@ -636,6 +643,23 @@
     
     alterView.hidden =YES;
     
+}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.tag==120) {
+        NSInteger existedLength = textField.text.length;
+        NSInteger selectedLength = range.length;
+        NSInteger replaceLength = string.length;
+        if (existedLength - selectedLength + replaceLength > 4)
+        {
+            [ProgressHUD showError:@"数量过大"];
+            [textField  resignFirstResponder];
+            return NO;
+            
+        }
+        
+    }
+    return YES;
 }
 
 

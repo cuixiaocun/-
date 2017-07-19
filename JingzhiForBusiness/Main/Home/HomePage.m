@@ -105,7 +105,7 @@
     [self getToken];
     [self getBanner];
     [self getNotice];
-    [self getDetail];
+//    [self getDetail];
     [self getGoods];
 //    [PublicMethod getAppKey];
 }
@@ -158,36 +158,36 @@
 
 
 }
-- (void)getDetail
-{
-    [PublicMethod AFNetworkPOSTurl:@"Home/Index/company" paraments:@{}  addView:self.view success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *dataDict =[dict objectForKey:@"data"];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            EGOImageView*photoImgV =[self.view viewWithTag:3330];
-            UILabel*nameLabel =[self.view viewWithTag:3331];
-            UILabel*addressLabel =[self.view viewWithTag:3332];
-            UILabel*detailLabel =[self.view viewWithTag:3333];
-            photoImgV.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"img"]]];
-            nameLabel.text =[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"name"]];
-            addressLabel.text =[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"address"]];
-            detailLabel.text =[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"content"]];
-            NSAttributedString*string2 =[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"content"]]];
-            detailLabel.height= [self heightForExpressionText:string2 width:700*Width];
-            detailLabel.top =(126+68)*Width;
-//            bottomView.backgroundColor =[UIColor redColor];
-            bottomView.frame =CGRectMake(0,  _mainCMallCollectionView.bottom, CXCWidth, detailLabel.height+134*Width);//得到数量的时候
-
-            [bgScrollView setContentSize:CGSizeMake(CXCWidth, bottomView.bottom+64)];
-
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
-    
-    
-}
+//- (void)getDetail
+//{
+//    [PublicMethod AFNetworkPOSTurl:@"Home/Index/company" paraments:@{}  addView:self.view success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        NSDictionary *dataDict =[dict objectForKey:@"data"];
+//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+//            EGOImageView*photoImgV =[self.view viewWithTag:3330];
+//            UILabel*nameLabel =[self.view viewWithTag:3331];
+//            UILabel*addressLabel =[self.view viewWithTag:3332];
+//            UILabel*detailLabel =[self.view viewWithTag:3333];
+//            photoImgV.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"img"]]];
+//            nameLabel.text =[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"name"]];
+//            addressLabel.text =[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"address"]];
+//            detailLabel.text =[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"content"]];
+//            NSAttributedString*string2 =[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",[dataDict objectForKey:@"content"]]];
+//            detailLabel.height= [self heightForExpressionText:string2 width:700*Width];
+//            detailLabel.top =(126+68)*Width;
+////            bottomView.backgroundColor =[UIColor redColor];
+//            bottomView.frame =CGRectMake(0,  _mainCMallCollectionView.bottom, CXCWidth, detailLabel.height+134*Width);//得到数量的时候
+//
+//            [bgScrollView setContentSize:CGSizeMake(CXCWidth, bottomView.bottom+64)];
+//
+//        }
+//        
+//    } fail:^(NSError *error) {
+//        
+//    }];
+//    
+//    
+//}
 - (void)getGoods
 {
     [PublicMethod AFNetworkPOSTurl:@"Home/Index/product" paraments:@{}  addView:self.view success:^(id responseDic) {
@@ -198,8 +198,8 @@
             [_mainCMallCollectionView reloadData];
     
             _mainCMallCollectionView.height = (goodsArr.count/2+goodsArr.count%2)*440*Width+20*Width ;//高度=(数量/2+1)*440*width+20*width
-            bottomView.top =  _mainCMallCollectionView.bottom;//得到数量的时候
-            [bgScrollView setContentSize:CGSizeMake(CXCWidth, bottomView.bottom+64)];
+//            bottomView.top =  _mainCMallCollectionView.bottom;//得到数量的时候
+            [bgScrollView setContentSize:CGSizeMake(CXCWidth, _mainCMallCollectionView.bottom+64)];
 
         }
         
@@ -321,68 +321,68 @@
     [_mainCMallCollectionView reloadData];
     
     
-    bottomView =[[UIView alloc]initWithFrame:CGRectMake(0,_mainCMallCollectionView.bottom, CXCWidth, 1000*Width)];
-    bottomView.backgroundColor =BGColor;
-    [bgScrollView addSubview:bottomView];
-    
-    //公司
-    UIView *companyXian =[[UIView alloc]initWithFrame:CGRectMake(0,0, CXCWidth, 88*Width)];
-    companyXian.backgroundColor =BGColor;
-    
-    [bottomView addSubview:companyXian];
-    
-    UIImageView *crightXian =[[UIImageView alloc]initWithFrame:CGRectMake(25*Width, 43*Width, 230*Width, 2*Width)];
-    [crightXian setBackgroundColor:TextGrayGray3Color];
-    [companyXian addSubview:crightXian];
-    
-    UIImageView *biaoImgv =[[UIImageView alloc]initWithFrame:CGRectMake(crightXian.right+10*Width, 21.5*Width, 45*Width, 45*Width)];
-    [biaoImgv setBackgroundColor:BGColor];
-    biaoImgv.image =[UIImage imageNamed:@"vip_icon_company_profile"];
-    [companyXian addSubview:biaoImgv];
-    
-    UILabel*compLabel =[[UILabel alloc]initWithFrame:CGRectMake(biaoImgv.right+14*Width, 0, 200*Width, 88*Width)];
-    compLabel.text =@"公司简介";
-    compLabel.textColor =[UIColor colorWithRed:33/255.0 green:144/255.0 blue:244/255.0 alpha:1];
-    compLabel.font =[UIFont systemFontOfSize:17];
-    [companyXian addSubview:compLabel];
-    
-    UIImageView *cleftXian =[[UIImageView alloc]initWithFrame:CGRectMake(490*Width, 43*Width, 230*Width, 2*Width)];
-    [cleftXian setBackgroundColor:TextGrayGray3Color];
-    [companyXian addSubview:cleftXian];
-    
-    UIView *bgView =[[UIView alloc]initWithFrame:CGRectMake(0, companyXian.bottom, CXCWidth, 130*Width)];
-    bgView.backgroundColor =[UIColor whiteColor];
-    [bottomView addSubview:bgView];
-    
-    //头像
-    EGOImageView *touImageV = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@""]];
-    [touImageV setFrame:CGRectMake(24*Width, 32*Width, 72*Width, 72*Width)];
-    //    [touImageV setImageURL:[NSURL URLWithString:headString]];
-    [touImageV setImage:[UIImage imageNamed:@"proxy_icon_header"]];
-    touImageV.tag =3330;
-    touImageV.userInteractionEnabled =YES;
-    [touImageV.layer setMasksToBounds:YES];
-    [bgView addSubview:touImageV];
-    
-    //名称
-    UILabel *levelLabel = [[UILabel alloc]initWithFrame:CGRectMake(touImageV.right+20*Width,touImageV.top-2*Width, 600*Width, 40*Width)];
-    levelLabel.textColor = [UIColor whiteColor];
-    levelLabel.tag =3331;
-    levelLabel.text =@"公司";
-    levelLabel.textAlignment = NSTextAlignmentLeft;
-    levelLabel.font = [UIFont boldSystemFontOfSize:16];
-    levelLabel.textColor = BlackColor;
-    [bgView   addSubview:levelLabel];
-    
-    //地址
-    UILabel *telphoneL = [[UILabel alloc]initWithFrame:CGRectMake(touImageV.right+24*Width,levelLabel.bottom, 600*Width, 40*Width)];
-    telphoneL.textColor = [UIColor whiteColor];
-    telphoneL.tag =3332;
-    telphoneL.text=@"地址";
-    telphoneL.textAlignment = NSTextAlignmentLeft;
-    telphoneL.font = [UIFont boldSystemFontOfSize:13];
-    telphoneL.textColor = TextGrayColor;
-    [bgView addSubview:telphoneL];
+//    bottomView =[[UIView alloc]initWithFrame:CGRectMake(0,_mainCMallCollectionView.bottom, CXCWidth, 1000*Width)];
+//    bottomView.backgroundColor =BGColor;
+//    [bgScrollView addSubview:bottomView];
+//    
+//    //公司
+//    UIView *companyXian =[[UIView alloc]initWithFrame:CGRectMake(0,0, CXCWidth, 88*Width)];
+//    companyXian.backgroundColor =BGColor;
+//    
+//    [bottomView addSubview:companyXian];
+//    
+//    UIImageView *crightXian =[[UIImageView alloc]initWithFrame:CGRectMake(25*Width, 43*Width, 230*Width, 2*Width)];
+//    [crightXian setBackgroundColor:TextGrayGray3Color];
+//    [companyXian addSubview:crightXian];
+//    
+//    UIImageView *biaoImgv =[[UIImageView alloc]initWithFrame:CGRectMake(crightXian.right+10*Width, 21.5*Width, 45*Width, 45*Width)];
+//    [biaoImgv setBackgroundColor:BGColor];
+//    biaoImgv.image =[UIImage imageNamed:@"vip_icon_company_profile"];
+//    [companyXian addSubview:biaoImgv];
+//    
+//    UILabel*compLabel =[[UILabel alloc]initWithFrame:CGRectMake(biaoImgv.right+14*Width, 0, 200*Width, 88*Width)];
+//    compLabel.text =@"公司简介";
+//    compLabel.textColor =[UIColor colorWithRed:33/255.0 green:144/255.0 blue:244/255.0 alpha:1];
+//    compLabel.font =[UIFont systemFontOfSize:17];
+//    [companyXian addSubview:compLabel];
+//    
+//    UIImageView *cleftXian =[[UIImageView alloc]initWithFrame:CGRectMake(490*Width, 43*Width, 230*Width, 2*Width)];
+//    [cleftXian setBackgroundColor:TextGrayGray3Color];
+//    [companyXian addSubview:cleftXian];
+//    
+//    UIView *bgView =[[UIView alloc]initWithFrame:CGRectMake(0, companyXian.bottom, CXCWidth, 130*Width)];
+//    bgView.backgroundColor =[UIColor whiteColor];
+//    [bottomView addSubview:bgView];
+//    
+//    //头像
+//    EGOImageView *touImageV = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@""]];
+//    [touImageV setFrame:CGRectMake(24*Width, 32*Width, 72*Width, 72*Width)];
+//    //    [touImageV setImageURL:[NSURL URLWithString:headString]];
+//    [touImageV setImage:[UIImage imageNamed:@"proxy_icon_header"]];
+//    touImageV.tag =3330;
+//    touImageV.userInteractionEnabled =YES;
+//    [touImageV.layer setMasksToBounds:YES];
+//    [bgView addSubview:touImageV];
+//    
+//    //名称
+//    UILabel *levelLabel = [[UILabel alloc]initWithFrame:CGRectMake(touImageV.right+20*Width,touImageV.top-2*Width, 600*Width, 40*Width)];
+//    levelLabel.textColor = [UIColor whiteColor];
+//    levelLabel.tag =3331;
+//    levelLabel.text =@"公司";
+//    levelLabel.textAlignment = NSTextAlignmentLeft;
+//    levelLabel.font = [UIFont boldSystemFontOfSize:16];
+//    levelLabel.textColor = BlackColor;
+//    [bgView   addSubview:levelLabel];
+//    
+//    //地址
+//    UILabel *telphoneL = [[UILabel alloc]initWithFrame:CGRectMake(touImageV.right+24*Width,levelLabel.bottom, 600*Width, 40*Width)];
+//    telphoneL.textColor = [UIColor whiteColor];
+//    telphoneL.tag =3332;
+//    telphoneL.text=@"地址";
+//    telphoneL.textAlignment = NSTextAlignmentLeft;
+//    telphoneL.font = [UIFont boldSystemFontOfSize:13];
+//    telphoneL.textColor = TextGrayColor;
+//    [bgView addSubview:telphoneL];
 //    NSArray *imgArr =@[@"1.jpg",@"2.jpg",@"3.jpg"];
 //    for (int i=0; i<3; i++) {
 //        EGOImageView *imgvOfcompany =[[EGOImageView alloc]init];
@@ -407,24 +407,24 @@
 //        [bgView addSubview:imgvOfcompany];
 //        
 //    }
-    
-    MLLabel* textLabel=[[MLLabel alloc]initWithFrame:CGRectMake(0*Width, telphoneL.bottom+20*Width, 750*Width, 50*Width)];
-    textLabel.textColor = TextGrayColor;
-    textLabel.font = [UIFont systemFontOfSize:14.0f];
-    textLabel.numberOfLines = 0;
-    textLabel.backgroundColor =[UIColor whiteColor];
-//    textLabel.adjustsFontSizeToFitWidth = YES;
-    textLabel.textInsets = UIEdgeInsetsMake(0, 25*Width, 0, 25*Width);
-    textLabel.lineSpacing = 10.0f;
-    textLabel.tag = 3333;
-    NSString *str =@"山东桥通天下网络科技公司是一家集设计、研发、营销为一体的互联网软件开发综合服务商我们的团队年轻、朝气、充满活力！我们的梦想是：致力于成为国内一流的软件开发服务商注重创新坚持高效，做中国最具有创新精神的软件开发商";
-    textLabel.text =str ;
-    [textLabel setDoBeforeDrawingTextBlock:nil];
-    [textLabel setTextColor:TextGrayColor];
-    [bottomView addSubview:textLabel];
-    
-    NSAttributedString*string2 =[[NSAttributedString alloc] initWithString:str];
-   textLabel.height= [self heightForExpressionText:string2 width:700*Width];
+//    
+//    MLLabel* textLabel=[[MLLabel alloc]initWithFrame:CGRectMake(0*Width, telphoneL.bottom+20*Width, 750*Width, 50*Width)];
+//    textLabel.textColor = TextGrayColor;
+//    textLabel.font = [UIFont systemFontOfSize:14.0f];
+//    textLabel.numberOfLines = 0;
+//    textLabel.backgroundColor =[UIColor whiteColor];
+////    textLabel.adjustsFontSizeToFitWidth = YES;
+//    textLabel.textInsets = UIEdgeInsetsMake(0, 25*Width, 0, 25*Width);
+//    textLabel.lineSpacing = 10.0f;
+//    textLabel.tag = 3333;
+//    NSString *str =@"山东桥通天下网络科技公司是一家集设计、研发、营销为一体的互联网软件开发综合服务商我们的团队年轻、朝气、充满活力！我们的梦想是：致力于成为国内一流的软件开发服务商注重创新坚持高效，做中国最具有创新精神的软件开发商";
+//    textLabel.text =str ;
+//    [textLabel setDoBeforeDrawingTextBlock:nil];
+//    [textLabel setTextColor:TextGrayColor];
+//    [bottomView addSubview:textLabel];
+//    
+//    NSAttributedString*string2 =[[NSAttributedString alloc] initWithString:str];
+//   textLabel.height= [self heightForExpressionText:string2 width:700*Width];
     
 
 }

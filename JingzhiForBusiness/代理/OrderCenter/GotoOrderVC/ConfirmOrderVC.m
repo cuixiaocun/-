@@ -116,7 +116,7 @@
    
 
     [PublicMethod personalAFNetworkSuccess:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *dict = responseDic;
         
             if ([[dict objectForKey:@"reveiveaddress"]isEqual:[NSNull null]]||[[dict objectForKey:@"reveiveaddress"] isEqualToString:@"<null>"]) {
                 

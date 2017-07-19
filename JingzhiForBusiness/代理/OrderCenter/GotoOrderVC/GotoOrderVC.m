@@ -9,7 +9,7 @@
 #import "GotoOrderVC.h"
 #import "GoOrderCell.h"
 #import "ConfirmOrderVC.h"
-@interface GotoOrderVC ()<UITableViewDelegate,UITableViewDataSource,goOrderCellDelegate>
+@interface GotoOrderVC ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,goOrderCellDelegate>
 {
     UIView* blackBgView;//输入框背景透明黑
     UIView *alterView;//弹出输入框
@@ -197,6 +197,8 @@
         UITextField*  _numCountLab = [[UITextField alloc]initWithFrame:CGRectMake(210*Width,label.bottom,190*Width , 90*Width)];
         _numCountLab.textAlignment = NSTextAlignmentCenter;
         _numCountLab.tag=120;
+        _numCountLab.delegate =self;
+
         _numCountLab.keyboardType =UIKeyboardTypeNumberPad;
         _numCountLab.layer.borderColor =BGColor.CGColor;
         [_numCountLab.layer setBorderWidth:1.0*Width];
@@ -385,7 +387,23 @@
     
 }
 
-
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField.tag==120) {
+        NSInteger existedLength = textField.text.length;
+        NSInteger selectedLength = range.length;
+        NSInteger replaceLength = string.length;
+        if (existedLength - selectedLength + replaceLength > 4)
+        {
+            [ProgressHUD showError:@"数量过大"];
+            [textField  resignFirstResponder];
+            return NO;
+            
+        }
+        
+    }
+    return YES;
+}
 
 
 

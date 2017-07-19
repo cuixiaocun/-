@@ -305,6 +305,11 @@
         [MBProgressHUD showError:@"输入金额不得小于最低金额" ToView:self.view];
         return;
     }
+    if ([moneyText.text doubleValue]>9999999) {
+        [MBProgressHUD showError:@"输入金额不得大于最高拿货金额" ToView:self.view];
+        return;
+    }
+
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     
     NSString *url ;
@@ -536,13 +541,26 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+    if (textField.tag==120) {
+        NSInteger existedLength = textField.text.length;
+        NSInteger selectedLength = range.length;
+        NSInteger replaceLength = string.length;
+        if (existedLength - selectedLength + replaceLength > 4)
+        {
+            [ProgressHUD showError:@"数量过大"];
+            [textField  resignFirstResponder];
+            return NO;
+            
+        }
+        
+    }
     if (string.length == 0)
         return YES;
     
     NSInteger existedLength = textField.text.length;
     NSInteger selectedLength = range.length;
     NSInteger replaceLength = string.length;
-    if (existedLength - selectedLength + replaceLength > 7) {
+    if (existedLength - selectedLength + replaceLength > 8) {
         //            [ProgressHUD showError:@"不能超过6位"];
         [textField  resignFirstResponder];
         
@@ -660,6 +678,8 @@
     UITextField*  _numCountLab = [[UITextField alloc]initWithFrame:CGRectMake(210*Width,label.bottom,190*Width , 90*Width)];
     _numCountLab.textAlignment = NSTextAlignmentCenter;
     _numCountLab.tag=120;
+        _numCountLab.delegate =self;
+
         _numCountLab.keyboardType =UIKeyboardTypeNumberPad;
     _numCountLab.layer.borderColor =BGColor.CGColor;
     [_numCountLab.layer setBorderWidth:1.0*Width];

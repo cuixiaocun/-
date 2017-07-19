@@ -12,7 +12,7 @@
 #import "DeclarDetailVC.h"
 #import "IsTureAlterView.h"
 
-@interface ManageDeclareVC ()<UITableViewDelegate,UITableViewDataSource,ManagerDelegate,IsTureAlterViewDelegate >
+@interface ManageDeclareVC ()<UITableViewDelegate,UITableViewDataSource,ManagerDelegate,IsTureAlterViewDelegate,DeclarDetailVCDelegate>
 {
     NSArray *stockInforArr;
     NSIndexPath *index;
@@ -65,6 +65,14 @@
     
     [self mainView];
 }
+-(void)needReload
+{
+    currentPage=0;
+    NSLog(@"1234567890-");
+    [self getInfoList];
+    
+}
+
 - (void)returnBtnAction
 {
     
@@ -141,15 +149,13 @@
      }else
      {
          declar.isHavePass =@"NO";//可以审核的
-         
      }
-   
      declar.ismy =@"1";
+     declar.delegate=self;
      declar.orderId =[infoArray[indexPath.row] objectForKey:@"id"];
      [self.navigationController pushViewController:declar animated:YES];
  
- }
-    
+  }
     
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -283,15 +289,14 @@
             DeclarDetailVC *declar =[[DeclarDetailVC alloc]init];
 
             if ([[[infoArray objectAtIndex: index.row] objectForKey:@"status"]isEqualToString:@"1"]) {
-                
                 declar.isHavePass =@"YES";//可以审核的
-
             }else
             {
                 declar.isHavePass =@"NO";//可以审核的
-
             }
             declar.ismy =@"1";
+            declar.delegate =self;
+            
             declar.orderId =[infoArray[index.row] objectForKey:@"id"];
             [self.navigationController pushViewController:declar animated:YES];
             
@@ -672,5 +677,6 @@
     // Pass the selected object to the new view controller.
 }
 */
+
 
 @end

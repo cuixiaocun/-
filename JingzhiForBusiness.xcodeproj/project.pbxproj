@@ -108,6 +108,7 @@
 		845D99B21F05D9A8005CF7A7 /* WXApiResponseHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 845D99AF1F05D9A8005CF7A7 /* WXApiResponseHandler.m */; };
 		846E0E221F0C932C00854C7F /* OrderCirclatonVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 846E0E211F0C932C00854C7F /* OrderCirclatonVC.m */; };
 		846E0E251F0C938500854C7F /* OrderCirCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 846E0E241F0C938500854C7F /* OrderCirCell.m */; };
+		847797121F1DFBA6009C5993 /* LMJScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 847797111F1DFBA6009C5993 /* LMJScrollTextView.m */; };
 		8498DEE71EEB8D2600BEFFFF /* RabatForInCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8498DEE61EEB8D2600BEFFFF /* RabatForInCell.m */; };
 		8498DEED1EEBDCA900BEFFFF /* MydeclarNewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8498DEEC1EEBDCA900BEFFFF /* MydeclarNewCell.m */; };
 		8498DEF01EEBDCE900BEFFFF /* MydeclarNewListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8498DEEF1EEBDCE900BEFFFF /* MydeclarNewListVC.m */; };
@@ -583,6 +584,8 @@
 		846E0E211F0C932C00854C7F /* OrderCirclatonVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCirclatonVC.m; sourceTree = "<group>"; };
 		846E0E231F0C938500854C7F /* OrderCirCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderCirCell.h; sourceTree = "<group>"; };
 		846E0E241F0C938500854C7F /* OrderCirCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderCirCell.m; sourceTree = "<group>"; };
+		847797101F1DFBA6009C5993 /* LMJScrollTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LMJScrollTextView.h; sourceTree = "<group>"; };
+		847797111F1DFBA6009C5993 /* LMJScrollTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LMJScrollTextView.m; sourceTree = "<group>"; };
 		8498DEE51EEB8D2600BEFFFF /* RabatForInCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RabatForInCell.h; sourceTree = "<group>"; };
 		8498DEE61EEB8D2600BEFFFF /* RabatForInCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RabatForInCell.m; sourceTree = "<group>"; };
 		8498DEEB1EEBDCA900BEFFFF /* MydeclarNewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MydeclarNewCell.h; sourceTree = "<group>"; };
@@ -1510,6 +1513,15 @@
 			path = orderCirculation;
 			sourceTree = "<group>";
 		};
+		8477970F1F1DFBA6009C5993 /* LMJScrollTextView */ = {
+			isa = PBXGroup;
+			children = (
+				847797101F1DFBA6009C5993 /* LMJScrollTextView.h */,
+				847797111F1DFBA6009C5993 /* LMJScrollTextView.m */,
+			);
+			path = LMJScrollTextView;
+			sourceTree = "<group>";
+		};
 		8498DEE81EEBDC2C00BEFFFF /* 不用的 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1663,6 +1675,7 @@
 		84E5303E1E80C8D3009E63E6 /* ThirdResource */ = {
 			isa = PBXGroup;
 			children = (
+				8477970F1F1DFBA6009C5993 /* LMJScrollTextView */,
 				84F6E0A71F14A9AA005DC402 /* ZLCGuidePage */,
 				845D991C1F04FBB6005CF7A7 /* 微信支付 */,
 				845D991D1F04FBB6005CF7A7 /* 支付宝支付 */,
@@ -2769,6 +2782,7 @@
 				84570CD91ED80356005F893B /* QRCodeGenerator.m in Sources */,
 				8498DEF01EEBDCE900BEFFFF /* MydeclarNewListVC.m in Sources */,
 				84E0A19A1EFA43BB00213A0E /* TPKeyboardAvoidingTableView.m in Sources */,
+				847797121F1DFBA6009C5993 /* LMJScrollTextView.m in Sources */,
 				84075D801EE50B9100139636 /* MOFSAddressPickerView.m in Sources */,
 				84E5325E1E80D48F009E63E6 /* HomePage.m in Sources */,
 				846E0E251F0C938500854C7F /* OrderCirCell.m in Sources */,

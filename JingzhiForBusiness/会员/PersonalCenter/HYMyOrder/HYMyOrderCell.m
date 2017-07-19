@@ -206,7 +206,7 @@
     _dic=Dict;
     UILabel *oderNumLabel = [self viewWithTag:333];
     UILabel *statusLabel = [self viewWithTag:334];
-    oderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"id"]];
+    oderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"sn"]];
     if ([[_dic objectForKey:@"status"]isEqualToString:@"1"]) {
         statusLabel.text =@"待支付";
 

@@ -62,19 +62,20 @@
     bgScrollView.showsVerticalScrollIndicator =
     NO;
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
-    NSArray*leftArr =@[@"代理名称",@"电话",@"微信",@"余额",@"",@"",@"",] ;
+    NSArray *levelArr =@[@"厂家",@"一",@"二",@"三",@"四",@"五",@"六",@"七",@"八",@"九"];
+    int levestr =[[_delegateDic objectForKey:@"level"] intValue];
+    NSArray*leftArr =@[@"官方授权合伙人",@"代理级别",@"",@"",] ;
     NSArray *rightArr =@[[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"name"]]],
-                         [PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"phone"]]],
-                        [PublicMethod stringNilString: [NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"webchat"]]],
-                         @"¥40.00",@"¥1803.99",];
+                         [PublicMethod stringNilString:[NSString stringWithFormat:@"%@级代理",levelArr[levestr]]],
+                        ];
     //列表
-    for (int i=0; i<3; i++) {
+    for (int i=0; i<2; i++) {
         UIView *bgview =[[UIView alloc]init];
         bgview.backgroundColor =[UIColor whiteColor];
         bgview.frame =CGRectMake(0, 20*Width+82*i*Width, CXCWidth, 82*Width);
         [bgScrollView addSubview:bgview];
         
-        UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0,200*Width , 82*Width)];
+        UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0,340*Width , 82*Width)];
         labe.text = leftArr[i];
         labe.font = [UIFont systemFontOfSize:15];
         labe.textColor = BlackColor;

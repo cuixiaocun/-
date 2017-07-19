@@ -447,16 +447,18 @@
         NSLog(@"%@",@"查看物流");
         LogisticsDetailVC *logisticsDetailVC =[[LogisticsDetailVC alloc]init];
         NSDictionary *dic=infoArray[index.row];
-        NSMutableDictionary *dicDetail =[NSMutableDictionary dictionary];
-        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"receivename"]] forKey:@"name"];
-        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"phone"]] forKey:@"phone"];
-        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"address"]] forKey:@"address"];
-        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"status"]] forKey:@"status"];
+//        NSMutableDictionary *dicDetail =dic;
+//        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"receivename"]] forKey:@"receivename"];
+//        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"phone"]] forKey:@"phone"];
+//        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"address"]] forKey:@"address"];
+//        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"status"]] forKey:@"status"];
+//        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"status"]] forKey:@"status"];
+//        [dicDetail setObject:[NSString stringWithFormat:@"%@",[dic objectForKey:@"status"]] forKey:@"status"];
 
         
         logisticsDetailVC.logistics =[dic objectForKey:@"logistics"];
         logisticsDetailVC.logisticscom  =[dic objectForKey:@"logisticscom"];
-        logisticsDetailVC.dicDetail =dicDetail;
+        logisticsDetailVC.dicDetail =dic;
         [self.navigationController pushViewController:logisticsDetailVC animated:YES];
         
     }else if (tag==2001)

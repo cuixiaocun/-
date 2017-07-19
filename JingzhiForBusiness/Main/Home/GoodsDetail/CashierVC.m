@@ -81,7 +81,8 @@
     [needPayView addSubview:needPayLabel];
     
     UILabel *payLabel =[[UILabel alloc]initWithFrame:CGRectMake(150*Width,0, 575*Width,83*Width )];
-    payLabel.text =[NSString stringWithFormat:@"%@",[_orderDic objectForKey:@"total"]];
+    payLabel.text =[NSString stringWithFormat:@"%.2f",[[_orderDic objectForKey:@"total"] floatValue]-[[_orderDic objectForKey:@"integral"] floatValue]];
+    NSLog(@"%@",_orderDic);
     payLabel.textColor =NavColor;
     payLabel.textAlignment =NSTextAlignmentRight;
     payLabel.font =[UIFont systemFontOfSize:14];

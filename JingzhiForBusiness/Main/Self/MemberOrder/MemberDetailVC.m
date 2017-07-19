@@ -83,7 +83,7 @@
     //订单号
     UILabel* orderNumberLabel  = [[UILabel alloc]init];
     orderNumberLabel.font = [UIFont systemFontOfSize:14];
-    orderNumberLabel.text = [NSString stringWithFormat:@"    订单号：%@",[_detailDic objectForKey:@"id"] ];
+    orderNumberLabel.text = [NSString stringWithFormat:@"    订单号：%@",[_detailDic objectForKey:@"sn"] ];
     [bottomBgView addSubview:orderNumberLabel];
     orderNumberLabel.frame= CGRectMake(0*Width, timeLabel.bottom,CXCWidth,74*Width);
     orderNumberLabel.textColor = TextGrayColor;

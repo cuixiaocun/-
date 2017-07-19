@@ -183,7 +183,7 @@
     
     
     UILabel*orderNumLabel =[self viewWithTag:102];
-    orderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"id"]];
+    orderNumLabel.text =[NSString stringWithFormat:@"    订单号：%@",[_dic objectForKey:@"sn"]];
     
     UILabel*statuLabel =[self viewWithTag:103];
     UIButton*seeBtn =[self viewWithTag:2000];

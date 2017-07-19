@@ -350,7 +350,7 @@
     NSInteger existedLength = textField.text.length;
     NSInteger selectedLength = range.length;
     NSInteger replaceLength = string.length;
-    if (textField.tag==11) {
+    if (textField.tag==11||textField.tag ==10) {
         if (existedLength - selectedLength + replaceLength >= 12) {
             
             [textField resignFirstResponder];

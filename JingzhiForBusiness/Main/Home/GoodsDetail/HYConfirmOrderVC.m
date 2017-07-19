@@ -71,32 +71,52 @@
 }
 - (void)getArr
 {
-    addressIdString =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"addressid"]];
-    allIntegral =0.00;
-    allPrice =0.00;
-    turePay =0.00;
-    canPayIntegral =0.00;
-    //遍历整个数据源，然后判断如果是选中的商品，就计算价格（单价 * 商品数量）
-    for ( int i =0; i<_googsArr.count; i++)
-    {
-        NSMutableDictionary *model =[NSMutableDictionary dictionaryWithDictionary:_googsArr[i]];
+    
+    
+    [PublicMethod personalAFNetworkSuccess:^(id responseDic) {
+        NSDictionary *dict = responseDic;
+        addressIdString =[dict objectForKey:@"addressid"];
         
-        allIntegral = allIntegral + [[model objectForKey:@"deductible"] floatValue]*[[model objectForKey:@"goodsNum"] floatValue] ;//总积分
-        allPrice = allPrice + [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue];//总价
-        NSLog(@"%@===%@===%.2f===%.2f",[model objectForKey:@"deductible"],[model objectForKey:@"goodsNum"],allIntegral,allPrice);
-
-    }
-    if ([[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]] floatValue]<allIntegral) {
         
-        canPayIntegral =[[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]] floatValue];
+        allIntegral =0.00;
+        allPrice =0.00;
+        turePay =0.00;
+        canPayIntegral =0.00;
+        //遍历整个数据源，然后判断如果是选中的商品，就计算价格（单价 * 商品数量）
+        for ( int i =0; i<_googsArr.count; i++)
+        {
+            NSMutableDictionary *model =[NSMutableDictionary dictionaryWithDictionary:_googsArr[i]];
+            
+            allIntegral = allIntegral + [[model objectForKey:@"deductible"] floatValue]*[[model objectForKey:@"goodsNum"] floatValue] ;//总积分
+            allPrice = allPrice + [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue];//总价
+            NSLog(@"%@===%@===%.2f===%.2f",[model objectForKey:@"deductible"],[model objectForKey:@"goodsNum"],allIntegral,allPrice);
+            
+        }
+        if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"integral"]] floatValue]<allIntegral) {
+            
+            canPayIntegral =[[NSString stringWithFormat:@"%@",[dict objectForKey:@"integral"]] floatValue];
+            
+        }else
+        {
+            canPayIntegral =allIntegral;
+        }
+        turePay =allPrice-canPayIntegral;
         
-    }else
-    {
-        canPayIntegral =allIntegral;
-    }
-    turePay =allPrice-canPayIntegral;
 
+        
+        UILabel *jifenDetailLabel =[self.view viewWithTag:468];
+        jifenDetailLabel.text =[NSString stringWithFormat:@"共%@积分,可用%.2f积分,抵扣¥%.2f",[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]],canPayIntegral, canPayIntegral];//当前积分小于可抵扣积分的时候，显示当前积分，大于可抵扣积分时，显示可抵扣积分
 
+        
+
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+    
+    
 }
 - (void)mainView
 {
@@ -285,88 +305,104 @@
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth,220*Width)];
-    [bgScrollView setUserInteractionEnabled:YES];
-    [bgScrollView setBackgroundColor:BGColor];
-    [self.view addSubview:bgScrollView];
-    
-    UIButton *topView =[[UIButton alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
-    [topView setBackgroundColor:[UIColor whiteColor]];
-    [topView addTarget:self action:@selector(getAdress) forControlEvents:UIControlEventTouchUpInside];
-    
-    [bgScrollView addSubview:topView];
-    
-    UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 250*Width, 50*Width)];
-    if([[[PublicMethod getDataKey:member] objectForKey:@"receivename"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:member] objectForKey:@"receivename"]isEqualToString:@"<null>"])
+    if(!bgScrollView)
     {
-        nameLabel.text =@"请完善";
+        bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth,220*Width)];
+        [bgScrollView setUserInteractionEnabled:YES];
+        [bgScrollView setBackgroundColor:BGColor];
+        [self.view addSubview:bgScrollView];
+        
+        UIButton *topView =[[UIButton alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
+        [topView setBackgroundColor:[UIColor whiteColor]];
+        [topView addTarget:self action:@selector(getAdress) forControlEvents:UIControlEventTouchUpInside];
+        
+        [bgScrollView addSubview:topView];
+        
+        UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 250*Width, 50*Width)];
+        nameLabel.tag=450;
+        nameLabel.font =[UIFont systemFontOfSize:16];
+        [topView addSubview:nameLabel];
         
         
-    }else
-    {
+        UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
+        numberLabel.font =[UIFont systemFontOfSize:16];
+        [topView addSubview:numberLabel];
+        numberLabel.tag=451;
         
-        nameLabel.text =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"receivename"]];
+        UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(580*Width, nameLabel.top+5*Width, 80*Width, 40*Width)];
+        defaultLabel.textColor =NavColor;
+        defaultLabel.text =@"默认";
+        defaultLabel.font =[UIFont systemFontOfSize:12];
+        [topView addSubview:defaultLabel];
+        defaultLabel.tag =33345;
+        [defaultLabel.layer setCornerRadius:2*Width];
+        [defaultLabel.layer setBorderWidth:1.5*Width];
+        [defaultLabel.layer setMasksToBounds:YES];
+        defaultLabel.textAlignment =NSTextAlignmentCenter;
+        defaultLabel.layer.borderColor =NavColor.CGColor;
+        //箭头
+        UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 80*Width,40*Width , 40*Width)];
+        [topView addSubview:jiantou];
+        [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
+        UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20*Width, nameLabel.bottom+46*Width,24*Width, 32*Width)];
+        [imgView setImage:[UIImage imageNamed:@"wuliu_icon_location"]];
+        [topView addSubview:imgView];
         
+        UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
+        [topView addSubview:addressLabel];
+        
+        
+        
+        addressLabel.font =[UIFont systemFontOfSize:13];
+        addressLabel.numberOfLines= 0;
+        addressLabel.textColor =TextGrayColor;
+        addressLabel.tag=452;
+        
+        
+        
+        [PublicMethod personalAFNetworkSuccess:^(id responseDic) {
+            NSDictionary *dict = responseDic;
+            
+            if ([[dict objectForKey:@"name_path"]isEqual:[NSNull null]]||[[dict objectForKey:@"name_path"] isEqualToString:@"<null>"]) {
+                
+                addressLabel.text =@"请完善";
+                defaultLabel.hidden =YES;
+                
+            }else
+            {
+                addressLabel.text =[NSString stringWithFormat:@"%@%@",[dict objectForKey:@"name_path"],[dict objectForKey:@"address"]];
+                defaultLabel.hidden =NO;
+                
+            }
+            if([[dict objectForKey:@"receivename"]isEqual:[NSNull null]]||[[dict objectForKey:@"receivename"]isEqualToString:@"<null>"])
+            {
+                nameLabel.text =@"请完善";
+                
+                
+            }else
+            {
+                
+                nameLabel.text =[NSString stringWithFormat:@"%@",[dict objectForKey:@"receivename"]];
+                
+            }
+            
+            NSString *numstr =[NSString stringWithFormat:@"%@",[dict objectForKey:@"phone"]];
+            BOOL isNil =IsNilString(numstr);
+            NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[dict objectForKey:@"phone"]];
+            
+            numberLabel.text = numberStr;
+            
+        } fail:^(NSError *error) {
+            
+        }];
+
     }
-    nameLabel.tag=450;
-    nameLabel.font =[UIFont systemFontOfSize:16];
-    [topView addSubview:nameLabel];
-    
-    
-    UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-    NSString *numstr =[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"phone"]];
-    BOOL isNil =IsNilString(numstr);
-    NSString *numberStr =isNil?@"请完善":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"phone"]];
-    numberLabel.text = numberStr;
-
-    numberLabel.font =[UIFont systemFontOfSize:16];
-    [topView addSubview:numberLabel];
-    numberLabel.tag=451;
-    
-    UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(580*Width, nameLabel.top+5*Width, 80*Width, 40*Width)];
-    defaultLabel.textColor =NavColor;
-    defaultLabel.text =@"默认";
-    defaultLabel.font =[UIFont systemFontOfSize:12];
-    [topView addSubview:defaultLabel];
-    defaultLabel.tag =33345;
-    [defaultLabel.layer setCornerRadius:2*Width];
-    [defaultLabel.layer setBorderWidth:1.5*Width];
-    [defaultLabel.layer setMasksToBounds:YES];
-    defaultLabel.textAlignment =NSTextAlignmentCenter;
-    defaultLabel.layer.borderColor =NavColor.CGColor;
-    //箭头
-    UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 80*Width,40*Width , 40*Width)];
-    [topView addSubview:jiantou];
-    [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
-    UIImageView *imgView =[[UIImageView alloc]initWithFrame:CGRectMake(20*Width, nameLabel.bottom+46*Width,24*Width, 32*Width)];
-    [imgView setImage:[UIImage imageNamed:@"wuliu_icon_location"]];
-    [topView addSubview:imgView];
-    
-    UILabel *addressLabel  =[[UILabel alloc]initWithFrame:CGRectMake(imgView.right+ 20*Width, nameLabel.bottom,620*Width, 125*Width)];
-    [topView addSubview:addressLabel];
-    if ([[[PublicMethod getDataKey:member] objectForKey:@"name_path"]isEqual:[NSNull null]]||[[[PublicMethod getDataKey:member] objectForKey:@"name_path"]isEqualToString:@"<null>"]) {
-        addressLabel.text =@"请完善";
-        defaultLabel.hidden =YES;
-
-    }else
-    {
-      addressLabel.text =[NSString stringWithFormat:@"%@%@",[[PublicMethod getDataKey:member] objectForKey:@"name_path"],[[PublicMethod getDataKey:member] objectForKey:@"address"]];
-        defaultLabel.hidden =NO;
-
-    }
-    
-  
-    addressLabel.font =[UIFont systemFontOfSize:13];
-    addressLabel.numberOfLines= 0;
-    addressLabel.textColor =TextGrayColor;
-    addressLabel.tag=452;
     return bgScrollView ;
     
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-          return 220*Width;
-        
+    return 220*Width;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -457,10 +493,7 @@
     jifenDetailLabel.textColor =BlackColor;
     jifenDetailLabel.font =[UIFont systemFontOfSize:12];
     [jifenView addSubview:jifenDetailLabel];
-    
-     jifenDetailLabel.text =[NSString stringWithFormat:@"共%@积分,可用%.2f积分,抵扣¥%.2f",[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]],canPayIntegral, canPayIntegral];//当前积分小于可抵扣积分的时候，显示当前积分，大于可抵扣积分时，显示可抵扣积分
-    
-    
+    jifenDetailLabel.tag=468;
     isSelectedBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     isSelectedBtn.frame = CGRectMake(650*Width, 0, 100*Width, 83*Width);
     [isSelectedBtn setImage:[UIImage imageNamed:@"confirm_checkbox_nor"]  forState:UIControlStateNormal];
@@ -504,6 +537,7 @@
         
         
     }
+    
     return bottomBgView;
 }
 - (void)examinePass:(UIButton*)btn
@@ -518,8 +552,6 @@
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
-                          //                          @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
-//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                           }];
     [PublicMethod AFNetworkPOSTurl:@"Home/address/index" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
