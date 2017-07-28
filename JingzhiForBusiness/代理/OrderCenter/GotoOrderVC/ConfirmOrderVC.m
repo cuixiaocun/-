@@ -75,13 +75,13 @@
     
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 250*Width, 50*Width)];
     nameLabel.tag=450;
-    nameLabel.font =[UIFont systemFontOfSize:16];
+    nameLabel.font =[UIFont systemFontOfSize:14];
     [topView addSubview:nameLabel];
     
     
     UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
 
-    numberLabel.font =[UIFont systemFontOfSize:16];
+    numberLabel.font =[UIFont systemFontOfSize:14];
     [topView addSubview:numberLabel];
     numberLabel.tag=451;
     UILabel *defaultLabel=[[UILabel alloc]initWithFrame:CGRectMake(580*Width, nameLabel.top+5*Width, 80*Width, 40*Width)];
@@ -91,8 +91,8 @@
     [topView addSubview:defaultLabel];
     defaultLabel.tag =33345;
 
-    [defaultLabel.layer setCornerRadius:2*Width];
-    [defaultLabel.layer setBorderWidth:1.5*Width];
+    [defaultLabel.layer setCornerRadius:2];
+    [defaultLabel.layer setBorderWidth:1];
     [defaultLabel.layer setMasksToBounds:YES];
     defaultLabel.textAlignment =NSTextAlignmentCenter;
     defaultLabel.layer.borderColor =NavColor.CGColor;

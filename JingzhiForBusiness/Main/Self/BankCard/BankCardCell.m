@@ -65,8 +65,8 @@
             //uibutton
             //系统计算按钮
             UIButton * setDefaultBtn = [[UIButton alloc]initWithFrame:CGRectMake(550*Width, 200*Width, 145*Width, 45*Width)];
-            [setDefaultBtn.layer setCornerRadius:2*Width];
-            [setDefaultBtn.layer setBorderWidth:1.5*Width];
+            [setDefaultBtn.layer setCornerRadius:2];
+            [setDefaultBtn.layer setBorderWidth:1.5];
             [setDefaultBtn.layer setMasksToBounds:YES];
             [setDefaultBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [setDefaultBtn setTitle:@"设为默认" forState:UIControlStateNormal];

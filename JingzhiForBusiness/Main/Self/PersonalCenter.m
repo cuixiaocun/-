@@ -34,22 +34,25 @@
 #import "HYPersonalCenterVC.h"
 #import "OrderCirclatonVC.h"
 #import "AllDateVC.h"
-#import "NewsBanner.h"
+#import "TXScrollLabelView.h"
 #import "NoticeDetailVC.h"
-@interface PersonalCenter ()<SRActionSheetDelegate,IsTureAlterViewDelegate,RDVTabBarControllerDelegate,NewsBannerDelegate>
+#import "NoticeVC.h"
+#import "HYQRCodeVC.h"
+@interface PersonalCenter ()<SRActionSheetDelegate,IsTureAlterViewDelegate,RDVTabBarControllerDelegate,TXScrollLabelViewDelegate>
 {
     //底部scrollview
     UIScrollView *bgScrollView;
     NSString *levelString;//代理升级的时候选择的代理
     NSDictionary*dic;
     UIView *bottomView ;
-    NewsBanner *newsView;//这个是上面的公告
     NSMutableArray *titleArr;//公告
     UIView *topview ;
 
 
 
 }
+@property (weak, nonatomic) TXScrollLabelView *scrollLabelView;
+
 @end
 @implementation PersonalCenter
 - (void)viewWillAppear:(BOOL)animated
@@ -114,15 +117,12 @@
 }
 - (void)mainView
 {
-
-    
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0,CXCWidth, CXCHeight-100*Width)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
-    bgScrollView.showsVerticalScrollIndicator =
-    NO;
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1300*Width)];
+    bgScrollView.showsVerticalScrollIndicator =NO;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1380*Width)];
     //上面的image
     UIImageView *bgImageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Width*300)];
     bgImageV.backgroundColor = [UIColor colorWithRed:241/255.0 green:80/255.0 blue:84/255.0 alpha:1];
@@ -141,7 +141,7 @@
     EGOImageView *touImageV = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@""]];
     [touImageV setFrame:CGRectMake(9*Width, 9*Width, 94*Width, 94*Width)];
 //    [touImageV setImageURL:[NSURL URLWithString:headString]];
-    [touImageV setImage:[UIImage imageNamed:@"proxy_icon_header"]];
+    [touImageV setImage:[UIImage imageNamed:@"lehui_app_logo_120"]];
     
     [touImageV.layer setCornerRadius:94*Width/2];
     touImageV.tag =3330;
@@ -181,37 +181,67 @@
     [bgImageV addSubview:jiantou];
     [jiantou setImage:[UIImage imageNamed:@"proxy_btn_me_next"]];
     
-    //公告
-
-    topview =[[UIView alloc]initWithFrame:CGRectMake(0,300*Width,CXCWidth, 58*Width)];
+    topview =[[UIView alloc]initWithFrame:CGRectMake(0, 300*Width,CXCWidth , 58*Width)];
     topview.backgroundColor = [UIColor colorWithRed:253/255.0 green:239/255.0 blue:212/255.0 alpha:1];
     [bgScrollView addSubview:topview];
-    //公告
-    newsView = [[NewsBanner alloc]initWithFrame:CGRectMake(50*Width,0*Width, 650*Width, 58*Width)];
-    //    newsView.noticeList = @[@"公告：心体荟商城上线大促销即将开始"];
-    newsView.duration = 2;
-    [topview addSubview:newsView];
-    newsView.delegate = self;
+    
+    
+    UILabel *prelabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 0,80, 58*Width)];
+    prelabel.text =@"公告:";
+    prelabel.font =[UIFont systemFontOfSize:14];
+    prelabel.textColor =[UIColor colorWithRed:249/255.0 green:98/255.0 blue:48/255.0 alpha:1];
+    [topview  addSubview:prelabel ];
     
     UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(690*Width, 0*Width, 58*Width, 58*Width)];
     [btn setImage:[UIImage imageNamed:@"vip_btn_close"] forState:UIControlStateNormal];
     [btn setImageEdgeInsets:UIEdgeInsetsMake(19*Width, 19*Width, 19*Width, 19*Width)];
     [btn addTarget:self action:@selector(hiddenTheTopView) forControlEvents:UIControlEventTouchUpInside];
     [topview addSubview:btn];
-
-    
-    
-    
     
     
     bottomView  =[[UIView alloc]initWithFrame:CGRectMake(0,360*Width,CXCWidth,188*Width*5)];
     bottomView.backgroundColor =BGColor ;
     [bgScrollView addSubview:bottomView];
     
-    NSArray *topArr =@[@"proxy_me_icon_kucun",@"proxy_me_icon_xiaji",@"proxy_me_icon_kehu",@"proxy_me_icon_dizhi",@"proxy_me_icon_mima",@"proxy_me_icon_shengji",@"proxy_me_icon_tixian",@"proxy_me_icon_liuzhuan",@"proxy_me_icon_orderliu",@"proxy_me_icon_huiyuan",@"proxy_me_icon_ka",@"proxy_me_icon_fan",@"proxy_me_icon_shen",@"proxy_me_icon_shou",@"proxy_me_icon_salesdata",@"proxy_me_icon_exit",@"proxy_me_icon_salesdata",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+    NSArray *topArr =@[@"proxy_me_icon_shen",
+                       @"proxy_me_icon_orderliu",
+                       @"proxy_me_icon_kucun",
+                       @"proxy_me_icon_xiaji",
+                       @"proxy_me_icon_kehu",
+                       @"proxy_me_icon_shengji",
+                       @"proxy_me_icon_tixian",
+                       @"proxy_me_icon_huiyuan",
+                       @"proxy_me_icon_ka",
+                       @"proxy_me_icon_fan",
+                       @"proxy_me_icon_shou",
+                       @"vip_wo_icon_qrcode",
+                       @"proxy_me_icon_salesdata",
+                       @"proxy_me_icon_dizhi",
+                       @"proxy_me_icon_mima",
+                       @"proxy_me_icon_gonggao",
+                       @"proxy_me_icon_exit",
+                       
+                      @"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+    NSArray*bottomArr =@[@"代理审核",
+                         @"流转记录",
+                         @"库存",
+                         @"下级代理",
+                         @"我的客户",
+                         @"申请升级",
+                         @"提现管理",
+                         @"会员订单",
+                         @"银行卡",
+                         @"返佣",
+                         @"我的授权",
+                         @"推广二维码",
+                         @"销售数据",
+                         @"收货地址",
+                         @"密码修改",
+                         @"公告",
+                         @"退出",
+                         @"",] ;
 
-    NSArray*bottomArr =@[@"库存",@"下级代理",@"我的客户",@"收货地址",@"密码修改",@"申请升级",@"提现",@"订单流转",@"审核流转",@"会员订单",@"银行卡",@"返佣",@"代理审核",@"我的授权",@"销售数据",@"退出",@"",] ;
-    for (int i=0; i<16; i++) {
+    for (int i=0; i<17; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),20*Width+187.5*Width*(i/4),186*Width,186*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
@@ -255,14 +285,15 @@
 
 -(void)myBtnAciton:(UIButton *)btn
 {
+   
 
-    if (btn.tag==300) {//库存
+    if (btn.tag==302) {//库存
         StockTableviewVC*stockVC =[[StockTableviewVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
         [self.navigationController  pushViewController:stockVC animated:YES];
      
-    }else if (btn.tag==301)//下级代理
+    }else if (btn.tag==303)//下级代理
     {
         NextDelegateVC*next =[[NextDelegateVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
@@ -270,14 +301,14 @@
         [self.navigationController  pushViewController:next animated:YES];
 
     
-    }else if (btn.tag==302)//我的客户
+    }else if (btn.tag==304)//我的客户
     {
         MyCustomerVC *myCustomerVC =[[MyCustomerVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController  pushViewController:myCustomerVC animated:YES];
         
     }
-    else if (btn.tag==303)//收货地址
+    else if (btn.tag==313)//收货地址
     {
         ManageAddressTableVC *manageAdd =[[ManageAddressTableVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
@@ -285,7 +316,7 @@
         [self.navigationController pushViewController:manageAdd animated:YES];
         
     }
-    else if (btn.tag==304)//修改密码
+    else if (btn.tag==314)//修改密码
     {
         ChangePasswordVC *changeVC =[[ChangePasswordVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
@@ -331,15 +362,7 @@
         [self.navigationController pushViewController:withdrawlsVC animated:YES];
         
     }
-    else if (btn.tag==307)//订单流转
-    {
-        CirculationRecordVC *withdrawlsVC =[[CirculationRecordVC alloc]init];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
-        [self.navigationController pushViewController:withdrawlsVC animated:YES];
-        
-    }
-    else if (btn.tag==308)//审核流转
+    else if (btn.tag==301)//审核流转
     {
         OrderCirclatonVC *withdrawlsVC =[[OrderCirclatonVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
@@ -347,7 +370,7 @@
         [self.navigationController pushViewController:withdrawlsVC animated:YES];
         
     }
-    else if (btn.tag==309)//会员订单
+    else if (btn.tag==307)//会员订单
     {
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         MemberOrderVC *memberVC =[[MemberOrderVC alloc]init];
@@ -356,7 +379,7 @@
 
         
     }
-    else if (btn.tag==310)//银行卡
+    else if (btn.tag==308)//银行卡
     {
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         BankCardListVC *bankCard =[[BankCardListVC alloc]init];
@@ -368,45 +391,60 @@
 
         
     }
-    else if (btn.tag==311)//返佣
+    else if (btn.tag==309)//返佣
     {
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         RebateVC *rebateVC =[[RebateVC alloc]init];
         [self.navigationController pushViewController:rebateVC animated:YES];
         
     }
-    else if (btn.tag==312)//代理审核
+    else if (btn.tag==300)//代理审核
     {
         DelegateExamineVC *delegateEx =[[DelegateExamineVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController pushViewController:delegateEx animated:YES];
         
     }
-    else if (btn.tag==313)//我的授权
+    else if (btn.tag==310)//我的授权
     {
         MyAuthorizationVC *myAuth =[[MyAuthorizationVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 
         [self.navigationController pushViewController:myAuth animated:YES];
         
-    }else if (btn.tag ==314)
+    }else if (btn.tag ==312)
     {
         AllDateVC *myAuth =[[AllDateVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
         [self.navigationController pushViewController:myAuth animated:YES];
         
-    }else
+    }else if(btn.tag==316)
     {
         
         IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要退出吗？"];
         isture.delegate =self;
         isture.tag =180;
         [self.view addSubview:isture];
-        
         NSLog(@"showalert");
-
     }
+    else if(btn.tag==315)
+    {
+              NSLog(@"公告");
+        NoticeVC  *notice =[[NoticeVC alloc]init];
+        notice.hyOrDl =@"DL";
+        [self.navigationController pushViewController:notice animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+    }
+    else if(btn.tag==311)
+    {
+        HYQRCodeVC  *notice =[[HYQRCodeVC alloc]init];
+        [self.navigationController pushViewController:notice animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+}
+
 
 }
 - (void)actionSheet:(SRActionSheet *)actionSheet didSelectSheet:(NSInteger)buttonIndex
@@ -524,18 +562,62 @@
     
 }
 
-#pragma mark NewsBannerDelegate
-- (void)NewsBanner:(NewsBanner *)newsBanner didSelectIndex:(NSInteger)selectIndex
-{
+- (void)addWith:(TXScrollLabelViewType)type velocity:(CGFloat)velocity isArray:(BOOL)isArray  withArr:(NSArray *)stringArray{
+    /** Step1: 滚动文字 */
+    
+    NSString *scrollTitle = @"乐荟云商";
+    
+    NSArray *scrollTexts = stringArray;
+    
+    /** Step2: 创建 ScrollLabelView */
+    TXScrollLabelView *scrollLabelView = nil;
+    if (isArray) {
+        scrollLabelView = [TXScrollLabelView scrollWithTextArray:scrollTexts type:type velocity:velocity options:UIViewAnimationOptionCurveEaseInOut inset:UIEdgeInsetsZero];
+    }else {
+        scrollLabelView = [TXScrollLabelView scrollWithTitle:scrollTitle type:type velocity:velocity options:UIViewAnimationOptionCurveEaseInOut];
+    }
+    
+    /** Step3: 设置代理进行回调 */
+    scrollLabelView.scrollLabelViewDelegate = self;
+    
+    /** Step4: 布局(Required) */
+    scrollLabelView.frame = CGRectMake(120*Width, 0, 650*Width, 58*Width);
+    
+    [topview addSubview:scrollLabelView];
+    //    //公告
+    //    newsView = [[NewsBanner alloc]initWithFrame:CGRectMake(24*Width, 0, 650*Width, 58*Width)];
+    //    //    newsView.noticeList = @[@"公告：心体荟商城上线大促销即将开始"];
+    //    newsView.duration =3;
+    //    [topview addSubview:newsView];
+    //    newsView.delegate = self;
+    
+    
+    //偏好(Optional), Preference,if you want.
+    //    scrollLabelView.tx_centerX  = [UIScreen mainScreen].bounds.size.width * 0.5;
+    //    scrollLabelView.scrollInset = UIEdgeInsetsMake(0, 10 , 0, 10);
+    scrollLabelView.scrollSpace = 10;
+    scrollLabelView.backgroundColor =[UIColor colorWithRed:253/255.0 green:239/255.0 blue:212/255.0 alpha:1];
+    scrollLabelView.font = [UIFont systemFontOfSize:14];
+    
+    //    scrollLabelView.textAlignment = NSTextAlignmentCenter;
+    scrollLabelView.layer.cornerRadius = 5;
+    /** Step5: 开始滚动(Start scrolling!) */
+    [scrollLabelView beginScrolling];
+}
+
+- (void)scrollLabelView:(TXScrollLabelView *)scrollLabelView didClickWithText:(NSString *)text atIndex:(NSInteger)index{
+    NSLog(@"%@--%ld",text, index);
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     
     NoticeDetailVC *notice =[[NoticeDetailVC alloc]init];
-    notice.contentString =[titleArr[selectIndex] objectForKey:@"content"];
-    notice.titleString =[titleArr[selectIndex] objectForKey:@"title"];
+    notice.contentString =[titleArr[index] objectForKey:@"content"];
+    notice.titleString =[titleArr[index] objectForKey:@"title"];
     
     [self.navigationController pushViewController:notice animated:YES];
     
-    NSLog(@"%ld",selectIndex);
+    NSLog(@"%ld",index);
+    
+    
 }
 - (void)getNotice
 {
@@ -556,8 +638,7 @@
                     }
                     
                 }
-                newsView.noticeList =titleArray;
-                [newsView star];
+                [self addWith:TXScrollLabelViewTypeFlipNoRepeat velocity:titleArr.count isArray:YES withArr:titleArray];
                 
                 
             }

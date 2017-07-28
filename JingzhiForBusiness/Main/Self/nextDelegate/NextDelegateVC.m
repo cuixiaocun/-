@@ -8,6 +8,7 @@
 
 #import "NextDelegateVC.h"
 #import "NextDelegateCell.h"
+#import "NextagentDetail.h"
 @interface NextDelegateVC ()
 
 @end
@@ -107,7 +108,14 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NextagentDetail *nextAgen =[[NextagentDetail alloc]init];
+    nextAgen.agentId =[NSString stringWithFormat:@"%@",[infoArray[indexPath.row] objectForKey:@"id"]];
+    
+    [self.navigationController   pushViewController:nextAgen animated:YES];
 
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

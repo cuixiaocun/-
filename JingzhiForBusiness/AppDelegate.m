@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "JPushViewController.h"
+#import "Harpy.h"
+
 //第三方tabbar
 #import "RDVTabBarController.h"
 #import "RDVTabBar.h"
@@ -26,9 +29,13 @@
 #import "PersonalCenter.h"
 
 #import "ZLCGuidePageView.h"
-@interface AppDelegate ()
+@interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate>
+{
+    NSString *registrationID;
 
+}
 @end
+static NSInteger seq = 0;
 
 @implementation AppDelegate
 
@@ -60,7 +67,7 @@
     
 
     /*******************************************向微信注册********************************/
-    [WXApi registerApp:@"wxa4ab2adb1a8934e4" enableMTA:YES];
+    [WXApi registerApp:@"wxa4ab2adb1a8934e4"];
     
     //向微信注册支持的文件类型
     UInt64 typeFlag = MMAPP_SUPPORT_TEXT | MMAPP_SUPPORT_PICTURE | MMAPP_SUPPORT_LOCATION | MMAPP_SUPPORT_VIDEO |MMAPP_SUPPORT_AUDIO | MMAPP_SUPPORT_WEBPAGE | MMAPP_SUPPORT_DOC | MMAPP_SUPPORT_DOCX | MMAPP_SUPPORT_PPT | MMAPP_SUPPORT_PPTX | MMAPP_SUPPORT_XLS | MMAPP_SUPPORT_XLSX | MMAPP_SUPPORT_PDF;
@@ -71,42 +78,38 @@
     //notice: 3.0.0及以后版本注册可以这样写，也可以继续用之前的注册方式
     JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
     entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-        // 可以添加自定义categories
-        // NSSet<UNNotificationCategory *> *categories for iOS10 or later
-        // NSSet<UIUserNotificationCategory *> *categories for iOS8 and iOS9
-    }
-    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];    
-    
+    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
     // Optional
     // 获取IDFA
     // 如需使用IDFA功能请添加此代码并在初始化方法的advertisingIdentifier参数中填写对应值
-//    NSString *advertisingId = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-//    
-//    //如不需要使用IDFA，advertisingIdentifier 可为nil
-//    [JPUSHService setupWithOption:launchOptions appKey:appKey
-//                          channel:channel
-//                 apsForProduction:isProduction
-//            advertisingIdentifier:advertisingId];
-//    
-//    //2.1.9版本新增获取registration id block接口。
-//    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
-//        if(resCode == 0){
-//            NSLog(@"registrationID获取成功：%@",registrationID);
-//            
-//        }
-//        else{
-//            NSLog(@"registrationID获取失败，code：%d",resCode);
-//        }
-//    }];
-//    
+    
+    //如不需要使用IDFA，advertisingIdentifier 可为nil
+    [JPUSHService setupWithOption:launchOptions appKey:@"7f98c36e1b9d6f41fe983fe7"
+                          channel:@"App Store"
+                 apsForProduction:YES
+            advertisingIdentifier:nil];
+    
+    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID1) {
+      NSLog(@"[self tags]=%@",registrationID1);
+      [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",registrationID1 ]withKey:@"registrationID"];
+    }];
+    
+    // apn 内容获取：
+    NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+    NSLog(@"remoteNotification = %@",remoteNotification);
+
+    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+    [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
+    
     //是否第一次进入
     if (![PublicMethod getDataStringKey:@"WetherFirstInput"])
     {
         [self YinDaoPage];
     };
-
     
+  
+    [Harpy checkVersion];
+
     return YES;
 }
 
@@ -114,15 +117,12 @@
 {
     [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];
     
-    
     //引导页图片数组
     NSArray *images =  @[[UIImage imageNamed:@"bp_01_1242"],[UIImage imageNamed:@"bp_02_1242"],[UIImage imageNamed:@"bp_03_1242"]];
     //创建引导页视图
     ZLCGuidePageView *pageView = [[ZLCGuidePageView alloc]initWithFrame:CGRectMake( 0, 0, CXCWidth, CXCHeight) WithImages:images];
     [self.window addSubview:pageView];
 }
-
-
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -132,15 +132,12 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    [application setApplicationIconBadgeNumber:0];
+    [application cancelAllLocalNotifications];
 }
-
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
-
-
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     // Saves changes in the application's managed object context before the application terminates.
@@ -215,15 +212,7 @@
     self.viewController = tabBarController;
     [self customizeTabBarForController:tabBarController];
         
-//    }else//若不为1表示没登录
-//    {
-//        LoginPage *rootViewController = [[LoginPage alloc] init];
-//        UINavigationController* _navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
-//        self.viewController =_navigationController;
-//        [_navigationController setNavigationBarHidden:YES];
-//
-//    }
-//
+
 }
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
@@ -337,6 +326,12 @@
             NSLog(@"授权结果 authCode = %@", authCode?:@"");
         }];
     }
+    else
+    {
+        return [WXApi handleOpenURL:url delegate:self];
+
+    
+    }
     return YES;
 }
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
@@ -369,7 +364,263 @@
         }];
     }
 }
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSLog(@"My token is: %@", deviceToken);
+    [JPUSHService registerDeviceToken:deviceToken];
+}
+//// iOS 10 Support  显示本地通知
+//- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
+//    // Required
+//    NSDictionary * userInfo = notification.request.content.userInfo;
+//    NSLog(@"userInfo = %@",userInfo);
+//    
+//    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+//        [JPUSHService handleRemoteNotification:userInfo];
+////        [self presentVC:userInfo[@"aps"][@"alert"]];
+//
+////        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+////        [alertView show];
+//        UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//        
+//        alertWindow.rootViewController = [[UIViewController alloc] init];
+//        
+//        alertWindow.windowLevel = UIWindowLevelAlert + 1;
+//        
+//        [alertWindow makeKeyAndVisible];
+//        
+//        //初始化弹窗口控制器
+//        
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction *cancelAction =
+//        [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//            [self  presentVC:userInfo[@"aps"][@"alert"]];
+//            
+//        }];
+//        [alertController addAction:cancelAction];
+//        
+//        //显示弹出框
+//        
+//        [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
+//        
+//
+//
+//    }
+//    else
+//    {
+//        NSLog(@"本地通知");
+//    }
+//    completionHandler(UNNotificationPresentationOptionAlert); // 需要执行这个方法，选择是否提醒用户，有Badge、Sound、Alert三种类型可以选择设置
+//}
+//
+// iOS 10 Support  点击弹出的通知后走的方法
+- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    // Required
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    NSLog(@"userInfo = %@",userInfo);
+    //表示通过推送点击进入
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        [JPUSHService handleRemoteNotification:userInfo];
+//        [self presentVC:userInfo[@"aps"][@"alert"]];
 
+//        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//        [alertView show];
+        UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        
+        alertWindow.rootViewController = [[UIViewController alloc] init];
+        
+        alertWindow.windowLevel = UIWindowLevelAlert + 1;
+        
+        [alertWindow makeKeyAndVisible];
+        
+        //初始化弹窗口控制器
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *cancelAction =
+        [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self  presentVC:userInfo[@"aps"][@"alert"]];
+            
+        }];
+        [alertController addAction:cancelAction];
+        
+        //显示弹出框
+        
+        [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
+        
+
+    }
+    else
+    {
+        NSLog(@"本地通知");
+    }
+    completionHandler();  // 系统要求执行这个方法
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self presentVC:alertView.message];
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+    NSLog(@"尼玛的推送消息呢????===%@",userInfo);
+    // 取得 APNs 标准信息内容，如果没需要可以不取
+    NSDictionary *aps = [userInfo valueForKey:@"aps"];
+    NSString *content = [aps valueForKey:@"alert"]; //推送显示的内容
+    NSInteger badge = [[aps valueForKey:@"badge"] integerValue];
+    NSString *sound = [aps valueForKey:@"sound"]; //播放的声音
+    // 取得自定义字段内容，userInfo就是后台返回的JSON数据，是一个字典
+    [JPUSHService handleRemoteNotification:userInfo];
+    application.applicationIconBadgeNumber = 0;
+    
+//    [self presentVC:userInfo[@"aps"][@"alert"]];
+//    
+//        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//        [alertView show];
+    UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    alertWindow.rootViewController = [[UIViewController alloc] init];
+    
+    alertWindow.windowLevel = UIWindowLevelAlert + 1;
+    
+    [alertWindow makeKeyAndVisible];
+    
+    //初始化弹窗口控制器
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction =
+    [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [self  presentVC:userInfo[@"aps"][@"alert"]];
+        
+    }];
+
+    
+    [alertController addAction:cancelAction];
+    
+    //显示弹出框
+    
+    [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
+    
+
+}
+- (void)presentVC:(NSString *)userInfo
+{
+    
+    UIViewController *topmostVC = [self topViewController];
+    JPushViewController *jp =[[JPushViewController alloc]init];
+    jp.detailString =userInfo;
+    
+    [topmostVC presentViewController:jp animated:NO completion:^{
+    }];
+    
+    [topmostVC.navigationController  pushViewController:jp animated:YES];
+}
+- (void)networkDidReceiveMessage:(NSNotification *)notification//接收自定义消息
+{
+    NSDictionary * userInfo = [notification userInfo];
+    NSString *content = [userInfo valueForKey:@"content"];
+    NSDictionary *extras = [userInfo valueForKey:@"extras"];
+    NSString *customizeField1 = [extras valueForKey:@"customizeField1"]; //服务端传递的Extras附加字段，key是自己定义的
+    NSLog(@"content = %@,customizeField1 = %@",content,customizeField1);
+    
+}
+-(void) onResp:(BaseResp*)resp
+{
+    //启动微信支付的response
+    NSString *payResoult = [NSString stringWithFormat:@"errcode:%d", resp.errCode];
+    NSLog(@"1234567890-=%@",payResoult);
+    if([resp isKindOfClass:[PayResp class]]){
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        NSString *strMsg,*strTitle = [NSString stringWithFormat:@"支付结果"];
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        switch (resp.errCode) {
+            case WXSuccess:
+                strMsg = @"支付结果：成功！";
+                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"ZHIFUCHENGGONG" object:nil];
+                
+                break;
+                
+            default:
+            {
+                UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+                
+                alertWindow.rootViewController = [[UIViewController alloc] init];
+                
+                alertWindow.windowLevel = UIWindowLevelAlert + 1;
+                
+                [alertWindow makeKeyAndVisible];
+                
+                //初始化弹窗口控制器
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"支付失败" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction =
+                [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                
+                
+                [alertController addAction:cancelAction];
+                
+                //显示弹出框
+                
+                [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
+                
+                
+
+            
+            
+            }
+                
+                
+                
+                
+                
+                strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                break;
+        }
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        [alert show];
+//
+//        switch (resp.errCode) {
+//            case 0:
+//                 
+//                payResoult = @"支付结果：成功！";
+//                break;
+//            case -1:
+//                payResoult = @"支付结果：失败！";
+//                break;
+//            case -2:
+//                payResoult = @"用户已经退出支付！";
+//                break;
+//            default:
+//                payResoult = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+//                break;
+//        }
+    }
+}
+- (UIViewController *)topViewController {
+    UIViewController *resultVC;
+    resultVC = [self _topViewController:[[UIApplication sharedApplication].keyWindow rootViewController]];
+    while (resultVC.presentedViewController) {
+        resultVC = [self _topViewController:resultVC.presentedViewController];
+    }
+    return resultVC;
+}
+
+- (UIViewController *)_topViewController:(UIViewController *)vc {
+    if ([vc isKindOfClass:[UINavigationController class]]) {
+        return [self _topViewController:[(UINavigationController *)vc topViewController]];
+    } else if ([vc isKindOfClass:[UITabBarController class]]) {
+        return [self _topViewController:[(UITabBarController *)vc selectedViewController]];
+    } else {
+        NSLog(@"---VC%@",vc.class);
+        
+        return vc;
+        
+    }
+    return nil;
+}
 
 
 @end

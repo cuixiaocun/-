@@ -175,29 +175,155 @@
         }
         
     }
-    if ([[_detailDic objectForKey:@"status"]isEqualToString:@"2"]) {//若是待发货状态
-        UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0, bottomBgView.bottom+1*Width, CXCWidth, 80*Width)];
-        btnView.backgroundColor =[UIColor whiteColor];
-        [bgScrollView addSubview:btnView];
+    NSArray*leftArr =@[@"收货人",@"电话",@"收货地址",@"快递公司",@"运单号",@"",@"",@"",@"",@"",] ;
+    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"receivename"]],
+                        [NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"phone"]],
+                        [NSString stringWithFormat:@"%@%@",[_detailDic objectForKey:@"namepath"],[_detailDic objectForKey:@"address"]],
+                        [NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"logisticscom"]],
+                        [NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"logistics"]],
+                        [NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"name"]],] ;
+    CGSize titleSize;//通过文本得到高度
+    
+    titleSize = [rightArr[2] boundingRectWithSize:CGSizeMake(490*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    
+//    NSArray*arr =@[@"",@"待支付",@"待发货",@"已发货",@"已完成",@"已取消",@"已驳回",@"",];
+//    int i =[[_detailDic objectForKey:@"status"] intValue];
+    //待发货、待支付的都是没有物流信息的其他的都有物流信息
+    if ([[_detailDic objectForKey:@"status"] intValue]==1||[[_detailDic objectForKey:@"status"] intValue]==2||[[_detailDic objectForKey:@"status"] intValue]==5||[[_detailDic objectForKey:@"status"] intValue]==6) {
         
-        UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(580*Width, 15*Width, 145*Width,50*Width)];
-        [btnView addSubview:examineBtn];
+        for (int i=0; i<3; i++) {
+            //背景
+            UIView *bgview =[[UIView alloc]init];
+            bgview.backgroundColor =[UIColor whiteColor];
+            [bgScrollView addSubview:bgview];
+            if (i==2) {
+                bgview.frame =CGRectMake(0, bottomBgView.bottom+20*Width+2*82*Width, CXCWidth, 50*Width+titleSize.height);
+                
+            }else if(i>2)
+            {
+                bgview.frame =CGRectMake(0, bottomBgView.bottom+40*Width+i*82*Width+titleSize.height-30*Width, CXCWidth, 82*Width);
+                
+            }else if(i<2)
+            {
+                bgview.frame =CGRectMake(0, bottomBgView.bottom+20*Width+i*82*Width, CXCWidth, 82*Width);
+            }
+            //左边提示
+            UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
+            labe.text = leftArr[i];
+            //            labe.textAlignment=NSTextAlignmentLeft;
+            labe.font = [UIFont systemFontOfSize:14];
+            labe.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+            [bgview addSubview:labe];
+            //右边显示
+            UILabel* rightLabel = [[UILabel alloc]init];
+            rightLabel.text = rightArr[i];
+            rightLabel.frame =CGRectMake(230*Width ,0, 495*Width,bgview.height );
+            rightLabel.textAlignment=NSTextAlignmentRight;
+            rightLabel.tag =200+i;
+            rightLabel.numberOfLines =0;
+            rightLabel.font = [UIFont systemFontOfSize:14];
+            rightLabel.textColor = BlackColor;
+            [bgview addSubview:rightLabel];
+            //分割线
+            if (i!=2) {
+                
+                UIImageView*xian =[[UIImageView alloc]init];
+                xian.backgroundColor =BGColor;
+                [bgview addSubview:xian];
+                xian.frame =CGRectMake(0,80.5*Width, CXCWidth, 1.5*Width);
+                
+            }
+            
+        }
+        if ([[_detailDic objectForKey:@"status"]isEqualToString:@"2"]) {//若是待发货状态
+            UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0, bottomBgView.bottom+20*Width+82*2*Width+50*Width+titleSize.height, CXCWidth, 80*Width)];
+            btnView.backgroundColor =[UIColor whiteColor];
+            [bgScrollView addSubview:btnView];
+            
+            UIButton *examineBtn =[[UIButton alloc]initWithFrame:CGRectMake(580*Width, 15*Width, 145*Width,50*Width)];
+            [btnView addSubview:examineBtn];
+            
+            [examineBtn setBackgroundColor:[UIColor whiteColor]];
+            [examineBtn.layer setCornerRadius:4*Width];
+            [examineBtn.layer setBorderWidth:1.0*Width];
+            [examineBtn.layer setMasksToBounds:YES];
+            [examineBtn setTitleColor:NavColor forState:UIControlStateNormal];
+            examineBtn.layer.borderColor =NavColor.CGColor;
+            [examineBtn setTitle:@"发货" forState:UIControlStateNormal];
+            [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
+            [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+            [examineBtn addTarget:self action:@selector(examinePass) forControlEvents:UIControlEventTouchUpInside];
+            [btnView addSubview:examineBtn];
+            [bgScrollView setContentSize:CGSizeMake(CXCWidth,examineBtn.bottom)];
+            
+            
+        }
         
-        [examineBtn setBackgroundColor:[UIColor whiteColor]];
-        [examineBtn.layer setCornerRadius:4*Width];
-        [examineBtn.layer setBorderWidth:1.0*Width];
-        [examineBtn.layer setMasksToBounds:YES];
-        [examineBtn setTitleColor:NavColor forState:UIControlStateNormal];
-        examineBtn.layer.borderColor =NavColor.CGColor;
-        [examineBtn setTitle:@"发货" forState:UIControlStateNormal];
-        [examineBtn.titleLabel setTextColor:[UIColor whiteColor]];
-        [examineBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
-        [examineBtn addTarget:self action:@selector(examinePass) forControlEvents:UIControlEventTouchUpInside];
-        [btnView addSubview:examineBtn];
-        [bgScrollView setContentSize:CGSizeMake(CXCWidth,examineBtn.bottom)];
+        
+        
+    }else
+    {
+  
+    for (int i=0; i<5; i++) {
+        //背景
+        UIView *bgview =[[UIView alloc]init];
+        bgview.backgroundColor =[UIColor whiteColor];
+        [bgScrollView addSubview:bgview];
+        if (i==2) {
+            bgview.frame =CGRectMake(0, bottomBgView.bottom+20*Width+2*82*Width, CXCWidth, 50*Width+titleSize.height);
+            
+ 
+        }else if(i>2)
+        {
+            bgview.frame =CGRectMake(0, bottomBgView.bottom+40*Width+i*82*Width+titleSize.height-30*Width, CXCWidth, 82*Width);
+            if (i==4) {
+                [bgScrollView setContentSize:CGSizeMake(CXCWidth,bgview .bottom)];
 
+            }
+
+        }else if(i<2)
+        {
+            bgview.frame =CGRectMake(0, bottomBgView.bottom+20*Width+i*82*Width, CXCWidth, 82*Width);
+            
+        }
+               //左边提示
+        UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
+        labe.text = leftArr[i];
+        //            labe.textAlignment=NSTextAlignmentLeft;
+        labe.font = [UIFont systemFontOfSize:14];
+        labe.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+        [bgview addSubview:labe];
+        //右边显示
+        UILabel* rightLabel = [[UILabel alloc]init];
+        rightLabel.text = rightArr[i];
+        rightLabel.frame =CGRectMake(230*Width ,0, 495*Width,bgview.height );
+        rightLabel.textAlignment=NSTextAlignmentRight;
+        rightLabel.tag =200+i;
+        rightLabel.numberOfLines =0;
+        rightLabel.font = [UIFont systemFontOfSize:14];
+        rightLabel.textColor = BlackColor;
+        [bgview addSubview:rightLabel];
+        //分割线
+        if (i!=2) {
+            
+            UIImageView*xian =[[UIImageView alloc]init];
+            xian.backgroundColor =BGColor;
+            [bgview addSubview:xian];
+            xian.frame =CGRectMake(0,80.5*Width, CXCWidth, 1.5*Width);
+  
+        }
         
     }
+        
+        
+ }
+    
+    
+
+    
+    
+    
+    
     
 
 

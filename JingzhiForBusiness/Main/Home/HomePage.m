@@ -7,7 +7,6 @@
 //
 
 #import "HomePage.h"
-#import "Harpy.h"
 #import "RDVTabBarController.h"
 #import "RDVTabBar.h"
 #import "RDVTabBarItem.h"
@@ -23,20 +22,20 @@
 #import <MLLabel/NSAttributedString+MLExpression.h>
 #import "NoticeVC.h"
 #import "GoodsDetailVC.h"
-#import "NewsBanner.h"
 #import "NearlyDelegateVC.h"
 #import "HYProblemVC.h"
 #import "NoticeDetailVC.h"
 #import "BannarDetailVC.h"
 #import "ZLCGuidePageView.h"
-@interface HomePage ()<SDCycleScrollViewDelegate,OnClickCMallDelegate,UICollectionViewDataSource,UICollectionViewDelegate,NewsBannerDelegate>
+#import "TXScrollLabelView.h"
+#import "JPUSHService.h"
+@interface HomePage ()<SDCycleScrollViewDelegate,OnClickCMallDelegate,UICollectionViewDataSource,UICollectionViewDelegate,TXScrollLabelViewDelegate>
 {
     UIScrollView *bgScrollView;//最底下的背景
     NSMutableArray *imagesArray;//滚动图片数组
     NSArray *picArr;
     NSString *sharePhone;//传到广告页面的图片
     SDCycleScrollView *cycleScrollView2;//这个是轮播
-    NewsBanner *newsView;//这个是上面的公告
     UIView * bottomView;
     UIView *topview ;
     //商品
@@ -44,13 +43,16 @@
     NSArray *goodsArr;
     NSMutableArray *titleArr;//公告
     NSArray *imgArr;//banner
+    NSString *registrationID;
 
 }
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
 @property (nonatomic,strong) ComMallCollectionViewCell  *cell;
 @property (nonatomic,weak) id<OnClickCMallDelegate> CMallDelegate;//协议
+@property (weak, nonatomic) TXScrollLabelView *scrollLabelView;
 
 @end
+static NSInteger seq = 0;
 
 @implementation HomePage
 
@@ -73,8 +75,7 @@
 //首页
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [Harpy checkVersion];
-    
+
     [self.view setBackgroundColor:BGColor];
   
             //图片
@@ -102,9 +103,9 @@
             [navTitle setTextColor:[UIColor whiteColor]];
             [self.view addSubview:navTitle];
     [self makeThisView];
-    [self getToken];
     [self getBanner];
     [self getNotice];
+    [self getJPUSHServiceTags];
 //    [self getDetail];
     [self getGoods];
 //    [PublicMethod getAppKey];
@@ -137,18 +138,18 @@
             NSArray *allArr =[dict objectForKey:@"data"];
             titleArr=[[NSMutableArray alloc]init];
             NSMutableArray* titleArray =[[NSMutableArray alloc]init];
+        
             for (int i=0 ; i<allArr.count; i++) {
 
                 if ([[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"type"]]isEqualToString:@"2"]) {
+                    
                     [titleArray addObject:[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"title"]]];
+                    
                     [titleArr addObject:allArr[i]];
-
+                    
                 }
-
             }
-            newsView.noticeList =titleArray;
-            [newsView star];
-            
+            [self addWith:TXScrollLabelViewTypeFlipNoRepeat velocity:titleArr.count isArray:YES withArr:titleArray];
 
         }
         
@@ -215,19 +216,13 @@
     topview =[[UIView alloc]initWithFrame:CGRectMake(0, 64,CXCWidth , 58*Width)];
     topview.backgroundColor = [UIColor colorWithRed:253/255.0 green:239/255.0 blue:212/255.0 alpha:1];
     [self.view addSubview:topview];
-    //公告
-    newsView = [[NewsBanner alloc]initWithFrame:CGRectMake(24*Width, 0, 650*Width, 58*Width)];
-//    newsView.noticeList = @[@"公告：心体荟商城上线大促销即将开始"];
-    newsView.duration = 2;
-    [topview addSubview:newsView];
-    newsView.delegate = self;
     
 
-//    UILabel *prelabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 0,Width*650, 58*Width)];
-//    prelabel.text =@"公告：心体荟商城上线大促销即将开始";
-//    prelabel.font =[UIFont systemFontOfSize:14];
-//    prelabel.textColor =[UIColor colorWithRed:249/255.0 green:98/255.0 blue:48/255.0 alpha:1];
-//    [topview  addSubview:prelabel ];
+    UILabel *prelabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 0,80, 58*Width)];
+    prelabel.text =@"公告:";
+    prelabel.font =[UIFont systemFontOfSize:14];
+    prelabel.textColor =[UIColor colorWithRed:249/255.0 green:98/255.0 blue:48/255.0 alpha:1];
+    [topview  addSubview:prelabel ];
     
     UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(690*Width, 0*Width, 58*Width, 58*Width)];
     [btn setImage:[UIImage imageNamed:@"vip_btn_close"] forState:UIControlStateNormal];
@@ -437,11 +432,10 @@
 - (void)myBtnAciton:(UIButton *)btn
 {
     if (btn.tag ==300) {
-        
-        NearlyDelegateVC  *search =[[NearlyDelegateVC alloc]init];
+
+        NearlyDelegateVC *search =[[NearlyDelegateVC alloc]init];
         [self.navigationController pushViewController:search animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
 
     }else if (btn.tag==301)
     {
@@ -453,6 +447,7 @@
     }else if (btn.tag==302)
     {
         NoticeVC  *notice =[[NoticeVC alloc]init];
+        notice.hyOrDl =@"HY";
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
@@ -553,19 +548,6 @@ static MLLinkLabel * kProtypeLabel() {
 
     
 }
-#pragma mark NewsBannerDelegate
-- (void)NewsBanner:(NewsBanner *)newsBanner didSelectIndex:(NSInteger)selectIndex
-{
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
-    NoticeDetailVC *notice =[[NoticeDetailVC alloc]init];
-    notice.contentString =[titleArr[selectIndex] objectForKey:@"content"];
-    notice.titleString =[titleArr[selectIndex] objectForKey:@"title"];
-
-    [self.navigationController pushViewController:notice animated:YES];
-    
-    NSLog(@"%ld",selectIndex);
-}
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     BannarDetailVC *notice =[[BannarDetailVC alloc]init];
@@ -577,9 +559,75 @@ static MLLinkLabel * kProtypeLabel() {
 
     
 }
-- (void)getToken
+- (void)addWith:(TXScrollLabelViewType)type velocity:(CGFloat)velocity isArray:(BOOL)isArray  withArr:(NSArray *)stringArray{
+    /** Step1: 滚动文字 */
+    
+    NSString *scrollTitle = @"乐荟云商";
+    
+    NSArray *scrollTexts = stringArray;
+    
+    /** Step2: 创建 ScrollLabelView */
+    TXScrollLabelView *scrollLabelView = nil;
+    if (isArray) {
+        scrollLabelView = [TXScrollLabelView scrollWithTextArray:scrollTexts type:type velocity:velocity options:UIViewAnimationOptionCurveEaseInOut inset:UIEdgeInsetsZero];
+    }else {
+        scrollLabelView = [TXScrollLabelView scrollWithTitle:scrollTitle type:type velocity:velocity options:UIViewAnimationOptionCurveEaseInOut];
+    }
+    
+    /** Step3: 设置代理进行回调 */
+    scrollLabelView.scrollLabelViewDelegate = self;
+    
+    /** Step4: 布局(Required) */
+    scrollLabelView.frame = CGRectMake(120*Width, 0, 650*Width, 58*Width);
+    
+    [topview addSubview:scrollLabelView];
+//    //公告
+//    newsView = [[NewsBanner alloc]initWithFrame:CGRectMake(24*Width, 0, 650*Width, 58*Width)];
+//    //    newsView.noticeList = @[@"公告：心体荟商城上线大促销即将开始"];
+//    newsView.duration =3;
+//    [topview addSubview:newsView];
+//    newsView.delegate = self;
+
+    
+    //偏好(Optional), Preference,if you want.
+//    scrollLabelView.tx_centerX  = [UIScreen mainScreen].bounds.size.width * 0.5;
+//    scrollLabelView.scrollInset = UIEdgeInsetsMake(0, 10 , 0, 10);
+    scrollLabelView.scrollSpace = 10;
+    scrollLabelView.backgroundColor =[UIColor colorWithRed:253/255.0 green:239/255.0 blue:212/255.0 alpha:1];
+    scrollLabelView.font = [UIFont systemFontOfSize:14];
+
+//    scrollLabelView.textAlignment = NSTextAlignmentCenter;
+    scrollLabelView.layer.cornerRadius = 5;
+    /** Step5: 开始滚动(Start scrolling!) */
+    [scrollLabelView beginScrolling];
+}
+
+- (void)scrollLabelView:(TXScrollLabelView *)scrollLabelView didClickWithText:(NSString *)text atIndex:(NSInteger)index{
+    NSLog(@"%@--%ld",text, index);
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    
+    NoticeDetailVC *notice =[[NoticeDetailVC alloc]init];
+    notice.contentString =[titleArr[index] objectForKey:@"content"];
+    notice.titleString =[titleArr[index] objectForKey:@"title"];
+    
+    [self.navigationController pushViewController:notice animated:YES];
+    
+    NSLog(@"%ld",index);
+}
+
+- (void)getJPUSHServiceTags
 {
-
-
+    [JPUSHService addTags:[self tags] completion:^(NSInteger iResCode, NSSet *iTags, NSInteger seq) {
+        NSLog(@"ertuifghjkl");
+    } seq:(NSInteger)[self seq]];
+}
+- (NSInteger)seq {
+    return ++ seq;
+}
+- (NSSet<NSString *> *)tags {
+    NSArray * tagsList = [[NSString stringWithFormat:@"%@",[PublicMethod getDataStringKey:@"registrationID"]] componentsSeparatedByString:@","];
+    NSMutableSet * tags = [[NSMutableSet alloc] init];
+    [tags addObjectsFromArray:tagsList];
+    return tags;
 }
 @end

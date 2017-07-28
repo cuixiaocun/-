@@ -91,8 +91,8 @@
                 //系统计算按钮
                 UIButton* _seeBtn = [[UIButton alloc]initWithFrame:CGRectMake(630*Width,200*Width+13.5*Width , 90*Width, 55*Width)];
                 [_seeBtn setBackgroundColor:[UIColor whiteColor]];
-                [_seeBtn.layer setCornerRadius:2*Width];
-                [_seeBtn.layer setBorderWidth:1.5*Width];
+                [_seeBtn.layer setCornerRadius:2];
+                [_seeBtn.layer setBorderWidth:1];
                 [_seeBtn.layer setMasksToBounds:YES];
                 [_seeBtn setTitleColor:NavColor forState:UIControlStateNormal];
                 [_seeBtn setTitle:@"转账" forState:UIControlStateNormal];

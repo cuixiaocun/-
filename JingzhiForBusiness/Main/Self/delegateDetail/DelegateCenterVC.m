@@ -97,7 +97,7 @@
             chooseBtn.tag =10+i;
             [chooseBtn addTarget:self action:@selector(areaChoosen:) forControlEvents:UIControlEventTouchUpInside];
             //文字
-            UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,400*Width , 82*Width)];
+            UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,430*Width , 82*Width)];
             wzlabe.text = rightArr[i];
             wzlabe.tag =20+i;
             wzlabe.font = [UIFont systemFontOfSize:16];
@@ -229,14 +229,12 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
          
          if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-         
+             
              [MBProgressHUD showSuccess:@"修改成功" ToView:self.view];
              [self.navigationController popToRootViewControllerAnimated:YES];
              [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"agen"]withKey:agen];
-
              
-             
-         }
+           }
          
         } fail:^(NSError *error) {
                                                                             

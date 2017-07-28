@@ -476,7 +476,7 @@
         NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
         if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
         {
-            [ProgressHUD showSuccess:@"流转成功"];
+             [MBProgressHUD  showSuccess:@"流转成功" ToView:self.view];
             currentPage=0;
             
             [self getInfoList];
@@ -499,11 +499,13 @@
     {
         IsTureAlterView *isture = [self.view viewWithTag:180];
         [isture removeFromSuperview];
+//
         NSLog(@"取消");
     }else
     {
         IsTureAlterView *isture = [self.view viewWithTag:181];
         [isture removeFromSuperview];
+
         NSLog(@"取消");
     
     }
@@ -542,9 +544,9 @@
         NSDictionary*  agenDict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] ;
         if([ [NSString stringWithFormat:@"%@",[agenDict objectForKey:@"code"]]isEqualToString:@"0"])
         {
-            [MBProgressHUD showWarn:@"驳回成功" ToView:self.view];
             currentPage=0;
-            
+            [MBProgressHUD showSuccess:@"驳回成功" ToView:self.view];
+
             [self getInfoList];
         }
         

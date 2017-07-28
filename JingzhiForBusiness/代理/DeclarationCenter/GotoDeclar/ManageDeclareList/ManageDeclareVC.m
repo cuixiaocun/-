@@ -320,7 +320,7 @@
         }
         case 2003:
         {
-            //审核通过
+            //驳回
             IsTureAlterView *isture =[[IsTureAlterView alloc]initWithTitile:@"确认要驳回次报单吗？"];
             isture.delegate =self;
             isture.tag =181;
@@ -368,7 +368,7 @@
                 
                 [[self rdv_tabBarController] setSelectedIndex:0];
                 [MBProgressHUD showSuccess:@"审核成功" ToView:self.view];
-                [self.tableView reloadData];
+                [self getInfoList];
             }
             
         } fail:^(NSError *error) {
@@ -392,6 +392,7 @@
                 [ProgressHUD showSuccess:@"驳回成功"];
                 currentPage=0;
                 [self getInfoList];
+                
             }
             
         } fail:^(NSError *error) {

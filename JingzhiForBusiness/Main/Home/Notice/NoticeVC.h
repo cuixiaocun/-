@@ -18,7 +18,9 @@
     NSInteger pageCount;   //总页数
     
 }
-@property(nonatomic,copy)NSString *statusString;
+//@property(nonatomic,copy)NSString *statusString;
+@property(nonatomic,copy)NSString *hyOrDl;
+
 @property(nonatomic,copy)NSArray*noticArr;
 
 @end

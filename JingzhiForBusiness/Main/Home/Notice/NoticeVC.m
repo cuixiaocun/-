@@ -320,6 +320,8 @@
 }
 - (void)getNotice
 {
+    NSString *urlString;
+    
     [PublicMethod AFNetworkPOSTurl:@"Home/Index/notice" paraments:@{}  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
@@ -327,11 +329,27 @@
             
             for (int i=0 ; i<allArr.count; i++) {
                 
-                if ([[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"type"]]isEqualToString:@"2"]) {
-                    [infoArray addObject:allArr[i]];
-                    [self.tableView reloadData];
-
+                
+                
+                
+                
+                if ([_hyOrDl isEqualToString:@"HY"]) {
+                    
+                    if ([[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"type"]]isEqualToString:@"2"]) {
+                        [infoArray addObject:allArr[i]];
+                        [self.tableView reloadData];
+                        
+                    }
+                }else if([_hyOrDl isEqualToString:@"DL"])
+                {
+                    if ([[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"type"]]isEqualToString:@"1"]) {
+                        [infoArray addObject:allArr[i]];
+                        [self.tableView reloadData];
+                        
+                    }
                 }
+
+               
                 
             }
 

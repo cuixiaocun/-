@@ -159,7 +159,6 @@
     [adcomps setDay:0];
     //        isBegin =NO;
     
-    
     NSDate *newdate = [calendar dateByAddingComponents:adcomps toDate:date options:0];
     _pickview=[[ZHPickView alloc] initDatePickWithDate:newdate datePickerMode:UIDatePickerModeDate isHaveNavControler:NO];
     _pickview.delegate=self;
@@ -256,6 +255,12 @@
 }
 - (void)getInfoList
 {
+    UITextField *textF =[self.view viewWithTag:33330];
+    UITextField *text2 =[self.view viewWithTag:33331];
+    [textF resignFirstResponder];
+    [text2 resignFirstResponder];
+    [_pickview  remove];
+
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
 
     //始末时间

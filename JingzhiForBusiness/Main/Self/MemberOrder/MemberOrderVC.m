@@ -221,7 +221,7 @@
     
     [isture removeFromSuperview];
     NSLog(@"删除订单");
-
+    
     [self deleateOrder];
 //删除
 
@@ -237,7 +237,7 @@
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/cancel" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-                      [ProgressHUD showSuccess:@"订单已驳回"];
+            [MBProgressHUD showSuccess:@"驳回成功" ToView:self.view];
             currentPage =0;
             [self getInfoList ];
         }

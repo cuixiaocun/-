@@ -18,6 +18,6 @@ static BOOL harpyForceUpdate = NO;
 #define kHarpyAppID                 @"1254350307"//此处写Apple ID
 
 // 3. Customize the alert title and action buttons
-#define kHarpyAlertViewTitle        @"有新的版本"
+#define kHarpyAlertViewTitle        @"来自乐荟云商的提示"
 #define kHarpyCancelButtonTitle     @"回头再说"
-#define kHarpyUpdateButtonTitle     @"下载更新"
+#define kHarpyUpdateButtonTitle     @"去看看"

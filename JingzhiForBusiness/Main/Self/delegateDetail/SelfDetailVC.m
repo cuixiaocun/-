@@ -149,9 +149,8 @@
 - (void)registersdBtnAction
 {
 //去注册
-    UILabel*phoneLabel =[self.view viewWithTag:201];
     HYRegisteredVC*registered =[[HYRegisteredVC alloc]init];
-    registered.delegateNumber =phoneLabel.text;
+    registered.delegateNumber =[_delegateDic objectForKey:@"account"];
     [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",[_delegateDic objectForKey:@"name"]] withKey:@"Isdelegate"];
 
     [self.navigationController pushViewController:registered animated:YES];

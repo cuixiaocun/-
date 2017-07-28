@@ -101,8 +101,8 @@
             //系统计算按钮
             _seeBtn = [[UIButton alloc]init];
             [_seeBtn setBackgroundColor:[UIColor whiteColor]];
-            [_seeBtn.layer setCornerRadius:2*Width];
-            [_seeBtn.layer setBorderWidth:1.5*Width];
+            [_seeBtn.layer setCornerRadius:2];
+            [_seeBtn.layer setBorderWidth:1];
             [_seeBtn.layer setMasksToBounds:YES];
             [_seeBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
             [_seeBtn setTitle:@"详情" forState:UIControlStateNormal];
@@ -115,8 +115,8 @@
             //取消订单
             _rejectBtn = [[UIButton alloc]init];
             [_rejectBtn setBackgroundColor:[UIColor whiteColor]];
-            [_rejectBtn.layer setCornerRadius:2*Width];
-            [_rejectBtn.layer setBorderWidth:1.5*Width];
+            [_rejectBtn.layer setCornerRadius:2];
+            [_rejectBtn.layer setBorderWidth:1];
             [_rejectBtn.layer setMasksToBounds:YES];
             [_rejectBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
             [_rejectBtn setTitle:@"取消订单" forState:UIControlStateNormal];
@@ -130,8 +130,8 @@
             //去支付
             _deliverBtn = [[UIButton alloc]init];
             [_deliverBtn setBackgroundColor:[UIColor whiteColor]];
-            [_deliverBtn.layer setCornerRadius:2*Width];
-            [_deliverBtn.layer setBorderWidth:1.5*Width];
+            [_deliverBtn.layer setCornerRadius:2];
+            [_deliverBtn.layer setBorderWidth:1];
             [_deliverBtn.layer setMasksToBounds:YES];
             [_deliverBtn setTitleColor:NavColor forState:UIControlStateNormal];
             [_deliverBtn setTitle:@"去支付" forState:UIControlStateNormal];
@@ -145,8 +145,8 @@
             //查看物流
             _seeLogBtn = [[UIButton alloc]init];
             [_seeLogBtn setBackgroundColor:[UIColor whiteColor]];
-            [_seeLogBtn.layer setCornerRadius:2*Width];
-            [_seeLogBtn.layer setBorderWidth:1.5*Width];
+            [_seeLogBtn.layer setCornerRadius:2];
+            [_seeLogBtn.layer setBorderWidth:1];
             [_seeLogBtn.layer setMasksToBounds:YES];
             [_seeLogBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
             [_seeLogBtn setTitle:@"查看物流" forState:UIControlStateNormal];
@@ -162,8 +162,8 @@
             //确认收货
             _tureBtn = [[UIButton alloc]init];
             [_tureBtn setBackgroundColor:[UIColor whiteColor]];
-            [_tureBtn.layer setCornerRadius:2*Width];
-            [_tureBtn.layer setBorderWidth:1.5*Width];
+            [_tureBtn.layer setCornerRadius:2];
+            [_tureBtn.layer setBorderWidth:1];
             [_tureBtn.layer setMasksToBounds:YES];
             [_tureBtn setTitleColor:NavColor forState:UIControlStateNormal];
             [_tureBtn setTitle:@"确认收货" forState:UIControlStateNormal];

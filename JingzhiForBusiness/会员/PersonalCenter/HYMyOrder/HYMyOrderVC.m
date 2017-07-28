@@ -59,7 +59,7 @@
 - (void)returnBtnAction
 {
     
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
 - (void)mainView
@@ -439,6 +439,7 @@
     {
         [alter removeFromSuperview];
         NSLog(@"取消");
+        
     }else if (alter.tag ==181)
     {
         [alter removeFromSuperview];
@@ -453,12 +454,12 @@
     {
         [alter removeFromSuperview];
         NSLog(@"删除");
-       
         [self cancelOrder];
 
     }else if (alter.tag ==181)
     {
         [alter removeFromSuperview];
+
         [self tureGetGoods];
 
         NSLog(@"收货");
@@ -479,7 +480,7 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
-            [ProgressHUD showSuccess:@"订单已取消"];
+            [MBProgressHUD showSuccess:@"订单取消成功" ToView:self.view];
             currentPage =0;
             [self getInfoList ];
         }
@@ -504,7 +505,7 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
-            [ProgressHUD showSuccess:@"收货成功"];
+            [MBProgressHUD showSuccess:@"收货成功" ToView:self.view];
             currentPage =0;
             [self getInfoList ];
 

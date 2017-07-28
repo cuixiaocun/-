@@ -31,9 +31,13 @@
 
 /*百度地图的*/
 #import <BaiduMapAPI_Map/BMKMapView.h>//只引入所需的单个头文件
-static NSString *appKey = @"AppKey copied from JiGuang Portal application";
-static NSString *channel = @"Publish channel";
-static BOOL isProduction = FALSE;
+
+
+
+
+static NSString *appKey = @"7f98c36e1b9d6f41fe983fe7";
+static NSString *channel = @"App Store";
+static BOOL isProduction = YES;
 @interface AppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate>
 {
     BMKMapManager* _mapManager;

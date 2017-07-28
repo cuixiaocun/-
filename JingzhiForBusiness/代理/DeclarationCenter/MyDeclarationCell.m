@@ -33,7 +33,7 @@
         rightLabel.textAlignment=NSTextAlignmentRight;
         rightLabel.tag =240;
         rightLabel.font = [UIFont systemFontOfSize:14];
-        rightLabel.textColor = TextGrayGrayColor;
+        rightLabel.textColor = TextGrayColor;
         [bgview addSubview:rightLabel];
         
         

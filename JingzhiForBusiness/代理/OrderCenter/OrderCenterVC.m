@@ -10,6 +10,7 @@
 #import "MyOrderListVC.h"
 #import "GotoOrderVC.h"
 #import "ManageOrderVC.h"
+#import "CirculationRecordVC.h"
 @interface OrderCenterVC ()
 {
     UIScrollView *bgScrollView;//最底下的背景
@@ -63,17 +64,23 @@
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 570)];
     
     
-    NSArray *topArr =@[@"order_icon_wodingdan",@"order_icon_to",@"baodan_icon_all",@"baodan_icon_dai",@"order_icon_daifahuo",@"baodan_icon_done",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
-    NSArray*bottomArr =@[@"我的订单",@"去下单",@"全部",@"未发货",@"已发货",@"已完成",@"",] ;
+    NSArray *topArr =@[@"order_icon_wodingdan",@"order_icon_to",@"baodan_icon_all",@"baodan_icon_dai",@"order_icon_daifahuo",@"baodan_icon_done",@"order_icon_liuzhuan",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+    NSArray*bottomArr =@[@"我的订单",@"去下单",@"全部",@"未发货",@"已发货",@"已完成",@"流转记录",] ;
     
-    for (int i=0; i<6; i++) {
+    for (int i=0; i<7; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(375*Width*(i%2),20*Width+250*Width*(i/2),374*Width,249*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
         btn.tag =i+300;
-        if (i>1) {
+        if (i>1&&i<6) {
             btn.frame =CGRectMake(375*Width*(i%2),20*Width+77*Width+250*Width*(i/2),374*Width,249*Width);
             
+        }else if (i==6)
+        {
+        
+            btn.frame =CGRectMake(375*Width*(i%2),40*Width+77*Width+250*Width*(i/2),374*Width,249*Width);
+
+        
         }
         btn.backgroundColor =[UIColor whiteColor];
         [bgScrollView addSubview:btn];
@@ -184,6 +191,12 @@
         [self.navigationController pushViewController:orderVC animated:YES];
         
 
+    }else if(btn.tag ==306)
+    {
+        CirculationRecordVC *orderVC =[[CirculationRecordVC alloc]init];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController pushViewController:orderVC animated:YES];
+        
     }
 
     

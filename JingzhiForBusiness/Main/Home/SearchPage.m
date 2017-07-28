@@ -69,6 +69,8 @@
     _locService.delegate = self;
     [_locService startUserLocationService];
     
+    memberlat =@"0.00";
+    memberlng =@"0.00";
 
     [self.view setBackgroundColor:BGColor];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {

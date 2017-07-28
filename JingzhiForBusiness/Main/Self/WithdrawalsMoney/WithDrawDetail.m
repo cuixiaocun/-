@@ -117,8 +117,8 @@
     defaultLabel.font =[UIFont systemFontOfSize:12];
     [middleBgView addSubview:defaultLabel];
     defaultLabel.tag =302;
-    [defaultLabel.layer setCornerRadius:2*Width];
-    [defaultLabel.layer setBorderWidth:1.5*Width];
+    [defaultLabel.layer setCornerRadius:2];
+    [defaultLabel.layer setBorderWidth:1];
     [defaultLabel.layer setMasksToBounds:YES];
     defaultLabel.textAlignment =NSTextAlignmentCenter;
     defaultLabel.layer.borderColor =NavColor.CGColor;

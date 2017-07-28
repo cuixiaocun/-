@@ -13,6 +13,7 @@
 #import "APAuthV2Info.h"
 #import "RSADataSigner.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "HYMyOrderVC.h"
 
 @interface CashierVC ()<CXCTwoLableSheetDelegate,UITableViewDelegate,UITableViewDataSource>
 {
@@ -28,7 +29,8 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(refreshTheView) name:@"ZHIFUCHENGGONG" object:nil];
+
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -56,9 +58,26 @@
 }
 -(void)returnBtnAction
 {
-    UIViewController * viewVC = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3];
+     HYMyOrderVC*homeVC = [[HYMyOrderVC alloc] init];
+    UIViewController *target = nil;
+    for (UIViewController * controller in self.navigationController.viewControllers) { //遍历
+        if ([controller isKindOfClass:[homeVC class]]) { //这里判断是否为你想要跳转的页面
+            target = controller;
+        }
+    }
+    if (target) {
+        [self.navigationController popToViewController:target animated:YES]; //跳转
+    }else
+    {
+        UIViewController * viewVC = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3];
+        
+        [self.navigationController popToViewController:viewVC animated:YES];
+    
+    }
 
-    [self.navigationController popToViewController:viewVC animated:YES];
+    
+    
+   
 }
 
 - (void)mainView
@@ -165,67 +184,84 @@
 - (void)surePayTheMoney
 {
     
-    UILabel*defaultLabel =[self.view viewWithTag:33345];
-    defaultLabel.hidden =YES;
+    UILabel *nameLabel= [self.view viewWithTag:202];
+    if([nameLabel.text isEqualToString:@"支付宝支付"])
+    {
+        [self zhifubaoPay];
     
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-                         @"orderid":[NSString stringWithFormat:@"%@",_orderId] ,
-                          }];
-    [PublicMethod AFNetworkPOSTurl:@"Home/Pay/notify" paraments:dic1  addView:self.view success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
-        }
+    }else if ([nameLabel.text isEqualToString:@"微信支付"])
+    {
+    
+        [self ProPayRequest];
+    }else
+    {
+    
+        [MBProgressHUD showWarn:@"请选择支付方式" ToView:self.view];
+        return;
         
-    } fail:^(NSError *error) {
-        
-    }];
-
-
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[ShoppingCartVC  class]]) {
-         //从购物车跳进去需要删除购物车里面的东西
-           NSMutableArray* infoArr =[[NSMutableArray alloc]init];
-            NSArray *arr =[PublicMethod getObjectForKey:shopingCart];
-            [infoArr  addObjectsFromArray:arr];
-            [ProgressHUD  showSuccess:@"支付成功"];
-
-            //遍历一遍把购物车删除
-            for (int i=0; i<infoArr.count; i++) {
-                for (int j=0; j<_googsArr.count; j++) {
-                    NSMutableDictionary * mDict = [NSMutableDictionary dictionaryWithDictionary:infoArr[i]];
-                    NSMutableDictionary * jDict = [NSMutableDictionary dictionaryWithDictionary:_googsArr[j]];
-                    
-                    //商品ID暂设为1
-                    if ([[mDict objectForKey:@"goodID"]isEqualToString:[jDict objectForKey:@"goodID"]]) {
-                        //先删除后保存
-                        [infoArr removeObjectAtIndex:i];
-                        [PublicMethod setObject:infoArr key:shopingCart];
-                        [self.navigationController  popToRootViewControllerAnimated:YES];
-                        
-                        
-                    }
-                    
-                }
-                
-                
-            }
-
-            
-            
-            
-        }else
-        {
-        //从其他地方
-        [self.navigationController  popToRootViewControllerAnimated:YES];
-
-        }
     }
-        
-        
-    NSMutableArray* infoArr =[[NSMutableArray alloc]init];
     
+//    UILabel*defaultLabel =[self.view viewWithTag:33345];
+//    defaultLabel.hidden =YES;
+//    
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    [dic1 setDictionary:@{
+//                         @"orderid":[NSString stringWithFormat:@"%@",_orderId] ,
+//                          }];
+//    [PublicMethod AFNetworkPOSTurl:@"Home/Pay/notify" paraments:dic1  addView:self.view success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+//            
+//            for (UIViewController *controller in self.navigationController.viewControllers) {
+//                if ([controller isKindOfClass:[ShoppingCartVC  class]]) {
+//                    //从购物车跳进去需要删除购物车里面的东西
+//                    NSMutableArray* infoArr =[[NSMutableArray alloc]init];
+//                    NSArray *arr =[PublicMethod getObjectForKey:shopingCart];
+//                    [infoArr  addObjectsFromArray:arr];
+//                    [ProgressHUD  showSuccess:@"支付成功"];
+//                    
+//                    //遍历一遍把购物车删除
+//                    for (int i=0; i<infoArr.count; i++) {
+//                        for (int j=0; j<_googsArr.count; j++) {
+//                            NSMutableDictionary * mDict = [NSMutableDictionary dictionaryWithDictionary:infoArr[i]];
+//                            NSMutableDictionary * jDict = [NSMutableDictionary dictionaryWithDictionary:_googsArr[j]];
+//                            
+//                            //商品ID暂设为1
+//                            if ([[mDict objectForKey:@"goodID"]isEqualToString:[jDict objectForKey:@"goodID"]]) {
+//                                //先删除后保存
+//                                [infoArr removeObjectAtIndex:i];
+//                                [PublicMethod setObject:infoArr key:shopingCart];
+//                                [self.navigationController  popToRootViewControllerAnimated:YES];
+//                                
+//                                
+//                            }
+//                            
+//                        }
+//                        
+//                        
+//                    }
+//                    
+//                    
+//                    
+//                    
+//                }else
+//                {
+//                    //从其他地方
+//                    [self.navigationController  popToRootViewControllerAnimated:YES];
+//                    
+//                }
+//            }
+            
+//        }
+//
+//    } fail:^(NSError *error) {
+//        
+//    }];
+//
+//    
+//        
+//    NSMutableArray* infoArr =[[NSMutableArray alloc]init];
+
     
 }
 - (void)didReceiveMemoryWarning {
@@ -482,18 +518,23 @@
             [nameLabel setText:@"支付宝支付"];
 //            [self ProPayRequest];
             
-            [self zhifubaoPay];
+//            [self zhifubaoPay];
             
-            
+            self.shadowImage.hidden = YES;
+            self.selectPayTypeTableView.hidden = YES;
+
         }
         else if (indexPath.row == 3)
         {
             UILabel *nameLabel= [self.view viewWithTag:202];
             [nameLabel setText:@"微信支付"];
+            self.shadowImage.hidden = YES;
+            self.selectPayTypeTableView.hidden = YES;
+
             self.selectPayTreasureButton.hidden = YES;
             self.selectWeChatButton.hidden = NO;
             self.orderType = @"wx";
-            [self ProPayRequest];
+//            [self ProPayRequest];
     
         }else
         {
@@ -503,55 +544,70 @@
 }
 - (void)ProPayRequest
 {
-        self.shadowImage.hidden = YES;
-        self.selectPayTypeTableView.hidden = YES;
-    /*需要改变*/
-    NSDictionary*dictionary;
-    if(dictionary != nil){
-        NSMutableString *retcode = [dictionary objectForKey:@"retcode"];
-        if (retcode.intValue == 0){
-            NSMutableString *stamp  = [dictionary objectForKey:@"timestamp"];
-            NSString *demostr =[NSString stringWithFormat:@"appid=%@&noncestr=%@&package=%@&partnerid=%@&prepayid=%@&timestamp=%@",
-                                @"wxa4ab2adb1a8934e4",
-                                [dictionary objectForKey:@"noncestr"],
-                                @"Sign=WXPay",
-                                @"1374867202",
-                                [dictionary objectForKey:@"prepay_id"],
-                                [NSString stringWithFormat:@"%ld",(long)stamp.intValue]
-                                ];
+           /*需要改变*/
+    //
+    self.shadowImage.hidden = YES;
+    self.selectPayTypeTableView.hidden = YES;
+    
+
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"orderid":[NSString stringWithFormat:@"%@",_orderId] ,
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"Home/PayWx/getAppPay" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            NSDictionary*dictionary = [[dict  objectForKey:@"data"] objectForKey:@"ios"];
             
-            NSString *stringA=[NSString stringWithFormat:@"%@&key=%@",demostr,@"communityappzhifu18660255283admi"];
-            
-            NSString *stringB = [PublicMethod md5:stringA];
-            NSString *stringC = stringB.uppercaseString;
-            
-            //调起微信支付
-            PayReq* req             = [[PayReq alloc] init];
-            
-            req.partnerId           = @"1374867202";
-            req.prepayId            = [dictionary objectForKey:@"prepay_id"];
-            req.nonceStr            = [dictionary objectForKey:@"noncestr"];
-            req.timeStamp           = stamp.intValue;
-            req.package             = @"Sign=WXPay";
-            req.sign                = stringC;
-            [WXApi sendReq:req];
-            //日志输出
-            NSLog(@"appid=%@&partid=%@&prepayid=%@&noncestr=%@&timestamp=%ld&package=%@&sign=%@",@"wxe544423c9955d614",req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
-            //return @"";
-            NSLog(@"1111");
-            [ProgressHUD showSuccess:@"支付成功"];
-            
-        }else{
-            //return [dict objectForKey:@"retmsg"];
-            NSLog(@"2222");
+            if(dictionary != nil){
+                NSMutableString *retcode = [dictionary objectForKey:@"return_code"];
+                if (retcode.intValue == 0){
+                    NSMutableString *stamp  = [dictionary objectForKey:@"timeStamp"];
+                    NSString *demostr =[NSString stringWithFormat:@"appid=%@&noncestr=%@&package=%@&partnerid=%@&prepayid=%@&timestamp=%@",
+                                        [dictionary objectForKey:@"appid"],
+                                        [dictionary objectForKey:@"nonce_str"],
+                                        @"Sign=WXPay",
+                                        [dictionary objectForKey:@"mch_id"],
+                                        [dictionary objectForKey:@"prepay_id"],
+                                        [NSString stringWithFormat:@"%ld",(long)stamp.intValue]
+                                        ];
+                    NSLog(@"demostr = %@",demostr);
+                    NSString *stringA=[NSString stringWithFormat:@"%@&key=%@",demostr,@"2ba002adc916888ce5c4558e2d7736f4"];
+                    NSString *stringB = [PublicMethod md5:stringA];
+                    NSString *stringC = stringB.uppercaseString;
+                    NSLog(@"%@",stringC);
+                    
+                    //调起微信支付
+                    PayReq* req             = [[PayReq alloc] init];
+                    req.partnerId           = [dictionary objectForKey:@"mch_id"];
+                    req.prepayId            = [dictionary objectForKey:@"prepay_id"];
+                    req.nonceStr            = [dictionary objectForKey:@"nonceStr"];
+                    req.timeStamp           = stamp.intValue;
+                    req.package             = @"Sign=WXPay";
+//                    req.sign               = stringC;
+                    req.sign                = [dictionary objectForKey:@"sign"];
+                    [WXApi sendReq:req];
+                    
+                    NSLog(@"chenggonglema%d",[WXApi sendReq:req]);
+                }else{
+                    //return [dict objectForKey:@"retmsg"];
+                    NSLog(@"2222");
+                }
+            }else{
+                //return @"服务器返回错误， 未获取到json对象";
+                NSLog(@"3333");
+            }
+
         }
-    }else{
-        //return @"服务器返回错误， 未获取到json对象";
-        NSLog(@"3333");
-    }
+        
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
-    
-    
+
     
 
 
@@ -573,93 +629,57 @@
 {
     self.shadowImage.hidden = YES;
     self.selectPayTypeTableView.hidden = YES;
-    //重要说明
-    //这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
-    //真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
-    //防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
-    /*============================================================================*/
-    /*=======================需要填写商户app申请的===================================*/
-    /*============================================================================*/
-    NSString *pid = @"2088721225565115";
-    NSString *appID = @"2017071107711557";
     
-    // 如下私钥，rsa2PrivateKey 或者 rsaPrivateKey 只需要填入一个
-    // 如果商户两个都设置了，优先使用 rsa2PrivateKey
-    // rsa2PrivateKey 可以保证商户交易在更加安全的环境下进行，建议使用 rsa2PrivateKey
-    // 获取 rsa2PrivateKey，建议使用支付宝提供的公私钥生成工具生成，
-    // 工具地址：https://doc.open.alipay.com/docs/doc.htm?treeId=291&articleId=106097&docType=1
-    NSString *rsa2PrivateKey = @"MIIEowIBAAKCAQEAlzrdwS7XC1HZRVKfo0SSs2bVh6f1hbarEn3Q65wtQMSZ6Gqlgvwt/R6pxCLItE9WnixXNO+5WY/i3IVtHxV2b+9IWU4jKzQ+QYSqaMyPh4JoMuM1P/K71h4IdBphdqf3BXPM19Ng9HCMr+COR3jGtVMjMJLUI50w0DwRM76/QLZZ9uvfaA7BNNPsefd4BpRZ83D03za9bfhdsUVASiMzFbXXeSJBrhqv3YJhA3CHIRJoRQJLewkye6fdtlooS75PBkfzsXGeyRSJ9aeLocSm5zvGod9awkHB/3h5u0nO7eGdPw2e8NuOIv2mlC0IjWXpwO04ytFI08N3kAeniDEkZQIDAQABAoIBACcIP4ID5+b5Ch31VFScd0yshwJLXHhVjFPqe0jEd32XAK5XED79fZUuG90OqUS4kX+jrCJymSE/nOsT2PVD4dzEIqVCIJufEU5xwlXoLkdoZiJ0OCM4MDj0aXQl9u/cLEqQ99bgrM6KWhVu3OofhxH30kZQL0a95IJqbnovikdWI9F1falVgY6RHoq84k+mNxUvAc1NoiwrS0KczMbqtXvt/HBllaV/DuLlrg76lLfG/JDkxZlxv+Wbf1kKmlKmchzyYG+PvP76cWMxPCCucRWjvTTR3I0Sb9336X8LIke52MMiluAngdVgfjNtHzXnQ8WgVyUkyRfGKYQoTgFStgUCgYEAxpGMeUbxijKlbQ+Vteoa07M9R3RJAAfbk1h47sy5U6DsZGKpPeJSxJLWRoGsHvkP56NAIw6Jp/6AGDQIyuj0Zc0wB3bU5dbeRh6kAWvPweoenAWXOz9JLI0QcUehg/03W71vPizWPu1byCgx2+StAOjmLT7GQi3oT3H7GHqFsNcCgYEAwvhDbbbh70j4d0Z91P2yxGMSBL0xdaJTWAHVmuGgeNmLltwk3crFegaal/Y/bLTTWnMIev6OUnxgpctMD+x4gZN4IIEi5X3CsUSQIm9OyCQiIgVQaUNUpdi4CsSeDpIaUcazywtEpcAT5gVCKSXBneZEcv/HEYlHPi27KbvL4SMCgYEAwpM/HlvpNa15MoxR/GdBEG8Tvh/xpIkOnazVG9MaSxtmaNvQ0WYkCqGEPKS2X8dY0XfD0lZdh3O4W38pmoN5cQQGa1oDNpE9T2KY/ReDBpZ+lg5YaeMStggos4goeei3xTq0di2DZzg5dsIEUWAcMscFPhLEPXc0rByZmxv8QxMCgYAU5WbUq3UroDaBEh0KZuZyBew4dc6HPQ6RsCCkqOn6CdbcJFwPKVxg57RJ9Sp3DCpa11lhVUcLsCjrnA5a5o1D1fpaAX0r+36SYTbRefyHltfRraAgqAa6f6+597i49w+7FADREjQZT6zSSl386v8FXViYurErP/tSvrQAlRAU4QKBgCXrk8wlnCqe/7cKFfjJ/ldxWlbvmjKGiZDnqKiYok5W9FOYNbvhLIBvRkxbjNh/iDCXKxLINKmF6rm+pRLzcNN0UxW8Igh4GTl1XanGJ1b9Pi2dE9SS92uPLH7IgqwwPN1hYTeSteZV8wxsfuq87wrn0tbofKeYemOMS4d2M/4g";
-    NSString *rsaPrivateKey = @"";
-    /*============================================================================*/
-    /*============================================================================*/
-    /*============================================================================*/
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"orderid":[NSString stringWithFormat:@"%@",_orderId] ,
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"Home/PayAliApp/getAppPay" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            
+                // NOTE: 调用支付结果开始支付
+                [[AlipaySDK defaultService] payOrder:[dict objectForKey:@"data"] fromScheme:@"aliqiaotianxiaxintihui1" callback:^(NSDictionary *resultDic) {
+                    NSLog(@"reslut = %@",resultDic);
+                    
+                    if([[NSString stringWithFormat:@"%@",[resultDic objectForKey:@"resultStatus"]] isEqualToString:@"9000"])
+                    {
+                        HYMyOrderVC *hy =[[HYMyOrderVC alloc]init];
+                        [self.navigationController pushViewController:hy animated:YES];
+                    }
+                    
+
+                    
+                   }];
+            }
+            
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
-    //pid和appID获取失败,提示
-    if ([pid length] == 0 ||
-        [appID length] == 0 ||
-        ([rsa2PrivateKey length] == 0 && [rsaPrivateKey length] == 0))
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                        message:@"缺少pid或者appID或者私钥。"
-                                                       delegate:self
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
     
-    //生成 auth info 对象
-    APAuthV2Info *authInfo = [APAuthV2Info new];
-    authInfo.pid = pid;
-    authInfo.appID = appID;
     
-    //auth type
-    NSString *authType = [[NSUserDefaults standardUserDefaults] objectForKey:@"authType"];
-    if (authType) {
-        authInfo.authType = authType;
-    }
-  
+    
+    
+    
+    
+    
+}
+-(void)refreshTheView{
+    
+    
 
     
-    //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
-    NSString *appScheme = @"alisdkdemo";
-    
-    // 将授权信息拼接成字符串
-    NSString *authInfoStr = [authInfo description];
-    NSLog(@"authInfoStr = %@",authInfoStr);
-    
-    // 获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
-    NSString *signedString = nil;
-    RSADataSigner* signer = [[RSADataSigner alloc] initWithPrivateKey:((rsa2PrivateKey.length > 1)?rsa2PrivateKey:rsaPrivateKey)];
-    if ((rsa2PrivateKey.length > 1)) {
-        signedString = [signer signString:authInfoStr withRSA2:YES];
-    } else {
-        signedString = [signer signString:authInfoStr withRSA2:NO];
-    }
-    
-    // 将签名成功字符串格式化为订单字符串,请严格按照该格式
-    if (signedString.length > 0) {
-        authInfoStr = [NSString stringWithFormat:@"%@&sign=%@&sign_type=%@", authInfoStr, signedString, ((rsa2PrivateKey.length > 1)?@"RSA2":@"RSA")];
-        [[AlipaySDK defaultService] auth_V2WithInfo:authInfoStr
-                                         fromScheme:appScheme
-                                           callback:^(NSDictionary *resultDic) {
-                                               NSLog(@"result = %@",resultDic);
-                                               // 解析 auth code
-                                               NSString *result = resultDic[@"result"];
-                                               NSString *authCode = nil;
-                                               if (result.length>0) {
-                                                   NSArray *resultArr = [result componentsSeparatedByString:@"&"];
-                                                   for (NSString *subResult in resultArr) {
-                                                       if (subResult.length > 10 && [subResult hasPrefix:@"auth_code="]) {
-                                                           authCode = [subResult substringFromIndex:10];
-                                                           break;
-                                                       }
-                                                   }
-                                               }
-                                               NSLog(@"授权结果 authCode = %@", authCode?:@"");
-                                           }];
-    }
+               [ProgressHUD showSuccess:@"支付成功"];
+
+            //服务器端查询支付通知或查询API返回的结果再提示成功
+            HYMyOrderVC *hy =[[HYMyOrderVC alloc]init];
+            [self.navigationController pushViewController:hy animated:YES];
+            
 }
+
 /*
 #pragma mark - Navigation
 

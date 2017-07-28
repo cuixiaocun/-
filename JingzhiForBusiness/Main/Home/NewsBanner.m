@@ -74,7 +74,8 @@ static int countInt=0;
     animation.subtype = kCATransitionFromTop;
     [self.notice.layer addAnimation:animation forKey:@"animationID"];
     self.notice.text =[NSString stringWithFormat:@"公告：%@",self.noticeList[countInt]] ;
-    
+//    NSLog(@"fghjkl%@",self.notice.text);
+
 }
 - (void)tap:(UITapGestureRecognizer *)tap
 {

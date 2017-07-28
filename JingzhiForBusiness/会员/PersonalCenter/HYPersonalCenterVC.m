@@ -95,7 +95,7 @@
     EGOImageView *touImageV = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@""]];
     [touImageV setFrame:CGRectMake(9*Width, 9*Width, 94*Width, 94*Width)];
     //    [touImageV setImageURL:[NSURL URLWithString:headString]];
-    [touImageV setImage:[UIImage imageNamed:@"proxy_icon_header"]];
+    [touImageV setImage:[UIImage imageNamed:@"lehui_app_logo_120"]];
     
     [touImageV.layer setCornerRadius:94*Width/2];
     touImageV.tag =3330;

@@ -8,12 +8,15 @@
 
 #import "HYQRCodeVC.h"
 #import "QRCodeGenerator.h"
+#import "LMJScrollTextView.h"
 
 @interface HYQRCodeVC ()
 {
     //底部scrollview
     UIScrollView *bgScrollView;
     UIImageView*mainImgView;
+    LMJScrollTextView * _scrollTextView2;
+    NSString *codeString;
     
 }
 @end
@@ -90,18 +93,31 @@
   
     [bgImgView addSubview:mainImgView];
     
+//    UIButton* saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [saveBtn setFrame:CGRectMake(220*Width,625*Width , 270*Width, 88*Width)];
+//    [saveBtn setBackgroundColor:[UIColor colorWithRed:246/255.0 green:91/255.0 blue:94/255.0 alpha:1]];
+//    [saveBtn.layer setCornerRadius:4];
+//    [saveBtn.layer setMasksToBounds:YES];
+//    
+//    [saveBtn setTitle:@"点击复制推广链接" forState:UIControlStateNormal];
+//    [saveBtn.titleLabel setTextColor:[UIColor whiteColor]];
+//    [saveBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
+//    [saveBtn addTarget:self action:@selector(saveBtnAction) forControlEvents:UIControlEventTouchUpInside];
+//    [bgImgView addSubview:saveBtn];
+    
     UIButton* saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveBtn setFrame:CGRectMake(220*Width,625*Width , 270*Width, 88*Width)];
-    [saveBtn setBackgroundColor:[UIColor colorWithRed:246/255.0 green:91/255.0 blue:94/255.0 alpha:1]];
+    [saveBtn setFrame:CGRectMake(0*Width,625*Width , 750*Width, 50*Width)];
+//    [saveBtn setBackgroundColor:[UIColor colorWithRed:246/255.0 green:91/255.0 blue:94/255.0 alpha:1]];
     [saveBtn.layer setCornerRadius:4];
     [saveBtn.layer setMasksToBounds:YES];
     
-    [saveBtn setTitle:@"保存到本地" forState:UIControlStateNormal];
-    [saveBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [saveBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
-    [saveBtn addTarget:self action:@selector(saveBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [bgImgView addSubview:saveBtn];
-//    
+    [saveBtn setTitle:@"点击复制推广链接" forState:UIControlStateNormal];
+    [saveBtn setTitleColor:NavColor forState:UIControlStateNormal];
+    [saveBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:14]];
+    [saveBtn addTarget:self action:@selector(fuzhi:) forControlEvents:UIControlEventTouchUpInside];
+    [bgScrollView addSubview:saveBtn];
+    
+//
 //    UIButton *linkBtn =[[UIButton alloc]initWithFrame:CGRectMake(200*Width, 1110*Width, 350*Width, 60*Width)];
 ////    linkBtn=[UIButton buttonWithType:UIButtonTypeSystem];
 //    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"推广链接"];
@@ -137,8 +153,6 @@
     NSLog(@"message is %@",message);
     [MBProgressHUD showSuccess:@"成功保存到相册" ToView:self.view];
 }
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -153,25 +167,89 @@
         
         NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
         [dic1 setDictionary:@{
-//                              @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
                               }];
-        
-        [PublicMethod AFNetworkPOSTurl:@"Home/Member/code" paraments:dic1  addView:self.view success:^(id responseDic) {
+        NSString *url ;
+    if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+        url =@"Home/Member/code";
+    }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
+    {
+        url=@"Home/AgentOnlineorder/getAgenTuiGuangUrl";
+    }
+    
+
+    
+    
+    
+    
+        [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
             if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-                mainImgView.image=[QRCodeGenerator qrImageForString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"code"]] imageSize:245];
-                UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-                pasteboard.string = [NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"code"]];
+                if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
+                    
+                    mainImgView.image=[QRCodeGenerator qrImageForString:[NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"code"]] imageSize:245];
+                    codeString =[NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"code"]];
+                    
+                    //往返滚动
+                    _scrollTextView2 = [[LMJScrollTextView alloc] initWithFrame:CGRectMake(100*Width, 700*Width,550*Width,82*Width) textScrollModel:LMJTextScrollWandering direction:LMJTextScrollMoveLeft];
+                    //                _scrollTextView2.backgroundColor = [UIColor redColor];
+                    [bgScrollView addSubview:_scrollTextView2];
+                    [self addLabelWithFrame:CGRectMake(0*Width, 0*Width,550*Width,82*Width) text:codeString];
+                    [_scrollTextView2 startScrollWithText:codeString textColor:NavColor font:[UIFont systemFontOfSize:14]];
+                    
+                    UIButton *chooseBtn =[[UIButton alloc]initWithFrame:CGRectMake(100*Width, 700*Width,580*Width,82*Width)];
+                    chooseBtn.tag =139;
+                    [chooseBtn addTarget:self action:@selector(fuzhi:) forControlEvents:UIControlEventTouchUpInside];
+                    [bgScrollView addSubview:chooseBtn];
+                    
+                }else if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
+                {
+                    NSLog(@"%@",dict);
+                    codeString =[NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"url"]]];
 
-            
-            
-            }
-            
+                    mainImgView.image=[QRCodeGenerator qrImageForString:codeString imageSize:245];
+                    
+                    //往返滚动
+                    _scrollTextView2 = [[LMJScrollTextView alloc] initWithFrame:CGRectMake(100*Width, 700*Width,550*Width,82*Width) textScrollModel:LMJTextScrollWandering direction:LMJTextScrollMoveLeft];
+                    //                _scrollTextView2.backgroundColor = [UIColor redColor];
+                    [bgScrollView addSubview:_scrollTextView2];
+                    [self addLabelWithFrame:CGRectMake(0*Width, 0*Width,550*Width,82*Width) text:codeString];
+                    [_scrollTextView2 startScrollWithText:codeString textColor:NavColor font:[UIFont systemFontOfSize:14]];
+                    
+                    UIButton *chooseBtn =[[UIButton alloc]initWithFrame:CGRectMake(100*Width, 700*Width,580*Width,82*Width)];
+                    chooseBtn.tag =139;
+                    [chooseBtn addTarget:self action:@selector(fuzhi:) forControlEvents:UIControlEventTouchUpInside];
+                    [bgScrollView addSubview:chooseBtn];
+                    
+                }
+                
+
+                
+                
+                              }
         } fail:^(NSError *error) {
             
         }];
 
 }
+-(void)addLabelWithFrame:(CGRect)frame text:(NSString *)text{
+    UILabel * label = [[UILabel alloc] initWithFrame:frame];
+    label.text      = text;
+    label.textColor = NavColor;
+//    label.backgroundColor =[UIColor greenColor];
+    label.font      = [UIFont boldSystemFontOfSize:15];
+    [_scrollTextView2 addSubview:label];
+}
+- (void)fuzhi:(UIButton *)btn
+{
+    [MBProgressHUD showSuccess:@"复制成功" ToView:self.view];
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = codeString;
+}
+-(void)changeSpeed
+{
+    [_scrollTextView2 setMoveSpeed:0.005];
+}
+
 /*
 #pragma mark - Navigation
 

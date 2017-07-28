@@ -30,7 +30,7 @@
             [self addSubview:bgview];
             bgview.frame =CGRectMake(0, xian.bottom+i*82*Width, CXCWidth, 82*Width);
             //左边提示
-            UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
+            UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,300*Width , 82*Width)];
             labe.text = leftArr[i];
             //            labe.textAlignment=NSTextAlignmentLeft;
             labe.font = [UIFont systemFontOfSize:14];

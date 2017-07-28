@@ -407,6 +407,8 @@
     
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/agenonlineorderdetail" paraments:dic1  addView:self.view success:^(id responseDic) {
         dict = [[NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"];
+        [MBProgressHUD showSuccess:@"审核成功" ToView:self.view];
+
         
         [self  mainView ];
         

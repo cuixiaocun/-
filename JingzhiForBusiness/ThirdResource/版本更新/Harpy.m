@@ -49,7 +49,8 @@
 
                     NSString *currentAppStoreVersion = [versionsInAppStore objectAtIndex:0];
 
-                    if ([kHarpyCurrentVersion compare:currentAppStoreVersion options:NSNumericSearch] == NSOrderedAscending) {
+                    
+                    if ([currentAppStoreVersion compare:@"1.1" options:NSNumericSearch] == NSOrderedDescending) {
 		                
                         [Harpy showAlertWithAppStoreVersion:currentAppStoreVersion];
 	                
@@ -77,7 +78,7 @@
     if ( harpyForceUpdate ) { // Force user to update app
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kHarpyAlertViewTitle
-                                                            message:[NSString stringWithFormat:@"您的 %@ 有最新更新.\n 请下载 %@ 最新版本.", appName, currentAppStoreVersion]
+                                                            message:[NSString stringWithFormat:@"您的 %@ 有新版本啦.\n ", appName]
                                                            delegate:self
                                                   cancelButtonTitle:kHarpyUpdateButtonTitle
                                                   otherButtonTitles:nil, nil];
@@ -88,7 +89,7 @@
         
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:kHarpyAlertViewTitle
-                                                            message:[NSString stringWithFormat:@"您的 %@ 有最新更新.\n 请下载 %@ 最新版本.", appName, currentAppStoreVersion]
+                                                            message:[NSString stringWithFormat:@"您的 %@ 有新版本啦.\n ", appName]
                                                            delegate:self
                                                   cancelButtonTitle:kHarpyCancelButtonTitle
                                                   otherButtonTitles:kHarpyUpdateButtonTitle, nil];
@@ -119,7 +120,8 @@
                 
             } break;
                 
-            case 1:{ // Update
+            case 1:{
+                // Update
                 
                 NSString *iTunesString = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", kHarpyAppID];
                 NSURL *iTunesURL = [NSURL URLWithString:iTunesString];

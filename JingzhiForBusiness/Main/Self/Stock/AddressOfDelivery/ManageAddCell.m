@@ -36,16 +36,16 @@
         [self addSubview:bgview];
         bgview.frame =CGRectMake(0, xian.bottom, CXCWidth, 270*Width);
         //姓名
-        nameLabe = [[UILabel alloc]initWithFrame:CGRectMake(24*Width, 20*Width ,160*Width , 50*Width)];
+        nameLabe = [[UILabel alloc]initWithFrame:CGRectMake(24*Width, 20*Width ,320*Width , 50*Width)];
         nameLabe.text = @"孙类";
-        nameLabe.font = [UIFont systemFontOfSize:16];
+        nameLabe.font = [UIFont systemFontOfSize:14];
         nameLabe.textColor = BlackColor;
         bgview.backgroundColor =[UIColor whiteColor];
         [bgview addSubview:nameLabe];
         //电话
         telphoneLabel = [[UILabel alloc]init];
         telphoneLabel.text = @"18363671722";
-        telphoneLabel.frame =CGRectMake(180*Width ,20*Width, 475*Width,50*Width );
+        telphoneLabel.frame =CGRectMake(340*Width ,20*Width, 475*Width,50*Width );
         telphoneLabel.textColor = BlackColor;
         telphoneLabel.font = [UIFont systemFontOfSize:14];
         [bgview addSubview:telphoneLabel];

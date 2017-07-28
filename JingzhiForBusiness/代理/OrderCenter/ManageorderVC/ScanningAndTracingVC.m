@@ -253,12 +253,12 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (tracingArr.count==0) {
+        
         return 1;
-
+        
     }else
     {
         return tracingArr.count;
-
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -302,7 +302,7 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
 
-        cell.dic =tracingArr[indexPath.row];
+        cell.dic =tracingArr[indexPath.section];
         return cell;
         
 
@@ -410,6 +410,7 @@
 //                }
 //            }
             tracingArr =[[dict objectForKey:@"data"] objectForKey:@"tracinfo"];
+            NSLog(@"%@",tracingArr);
             NSString*str =[NSString stringWithFormat:@"已扫描：%ld箱",tracingArr.count];
             UILabel *subPromLabel =[self.view viewWithTag:340];
             [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];

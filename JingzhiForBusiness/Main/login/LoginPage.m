@@ -271,8 +271,8 @@
     [dic1 setDictionary:@{@"logintype":statustring ,
                           @"account":[NSString stringWithFormat:@"%@",admin.text],
                           @"password":[NSString stringWithFormat:@"%@",password.text],
+                          @"tag":[NSString stringWithFormat:@"%@",[PublicMethod getDataStringKey:@"registrationID"]],
     }];
-
     NSLog(@"%@",dic1);
     [PublicMethod AFNetworkPOSTurl:@"Home/Login/login" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];

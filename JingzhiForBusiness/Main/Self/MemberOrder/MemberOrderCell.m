@@ -37,7 +37,7 @@
                 labe.tag =199;
                 labe.font = [UIFont systemFontOfSize:14];
                 labe.textColor = BlackColor;
-                labe.frame =CGRectMake(32*Width, 0,500*Width , 82*Width);
+                labe.frame =CGRectMake(32*Width, 0,550*Width , 82*Width);
 
             }else if(i>0&&i<4)
             {
@@ -93,8 +93,8 @@
                 //系统计算按钮
                 _seeBtn = [[UIButton alloc]init];
                 [_seeBtn setBackgroundColor:[UIColor whiteColor]];
-                [_seeBtn.layer setCornerRadius:2*Width];
-                [_seeBtn.layer setBorderWidth:1.5*Width];
+                [_seeBtn.layer setCornerRadius:2];
+                [_seeBtn.layer setBorderWidth:1];
                 [_seeBtn.layer setMasksToBounds:YES];
                 [_seeBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
                 [_seeBtn setTitle:@"详情" forState:UIControlStateNormal];
@@ -108,8 +108,8 @@
                 //发货
                 _deliverBtn = [[UIButton alloc]init];
                 [_deliverBtn setBackgroundColor:[UIColor whiteColor]];
-                [_deliverBtn.layer setCornerRadius:2*Width];
-                [_deliverBtn.layer setBorderWidth:1.5*Width];
+                [_deliverBtn.layer setCornerRadius:2];
+                [_deliverBtn.layer setBorderWidth:1];
                 [_deliverBtn.layer setMasksToBounds:YES];
                 [_deliverBtn setTitleColor:NavColor forState:UIControlStateNormal];
                 [_deliverBtn setTitle:@"发货" forState:UIControlStateNormal];
@@ -121,8 +121,8 @@
                 //驳回
                  _rejectBtn = [[UIButton alloc]init];
                 [_rejectBtn setBackgroundColor:[UIColor whiteColor]];
-                [_rejectBtn.layer setCornerRadius:2*Width];
-                [_rejectBtn.layer setBorderWidth:1.5*Width];
+                [_rejectBtn.layer setCornerRadius:2];
+                [_rejectBtn.layer setBorderWidth:1];
                 [_rejectBtn.layer setMasksToBounds:YES];
                 [_rejectBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
                 [_rejectBtn setTitle:@"驳回" forState:UIControlStateNormal];

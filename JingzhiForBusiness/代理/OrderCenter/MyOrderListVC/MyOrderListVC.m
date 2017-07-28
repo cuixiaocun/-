@@ -505,7 +505,7 @@
     [PublicMethod AFNetworkPOSTurl:@"home/AgentOnlineorder/confirmagenorder" paraments:dic1  addView:self.view success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            [ProgressHUD showSuccess:@"确认成功"];
+            [MBProgressHUD showSuccess:@"确认成功" ToView:self.view];
                        currentPage =0;
             [self getInfoList];
         }

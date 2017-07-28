@@ -207,6 +207,10 @@
     
     
     webView  = [[UIWebView alloc]initWithFrame:CGRectMake(0,xian2.bottom+20*Width,CXCWidth,0 )];
+    webView.scalesPageToFit = NO;
+    webView.delegate=self;
+    webView.scrollView.scrollEnabled =NO;
+    
     [bgScrollView addSubview:webView];
     goodsTableview  =[[UITableView alloc]init];
     [goodsTableview setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
@@ -218,10 +222,6 @@
     [bgScrollView addSubview:goodsTableview];
     bgScrollView.userInteractionEnabled = YES;//控制是否可以响应用户点击事件（touch）
     bgScrollView.scrollEnabled = YES;//控制是否可以滚动
-    
-    webView.delegate=self;
-    webView.scrollView.scrollEnabled =NO;
-
     
     //确认提交按钮
     UIButton * shopCartBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -596,16 +596,12 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView1
 {
-    //方法1 实际使用js方法实现
-    CGFloat documentWidth = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById('content').offsetWidth"] floatValue];
-    CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"content\").offsetHeight;"] floatValue];
-    NSLog(@"documentSize = {%f, %f}", documentWidth, documentHeight);
     
     //方法2
     CGRect frame = webView.frame;
     frame.size.width = CXCWidth;
     frame.size.height = 1;
-    //    webView.scrollView.scrollEnabled = NO;
+    webView.scrollView.scrollEnabled = NO;
     webView.frame = frame;
     frame.size.height = webView.scrollView.contentSize.height;
     NSLog(@"frame = %@", [NSValue valueWithCGRect:frame]);

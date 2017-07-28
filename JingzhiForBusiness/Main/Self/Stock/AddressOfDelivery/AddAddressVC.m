@@ -297,12 +297,11 @@
     UILabel *label =[self.view viewWithTag:111];
     
 
-    [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:@"河南省-郑州市" numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
+    [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:@"北京市-北京市-东城区" numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
        label.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
     } cancelBlock:^{
         
     }];
-
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {

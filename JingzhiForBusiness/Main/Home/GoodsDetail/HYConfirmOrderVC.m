@@ -75,6 +75,7 @@
     
     [PublicMethod personalAFNetworkSuccess:^(id responseDic) {
         NSDictionary *dict = responseDic;
+        NSLog(@"%@",dict);
         addressIdString =[dict objectForKey:@"addressid"];
         
         
@@ -89,6 +90,7 @@
             
             allIntegral = allIntegral + [[model objectForKey:@"deductible"] floatValue]*[[model objectForKey:@"goodsNum"] floatValue] ;//总积分
             allPrice = allPrice + [[model objectForKey:@"goodsNum"] integerValue] *[[model  objectForKey:@"goodsPrice" ] floatValue];//总价
+    
             NSLog(@"%@===%@===%.2f===%.2f",[model objectForKey:@"deductible"],[model objectForKey:@"goodsNum"],allIntegral,allPrice);
             
         }
@@ -99,14 +101,38 @@
         }else
         {
             canPayIntegral =allIntegral;
+
+        }
+        if (canPayIntegral==0.00) {
+            isSelectedBtn.selected  =NO;
+
+        }else
+        {
+        
+            isSelectedBtn.selected  =YES;
+
         }
         turePay =allPrice-canPayIntegral;
         
-
-        
+        NSLog(@"%.2f--%.2f--%.2f",turePay,allPrice,canPayIntegral);
         UILabel *jifenDetailLabel =[self.view viewWithTag:468];
         jifenDetailLabel.text =[NSString stringWithFormat:@"共%@积分,可用%.2f积分,抵扣¥%.2f",[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]],canPayIntegral, canPayIntegral];//当前积分小于可抵扣积分的时候，显示当前积分，大于可抵扣积分时，显示可抵扣积分
-
+        NSString*str =[NSString stringWithFormat:@"实付款：¥%.2f",turePay ];
+        UILabel *subPromLabel =[self.view viewWithTag:11112];
+        [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
+        
+        NSMutableAttributedString *textColor = [[NSMutableAttributedString alloc]initWithString:str];
+        NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
+        [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
+        [subPromLabel setAttributedText:textColor];
+        
+        
+        
+        UILabel *jifenlabel =[self.view viewWithTag:3301];
+        jifenlabel.text =[NSString stringWithFormat:@"-%.2f",canPayIntegral];
+        
+        UILabel *zonglabel =[self.view viewWithTag:3300];
+        zonglabel.text =[NSString stringWithFormat:@"%.2f",allPrice];
         
 
     } fail:^(NSError *error) {
@@ -238,6 +264,7 @@
     }
     UILabel *jifenlabel =[self.view viewWithTag:3301];
     jifenlabel.text =[NSString stringWithFormat:@"-%.2f",canPayIntegral];
+    
     NSString*str =[NSString stringWithFormat:@"实付款：¥%.2f",turePay ];
     UILabel *subPromLabel =[self.view viewWithTag:11112];
     [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
@@ -320,12 +347,12 @@
         
         UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 250*Width, 50*Width)];
         nameLabel.tag=450;
-        nameLabel.font =[UIFont systemFontOfSize:16];
+        nameLabel.font =[UIFont systemFontOfSize:14];
         [topView addSubview:nameLabel];
         
         
         UILabel*numberLabel =[[UILabel alloc]initWithFrame:CGRectMake(nameLabel.right+20*Width, 25*Width, 300*Width, 50*Width)];
-        numberLabel.font =[UIFont systemFontOfSize:16];
+        numberLabel.font =[UIFont systemFontOfSize:14];
         [topView addSubview:numberLabel];
         numberLabel.tag=451;
         
@@ -515,11 +542,9 @@
     UIView *detailView =[[UIView alloc]initWithFrame:CGRectMake(0,jifenView.bottom+20*Width , CXCWidth, 135*Width)];
     [bottomBgView addSubview:detailView];
     detailView.backgroundColor =[UIColor whiteColor];
-    NSArray *leftArr =@[@"积分总额",@"积分"];
+    NSArray *leftArr =@[@"总额",@"积分"];
    
-//    [declarTabel reloadData];
     NSArray *rightArr =@[[NSString stringWithFormat:@"%.2f",allPrice],[NSString stringWithFormat:@"-%.2f",canPayIntegral]];
-    
     for (int i=0; i<2; i++) {
         UILabel *leftLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 10*Width+57.5*Width*i, 200*Width, 57.5*Width)];
         leftLabel.font =[UIFont systemFontOfSize:14];
