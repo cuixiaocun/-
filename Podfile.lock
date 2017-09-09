@@ -1,0 +1,18 @@
+PODS:
+  - BaiduMapKit (3.2.1)
+  - MLLabel (1.10.2)
+  - WechatOpenSDK (1.7.7)
+
+DEPENDENCIES:
+  - BaiduMapKit
+  - MLLabel
+  - WechatOpenSDK
+
+SPEC CHECKSUMS:
+  BaiduMapKit: 9c748785aa3dddfc41dcb70c14b21ce32f680930
+  MLLabel: 71315bd11dc45bebba159e07427496ea8bfc2b0a
+  WechatOpenSDK: cbd332148eb792d444ed4eec94f421d98f2046ee
+
+PODFILE CHECKSUM: 11c581ae378b1f8981a613a44c49ce7d1e5961bf
+
+COCOAPODS: 1.2.0

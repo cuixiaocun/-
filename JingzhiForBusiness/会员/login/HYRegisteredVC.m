@@ -122,7 +122,6 @@
         UIView *bgview =[[UIView alloc]init];
         bgview.backgroundColor =[UIColor whiteColor];
         [bgScrollView addSubview:bgview];
-        
         UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 106*Width)];
         labe.text = leftArr[i];
         labe.font = [UIFont systemFontOfSize:15];
@@ -137,7 +136,6 @@
             }else if(i==1)
             {
                 [inputText setKeyboardType:UIKeyboardTypePhonePad];
-                
             }
             [inputText setPlaceholder:rightArr[i]];
             [inputText setDelegate:self];
@@ -200,11 +198,6 @@
     [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [nextBtn addTarget:self action:@selector(nextStep) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:nextBtn];
-    
-    
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

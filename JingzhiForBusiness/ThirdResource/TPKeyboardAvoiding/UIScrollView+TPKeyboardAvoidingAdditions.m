@@ -80,7 +80,6 @@ static const int kStateKey;
             self.contentSize = [self TPKeyboardAvoiding_calculatedContentSizeFromSubviewFrames];
         }
     }
-    
     // Delay until a future run loop such that the cursor position is available in a text view
     // In other words, it's not available (specifically, the prior cursor position is returned) when the first keyboard position change notification fires
     // NOTE: Unfortunately, using dispatch_async(main_queue) did not result in a sufficient-enough delay

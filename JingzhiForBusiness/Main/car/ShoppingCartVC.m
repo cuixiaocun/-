@@ -12,6 +12,7 @@
 #import "GoodsDetailVC.h"
 #import "LoginPage.h"
 #import "IsTureAlterView.h"
+
 @interface ShoppingCartVC ()<UITableViewDataSource,UITableViewDelegate,IsTureAlterViewDelegate,GoodsInfoCellDelegate,UITextFieldDelegate>
 {
     UITableView *goodsTableview;//中间商品

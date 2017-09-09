@@ -128,26 +128,32 @@
         if (commitBlock) {
             [weakSelf hiddenWithAnimation];
             if (weakSelf.dataArr.count > 0) {
-               AddressModel *addressModel = weakSelf.dataArr[weakSelf.selectedIndex_province];
+                
+                AddressModel *addressModel = weakSelf.dataArr[weakSelf.selectedIndex_province];
                 CityModel *cityModel;
                 DistrictModel *districtModel;
+                
                 if (addressModel.list.count > 0) {
                     cityModel = addressModel.list[weakSelf.selectedIndex_city];
                 }
                 if (cityModel && cityModel.list.count > 0) {
                     districtModel = cityModel.list[weakSelf.selectedIndex_area];
                 }
-                
                 NSString *address;
                 NSString *zipcode;
                 if (!cityModel || self.numberOfComponents == 1) {
+                    
                     address = [NSString stringWithFormat:@"%@",addressModel.name];
                     zipcode = [NSString stringWithFormat:@"%@",addressModel.zipcode];
+                    
                 } else {
+                    
                     if (!districtModel || self.numberOfComponents == 2) {
                         address = [NSString stringWithFormat:@"%@-%@",addressModel.name,cityModel.name];
                         zipcode = [NSString stringWithFormat:@"%@-%@",addressModel.zipcode,cityModel.zipcode];
+                        
                     } else {
+                        
                         address = [NSString stringWithFormat:@"%@-%@-%@",addressModel.name,cityModel.name,districtModel.name];
                         zipcode = [NSString stringWithFormat:@"%@-%@-%@",addressModel.zipcode,cityModel.zipcode,districtModel.zipcode];
                     }
@@ -315,7 +321,6 @@
             break;
         }
     }
-    
     return object;
 }
 
@@ -331,7 +336,7 @@
     if (self.dataArr.count > 0) {
         addressModel = self.dataArr[self.selectedIndex_province];
     }
-   
+
     CityModel *cityModel;
     if (addressModel && addressModel.list.count > 0) {
         cityModel = addressModel.list[self.selectedIndex_city];

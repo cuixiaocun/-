@@ -13,8 +13,8 @@
 //两个页面进入这里！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！一个是注册，一个是个人中心升级！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 @interface RegisterAndGoods ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,GoodsCellDelegate>
 {
+    TPKeyboardAvoidingScrollView *bgScrollView;//上半部分
 
-    UIScrollView *bgScrollView;//上半部分
     UITableView *goodsTableview;//中间商品
     NSMutableArray *infoArr;//商品信息
     double allPrice;//总共价格
@@ -155,8 +155,8 @@
     UIButton * calculateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [calculateBtn setFrame:CGRectMake(555*Width,bottomXian.bottom+17*Width , 150*Width, 54*Width)];
     [calculateBtn setBackgroundColor:[UIColor whiteColor]];
-    [calculateBtn.layer setCornerRadius:4*Width];
-    [calculateBtn.layer setBorderWidth:1.0*Width];
+    [calculateBtn.layer setCornerRadius:2];
+    [calculateBtn.layer setBorderWidth:1];
     [calculateBtn.layer setMasksToBounds:YES];
     [calculateBtn setTitleColor:[UIColor colorWithRed:19/255.0 green:157/255.0 blue:229/255.0 alpha:1] forState:UIControlStateNormal];
     calculateBtn.layer.borderColor =[UIColor colorWithRed:19/255.0 green:157/255.0 blue:229/255.0 alpha:1].CGColor;

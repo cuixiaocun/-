@@ -1,7 +1,6 @@
 //
 //  FundRecordCell.m
 //  JingzhiForBusiness
-//
 //  Created by Admin on 2017/6/16.
 //  Copyright © 2017年 cuixiaocun. All rights reserved.
 //
@@ -25,12 +24,10 @@
         UILabel *pricesLabel =[[UILabel alloc]initWithFrame:CGRectMake(400*Width, 0,310*Width , 80*Width)];
         pricesLabel.text =@"100";
         pricesLabel.textAlignment =NSTextAlignmentRight;
-
         pricesLabel.textColor =[UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
         pricesLabel.font =[UIFont systemFontOfSize:14];
         [self addSubview:pricesLabel];
         pricesLabel.tag =101;
-
         
         UILabel *timeLabel =[[UILabel alloc]initWithFrame:CGRectMake(40*Width, pricesLabel.bottom, 400*Width, 80*Width)];
         timeLabel.text =@"2017-04-03 12:12:12";
@@ -45,7 +42,6 @@
         surplusLabel.font =[UIFont systemFontOfSize:14];
         [self addSubview:surplusLabel];
         surplusLabel.tag =103;
-        
         //横线
         UIImageView*xian =[[UIImageView alloc]init];
         xian.backgroundColor =BGColor;
@@ -70,32 +66,22 @@
     detailLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"info"] ];
     surplusLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"stname"] ];
     timeLabel.text =[[NSString stringWithFormat:@"%@",[Dict objectForKey:@"createtime"] ] substringToIndex:11];
-    
+
     if ([[NSString stringWithFormat:@"%@",[Dict objectForKey:@"type"] ]isEqualToString:@"2"]) {
         pricesLabel.textColor =[UIColor colorWithRed:2/255.0 green:196/255.0 blue:66/255.0 alpha:1];
         pricesLabel.text =[NSString stringWithFormat:@"-%@",[Dict objectForKey:@"changemoney"] ];
-    }else  if ([[NSString stringWithFormat:@"%@",[Dict objectForKey:@"moneytype"] ]isEqualToString:@"2"])
+    }else  if ([[NSString stringWithFormat:@"%@",[Dict objectForKey:@"type"] ]isEqualToString:@"1"])
     {
         pricesLabel.textColor =[UIColor colorWithRed:242/255.0 green:55/255.0 blue:59/255.0 alpha:1];
         pricesLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"changemoney"] ];
-        
     }else
     {
         pricesLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"changemoney"] ];
-
-    
     }
-    
-    
-    
-    
-    
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
 }
 
 @end

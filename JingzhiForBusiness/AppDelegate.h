@@ -19,7 +19,7 @@
 
 /*极光推送的*/
 // 引入JPush功能所需头文件
-#import "JPUSHService.h"
+//#import "JPUSHService.h"还有下边代理
 // iOS10注册APNs所需头文件
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
@@ -38,7 +38,9 @@
 static NSString *appKey = @"7f98c36e1b9d6f41fe983fe7";
 static NSString *channel = @"App Store";
 static BOOL isProduction = YES;
-@interface AppDelegate : UIResponder <UIApplicationDelegate,JPUSHRegisterDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate
+//,JPUSHRegisterDelegate
+>
 {
     BMKMapManager* _mapManager;
 

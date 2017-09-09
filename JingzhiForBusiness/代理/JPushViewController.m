@@ -11,8 +11,6 @@
 @interface JPushViewController ()
 {
     UIScrollView *bgScrollView;
-    
-
 }
 @end
 
@@ -50,8 +48,6 @@
     [self.view addSubview:navTitle];
     [self makeThisView];
     [PublicMethod getAppKey];
-    
-    
 }
 - (void)returnBtnAction
 {

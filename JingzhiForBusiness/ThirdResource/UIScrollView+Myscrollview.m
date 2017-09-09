@@ -7,11 +7,10 @@
 //
 
 #import "UIScrollView+Myscrollview.h"
-
 @implementation UIScrollView (Myscrollview)
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
-    [[self nextResponder] touchesBegan:touches withEvent:event];
-
+//    [super touchesBegan:touches withEvent:event];
+//    [[self nextResponder] touchesBegan:touches withEvent:event];
+    
 }
 @end

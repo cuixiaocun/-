@@ -48,7 +48,6 @@
     self.view.backgroundColor =BGColor;
     
     //    _contentString =[self htmlEntityDecode:_contentString];
-    
     UIWebView * webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64,CXCWidth ,CXCHeight-64 )];
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_bannarDic objectForKey:@"url"]]]];
     

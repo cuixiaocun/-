@@ -3641,14 +3641,14 @@
   </province>
   <province name="澳门特别行政区" zipcode="820000">
     <city name="澳门" zipcode="820100">
-      <district name="花地玛堂区" zipcode="820101" />
-      <district name="圣安多尼堂区" zipcode="820102" />
-      <district name="大堂区" zipcode="820103" />
-      <district name="望德堂区" zipcode="820104" />
-      <district name="风顺堂区" zipcode="820105" />
-      <district name="嘉模堂区" zipcode="820106" />
-      <district name="圣方济各堂区" zipcode="820107" />
-      <district name="路氹城" zipcode="820108" />
+<!--      <district name="花地玛堂区" zipcode="820101" />-->
+<!--      <district name="圣安多尼堂区" zipcode="820102" />-->
+<!--      <district name="大堂区" zipcode="820103" />-->
+<!--      <district name="望德堂区" zipcode="820104" />-->
+<!--      <district name="风顺堂区" zipcode="820105" />-->
+<!--      <district name="嘉模堂区" zipcode="820106" />-->
+<!--      <district name="圣方济各堂区" zipcode="820107" />-->
+      <district name="澳门" zipcode="820108" />
     </city>
   </province>
 </root>

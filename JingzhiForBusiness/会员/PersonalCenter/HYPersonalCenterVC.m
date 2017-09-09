@@ -8,15 +8,13 @@
 
 #import "HYPersonalCenterVC.h"//会员的个人中心
 #import "LoginPage.h"
-#import "ManageAddressTableVC.h"
-#import "ChangePasswordVC.h"
 #import "FundrecordVC.h"
 #import "PersonalDetail.h"
 #import "HYQRCodeVC.h"
-#import "XYMScanViewController.h"
 #import "IsTureAlterView.h"
 #import "HYMyOrderVC.h"
 #import "HYMyRecommendVC.h"
+#import "ManageAddressTableVC.h"
 @interface HYPersonalCenterVC ()<LoginDelegate,IsTureAlterViewDelegate  >
 {
     //底部scrollview
@@ -138,7 +136,7 @@
     NSArray*bottomArr =@[@"我的推荐",@"我的订单",@"收货地址",@"积分券记录",@"推广二维码",@"修改密码",@"防伪查询",@"退出登录",@"",@"",@"",] ;
     for (int i=0; i<9; i++) {
         //大按钮
-        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(250*Width*(i%3),bgImageV.bottom+20*Width+250*Width*(i/3),249*Width,249*Width)];
+        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(((CXCWidth-2)/3+1)*(i%3),bgImageV.bottom+20*Width+(249*Width+1)*(i/3),(CXCWidth-2)/3,249*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
         btn.tag =i+300;
         btn.backgroundColor =[UIColor whiteColor];
@@ -176,6 +174,7 @@
 - (void)myBtnAciton:(UIButton *)btn
 {
     if (btn.tag ==300) {
+        
         HYMyRecommendVC *viewController=[[HYMyRecommendVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController pushViewController:viewController animated:YES];
@@ -187,17 +186,12 @@
         [self.navigationController pushViewController:viewController animated:YES];
 
     }else if (btn.tag ==302) {
+        
         ManageAddressTableVC *viewController =[[ManageAddressTableVC alloc]init];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
         [self.navigationController pushViewController:viewController animated:YES];
+    
     }else if (btn.tag ==303) {
-        FundrecordVC *viewController =[[FundrecordVC alloc]init];
-        
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
-        [self.navigationController pushViewController:viewController animated:YES];
-
         
     }else if (btn.tag ==304) {
         
@@ -208,17 +202,9 @@
         [self.navigationController pushViewController:viewController animated:YES];
     }else if (btn.tag ==305) {
         
-        ChangePasswordVC *viewController =[[ChangePasswordVC alloc]init];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
-        [self.navigationController pushViewController:viewController animated:YES];
+       
     }else if (btn.tag ==306) {
         
-        XYMScanViewController *viewController =[[XYMScanViewController alloc]init];
-        
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        viewController.whichView =@"防伪查询";
-        [self.navigationController pushViewController:viewController animated:YES];
         
     }else if (btn.tag ==307) {
 

@@ -11,11 +11,8 @@
 #import "RDVTabBar.h"
 #import "RDVTabBarItem.h"
 #import "ShoppingCartVC.h"
-#import "PersonalCenter.h"
 #import "HomePage.h"
 #import "RegisteredVC.h"
-#import "DeclarationCenterVC.h"
-#import "OrderCenterVC.h"
 #import "HYPersonalCenterVC.h"
 #import "HYRegisteredVC.h"
 #import "LoginCell.h"
@@ -517,38 +514,8 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)setupViewControllers {
-    //    if ([[PublicMethod getDataStringKey:@"WetherFirstInput"]isEqualToString:@"1"]) {//若为1，表示登录了
-//    [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
-    
-    UIViewController *firstViewController = [[DeclarationCenterVC alloc] init];
-    UINavigationController *firstNavigationController = [[UINavigationController alloc]
-                                                   initWithRootViewController:firstViewController];
-    [firstNavigationController setNavigationBarHidden:YES];
 
-    UIViewController *secondViewController = [[OrderCenterVC alloc] init];
-    UINavigationController *secondNavigationController = [[UINavigationController alloc]
-                                                    initWithRootViewController:secondViewController];
-    [secondNavigationController setNavigationBarHidden:YES];
 
-    UIViewController *threeViewController = [[PersonalCenter alloc] init];
-    UINavigationController *threeNavigationController = [[UINavigationController alloc]
-                                                   initWithRootViewController:threeViewController];
-    [threeNavigationController setNavigationBarHidden:YES];
-
-    RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
-    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
-    [UIApplication sharedApplication].keyWindow.rootViewController =tabBarController ;
-    [self customizeTabBarForController:tabBarController];
-   
-    
-    //    }else//若不为1表示没登录
-    //    {
-    //        LoginPage *rootViewController = [[LoginPage alloc] init];
-    //        UINavigationController* _navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
-    //        self.viewController =_navigationController;
-    //
-    //    }
-    
 }
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
@@ -611,6 +578,14 @@
     }else
     {
         [self setupViewControllersHYwithIsBack:@"YES"];
+        [PublicMethod removeObjectForKey: @"IsLogin"];
+        [PublicMethod removeObjectForKey: member];
+        [PublicMethod removeObjectForKey: agen];
+        [PublicMethod removeObjectForKey: shopingCart];
+        [PublicMethod removeObjectForKey: @"Isdelegate"];
+        [PublicMethod removeObjectForKey: @"zhangyue_searchJiLu"];
+        [PublicMethod removeObjectForKey: @"wantSearch"];
+
 
     }
 

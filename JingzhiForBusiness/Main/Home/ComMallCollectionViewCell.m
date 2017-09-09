@@ -14,8 +14,10 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        self.backgroundColor =[UIColor whiteColor];
-        self.topMCImage = [[EGOImageView alloc] initWithFrame:CGRectMake(15*Width,15*Width,307.5*Width,225*Width)];
+        
+        
+        self.backgroundColor =[UIColor redColor];
+        self.topMCImage = [[EGOImageView alloc] initWithFrame:CGRectMake(15*Width,15*Width,307.5*Width,220*Width)];
         self.topMCImage.backgroundColor = BGColor;
         self.topMCImage.userInteractionEnabled = YES;
         [self.contentView addSubview:self.topMCImage];

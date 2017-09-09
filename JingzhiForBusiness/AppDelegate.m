@@ -20,13 +20,10 @@
 
 /*如下是会员的的*/
 #import "HomePage.h"
+#import "SearchHouseVC.h"
 #import "HYPersonalCenterVC.h"
 #import "ShoppingCartVC.h"
 
-/*如下是代理的*/
-#import "DeclarationCenterVC.h"
-#import "OrderCenterVC.h"
-#import "PersonalCenter.h"
 
 #import "ZLCGuidePageView.h"
 @interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate>
@@ -56,6 +53,8 @@ static NSInteger seq = 0;
     [self.window makeKeyAndVisible];
     [PublicMethod removeObjectForKey: @"IsLogin"];
     [PublicMethod removeObjectForKey: member];
+    [PublicMethod removeObjectForKey: agen];
+
     [PublicMethod removeObjectForKey: shopingCart];
     [PublicMethod removeObjectForKey: @"token"];
     [PublicMethod removeObjectForKey: @"Isdelegate"];
@@ -76,30 +75,30 @@ static NSInteger seq = 0;
     
     /*******************************************极光推送**********************************/
     //notice: 3.0.0及以后版本注册可以这样写，也可以继续用之前的注册方式
-    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
-    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
-    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
-    // Optional
-    // 获取IDFA
-    // 如需使用IDFA功能请添加此代码并在初始化方法的advertisingIdentifier参数中填写对应值
-    
-    //如不需要使用IDFA，advertisingIdentifier 可为nil
-    [JPUSHService setupWithOption:launchOptions appKey:@"7f98c36e1b9d6f41fe983fe7"
-                          channel:@"App Store"
-                 apsForProduction:YES
-            advertisingIdentifier:nil];
-    
-    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID1) {
-      NSLog(@"[self tags]=%@",registrationID1);
-      [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",registrationID1 ]withKey:@"registrationID"];
-    }];
-    
-    // apn 内容获取：
-    NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
-    NSLog(@"remoteNotification = %@",remoteNotification);
-
-    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-    [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
+//    JPUSHRegisterEntity * entity = [[JPUSHRegisterEntity alloc] init];
+//    entity.types = JPAuthorizationOptionAlert|JPAuthorizationOptionBadge|JPAuthorizationOptionSound;
+//    [JPUSHService registerForRemoteNotificationConfig:entity delegate:self];
+//    // Optional
+//    // 获取IDFA
+//    // 如需使用IDFA功能请添加此代码并在初始化方法的advertisingIdentifier参数中填写对应值
+//    
+//    //如不需要使用IDFA，advertisingIdentifier 可为nil
+//    [JPUSHService setupWithOption:launchOptions appKey:@"7f98c36e1b9d6f41fe983fe7"
+//                          channel:@"App Store"
+//                 apsForProduction:YES
+//            advertisingIdentifier:nil];
+//    
+//    [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID1) {
+//      NSLog(@"[self tags]=%@",registrationID1);
+//      [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",registrationID1 ]withKey:@"registrationID"];
+//    }];
+//    
+//    // apn 内容获取：
+//    NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+//    NSLog(@"remoteNotification = %@",remoteNotification);
+//
+//    NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+//    [defaultCenter addObserver:self selector:@selector(networkDidReceiveMessage:) name:kJPFNetworkDidReceiveMessageNotification object:nil];
     
     //是否第一次进入
     if (![PublicMethod getDataStringKey:@"WetherFirstInput"])
@@ -108,7 +107,7 @@ static NSInteger seq = 0;
     };
     
   
-    [Harpy checkVersion];
+//    [Harpy checkVersion];
 
     return YES;
 }
@@ -197,7 +196,7 @@ static NSInteger seq = 0;
     UINavigationController *firstNavigationController = [[UINavigationController alloc]initWithRootViewController:firstViewController];
         [firstNavigationController setNavigationBarHidden:YES];
 
-    UIViewController *secondViewController = [[ShoppingCartVC alloc] init];
+    UIViewController *secondViewController = [[SearchHouseVC alloc] init];
     UINavigationController *secondNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:secondViewController];
         [secondNavigationController setNavigationBarHidden:YES];
@@ -206,19 +205,27 @@ static NSInteger seq = 0;
     UINavigationController *threeNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:threeViewController];
         [threeNavigationController setNavigationBarHidden:YES];
-            
+    UIViewController *fourViewController = [[HYPersonalCenterVC alloc] init];
+    UINavigationController *fourNavigationController = [[UINavigationController alloc]
+                                                         initWithRootViewController:fourViewController];
+    [threeNavigationController setNavigationBarHidden:YES];
+    
+    UIViewController *fiveViewController = [[HYPersonalCenterVC alloc] init];
+    UINavigationController *fiveNavigationController = [[UINavigationController alloc]
+                                                         initWithRootViewController:fiveViewController];
+    [threeNavigationController setNavigationBarHidden:YES];
+    
+
     RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
-    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
+    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController,fourNavigationController,fiveNavigationController]];
     self.viewController = tabBarController;
     [self customizeTabBarForController:tabBarController];
-        
-
 }
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    NSArray *tabBarItemImages = @[@"huiyuan_icon_home", @"huiyuan_icon_cart",@"proxy_icon_me"];
-    
+    NSArray *tabBarItemImages = @[@"icon_home", @"home_icon_soufang",@"home_icon_zhuangxiu",@"home_icon_mall", @"home_icon_me"];
+    NSArray *tabBarItemTitles = @[@"首页", @"搜房", @"装修",@"商城", @"我的"];
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
         [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
@@ -229,6 +236,17 @@ static NSInteger seq = 0;
         [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
         NSLog(@"%@",[NSString stringWithFormat:@"%@_pre",
                      [tabBarItemImages objectAtIndex:index]]);
+        [item setTitle:[tabBarItemTitles objectAtIndex:index]];
+        item.selectedTitleAttributes = @{
+                                         NSFontAttributeName: [UIFont boldSystemFontOfSize:12],
+                                         NSForegroundColorAttributeName:NavColor,
+                                         };
+        item.unselectedTitleAttributes = @{
+                                           NSFontAttributeName: [UIFont boldSystemFontOfSize:12],
+                                           NSForegroundColorAttributeName:TextGrayColor,
+                                           };
+        
+        [item setTitle:[tabBarItemTitles objectAtIndex:index]];
         index++;
     }
 }
@@ -364,11 +382,11 @@ static NSInteger seq = 0;
         }];
     }
 }
--(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-    NSLog(@"My token is: %@", deviceToken);
-    [JPUSHService registerDeviceToken:deviceToken];
-}
+//-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+//{
+//    NSLog(@"My token is: %@", deviceToken);
+//    [JPUSHService registerDeviceToken:deviceToken];
+//}
 //// iOS 10 Support  显示本地通知
 //- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(NSInteger))completionHandler {
 //    // Required
@@ -415,114 +433,114 @@ static NSInteger seq = 0;
 //}
 //
 // iOS 10 Support  点击弹出的通知后走的方法
-- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-    // Required
-    NSDictionary * userInfo = response.notification.request.content.userInfo;
-    NSLog(@"userInfo = %@",userInfo);
-    //表示通过推送点击进入
-    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        [JPUSHService handleRemoteNotification:userInfo];
-//        [self presentVC:userInfo[@"aps"][@"alert"]];
-
-//        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//        [alertView show];
-        UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        
-        alertWindow.rootViewController = [[UIViewController alloc] init];
-        
-        alertWindow.windowLevel = UIWindowLevelAlert + 1;
-        
-        [alertWindow makeKeyAndVisible];
-        
-        //初始化弹窗口控制器
-        
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *cancelAction =
-        [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self  presentVC:userInfo[@"aps"][@"alert"]];
-            
-        }];
-        [alertController addAction:cancelAction];
-        
-        //显示弹出框
-        
-        [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
-        
-
-    }
-    else
-    {
-        NSLog(@"本地通知");
-    }
-    completionHandler();  // 系统要求执行这个方法
-}
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    [self presentVC:alertView.message];
-}
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    NSLog(@"尼玛的推送消息呢????===%@",userInfo);
-    // 取得 APNs 标准信息内容，如果没需要可以不取
-    NSDictionary *aps = [userInfo valueForKey:@"aps"];
-    NSString *content = [aps valueForKey:@"alert"]; //推送显示的内容
-    NSInteger badge = [[aps valueForKey:@"badge"] integerValue];
-    NSString *sound = [aps valueForKey:@"sound"]; //播放的声音
-    // 取得自定义字段内容，userInfo就是后台返回的JSON数据，是一个字典
-    [JPUSHService handleRemoteNotification:userInfo];
-    application.applicationIconBadgeNumber = 0;
-    
-//    [self presentVC:userInfo[@"aps"][@"alert"]];
+//- (void)jpushNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+//    // Required
+//    NSDictionary * userInfo = response.notification.request.content.userInfo;
+//    NSLog(@"userInfo = %@",userInfo);
+//    //表示通过推送点击进入
+//    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+//        [JPUSHService handleRemoteNotification:userInfo];
+////        [self presentVC:userInfo[@"aps"][@"alert"]];
+//
+////        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+////        [alertView show];
+//        UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//        
+//        alertWindow.rootViewController = [[UIViewController alloc] init];
+//        
+//        alertWindow.windowLevel = UIWindowLevelAlert + 1;
+//        
+//        [alertWindow makeKeyAndVisible];
+//        
+//        //初始化弹窗口控制器
+//        
+//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction *cancelAction =
+//        [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//            [self  presentVC:userInfo[@"aps"][@"alert"]];
+//            
+//        }];
+//        [alertController addAction:cancelAction];
+//        
+//        //显示弹出框
+//        
+//        [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
+//        
+//
+//    }
+//    else
+//    {
+//        NSLog(@"本地通知");
+//    }
+//    completionHandler();  // 系统要求执行这个方法
+//}
+//-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    [self presentVC:alertView.message];
+//}
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
+//    NSLog(@"尼玛的推送消息呢????===%@",userInfo);
+//    // 取得 APNs 标准信息内容，如果没需要可以不取
+//    NSDictionary *aps = [userInfo valueForKey:@"aps"];
+//    NSString *content = [aps valueForKey:@"alert"]; //推送显示的内容
+//    NSInteger badge = [[aps valueForKey:@"badge"] integerValue];
+//    NSString *sound = [aps valueForKey:@"sound"]; //播放的声音
+//    // 取得自定义字段内容，userInfo就是后台返回的JSON数据，是一个字典
+//    [JPUSHService handleRemoteNotification:userInfo];
+//    application.applicationIconBadgeNumber = 0;
 //    
-//        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//        [alertView show];
-    UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    
-    alertWindow.rootViewController = [[UIViewController alloc] init];
-    
-    alertWindow.windowLevel = UIWindowLevelAlert + 1;
-    
-    [alertWindow makeKeyAndVisible];
-    
-    //初始化弹窗口控制器
-    
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction =
-    [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [self  presentVC:userInfo[@"aps"][@"alert"]];
-        
-    }];
-
-    
-    [alertController addAction:cancelAction];
-    
-    //显示弹出框
-    
-    [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
-    
-
-}
-- (void)presentVC:(NSString *)userInfo
-{
-    
-    UIViewController *topmostVC = [self topViewController];
-    JPushViewController *jp =[[JPushViewController alloc]init];
-    jp.detailString =userInfo;
-    
-    [topmostVC presentViewController:jp animated:NO completion:^{
-    }];
-    
-    [topmostVC.navigationController  pushViewController:jp animated:YES];
-}
-- (void)networkDidReceiveMessage:(NSNotification *)notification//接收自定义消息
-{
-    NSDictionary * userInfo = [notification userInfo];
-    NSString *content = [userInfo valueForKey:@"content"];
-    NSDictionary *extras = [userInfo valueForKey:@"extras"];
-    NSString *customizeField1 = [extras valueForKey:@"customizeField1"]; //服务端传递的Extras附加字段，key是自己定义的
-    NSLog(@"content = %@,customizeField1 = %@",content,customizeField1);
-    
-}
+////    [self presentVC:userInfo[@"aps"][@"alert"]];
+////    
+////        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"收到一条消息" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+////        [alertView show];
+//    UIWindow *alertWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+//    
+//    alertWindow.rootViewController = [[UIViewController alloc] init];
+//    
+//    alertWindow.windowLevel = UIWindowLevelAlert + 1;
+//    
+//    [alertWindow makeKeyAndVisible];
+//    
+//    //初始化弹窗口控制器
+//    
+//    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *cancelAction =
+//    [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//        [self  presentVC:userInfo[@"aps"][@"alert"]];
+//        
+//    }];
+//
+//    
+//    [alertController addAction:cancelAction];
+//    
+//    //显示弹出框
+//    
+//    [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
+//    
+//
+//}
+//- (void)presentVC:(NSString *)userInfo
+//{
+//    
+//    UIViewController *topmostVC = [self topViewController];
+//    JPushViewController *jp =[[JPushViewController alloc]init];
+//    jp.detailString =userInfo;
+//    
+//    [topmostVC presentViewController:jp animated:NO completion:^{
+//    }];
+//    
+//    [topmostVC.navigationController  pushViewController:jp animated:YES];
+//}
+//- (void)networkDidReceiveMessage:(NSNotification *)notification//接收自定义消息
+//{
+//    NSDictionary * userInfo = [notification userInfo];
+//    NSString *content = [userInfo valueForKey:@"content"];
+//    NSDictionary *extras = [userInfo valueForKey:@"extras"];
+//    NSString *customizeField1 = [extras valueForKey:@"customizeField1"]; //服务端传递的Extras附加字段，key是自己定义的
+//    NSLog(@"content = %@,customizeField1 = %@",content,customizeField1);
+//    
+//}
 -(void) onResp:(BaseResp*)resp
 {
     //启动微信支付的response

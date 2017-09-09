@@ -90,7 +90,7 @@ typedef NS_ENUM(NSInteger, TXScrollLabelType) {
     TXScrollLabel *label = [[TXScrollLabel alloc]init];
     label.numberOfLines = 0;
     label.font = TXScrollLabelFont;
-    label.textColor = [UIColor colorWithRed:249/255.0 green:98/255.0 blue:48/255.0 alpha:1];
+    label.textColor = TextColor;
     label.lineBreakMode = NSLineBreakByWordWrapping;
 //    label.textAlignment = NSTextAlignmentCenter;
     return label;

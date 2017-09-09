@@ -110,7 +110,7 @@
 //urlString+SERVERURL（post）请求网络
 +(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
 {
-    [ProgressHUD show:@"请等待"];
+//    [ProgressHUD show:@"请等待"];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];

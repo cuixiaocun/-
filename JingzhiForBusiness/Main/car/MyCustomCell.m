@@ -116,9 +116,6 @@
         _deleteAllBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _deleteAllBtn.frame = CGRectMake(640*Width, 10*Width, 80*Width, 80*Width);
         _deleteAllBtn.imageEdgeInsets = UIEdgeInsetsMake(25*Width, 25*Width,25*Width, 25*Width);
-        
-        [_deleteAllBtn.layer setBorderWidth:1.0*Width];
-        _deleteAllBtn.layer.borderColor =BGColor.CGColor;
         [_deleteAllBtn setImage:[UIImage imageNamed:@"icon_close"] forState:UIControlStateNormal];
         [_deleteAllBtn addTarget:self action:@selector(editAction:) forControlEvents:UIControlEventTouchUpInside];
         _deleteAllBtn.tag = 17;

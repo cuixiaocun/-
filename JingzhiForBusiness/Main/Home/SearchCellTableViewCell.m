@@ -19,9 +19,8 @@
         xian.backgroundColor =BGColor;
         [self addSubview:xian];
         xian.frame =CGRectMake(0,0*Width, CXCWidth, 18*Width);
-        NSArray*leftArr =@[@"代理帐号",@"官方授权合伙人",@"代理地区",@"距离",@"",@"",@"",@"",@"",@"",] ;
-        NSArray*rightArr =@[@"18363671722",@"山东桥通天下网络科技有限公司",@"山东省潍坊市奎文区",@"20Km",@"",@"",@"",@"",@"",] ;
-        
+        NSArray*leftArr =@[@"官方授权合伙人",@"代理地区",@"距离",@"注册时间",@"",@"",@"",@"",@"",] ;
+        NSArray*rightArr =@[@"",@"",@"",@"",@"",] ;
 
         for (int i=0; i<4; i++) {
             //背景
@@ -67,26 +66,29 @@
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *numLabel =[self viewWithTag:200];
-    UILabel *nameLabel =[self viewWithTag:201];
-    UILabel *addressLabel =[self viewWithTag:202];
-    UILabel *distanceLabel =[self viewWithTag:203];
-    
-    numLabel.text = [PublicMethod stringNilString:[_dic objectForKey:@"account"]];
+    UILabel *nameLabel =[self viewWithTag:200];
+    UILabel *addressLabel =[self viewWithTag:201];
+    UILabel *distanceLabel =[self viewWithTag:202];
+    //    UILabel *addressLabel =[self viewWithTag:204];
+    //    UILabel *distanceLabel =[self viewWithTag:205];
+    UILabel *timeLabel =[self viewWithTag:203];
+    timeLabel.text = [PublicMethod stringNilString:[_dic objectForKey:@"createtime"]];
     nameLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]]];
-//    telLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]] ];
-//    wxLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"webchat"]]];
+    //    telLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]] ];
+    //    wxLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"webchat"]]];
     addressLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name_path"]]];
     if([[_dic objectForKey:@"juli"] floatValue]>100)
     {
         distanceLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%.2fkm",[[_dic objectForKey:@"juli"] floatValue]/1000.00]];
-    
+        
+        
     }else
     {
-        distanceLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%.0fm",[[_dic objectForKey:@"juli"] floatValue]]];
-
-    
+        distanceLabel.text =[PublicMethod stringNilString:[NSString stringWithFormat:@"%.2fm",[[_dic objectForKey:@"juli"] floatValue]]];
+        
+        
     }
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

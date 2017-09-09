@@ -62,10 +62,9 @@
 
 - (void)commonInitialization {
     // Setup defaults
-    
     [self setBackgroundColor:[UIColor clearColor]];
     
-    _title = @"是";
+    _title = @"";
     _titlePositionAdjustment = UIOffsetZero;
     
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) {
@@ -88,7 +87,6 @@
     _badgeTextFont = [UIFont systemFontOfSize:12];
     _badgePositionAdjustment = UIOffsetZero;
 }
-
 - (void)drawRect:(CGRect)rect {
     CGSize frameSize = self.frame.size;
     CGSize imageSize = CGSizeZero;
@@ -111,9 +109,8 @@
         backgroundImage = [self unselectedBackgroundImage];
         titleAttributes = [self unselectedTitleAttributes];
     }
-    
     imageSize = [image size];
-    
+//    imageSize = CGSizeMake(30,30);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     
@@ -122,28 +119,30 @@
     // Draw image and title
     
     if (![_title length]) {
-        [image drawInRect:CGRectMake(CXCWidth/6-18.5,
-                                     roundf(7.2),
-                                    36.9, 34.65)];
+        [image drawInRect:CGRectMake(roundf(frameSize.width / 2 - imageSize.width / 2) +
+                                     _imagePositionAdjustment.horizontal,
+                                     roundf(frameSize.height / 2 - imageSize.height / 2) +
+                                     _imagePositionAdjustment.vertical,
+                                     imageSize.width, imageSize.height)];
     } else {
         
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) {
             titleSize = [_title boundingRectWithSize:CGSizeMake(frameSize.width, 20)
-                                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                                 attributes:titleAttributes
-                                                    context:nil].size;
-            
+                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                          attributes:titleAttributes
+                                             context:nil].size;
             imageStartingY = roundf((frameSize.height - imageSize.height - titleSize.height) / 2);
-            
-            [image drawInRect:CGRectMake(CXCWidth/6-20 ,
+            [image drawInRect:CGRectMake(roundf(frameSize.width / 2 - imageSize.width / 2) +
+                                         _imagePositionAdjustment.horizontal,
                                          imageStartingY + _imagePositionAdjustment.vertical,
-                                          40, 40)];
+                                         imageSize.width, imageSize.height)];
             
             CGContextSetFillColorWithColor(context, [titleAttributes[NSForegroundColorAttributeName] CGColor]);
             
-            [_title drawInRect:CGRectMake(CXCWidth/6-50*Width ,
+            [_title drawInRect:CGRectMake(roundf(frameSize.width / 2 - titleSize.width / 2) +
+                                          _titlePositionAdjustment.horizontal,
                                           imageStartingY + imageSize.height + _titlePositionAdjustment.vertical,
-                                           80*Width, 80*Width)
+                                          titleSize.width, titleSize.height)
                 withAttributes:titleAttributes];
         } else {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
@@ -165,7 +164,6 @@
                 CGContextSetShadowWithColor(context, CGSizeMake(titleShadowOffset.horizontal, titleShadowOffset.vertical),
                                             1.0, [shadowColor CGColor]);
             }
-            
             [_title drawInRect:CGRectMake(roundf(frameSize.width / 2 - titleSize.width / 2) +
                                           _titlePositionAdjustment.horizontal,
                                           imageStartingY + imageSize.height + _titlePositionAdjustment.vertical,
@@ -175,10 +173,9 @@
 #endif
         }
     }
-    
     // Draw badges
     
-    if ([[self badgeValue] integerValue] != 0) {
+    if ([self badgeValue]) {
         CGSize badgeSize = CGSizeZero;
         
         if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) {
@@ -203,7 +200,7 @@
                                                  [self badgePositionAdjustment].horizontal,
                                                  textOffset + [self badgePositionAdjustment].vertical,
                                                  badgeSize.width + 2 * textOffset, badgeSize.height + 2 * textOffset);
-        
+
         if ([self badgeBackgroundColor]) {
             CGContextSetFillColorWithColor(context, [[self badgeBackgroundColor] CGColor]);
             
@@ -228,7 +225,7 @@
             [[self badgeValue] drawInRect:CGRectMake(CGRectGetMinX(badgeBackgroundFrame) + textOffset,
                                                      CGRectGetMinY(badgeBackgroundFrame) + textOffset,
                                                      badgeSize.width, badgeSize.height)
-                withAttributes:badgeTextAttributes];
+                           withAttributes:badgeTextAttributes];
         } else {
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
             [[self badgeValue] drawInRect:CGRectMake(CGRectGetMinX(badgeBackgroundFrame) + textOffset,
@@ -275,12 +272,10 @@
 - (UIImage *)backgroundUnselectedImage {
     return [self unselectedBackgroundImage];
 }
-
 - (void)setBackgroundSelectedImage:(UIImage *)selectedImage withUnselectedImage:(UIImage *)unselectedImage {
     if (selectedImage && (selectedImage != [self selectedBackgroundImage])) {
         [self setSelectedBackgroundImage:selectedImage];
     }
-    
     if (unselectedImage && (unselectedImage != [self unselectedBackgroundImage])) {
         [self setUnselectedBackgroundImage:unselectedImage];
     }

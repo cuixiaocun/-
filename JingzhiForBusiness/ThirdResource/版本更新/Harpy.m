@@ -50,7 +50,7 @@
                     NSString *currentAppStoreVersion = [versionsInAppStore objectAtIndex:0];
 
                     
-                    if ([currentAppStoreVersion compare:@"1.1" options:NSNumericSearch] == NSOrderedDescending) {
+                    if ([currentAppStoreVersion compare:@"1.0" options:NSNumericSearch] == NSOrderedDescending) {
 		                
                         [Harpy showAlertWithAppStoreVersion:currentAppStoreVersion];
 	                

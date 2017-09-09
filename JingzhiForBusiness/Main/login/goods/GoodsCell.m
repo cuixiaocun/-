@@ -49,6 +49,7 @@
         
         //购买商品的数量
         _numCountLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0*Width, 78*Width, 48*Width)];
+        _numCountLab.font =[UIFont systemFontOfSize:12];
         _numCountLab.textAlignment = NSTextAlignmentCenter;
         [numBtn addSubview:_numCountLab];
         

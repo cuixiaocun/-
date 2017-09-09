@@ -10,5 +10,4 @@
 
 @interface JPushViewController : UIViewController
 @property(nonatomic,strong)NSString *detailString;
-
 @end

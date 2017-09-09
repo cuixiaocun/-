@@ -3,7 +3,7 @@
 //  CarShow
 //
 //  Created by wang rain on 12-4-24.
-//  Copyright (c) 2012年 青岛联科时代科技. All rights reserved.
+//  Copyright (c) 2012年. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -20,23 +20,26 @@
 #import "MBProgressHUD.h"
 #import "MBProgressHUD+MP.h"
 #import "SRActionSheet.h"
+#import "UIImageView+WebCache.h"
+
 //服务器地址
 #define IMAGEURL  @"http://heart.qwangluo.cn/index.php"
 #define SERVERURL @"http://heart.qwangluo.cn/index.php"
 //是否为空
 #define IsNilString(__String)   (__String==nil || [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqual:[NSNull null]]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"]||[__String isEqualToString:@""])
 
+#define orangeColor ([UIColor colorWithRed:255/255.0 green:102/255.0 blue:51/255.0 alpha:1])//
 
-#define TextBlueColor ([UIColor colorWithRed:20/255.0 green:138/255.0 blue:246/255.0 alpha:1])//
+#define TextBlueColor ([UIColor colorWithRed:39/255.0 green:136/255.0 blue:236/255.0 alpha:1])//
 #define TextColor ([UIColor colorWithRed:77/255.0 green:77/255.0 blue:77/255.0 alpha:1])//黑色的字
 #define BlackColor ([UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1])//黑色的字
 
-#define TextGrayColor ([UIColor colorWithRed:120/255.0 green:120/255.0 blue:120/255.0 alpha:1])//灰色的字
+#define TextGrayColor ([UIColor colorWithRed:138/255.0 green:138/255.0 blue:138/255.0 alpha:1])//灰色的字
 #define TextGrayGrayColor ([UIColor colorWithRed:190/255.0 green:190/255.0 blue:190/255.0 alpha:1])//灰色的字
 #define TextGrayGray3Color ([UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1])//灰色的字
 
-#define BGColor ([UIColor colorWithRed:246/255.0 green:246/255.0 blue:246/255.0 alpha:1])//背景颜色
-#define NavColor ([UIColor colorWithRed:242/255.0 green:55/255.0 blue:59/255.0 alpha:1])//导航栏颜色
+#define BGColor ([UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1])//背景颜色
+#define NavColor ([UIColor colorWithRed:255/255.0 green:102/255.0 blue:51/255.0 alpha:1])//导航栏颜色
 #define NomalBtnBg ([UIColor colorWithRed:127/255.0 green:173/255.0 blue:206/255.0 alpha:1])//按钮普通颜色
 #define SelectBtnBg ([UIColor colorWithRed:51/255.0 green:127/255.0 blue:179/255.0 alpha:1])//按钮选中颜色
 #define Version ([[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey])
