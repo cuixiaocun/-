@@ -16,4 +16,5 @@
     NSInteger currentPage; //当前页
     NSInteger pageCount;   //总页数
 }
+
 @end

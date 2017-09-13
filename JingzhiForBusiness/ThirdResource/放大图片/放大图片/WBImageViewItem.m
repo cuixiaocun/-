@@ -18,7 +18,9 @@
     if (self = [super initWithFrame:frame]) {
         
 //        布局方式
-        self.contentMode = UIViewContentModeScaleAspectFit;
+        self.contentMode = UIViewContentModeScaleAspectFill;
+        self.clipsToBounds = YES;
+
 //        打开响应
         self.userInteractionEnabled = YES;
 //        添加tap手势

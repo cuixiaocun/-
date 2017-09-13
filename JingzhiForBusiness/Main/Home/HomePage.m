@@ -22,11 +22,13 @@
 #import "NoticeDetailVC.h"
 #import "BannarDetailVC.h"
 #import "TXScrollLabelView.h"
-
-
+#import "ClassificationList.h"
+#import "StudyDecorateVC.h"
 #import "HomeOneCollectionViewCell.h"
 #import "HomeTwoCollectionViewCell.h"
 #import "HomeThreeCollectionViewCell.h"
+#import "HouseDetailMainVC.h"
+
 //#import "JPUSHService.h"
 @interface HomePage ()<SDCycleScrollViewDelegate,OnClickCMallDelegate,UICollectionViewDataSource,UICollectionViewDelegate,TXScrollLabelViewDelegate>
 {
@@ -43,7 +45,6 @@
 
 }
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
-@property (nonatomic,strong) ComMallCollectionViewCell  *cell;
 @property (nonatomic,weak) id<OnClickCMallDelegate> CMallDelegate;//协议
 @property (weak, nonatomic) TXScrollLabelView *scrollLabelView;//
 
@@ -118,8 +119,10 @@ static NSInteger seq = 0;
 }
 - (void)chooseAddress
 {
-
-
+}
+- (void)chooseMore:(UIButton*)btn
+{
+    NSLog(@"%@",btn);
 
 }
 - (void)withDrawlsBtnAction //寻找
@@ -127,7 +130,6 @@ static NSInteger seq = 0;
     SearchPage  *search =[[SearchPage alloc]init];
     [self.navigationController pushViewController:search animated:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
 }
 -(void)getBanner
 {
@@ -236,7 +238,7 @@ static NSInteger seq = 0;
         topImgV.tag =1100+i;
         [btn addSubview:topImgV];
         //下边文字
-        UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom+10*Width,187*Width,90*Width)];
+        UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom+10*Width,187*Width,60*Width)];
         botLabel.textAlignment=NSTextAlignmentCenter;
         botLabel.font =[UIFont systemFontOfSize:14];
         botLabel.textColor =BlackColor;
@@ -319,10 +321,10 @@ static NSInteger seq = 0;
 
     }else if (btn.tag==301)
     {
-        SearchPage  *search =[[SearchPage alloc]init];
+        StudyDecorateVC*search =[[StudyDecorateVC alloc]init];
         [self.navigationController pushViewController:search animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
+        
     
     }else if (btn.tag==302)
     {
@@ -337,9 +339,34 @@ static NSInteger seq = 0;
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
-    }
+    }else if (btn.tag==304)
+    {
+        HYProblemVC  *notice =[[HYProblemVC alloc]init];
+        [self.navigationController pushViewController:notice animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+    }else if (btn.tag==305)
+    {
+        HYProblemVC  *notice =[[HYProblemVC alloc]init];
+        [self.navigationController pushViewController:notice animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+    }else if (btn.tag==306)
+    {
+        ClassificationList*search =[[ClassificationList alloc]init];
+        search.btnNameString =@"基础建材";
+        [self.navigationController pushViewController:search animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
 
-}
+    }else if (btn.tag==307)
+    {
+        HYProblemVC  *notice =[[HYProblemVC alloc]init];
+        [self.navigationController pushViewController:notice animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+    }
+    }
 
 static MLLinkLabel * kProtypeLabel() {
     static MLLinkLabel *_protypeLabel = nil;
@@ -371,7 +398,7 @@ static MLLinkLabel * kProtypeLabel() {
 //返回section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return 3;
 }
 //  返回头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -407,8 +434,9 @@ static MLLinkLabel * kProtypeLabel() {
             UICollectionReusableView *footer=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"footerView" forIndexPath:indexPath];
            
             UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth , 80*Width)];
+            addressBtn.tag=440+indexPath.section;
             [footer addSubview:addressBtn];
-            [addressBtn addTarget:self action:@selector(chooseAddress) forControlEvents:UIControlEventTouchUpInside];
+            [addressBtn addTarget:self action:@selector(chooseMore:) forControlEvents:UIControlEventTouchUpInside];
           
             UILabel *addLabel = [[UILabel alloc] init];
             [addLabel setText:@"查看更多 >"];
@@ -496,11 +524,21 @@ static MLLinkLabel * kProtypeLabel() {
 //点击方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
-    goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-    [self.navigationController  pushViewController:goode animated:YES];
+    if (indexPath.section==0) {
+        HouseDetailMainVC*goode =[[HouseDetailMainVC alloc]init];
+//        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController  pushViewController:goode animated:YES];
     
+    }else
+    {
+        GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
+        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController  pushViewController:goode animated:YES];
+        
+
+    }
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {

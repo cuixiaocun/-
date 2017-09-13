@@ -11,6 +11,7 @@
 #import "SearchOneCell.h"
 #import "SearchTwoCell.h"
 #import "SearchHouseTableViewController.h"
+#import "HouseDetailMainVC.h"
 @interface SearchHouseVC ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     UIScrollView *bgScrollView;//最底下的背景
@@ -21,7 +22,11 @@
 @end
 
 @implementation SearchHouseVC
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden =YES;
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:BGColor];
@@ -33,12 +38,6 @@
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
-    //添加返回按钮
-    UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
-    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
-    [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [topImageView addSubview:returnBtn];
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
     [navTitle setText:@"搜房"];
@@ -325,6 +324,12 @@
     }
     //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
     //    [cell setDic:dict];
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
+    [self.navigationController  pushViewController:house animated:YES];
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {

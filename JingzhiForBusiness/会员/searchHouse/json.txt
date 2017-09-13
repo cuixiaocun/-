@@ -1,0 +1,4916 @@
+[
+  {
+    "content": "0 选项",
+    "id": "f55b7038-f360-40d2-8348-001e4a8aa067",
+    "isChecked": false,
+    "items": [
+      {
+        "content": "0 -1子选项",
+        "id": "556e39d7-dec0-4149-8e85-781925ad30bb",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "a6b87adc-9510-4860-bb85-9e9cbe17479d",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "738b0790-772b-40f2-b810-5054c7d2d599",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "939410dd-c35e-423b-aba2-e2e83c0dd3f9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "0a8e817c-74e2-4d48-9d41-eeecd4b1caac",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "7dd445de-9580-4c0e-8f52-8f596886f4bd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "470b6e83-fe9c-407c-b3bd-271bdbfd79ce",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "19fe4c8a-1dad-4fde-99ab-7b07e7a8f809",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "cc2dbb3c-d186-4584-87ff-3fd8fbef0c3c",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "21c4f2d1-e8e4-4beb-a7d7-beef53887219",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "603d79ef-7582-44c3-bae8-5f600bb61e9d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "858efbe9-43e9-473c-9fa7-05c6cae41d4d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "b1fb4e54-71b7-48a7-ad63-cbe1bea18063",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "5e71fc80-833f-4289-aeac-460cea4b1b70",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "879c35b9-a736-4717-962d-952daec9cd67",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "0dd254a8-a943-4d9f-b417-df259c243d76",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "11706f57-6e50-41b0-9338-d03584d8f6e1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "f11681a3-692c-4fe0-a959-18f732d04e7c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "70d079a0-9a44-4b5e-8bc6-0869e1fe4756",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "e8adc32c-76a8-4a4c-bb72-211e1769a44c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "21eac8ae-e380-4ed8-aaea-765fc007cd22",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "9585d230-eacd-4190-ab62-c030cdf83fdb",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "ccfb080f-5f50-4292-9ec3-efa46befffbf",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "e307a3b4-8481-4853-97e2-f682a7a1d180",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "460c9c78-bb48-4d26-8364-93253a4a0b67",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "fab32d28-3a89-4f55-bf55-1ad1d79d30a3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "ca6d34c3-e694-4aa1-834c-b5cac52e7df4",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ac33fecc-253c-4c43-bde3-f008c533f722",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "fdb360ce-46a4-4d45-8ea7-eb759db42db7",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "f64ea979-807d-43d9-9dd6-b7a047a6a9b2",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "07766c45-713c-42c9-83d5-34a075700190",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "93ac1          539-b9aa-475e-b61c-3b490dd73673",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "4d29c241-5752-4be6-a554-18d71ed1c077",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "452dde78-6189-46f5-9eb0-7c31804b790f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "b8e31a11-0d85-4c37-ad58-ba19723e8ce1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "aeb13500-89f1-4c98-ba5d-c8b856bd2df7",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "92ac01e5-4632-4a27-9981-244004e69cf0",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "ee051ab4-26bc-4496-a5e3-a81a0682c016",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "1e29053f-27c9-414d-a30a-77273e0d4009",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "4e2f9be0-114f-40fb-9a82-91bd8bbd5ddf",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "a0ecfaee-7229-452c-95e7-9a27f7469e83",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "5dc1fb3b-e91f-4d33-9149-cce2e8cdbfce",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "b6bdac62-b0aa-4c51-a09a-9b42f40fd596",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "1 -1子选项",
+        "id": "3b59a856-593d-46ba-8a0a-f9a22f60972a",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "381d5cbd-658f-42c5-acee-b0c85b3f04f3",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "ccfb8baa-3928-41a1-a8f0-ac18686a8278",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "aec79baf-6ef5-4cae-81db-ee59d8cf8b66",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "4418a849-5c8b-4e7c-9c3b-c8c16feea7f8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "5cd2b446-7f8c-478e-abde-a25217b7d317",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "4a0b4cbb-e8d7-47ae-bad0-9efffe9197b1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "491eb2e2-833d-4f4a-8fae-675d4efa5008",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "c9c8f5e6-8292-4adc-8a17-75118856cd9e",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "e3e342bd-d920-4fc8-bdf5-fb9d3172c7ce",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "0302a5dd-ddd1-4ded-92fc-00658613688b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "3ac30b24-d1e8-41f4-940e-d3d5fa7e925a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "b72c5d87-c040-4f51-b229-f1c2f993a00d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "121227ef-42f0-4a9c-867d-1f877df1cbff",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "73d444f5-fb91-4fbc-b8a9-c5101cc759ee",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "2c2799d7-7bec-4374-be91-a1b10b3f9dda",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "3371b880-d3e0-4622-a8bb-42cc89aa440d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "117c12d1-4be4-4b17-911e-1b9f6b25625a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "60033610-5ff1-4888-9109-00f5f2a7fb01",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "0c74649f-22d5-4518-bcd7-6e4c49025c84",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "e5744a7e-b152-49ed93c1-b9e359770680",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "20075287-f186-4439-b315-54b40d60ceff",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "d26c0988-435b-4710-a229-62ea088114ff",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "665dc4f4-bc2f-49ef-b832-a151bb9a5a0b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "eff44604-f912-440d-ae60-2c8bcdc92002",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "533a68fa-ff2a-4913-9490-7e18166616d2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "03c97ee4-086f-4bb1-97b6-ca1a3ef2aa60",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "67249623-48a4-4856-b3ae-f5a38dc3eb25",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "1edb565c-c923-4240-a7b6-3618ebcb66b2",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "24e54143-d2c7-4ba5-b672-6d4e0ab07cfb",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "27db179f-36c0-4c29-88de-769e0b63a6e0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "51b8634d-b833-47bc-aca2-a96af07b5d3a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "c966496a-489d-4f76-b76c-fee89ea8e9ce",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "68aa0628-c99f-4884-8031-a3d07f50ca69",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "a9de6306-b484-4eed-8635-307528846eed",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "f611cf9f-9fdf-470c-8577-ea8b203c82ae",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "3b404fc1-9e19-4a7b-9a73-aeed04467546",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "69422d8b-b881-43e9-bd50-1d9b9c2aa4f6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "9a1aad1c-2118-4222-bec8-0670b74fc8a2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "f94239d3-ded4-4e83-9be0-8d0e4b52d4e2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "2b144289-de94-47e2-9775-a854ae44bfad",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ece0d67e-7845-450f-92a6-2b13438e4748",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "78e4555e-3e23-4b09-ad55-cfec53399508",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "2 -1子选项",
+        "id": "9b2be201-daca-47a0-8835-d11b0315b33d",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "9c582a38-60a2-4f0b-9db7-e2108f455a97",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "56054b2d-a621-42a8-839a-08466fed8b24",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "8e7f3b98-791e-4274-9b76-04a0f5628094",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "c1bbef67-5e20-4562-bc47-db29db7e5d66",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "21e25394-bba2-4da3-9e89-36371a1cbd6c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "7f7a7482-6e7c-459e-92be-a4a97995ff14",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "62b4ae95-9c02-4350-a171-eba67d41ed11",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "50faad77-2cc7-4aec-ad87-436964557a01",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "b479c249-2146-4797-82c5-a7cdce9f905b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "c3ee10aa-172d-41ae-9fc6-4465490a0762",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "0a85226f-92b1-4614-900b-4a5cfaf2eae7",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "38430caa-a386-4e85-8880-92f9bbd4c829",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "63968337-5028-4de2-ac0a-ab20b5100858",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "273be16e-a1bf-4e4b-97f1-c1ae772cae66",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "6cbb2c61-bc70-4596-ab17-06dd216f3ac4",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "d5c090ff-9c0e-4e3c-b20a-500e7a0b5151",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "4585fcff-99f3-4990-b6a0-0969de13de06",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "c5f9330d-079b-4eaa-b1b5-840a256200f6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "cc4e2a08-71a2-42fa-8970-a294acdf6237",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ec4cd38f-9f9d-4ff7-898a-e4d163b7c93b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "3168bc65-7fa2-445a-86b0-e6fdd6546b64",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "0b86d9f8-64bc-4557-bcab-c69253bb0e37",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "c45c7c80-7e5d-4b4a-a00a-aede0cd6a1e2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "6dc6dfc6-704d-4276-bc75-13574a6d9e91",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "f32f289c-8220-4e64-a6b6-cb6dc0930daa",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "c57fa46f-956b-492c-a892-e4c3f78aab11",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "b4c27a8c-7cdf-43f0-8115-90acc789e5d1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "9ff27962-8606-4524-8287-9f2a0a711cd6",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "4a9c5906-03de-4fb5-be8d-35440b91b081",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "b7321a79-3c5b-4fa9-a107-cce30a39e782",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "24c3a82f-0c7b-474b-a49d-8a3836fe363a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "10c0e82d-716d-43ff-88dc-516cf9174ce7",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "e446fc1a-47cd-4615-a924-0fbd6060b23a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "4186b331-21ae-46d6-a3fb-d6fee290121a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "1d90c88a-1f92-4407-a2d3-946b32858673",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "f2cea7cb-89b0-460b-8de0-abe0b7a4ce63",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "1477061d-e5b6-4e4f-b8be-0df7eebcfd74",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "4c814179-b714-4bde-86b5-69ef646382ca",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "746d3d08-ab4a-43af-944f-1edf72bbb0d9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "7af73834-1ff5-4e2e-b7fe-5707659ab734",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "64246a39-05e2-4f85-bc51-b08ccc62838c",
+                "isChecke          d": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "bde40fb9-921b-4625-a319-4eb1836f069e",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "3 -1子选项",
+        "id": "b6d02109-a66e-4c32-832c-ff6b6aed7f5c",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "118f85ff-05b9-4d11-8e18-798990f2b631",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "3cc12110-b6a7-435a-8190-2e518c2328fe",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "7d49f57d-3975-4481-9b9d-fd888d7b65b8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "40383b8e-6db3-4652-a168-411d72b5b7cb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "48407c83-3e32-4116-80d3-335eb9fe1415",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "f35747a2-18ea-440b-89bf-807230e44ded",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "8bbfdfa7-6430-44dc-b170-dbf96dfafa71",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "2bf294df-eda5-40e9-94cb-2d62f62008f7",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "6524d808-4261-43d1-ba0c-0483a1b33877",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "3be100db-3994-4ee9-bbaa-915fb19f706b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "cffb7a38-78d9-49b9-9d22-6574fa4938b2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "b208c8e7-b74c-48be-a1b3-dc420d8751d5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "f0d26d11-6cc4-4d79-b6c1-add5a958fff0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "6e2f2d53-47cd-42b2-b762-bfac2be4315c",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "c6f420cf-6302-422d-b0ec-1bc5e3caa693",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "71ab2378-5e3f-4199-9ff8-f67e8d1ccd81",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "b414c0b7-d52b-4468-a04b-2c71973e1d16",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "4618df1d-47f3-4ee9-aeca-c827ca7f4cc6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "1532d5f3-c87d-4b1e-ae12-7411ba30ac91",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "22aef09d-f9d1-4c49-b9c4-d4a059fcb46d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "c191389c-2962-4c43-bf6c-e2d4d2881584",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "f332a7d7-b74b-4c68-bb79-1dffae81b724",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "fe75788b-14ec-40b7-88c1-e929033dc2ac",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "6df732c1-5492-49e4-9f8d-8525c8713ba5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "5b704637-75ea-44bf-a92d-dad844369f95",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "de512a8f-8582-48ae-856c-78ddbe9177fd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "e7b16687-939f-4b01-a027-84da64b5ce0a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "af4a5209-823d-47cb-9948-4593bf1ec641",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "1b8be8ad-0eac-452a-9378-c99b29f0e62a",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "58de130d-5710-48f4-8611-b905c40e5204",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "fae151d8-5123-449b-9147-17caaf591d72",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "5d31910f-4221-4989-93c2-ee7042366fe9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "a7ad9a5c-e346-4780-986e-900e07db4bbd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "99abfcbe-25ac-4292-9d6a-aa3435b99040",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "6aa6e88b-8fb9-4391-9829-6d2fd3e8d393",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "153e56d1-b64b-4da2-8d39-9ffc4d208120",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "fa4f2258-6b68-4231-823b-7694f5d36f18",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "ccaddf74-23a3-4f48-87e7-53f93ee8cbf2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "0278edaa-2462-4053-b3f1-96e7418aa0e4",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "e0663a91-5c5b-4fb8-bcc3-4b7009a25377",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "225c492a-2933-41b8-ab00-27599a3a73a5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "490f6400-8a88-4099-9a29-8a77c913e8ce",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "4 -1子选项",
+        "id": "7e80dea0-c9c7-433f-96a2-d1f81dade624",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "d0fa88f4-391d-41db-8d99-c851cf8378f6",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "e8e075d1-a6e8-46f5-9678-e0e0a6dacfb0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "664e7a5c-eddd-416c-9754-e0efd48694b9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "8576a669-e986-45ed-86cb-61ecf9378618",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "c86da7b0-26ba-467c-bbe0-0d27d7aa9557",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "547b3306-ed1c-42f5-b06b-531743ec3d27",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "260a3120-6b5f-4231-8627-37698fbd5154",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "77106b91-5803-485a-83eb-0c4adb19afbf",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "b7c20401-b174-444c-b970-73d86535d54f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "e95117f6-ac01-4ed7-8020-81c0a08303cd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "850712a7-99d5-4d26-9335-f31b49760a00",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "8af7c36e-21eb-4ef3-a443-c03e3235981b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "eb53b8f3-1955-4ecf-a31d-458c0e9a5fbb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "06479830-6e1d-4935-b39f-4267402c62e2",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "d43dd315-cf72-45ae-8760-749c858f37f3",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "2b3cc02f-dc1b-4d35-b4bb-12e9e6f73f8b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "35b5dd58-3b9b-4efb-8d68-8710e94807f1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "7ae00415-c0fe-44eb-a3a9-a4358de26f3b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "9a33ce2f-f410-485b-9dc2-977acd90cb64",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "837adc53-df91-4859-8aa7-f4af1f305cda",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "3d55661c-4b44-4e3e-b9b6-bec0c06c8bc0",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "b1de8d63-5a4c-4eba-a0f7-edbdf98c3ecd",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "45986baf-ab9d-4c46-980e-fec690e1ecc0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "8a9fb897-39c8-488a-bca8-c54a1c59cd9d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "b417e1e0-c65b-4d0e-ab27-2c0b43b12172",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "043ec3fb-0315-4f62-a285-dbde1dd57433",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "546808f9-a357-4f6d-87ba-c562392702a8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "ea284730-9148-4d83-8f97-2157ac13baba",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "09f907d5-2272-4a64-81af-a94bad7a2e67",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "06822e11-65f5-4ff7-82c7-4231a9db4daa",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "4f4d2377-9779-400b-a56f-fc6383239c5d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "ef82f6a2-b4c5-4a0f-9be9-445707c5a1c3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "4aaa3f6a-c57b-45bf-b6fb-c290a85a7437",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ef773842-04ed-4480-b387-bfcb8063ed31",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "ff66dc96-fe4e-4779-b897-a5951cf0a39f",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "9ada76e7-81fb-41e2-a09d-0588d61c96b4",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "381eff47-157b-4507-8f56-1b4d078d3dd8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "2f215e64-ee76-4b1b-a27d-e29db6d77008",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "ad83279e-db7e-4ccc-bac2-294249fefcb2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "0f72268f-6713-4c7c-b627-aeb04da6659d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "eca814ff-cf37-4b1b-859f-f94b9d8692e8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "34d584a3-88a4-4d04-ac8c-694aba4e6945",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "5 -1子选项",
+        "id": "f5f71c83-6e9f-49d5-a427-30f469be4f92",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "20c4fd8c-15a5-4e60-9197-ebbb80961a5f",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "55b848a3-8a47-43bf-95ce-850dd13c635d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "be557f3a-e044-47c8-8e3f-624902910f65",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "40ec114d-bcd1-473c-bd0a-62a43a008d7d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "2eaa501b-aec2-40a0-aa68-ecc10e134be1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "99edc874-e992-4f2f-aaf7-789b3f78c01f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "34d9ab05-bb91-4d13-bd1e-6fc594c648fc",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "84e77fd3-6b9b-43f8-8937-b9c888efe7cd",
+            "isChecked": false,
+            "items": [
+              {
+                "          content": "0 -3子选项",
+                "id": "4aa88b11-19c7-4aee-902c-76dfc07477a5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "d11177f9-230d-433b-99a7-3c8ae11f892b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "8fe87cb5-e63e-496f-9528-e3fc9efb6ef3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "e1a4bdf8-07cf-4120-9c84-9479acd74177",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "16890a32-8ddd-479e-a1c1-b3591a6d7ded",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "2d72acb2-d484-49ef-9cd8-a0feec1287e4",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "cf6b1a3b-7a2f-4be0-83bd-996729c39b8b",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "a280fdc0-8a38-493f-9afe-1f1cbad39514",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "d486eecb-c5b7-40f9-b54e-e6802b3606ff",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "df01c052-4b21-4d88-bf74-9b04cf221d1d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "5c9aaf27-1c01-421c-88ca-177181d8ad90",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "488c16f4-ce6b-4a90-9d35-58beb8a2a013",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "b40d5c44-7275-4c5d-b963-c8045d43edd0",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "c95880ec-0fc4-48b1-a804-d7c521e18f88",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "d084023b-d87e-44dd-a670-6be2f856e6a9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "5ee5f449-7eab-4dd0-a8a1-cafdc52747fe",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "bc611c88-d794-45de-bbd1-88a0d714cde9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "1bc02407-fa4c-4a96-aeb0-f7728ce4990f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "2ea16f5e-329d-4eac-bd05-c3d4c554d16f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "876e0d1e-bbfb-40c0-84b6-2750c353ef0d",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "6f11734d-faf3-48a6-bd53-989c7eb33f8d",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "c09fff7b-8857-46d3-b88a-41d57cfd1974",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "6c04c4fd-55aa-4853-9357-c7c5c4862ee5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "5f15bdd9-d34a-4ef2-8550-b06c03746023",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "5c6f38fb-ed03-44b4-bfdc-90119cc18249",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "7fa03c82-fa61-45a5-a9bb-f001b8ec5ee7",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "f159e60e-f60e-4d46-b477-c7aed0567904",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "642c6981-8c01-443e-9721-0d14e187ba5a",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "729d9bf8-5221-40e1-807a-3b77fafb18ed",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "086f08e8-6857-482a-abdd-5de37ba0f5ce",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "3040ed97-3956-4ae2-a05e-477a6c6c77b5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "02b521ea-bd82-4269-bcf5-c08cf1b50bed",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "2bcaa067-9145-4823-957e-fb8df3b7a78d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "0e97f9b8-f63c-459e-96cc-6a0a50d4663e",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "6 -1子选项",
+        "id": "e2c180f1-5693-4729-8981-ef39651ef3c3",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "22d27377-333b-410a-9ba4-bd844d78c56d",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "f103b807-e31f-44d6-85ad-c0d5a00d5d22",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "4754d1d1-4d7e-4263-ab99-4f3bc80dbd0f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "984a4852-0a61-4cf9-9d16-d729a319f048",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "7d2e3b03-d3cc-4771-b78a-61f77a539e00",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "bd21a4c3-6ee9-489c-a4ef-7a0503f331bd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "c262a8c5-f135-42ec-afc5-a4c309eceb15",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "a7f929c3-4325-4c22-8d5c-f92d958277e3",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "46e0872d-7889-4f1d-a071-e0893bf87a2b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "f366ad1c-b62e-4efc-a2a2-be588c5f8dd6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "1e1b7585-432a-4e58-8c8c-e30c21e2d356",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "d1088cb7-b91a-43d0-a924-de5126991cdb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "d34b50b2-f015-48cf-961e-551545ce7342",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "4342a482-bfb7-41cb-9809-98dc841e6c9e",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "1447bb86-3274-4b3f-9cf7-89f851c62f5c",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "9e1bc25d-69e5-49d0-b3dd-78df46b22da0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "1c866e10-f7bf-42b7-9c2c-93c002c891b5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "fc0dfe9f-26bc-47b0-b646-dd50391a2be2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "c4e901be-66af-49d1-8751-4012a8116e15",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "346cb367-84c4-41d6-b425-c51eff8c9070",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "5f442f8c-3351-42f4-9e06-d93160b791c1",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "c2e7e0fc-5e55-4007-a22b-4814666eb3a8",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "5e3452cc-8de9-4663-a3c3-d4e11a5784df",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "cf13aaeb-b07f-4a94-94c8-1da7b158d94b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "48ae29d7-a358-4a5d-ac62-f4b38fbdd50a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "911bd31f-2a35-4ad0-bbb4-664459d2afe7",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "f2576c88-5383-4b9b-839b-885b172ea8a1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "b40e7043-a620-4398-8941-0deb86c1513f",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "69fcf749-70b8-4236-a5fd-1ea5554fb19d",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "f4e          8dc58-a1af-4f8d-a697-436d9119cdc9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "77a9183f-b664-45a5-9be9-bde83eed818e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "a4581581-5561-4300-b331-6293d84721ed",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "8b3d38f3-c474-465e-b466-1850bef58bec",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "a9908d60-6ec9-4131-9564-9c91bdef0173",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "871fd1fa-e9a6-4c24-9031-3de9e4c1010d",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "feab2685-ccf8-4075-a29e-e3a56a962000",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "88a3b026-e118-4975-bbfd-cdd9985db534",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "570b1bb9-ef73-4e49-a60d-a6cb9b64a19d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "28607694-db75-4005-9c98-52972b35febd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "d957a53f-bd69-4e02-afd4-00791206bc90",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "1e754013-a153-491e-bb20-78547b14a024",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "7de286e9-5fd0-4c57-87f0-94bd49ac3733",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "7 -1子选项",
+        "id": "2ee12e17-7708-4703-a1ad-80f420dffabd",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "cbd0745d-48c7-428d-b3c8-99dce00cb25e",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "2f4f7ceb-c370-4396-a166-2dfc04ccef19",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "debc4987-c720-4769-aefb-d3842820d974",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "bacf027f-d6f0-42af-960d-0dd143115445",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "e52ecc6d-4028-4b03-8790-b850a864ebfc",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "a575f062-5594-4d8b-8849-c965efa2b8b2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "81e48ad5-0c9d-489a-923d-d0fc34e3e4ed",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "e36cca01-cf66-45f9-a803-d79e3c46222e",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "f37a09e6-11ad-42a6-bad1-7e6dd0477b85",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "3731ba62-afb6-4df9-85af-31ab6222ce7d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "b62ffbaa-ef83-4737-bf54-d458583959ce",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "d8d5fd16-d441-4723-af7e-3c8020ac93ae",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "4f5c95f3-9990-4237-b004-817e990849da",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "e706829b-7041-441b-ac47-237fcb69a4b5",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "dc7935ad-a903-4593-be73-26cf3ff5e2f0",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "13edaaec-b34e-47a0-97bd-c98363b565f9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "b233fb66-1564-4353-9b3c-c627d75c531b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "76bb3754-6f10-4459-a1bd-d933d7348b5d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "9f0d8ce1-bc09-4b8          4-89b2-4072cb2d55ef",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "b199a678-e9c2-4538-b90c-5128e63d860a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "9cf052f6-cc22-43be-9597-63076e6dc10b",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "991653d4-3c23-4d2c-8022-78949cb6d0e1",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "aedc8ef5-8b25-4256-8a72-e8398696b441",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "2a451468-7c48-40e8-abdf-31884217979c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "9c33c93e-8679-4915-96c9-d4a670869dcf",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "af71846f-b345-4668-b5fe-a6a7e82f2872",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "03a8bdf6-0353-43ab-a048-87fde0cd01d4",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "e45bdb85-1ae8-433c-9747-c30460d53354",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "305a4366-18ef-42a6-bd54-3f80d6883e7c",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "e2220db2-72d9-40e1-8ebc-4df73e53bacf",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "2be61726-ec64-42f5-a9b6-457e453881db",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "4ef3f1d8-2831-40ee-9849-eda1dbb71218",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "7817ff8c-dedc-4755-8879-cbacdd4838cb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ceee3abd-d3b8-458b-a6d3-a583bf394c26",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "b2720802-1356-4d51-8014-66e5f9e8d31c",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "e5fc3e00-3649-4014-9d33-0afe75f14b58",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "ee37ddd6-a5fe-4333-83bd-3f95f508140d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "f0e961f2-a8f8-4443-bec8-9f696c8782fb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "d4f4b2b3-6c66-4ed6-b7f3-cdd94589e83e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "f31ec8a1-fd11-4945-b19e-1568bbbfc340",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "0c14ee65-aee2-417a-af7d-add56cf9ac5c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "e775d9eb-1f1e-47c8-be06-bfc9e9d0f202",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "8 -1子选项",
+        "id": "3518dc42-9713-42d3-b8b1-ba06dc65fb52",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "00f503f4-5cc0-45e8-b4a8-412a9e0c05c6",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "2ad9a50b-018b-4657-b1b7-7989d42f7e5c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "b68407aa-f4ab-4fa5-9c4b-2df0d1b6ef15",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "a4fb9afa-9597-4b21-b332-983df3f40f8b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "128f0771-d6df-4fb1-a272-6d1f97301b3c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "90cedbf5-363d-4062-aaba-ed30bb85ef96",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "ee147592-ae1d-4fd0-8659-b9117c128d66",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "0503bc9b-ecd4-4fd7-         Utils: ㄕ b132-daf07c7e3dbb",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "58f2de6e-f42f-470e-b3c0-ac4f51e15a73",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "f2fa6b8d-1066-4c7f-9714-58ba6caecdb6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "dc2fe23a-10e0-49ce-a38a-047e4a928cc1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "a7587398-5f8a-455c-8b23-e3543a0cb385",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "04540786-c3fa-4e7a-b06f-e11ac71f434e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "f7d3d922-2e52-4b96-a5e8-452e2f545d07",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "519aa14f-09d4-4a1d-bbae-cc86146d3d24",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "0e6a50b8-b7c8-4e67-bfd0-c24f7be15e3c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "52f09ef9-d35e-480f-9c51-456ee1de5cff",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "79b81a24-38f3-43fd-a4ea-08af79762b39",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "fc2e9464-e7e3-4012-989b-67ec6bb2f080",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "610c7dd7-b09d-4531-a99f-31ff807313df",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "93756ddf-8cb1-4d40-914c-ef782edff636",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "f3a148d2-b9d3-4341-b9e3-2edb27a664c9",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "7d83a24d-80a3-4467-b6a5-ae79a42581d3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "05e927c6-1aab-4414-a1af-9cc65dd83c5e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "ee048db2-bd1f-4db3-a343-4ad6e5dd7993",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "cadb4660-7a6f-4c37-a5e3-a0a4b16a83e2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "7c18dea0-0c40-4921-a77f-59abd42988ab",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "e978453f-1688-437d-9968-217a6ed8e336",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "2770a70f-0cb5-45f9-a97d-c3651447b3de",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "f1aa75b2-f3c4-4037-a1f8-9cf2283d7f46",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "98a87ad1-1a4a-49f8-a45f-16cc3f67d5a2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "c0177e88-0465-470f-be5b-7d46a650b37a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "a08c44f2-273d-4456-8a1d-295ada73ba11",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "c3bc395e-9a92-4887-8e56-d788074e5538",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "57d2101a-a96e-4fed-b89e-8568ca297986",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "9a728f3c-5054-43cd-bd7e-d48a0e313fa0",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "c1c3e576-d43b-4781-a5d1-25f81ccca79f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "8bd72f76-46a7-4b36-ad66-0a459e0e070a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "eff4d7ea-61ad-4954-9b6f-37d5eaea79ca",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "f68e817f-aea3-416a-9219-855b11b32728",
+                "isChec          ked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "a1376c00-72dd-4d87-96d1-c05e06f899c0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "76b43a0a-f730-48ed-a973-ddeecbc0e2a3",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      }
+    ],
+    "level": 0,
+    "title": "0 title"
+  },
+  {
+    "content": "1 选项",
+    "id": "649af9d5-d63e-4995-b76c-b2b6251d8022",
+    "isChecked": false,
+    "items": [
+      {
+        "content": "0 -1子选项",
+        "id": "ec8f870b-283c-4cdd-9250-a4f29956731b",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "78ca9865-2e0f-4760-954c-6bc6bab57661",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "6e20dfa4-4eb1-4861-b98c-4dbbc335e172",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "e0b09ce5-f108-4e35-910a-ebfd03355ff1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "993d8b7c-45d7-4cc2-913b-f16c8ba08225",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "9c645276-144b-4b4d-b05f-a6e259c37205",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "33937e79-2055-4500-9299-c74ff16f7ea1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "481d772e-245f-4aba-8bc5-3f39ba8f9131",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "916738d3-9f1a-4e31-bc8b-c43aeca1cddc",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "f3b7d766-369f-46f9-a5c5-94279eb998a0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "4943bd06-4279-441f-a372-26351f04dffe",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "544ea41f-0006-4e9c-912c-04ddeb27f7d6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "63af44a0-c053-4272-bbd3-8231de74b3ef",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "bb697268-ac82-4425-afe4-06cd19faad2c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "86d5a30f-8be0-4567-812e-35dd06954f81",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "45586a29-b47a-449a-982d-e117823f0470",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "302d350b-f3dc-401f-baa0-232acfb1e1ee",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "17c7aee1-3f18-49a4-b62f-8e6a36b00ef1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "4fae1536-a115-4028-9b73-ca04345ef936",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "881107dd-a893-4e18-932a-fe8f63534b33",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ce682fa8-3cdf-44a6-a805-75036f6c3525",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "aca4cfcf-7c8d-4ef2-bd06-e5270de0b411",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "7bde77a3-32ea-43dd-bccc-670444d9c89b",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "e2f7a07b-79d2-4658-95a1-677f54520ac3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "6a7c85a0-84f7-4830-8a12-df9a5afd74e0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "a958d20c-19a0-4db4-b1f1-a7c3fba4b1cd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "341e1129-b942-4fee-a3c5-c7364c80092f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "d5a0a844-d035-4e70-9791-2dc969968248",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "eb6862ec-3267-430e-b29c-2832533b4c          fc",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "f0a38ae7-ef5a-4c4f-abd6-936539d53a21",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "2ff2ea8d-9d13-4af6-837b-c516b528e39f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "d916ac5f-32cd-4efb-88ad-64d731ffa17a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "185b1b91-0ecd-434f-bc01-79a7d68c3327",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "02b7821e-8e39-4a5a-95a0-89d8a68b49f1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "2ccc5bee-97d0-4d13-b779-c28dde89a390",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "287ef6f6-16cb-420c-bdae-2838c111a73c",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "a5ade632-a4f7-4b17-be7b-fe6a02293399",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "8038711f-e719-4b76-8ee9-b4b52c1a5798",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "4ccfcdd2-6973-4492-b785-6e90b5bd23c2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "0b5deeaa-f57b-4996-a93b-3b639ea9be9c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "b536eabf-e0a3-4d0e-bcdc-b3118c274685",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "66cf477b-400a-4400-9a9d-7aa5c5df6e68",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "6b04f7e7-db7c-4701-bd97-e2e0475db9e7",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "1 -1子选项",
+        "id": "14f37a78-9c41-452c-8bbe-fe1f415a480b",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "314b0c94-d5f1-437b-9037-9a9bf8afc61b",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "8a71e693-cf96-478c-b4c7-a614010cebad",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "e1965850-cc87-4bdc-98b8-5169534fd726",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "39600e26-63f1-4971-9e95-b6960c4ad635",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "daac3b8c-7783-48bc-87a4-46c159022bec",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "68751d83-a3fc-4d7f-aa06-b8d1c7bbb684",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "1e732273-1861-40af-b6a2-25cb04ad45f9",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "1546b5cd-1841-4991-8246-b4ac46c0257b",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "82fc7286-dcd6-4e07-b060-0887591ebd46",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "13ca5bb8-9475-4379-a51d-021874f2f579",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "f5fbb7dd-5844-4ad9-8e5e-127920b392b7",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "8c80e6e8-cbaf-4a28-a606-b8d0a549fd10",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "2e1896f7-df0f-4625-b19b-db2c2bf3a8c3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "2abc9d28-253b-4a5e-a236-ecfa342ee3e6",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "2e4c156e-fa01-4c44-9e5a-0528621af402",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "28dd7bea-55f4-494c-bbab-b3593a2576ad",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "dd73c1dd-f86b-4c49-bae5-6809246f787c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "556b1312-d0eb-4c3a-b253-3fd8107d1640",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "4fc9a8d8-5e1f-4b49-92e0-9186c05fd4b1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "87787b20-c0be-45c3-becd-2d6e104fb5b2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "76c18925-ab52-453a-8711-c2f234b2ae20",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "461a9970-5d1b-4b49-98c6-507859f3e432",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "2937e118-4e00-4c66-b735-e8e2cba0b4f1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "408d4409-0100-4e19-886b-9d939b266a5f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "e2fb3f3c-19e0-446c-8be5-87fc91f1d206",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "50757499-e1d9-4ec1-aa28-7d7994aa8a61",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "05a97183-23ea-4fa1-8a10-ff73e1207a9e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "72fc1f76-68bc-47c5-a1d7-c7b1e5c5a535",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "0cfdcec7-7b21-41a8-861d-65931373e40b",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "6630a8d5-76bf-4c50-a54e-e7db69930e7d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "a755fbbc-e78f-4c9e-9cc3-58beba6aeeed",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "9a4eed53-e4ae-4e69-939a-09bf96cffadc",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "31d30442-42dd-4082-ba1f-18a9d250a692",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "a8726979-90cb-4855-9af6-cd5461d4f943",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "b288632e-489a-4bda-9d92-18e1063b0117",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "bcba5f6a-a807-4868-93f1-32ffaaba7cb2",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "277fe85c-ce5a-4142-bc62-b893ce43e371",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "f065ee82-6af1-4c65-99d1-9eeedf10d409",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "954e6c2d-4fe2-46be-a6cb-774f7135d033",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "9f31c119-7e5f-4050-8f6d-c6a5f1dbe4cf",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "2adc168a-3fde-45a8-839b-c25967ac836f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "43ea3a6e-5e13-4395-a040-df299c264bd7",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "2 -1子选项",
+        "id": "f75ac439-5dcc-48fc-a345-1ba65cb8e53d",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "987b5211-8361-4b11-bdd2-c1efd13521b3",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "068fa92a-68f2-422e-aabe-83c740de24eb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "7a8eadfa-0f97-4841-a72f-921f087f5504",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "f872bde0-55f1-4011-841c-a055e8773823",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "a45aba10-815a-4c2b-b27e-0199b833bccb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "7d2c5724-f376-4d08-848a-e19efd8ec524",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "7900a515-0547-409b-ab99-96f7edda8fde",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "f9c3dd41-26df-461d-8547-cfdc802923b4",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "7dac2adb-0e21-41fa-bddf-2968edfdbdea",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "0e5e84a6-5427-45d5-aa6e-34a0092dfaea",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "fce873c2-bcd8-4652-aac7-66ac11c8bc49",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "174166cf-5043-4345-88c9-133567e46698",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "8f96d113-18da-441c-8493-cca8731e7d6f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "ac13773b-1fdd-4b4b-8fec-abd859f52e38",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "d410106e-6605-42e8-9f06-9e0fac498bff",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "a24ccb92-3437-4c68-8278-36d4a4fa2b7b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "d9a5d68b-0f91-4f83-b545-9c1d2fb2a1b4",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "bf1d9888-a37c-4273-85a3-5afa7a01155c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "e24a8a74-3248-43ca-b6ac-493beca8a9bd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "df9104f1-5ef0-41bc-8afd-354570867569",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "abd3c4f2-ac73-49b2-8e49-f2dddbd6831a",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "8a99befd-db18-412b-bc34-513c44f9acf3",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "1710111d-fa71-4719-a477-14999d05ad67",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "86f46687-29c6-4236-aeba-3ee185d15c03",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "1f1e47d8-53e1-45fe-b189-11f348bb94e2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "54c4cc7a-453b-4a34-9289-e87acf28852c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "70849aae-49ae-4cbd-b405-f388cd5a956b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "1e646208-6fc3-4e62-a94e-cb7c6bf48a0c",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "05f203e1-1a5f-4efb-95c0-50ca6eadb9a6",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "7b580658-c9cb-4d9e-a32c-fb08c5e0ca2c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "00a8dbf7-bf51-40be-9e81-9f9c6db83e23",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "e5a8e295-c751-40d6-a3b3-c4a24bb79486",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "212cfb1b-0a5b-4b71-a5ff-2fd88816b0ca",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "dcebaed4-4784-4ee3-bd67-753c5b0d86f9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "3f2c5f87-b4e3-4efc-b227-ad7688065a77",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "df20290b-cf05-443c-bf69-85d33d9adafa",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "7c0b6111-b5d4-4a9b-9d71-79048f67045b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "0e597088-1976-4df6-ba91-f045c190012a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "b93dc3b6-5cc5-4cb5-b6cb-5cacb8acea01",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "1c6f5c44-e7d7-42d8-92cb-6d1accf58a85",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "01ed93fc-a78c-4442-84d9-06bd225c0ceb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "58f78948-6450-43b2-a630-c55c15fba41c",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "3 -1子选项",
+        "id": "c0052885-ab60-4400-b242-3935f99ffcd5",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "b1cd256e-ea25-4466-9d2f-e31ddbd68721",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "1a08c87b-27e1-41f1-b2c5-3a0539bcf120",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "2a5aba13-e363-41e4-97f5-73cbd6798f75",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "f3f6f837-9f13-49c4-afb5-58f087a00d8a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "dd1e74d9-7491-432c-90e8-c89a00307eaa",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "93d4c561-8bcc-4965-bb9d-df4df4e9f6aa",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "94d52078-8b0a-4e23-81cb-d4343c22ff8b",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "cdd3b5b7-9b03-49e0-bfc1-87306ccb3a65",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "279faf36-cfe5-41d8-a584-f27a869b12ae",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "59e464cd-2e31-4fa5-851f-474718d5ac5f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "65c35813-52ed-4692-a57f-d6feeb518051",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "fc44a70c-d045-427b-b301-66e12eec6723",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "8fe07ce6-5e2d-4439-a02a-df1e22874932",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "f6d9368c-0858-4893-8de1-28739f544add",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "b3c7b584-df4d-4ebe-ac25-2fcc9ba88538",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "a284429f-d261-4153-a30f-c05717658171",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "b364d528-546c-4768-9fbd-dbe89a0c634b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "28b6e275-880e-4521-a457-675ae62d9798",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "0151da5a-9dac-446c-84a2-681355406ee1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "73449d53-4eca-4deb-a49b-3fe59d7fb9c2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "b69b45c6-ed61-4128-97f4-ad2711c01f72",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "4675ccfe-a71a-4e83-98ce-03a6707e7ca3",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "b3caaf6b-64be-4704-8e52-8c9294564065",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "7cd87a99-0bdb-4b43-b176-2a7b6b2ad1f4",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "52ff742e-0594-423e-9c3e-bb0d71174159",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "bbc57f8f-8661-425b-94a8-2627b9e32787",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "d1ab5e9f-81cc-48c8-90f0-f120e52db6c0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5           -3子选项",
+                "id": "dc708e60-b2eb-4a94-8007-621adcdd5c7f",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "c94aaf99-07ee-4e94-8cb0-d94c1d0991eb",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "90911b70-9963-4af8-a0f8-fb095ce03f51",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "b2a58879-bb41-40f9-87bc-2fee01e9c7f1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "a6dfd49b-1f18-45b2-81cf-86e1e645b5d6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "eed82d82-1e86-4e61-90b4-0a0145406596",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "46acbc7c-7b68-4eb6-a658-42bdfef06672",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "1e0ab3a0-f3ce-4b11-8236-4b5a0170b7cc",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "c8fc20b3-cebc-47b4-b292-cc801f963b28",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "1b2e3677-3792-432f-b9a3-d40b5f6b93f0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "9fdb8cac-f6de-432f-9d55-1d479f4ea562",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "1b6f7da6-cefc-45a6-9aa7-a006c72f28c3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "1e2fb220-eed0-4a5d-b26a-864b5f3a5098",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "6f757dcb-19a5-4093-b25c-6f11a3321359",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "b546d468-7f5c-4233-8d02-18647a459998",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "4 -1子选项",
+        "id": "5157a773-cc3a-4c5b-8f9d-c7e6ad520a5f",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "9918a7b5-ff92-487b-ad85-5291b7e434a6",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "179821a1-9913-4f06-a7d9-e855da937360",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "3caf42c9-c88b-4d9a-b5b2-c6016d5e7fcb",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "3c6ecd0c-b56d-42e6-9d47-087bfccb6999",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "ea0d5227-01eb-4edc-a4ae-2c0afe09fddc",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "06b62435-638d-4d6d-84b5-3b290e92c396",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "2b362af1-674b-4097-8fbf-1b31e9dc4134",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "e3d8f30c-f15c-4f7d-8b69-c8a64a3949ef",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "f310f5db-5014-4daa-9193-284fbad1669a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "68056d1b-35d9-4653-9ba4-82d883f785d6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "8d94c0cf-db6f-48ec-a712-5e2966aba229",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "1cf6ebd5-13a8-4c5f-bbbb-1c0956becaea",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "cf713fea-efeb-4359-9f20-a3820151417b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "4d2ea126-3986-436a-9b4f-098bb7112c5b",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "28f24ae1-7269-490b-9456-127521f76d92",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "7fdd5daa-65d5-4103-a861-b2d55344b62b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子          选项",
+                "id": "5cfcf5b3-c9c4-41d6-8539-96304a23cda8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "142080c0-7a99-4774-8115-43104e5c623e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "b0c26f71-df51-4313-9923-39b9a3c08cc0",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "6ad4480c-7de2-4827-8e6c-830db68912bc",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "740ff98e-395c-4611-881f-bb7e2291dbd7",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "5d733349-564a-4f2f-8c67-fed4c3807593",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "a46bc194-a6c4-4d3c-a008-167d276a3995",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "10df9a92-d0b3-460b-a776-179cd1fc76f9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "80f2644b-a82e-4ff1-9551-9fd1ab8ba665",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "4b428ca9-193c-4aed-8e59-76525e104e47",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "d1912ca0-c30a-4c9c-9590-fe8364898ad9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "e00b0a1a-9b12-4b6f-9a51-cd8a224202ec",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "260a1b47-fce0-4944-8208-930642235b11",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "948ef140-9d87-4703-8b5f-3360b53e1f12",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "999b1e98-5fa0-4fe9-97d0-466005914d6b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "09c6a061-1f60-41a4-99b0-bfed97c6655b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "23a7790a-3b50-461f-bd0e-1c5d78f9d5be",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ae5aa62d-d8c2-4066-bf00-a04a0b4c854b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "de2fd45f-ce46-4146-8123-e061ccf7e026",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "f1da3d80-dc3d-43ab-8fcb-dd39649d04cb",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "ff984847-7839-416e-b5d3-bec503dd13e1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "2ee6d64e-9f85-404e-b2df-a44754696c72",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "8d473c5c-1fbe-4a1c-b99c-2e70bb153cd8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "88446a6f-a935-4b8a-b3b9-6bd48ad9c00c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ae30186f-4c43-4197-a16d-2c5645e5404f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "15bd4653-5753-4e09-b0cf-90af4a391796",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "5 -1子选项",
+        "id": "f99b88c0-96b5-48d3-aed8-02c2b52a07f9",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "8e3d73eb-544d-48b9-96c7-e48ef10f4b9f",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "61275304-9a72-48e0-ac6f-b2aa69d5b817",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "b39af000-5ee0-4e0d-934f-69ea2fbe3640",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "845cf822-86af-4c10-a208-0785b80bbac9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "17087b9c-479c-4be6-b05e-72c8c2feb5b3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "2392          cc08-bef1-458f-9c6c-62f56f2e5f0f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "5ecd397d-116a-40a4-9974-c49ca1a3e353",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "60de41d5-bcbb-48b1-b06b-474c3d3b791c",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "7fa71ae0-34a7-48b5-8f45-25baf240e656",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "2bf47261-bca1-4668-99e2-8a98e4346b52",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "36ed47ca-ce5f-42c0-8c85-1f10ca8f3452",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "c58f6c2b-b92c-45f8-ad24-c6037579cba4",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "47b6f436-470d-4aa4-b4fe-243b55bfb31c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "5f75008e-4dfb-4fe1-ab5e-47f741d3aa3f",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "17ddb358-bf9b-498e-b74f-c1434a4e013c",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "e964266f-e0d5-4126-a521-966028ccfb05",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "c0584159-ee71-48d5-88ef-5f39e7b27ffd",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "c03f1722-1f3b-4184-935e-6a11bab6ca4f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "0157f59d-ac69-49f4-aa1b-48977f83559f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "7e96ad52-67a4-49ee-a393-36aeeea878ae",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "5c6eb949-2fb4-4174-a396-5264c14b3ea4",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "65eb6881-1991-479f-9e66-8bbd2b798eba",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "81ed2490-31f3-404c-ab00-800a7264b8a9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "690f97ba-3e79-485b-95f8-9bc47dcd038b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "c4118772-2a67-4eac-84b1-a13508527d2c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "dbcd2949-25ba-4d64-8ae1-bb6aa2098a89",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "b0994f3f-8249-4555-81fa-e0f13f94ac1f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "9d299a40-73c1-45e9-a275-294a7ac7ff36",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "8fa8399c-1f7a-475a-9089-7a8c73778f85",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "cd5e9cb1-b965-4892-869d-abcee4a5b610",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "393d022f-c7da-4b6c-9a87-36a38ef13a49",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "b200cde6-5e5c-4805-a7df-085ba37a1c62",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "32d48596-b318-4ad8-96f2-068fc1f0335e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "d4006b3b-f844-483e-9b01-15f89fb56305",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "6823dc49-1ff7-47e6-9608-8af9f43035b1",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "083e687d-d2ae-4f35-aec9-81225dcfdabc",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "652e4786-366a-4d9a-9c92-23000efa3f3c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "b7a739e9-3af5-4033          -b50a-14f55b56c94c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "53d57663-b0f7-4053-af09-a0b6c59dc859",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "4f8d6562-1beb-4460-8624-77d7d2637950",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "c9e3e308-a299-4853-b247-d49d3a2a94a3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "699b5192-1600-4dc1-aa45-03c68b22fd3e",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "6 -1子选项",
+        "id": "dc076c1f-8e07-4a44-8e04-50008741210e",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "769dc5b4-88ca-4644-ba42-95fd4e61048a",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "c348d676-4b39-442a-943b-770c7ca6699d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "2e65372a-dca0-4014-94af-0cc3ca999f61",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "1be6153b-3666-41c3-9c34-da6d17ec8a2b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "cff7390c-58d5-4037-ae09-91740131abe5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "88fde034-e9c4-4a4a-b7b0-d7d55bc8f934",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "0c8f2942-dc42-4e1d-8105-bb46af8606cd",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "33c8f118-8249-482d-8e7b-69c952dcbbd5",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "f0b77578-0eff-4f79-b3fd-c0624d1af194",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "382461bc-6e4e-4351-a4ba-d38a81914c62",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "9f7cf6fe-2fb8-43d2-be5f-5108341ea6d1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "6e59d494-212a-4e1b-af27-d6dc03644b3b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "e513606c-c269-4fce-849a-d4297ab513d6",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "51664aa3-a82a-44fa-9239-f521b9ed85ec",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "01ebeb06-019a-4e30-8b19-5f95b14309a0",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "6c7f8a5d-64b5-4920-9bdd-f176a01b4c98",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "1d80b21b-1e2b-4038-9eb5-7149539f1714",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "cb603d2c-4260-415e-ae38-1a49ad61a194",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "be9c3f0f-5409-45fd-a4b7-1eddb09e121b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "ada7e2bd-05e0-41a7-9de9-92ab8a1deb0b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "d6f0fe16-2b9a-4b9d-81ce-11f551a27c9c",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "e2f37c08-959c-496f-9f14-a35381cb6d82",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "e07612e3-8b55-45be-8dd1-7b47d7307130",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "8f865f3e-a7f0-4c14-b82a-a8cd4d41db61",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "556e8340-46f9-4543-b248-a5d2cd87ef7b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "83e60fa5-f6a3-4b90-8632-4464654787a3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "2c120cbc-4d0e-4c84-8405-27e2e38b          45dc",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "213c31a9-92ac-4e77-835c-bf30de007d6a",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "7c6a63ec-f6e7-484d-8d65-63bce318e5bf",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "a2bebf87-2d69-4963-a88e-3f45e6e1efe9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "c0b477cf-e438-421a-b446-6cc824fe01ef",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "e4c5661e-47ee-431d-8b04-269e95fd4364",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "87cf0962-3d22-4534-89d5-506709f98a3f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "eb99580a-ff4a-4ece-8d5a-5e7cad3bb699",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "30dd9535-404e-49e0-a090-edf9b93dfe90",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "10a203e5-58e7-4626-a6ce-d664e2112943",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "e65765de-119e-4919-aff2-cb85c0bb9d0d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "697adbd9-65cc-4b9a-b734-eb15e319e470",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "e6a68043-db1e-44bd-81d0-be3d4613ce3e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "e8c2da89-e8a4-4077-9068-5c2e1a2b1c37",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "d9c5928a-7329-47f9-a919-8e9fccbb1b00",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "31a1cdc7-dd0e-42ac-b1a7-b39c00e474cb",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "7 -1子选项",
+        "id": "27476311-f3eb-4cf5-b253-24c17bd80936",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "2f8f3fbf-4a37-4272-bddb-86b4d9e7d569",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "6708cd53-4c0d-47ed-bb70-7c1619a10eca",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "ddd172bb-6b18-484a-a9c9-02e966168659",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "7369c9f5-7b27-41fd-8508-66e27f0efdc7",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "26f120f6-3e0f-45ae-a8c5-1581e0d873e9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "8596d6ed-6769-45bd-8092-7c17cc931480",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "593fac5e-53c0-44ac-9583-94b53efd5a21",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "7e68edba-e557-449b-9e1c-7926a4d7d309",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "cf178bf9-5fca-498f-9670-e96978a45e28",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "919f6bb6-ab86-4b12-aa6b-4199804ebdbe",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "2bdc6922-ae70-41a8-a1bf-cf825eefe91b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "77b86797-3556-4b23-beca-972591383a0b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "36880f93-3764-4094-af86-1b0280b371c8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "d181b6d9-1ac7-434f-ab40-f1388aed3a6a",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "fde89cc1-f440-4bbd-b67b-2db22400839b",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "23c76baf-3940-40b0-ba24-2ce602681e6b          ",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "2a8efca4-1919-40ef-b959-cc5c0b20ea08",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "f667dbea-6a8e-4970-9816-73c43a8248d8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "80fd425d-fa68-4adc-8902-a9e888be4981",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "217cc34c-a93c-407d-87af-3d6d91e27cbf",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "381b8ac3-ec02-418b-b09a-309f310b709e",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "3cd432cd-3c32-408a-b116-3432c67be1de",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "885be23c-eedc-4592-9e32-f0c9e622685a",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "ad072294-8c2d-49eb-9801-ed1de97912ec",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "4c90a5de-a63f-44b8-88ff-20848dfc3541",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "17ebc1c5-b9c6-4a53-9194-e6444cf1c1a2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "a0773608-b142-462c-9ecd-5657d65f97dc",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "8b982aa1-7b4f-49f7-9b0b-cf9f609f1eb4",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "3614c883-63c3-4009-b8b5-1d4fa4dc24b2",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "c7e8c1a6-20b1-461c-9ac3-d5d751edcc21",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "fdabca4e-03e6-4a80-b5f0-8adb049c9b7b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "2e6a5115-8478-401b-b515-0af1167a0321",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "2e397368-c13c-4b46-9af3-0a8c1dc7e84d",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "535502a6-9b1b-4e98-8485-81cfd010ac15",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "d1a7adbf-64fa-4575-b37b-99101841da1a",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "d2554f6c-ec96-4409-bbe8-070cf9f07166",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "b57f4b48-11e4-49e7-8159-cd8a40406043",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "6bf88676-bc87-4d5e-9363-d3ab14d36fe8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "841e4300-cf74-4e58-ba4e-c601e7ef678f",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "194feaab-4e32-4cba-807e-2add991235e2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "0fe855f9-4451-41a9-afdf-9f75b5a84af9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "ffe5347c-bac2-44c6-b12b-abd297f8892d",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      },
+      {
+        "content": "8 -1子选项",
+        "id": "8fa9fd34-2328-4ac8-8bf0-7f083fc5165a",
+        "isChecked": false,
+        "items": [
+          {
+            "content": "0 -2子选项",
+            "id": "e4856ad2-1dd4-46dc-9273-23187f421fe3",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "b68582b4-9c89-4906-b634-934a9a561682",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "ce731e27-9884-497f-a766-814832eb1d95",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "548f5105-9c0b-4864-83ee-d557689bd458",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "28d1fd5f-b834-4197-8720-f7222420c6b1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "96956eae-4af5-4436-9ed3-a1514195e9c3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "420957dd-77b1-494f-9c6c-665707374e1e",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "1 -2子选项",
+            "id": "c1181ea2-e129-4c71-946c-55ac77ee2380",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "2a4082ae-857d-45a0-98f1-4d67d465db4c",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "4a9fecdd-2afa-4d76-a0fe-95776e8fcf40",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "dd79e3dc-36f1-4ab5-95ce-d9acea292a37",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "9fd1f8ec-0407-44a8-b558-ea7d27b7c77b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "b08ef686-b45b-4e7d-9fae-6601a198979e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "f1a85944-b059-4a08-971a-c58f1c8e03c1",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "2 -2子选项",
+            "id": "d941e4d4-b50d-44e7-8b70-1d9e1416beb7",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "83fcfc50-d499-4755-90e9-ed308f94cb11",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "29928aed-1c67-49ac-b5b6-151805cf3915",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "ff956803-5fdc-4146-adbd-2becba4754a5",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "968b0c75-883d-4912-a6ce-9e365aaa93e3",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "9310ebfe-3bdd-4c4f-be7c-2a03a0bbc2ce",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "f7244e7c-de1a-466b-b86e-f3659b5beabf",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "3 -2子选项",
+            "id": "dd3bd457-4574-4d2d-971d-348734b0a172",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "acf6d20a-bec1-41b9-ba73-3c1f03b075b1",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "d536bb0a-dbbc-495b-baf4-ac80dceb97f4",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "02196180-f4e0-4000-ad97-c33e40a864e7",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "6ef0f791-bed7-42c7-9dfc-7a8317b22776",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "d0d2651b-8e2d-4a28-a1bc-2c0d310df78b",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "a7c658c5-c11a-44fe-beac-2eda5e822f49",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "4 -2子选项",
+            "id": "298ccdce-c938-426d-bc11-2555c5483005",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "c968e0e1-8c97-4a39-827a-399dfa9bc759",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "78964756-7adc-4a21-8b82-49220df99e13",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "7856694e-b027-48f0-a3e3-d2b41f3bf7cc",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "47994262-e900-4529-8534-5fbc649df3de",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "2989018c-18da-4af5-8f9b-233d8e8acfb9",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "8b6d26f1-81b4-4b7c-af8a-252e12560958",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          },
+          {
+            "content": "5 -2子选项",
+            "id": "f295977a-e7c6-4707-8238-5a229455aeec",
+            "isChecked": false,
+            "items": [
+              {
+                "content": "0 -3子选项",
+                "id": "3d83dfd9-f4f8-4479-85ee-4595a7053c4e",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "1 -3子选项",
+                "id": "6c89d361-d49b-4e0e-9921-ef144af4ef85",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "2 -3子选项",
+                "id": "98bfef93-d132-4c5b-afb9-72585cc82fc2",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "3 -3子选项",
+                "id": "61f35de7-a850-4828-9bc1-bda9e24e1cd8",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "4 -3子选项",
+                "id": "b83d881f-c0c9-4889-a11a-a2bbbd88bfee",
+                "isChecked": false,
+                "level": 3
+              },
+              {
+                "content": "5 -3子选项",
+                "id": "49c8cfe1-a280-4261-8792-bc72b4a1f66f",
+                "isChecked": false,
+                "level": 3
+              }
+            ],
+            "level": 2
+          }
+        ],
+        "level": 1
+      }
+    ],
+    "level": 0,
+    "title": "1 title"
+  }
+]

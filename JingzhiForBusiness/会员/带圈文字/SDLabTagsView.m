@@ -54,14 +54,9 @@
 -(void)setUItags:(NSArray *)arr{
     
     int width = 0;
-    
     int j = 0;
-    
     int row = 0;
-    
-    
     for (int i = 0 ; i < arr.count; i++) {
-        
         TagsModel *model =arr[i];
         int labWidth = [SDHelper widthForLabel:model.title fontSize:11]+10;
         UILabel *label = [[UILabel alloc] init];

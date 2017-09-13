@@ -18,8 +18,8 @@
 
 #import "WBImageView.h"
 #import "WBImageViewItem.h"
-#define kWBImageViewWH 75
-#define kWBspace 10
+#define kWBImageViewWH 205*Width
+#define kWBspace 22.5*Width
 @implementation WBImageView
 
 
@@ -57,7 +57,7 @@
         
         //        [imageView setImageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",PHOTOURL,_dataList[i]]]];
        //       NSLog(@"%@",[NSString stringWithFormat:@"%@/%@",PHOTOURL,_dataList[i]]);
-                        [imageView setImage:[UIImage imageNamed: @"86.jpg"]];
+        [imageView setImage:[UIImage imageNamed: @"86.jpg"]];
         //        [imageView setImageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",PHOTOURL,_dataList[i]]]];
         
         imageView.dataList = _dataList;

@@ -13,7 +13,7 @@
     self=[super init];
     //defaults value
     self.spaceBetweenViewer=1;
-    self.viewerBarTint=NavColor;
+    self.viewerBarTint=[UIColor whiteColor];
     self.viewerBackgroundBlack=NO;
     self.navigationTint=[UIColor grayColor];
     self.listTitle=@"图片列表";

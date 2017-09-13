@@ -8,10 +8,12 @@
 
 #import "SearchHouseTableViewController.h"
 #import "SearchOneCell.h"
-@interface SearchHouseTableViewController ()<UITextFieldDelegate>
+#import "MenuChooseVC.h"
+#import "HouseDetailMainVC.h"
+@interface SearchHouseTableViewController ()<UITextFieldDelegate,MenuChooseDelegate>
 {
 
-    UIView *topView;
+    MenuChooseVC *topView;
 
 }
 @end
@@ -66,47 +68,46 @@
     [searchBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:searchBtn];
     
-    topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64+1, CXCWidth, 85*Width)];
-    topView.backgroundColor =[UIColor whiteColor];
-    [self.view addSubview:topView];
-
     
-    NSArray *btnArr =@[@"区域",@"类型",@"价格",@"排序"];
-    for (int i=0; i<4; i++) {
-        UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        statuBtn.frame = CGRectMake(CXCWidth/4*i, 0,CXCWidth/4-2*Width ,85*Width);
-        if (i==0) {
-            statuBtn.selected =YES;
-        }else
-        {
-            statuBtn.selected =NO;
-        }
-        [statuBtn addTarget:self action:@selector(changeStatuBtnOut:) forControlEvents:UIControlEventTouchUpInside];
-        [topView addSubview:statuBtn];
-        statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
-        [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
-        [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
-        [statuBtn setTitleColor:NavColor forState:UIControlStateSelected];
-        [statuBtn setImage:[UIImage imageNamed:@"sf_icon_down"]forState:UIControlStateNormal];
-        [statuBtn setImage:[UIImage imageNamed:@"sf_icon_down_pre"]forState:UIControlStateSelected];
-
-        statuBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;//左对齐(UIControlContentHorizontalAlignment、UIControlContentHorizontalAlignmentCenter、UIControlContentHorizontalAlignmentRight)
-        [statuBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -statuBtn.imageView.bounds.size.width, 0, statuBtn.imageView.bounds.size.width)];
-        
-        [statuBtn setImageEdgeInsets:UIEdgeInsetsMake(0, statuBtn.titleLabel.bounds.size.width, 0, -statuBtn.titleLabel.bounds.size.width)];
-        statuBtn.tag =230+i;
-        [statuBtn addTarget:self action:@selector(changeStatuBtnOut:) forControlEvents:UIControlEventTouchUpInside];
-        [topView addSubview:statuBtn];
-
-    }
+    
+    NSArray *btnArr =@[@"区域",@"类型",@"价格",@"排序",@"123"];
+    topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, 64+1, CXCWidth, 85*Width) buttonArr:btnArr];
+    topView.backgroundColor =[UIColor redColor];
+    topView.delegate =self;
+    [self.view addSubview:topView];
+//    for (int i=0; i<4; i++) {
+//        UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        statuBtn.frame = CGRectMake(CXCWidth/4*i, 0,CXCWidth/4-2*Width ,85*Width);
+//        if (i==0) {
+//            statuBtn.selected =YES;
+//        }else
+//        {
+//            statuBtn.selected =NO;
+//        }
+//        [statuBtn addTarget:self action:@selector(changeStatuBtnOut:) forControlEvents:UIControlEventTouchUpInside];
+//        [topView addSubview:statuBtn];
+//        statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
+//        [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
+//        [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+//        [statuBtn setTitleColor:NavColor forState:UIControlStateSelected];
+//        [statuBtn setImage:[UIImage imageNamed:@"sf_icon_down"]forState:UIControlStateNormal];
+//        [statuBtn setImage:[UIImage imageNamed:@"sf_icon_down_pre"]forState:UIControlStateSelected];
+//        
+//        statuBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;//左对齐(UIControlContentHorizontalAlignment、UIControlContentHorizontalAlignmentCenter、UIControlContentHorizontalAlignmentRight)
+//        [statuBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -statuBtn.imageView.bounds.size.width, 0, statuBtn.imageView.bounds.size.width)];
+//        
+//        [statuBtn setImageEdgeInsets:UIEdgeInsetsMake(0, statuBtn.titleLabel.bounds.size.width, 0, -statuBtn.titleLabel.bounds.size.width)];
+//        statuBtn.tag =230+i;
+//        [statuBtn addTarget:self action:@selector(changeStatuBtnOut:) forControlEvents:UIControlEventTouchUpInside];
+//        [topView addSubview:statuBtn];
+//        
+//    }
     //横线
     UIImageView*xian =[[UIImageView alloc]init];
     xian.backgroundColor =BGColor;
     [topView addSubview:xian];
     xian.frame =CGRectMake(0,83*Width, CXCWidth, 2*Width);
-
-
-    
+        
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.tableView setFrame:CGRectMake(0,64+85*Width, CXCWidth, CXCHeight-20)];
     [self.tableView setDelegate:self];
@@ -133,6 +134,11 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+-(void)btnClickBtn:(UIButton *)cell
+{
+
+
 }
 - (void)changeStatuBtnOut:(UIButton *)btn
 {
@@ -430,10 +436,15 @@
     }];
     
    }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 
-/*
+    HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
+    [self.navigationController  pushViewController:house animated:YES];
+
+}/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
     
     // Configure the cell...
     

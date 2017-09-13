@@ -48,7 +48,7 @@
 #define CXCHeight ([[UIScreen mainScreen] bounds].size.height)/1.0
 #define CXCWidth ([[UIScreen mainScreen] bounds].size.width)/1.0
 #define Width [UIScreen mainScreen].bounds.size.width/750.000
-#define navBackarrow @"register_btn_goBack_white"//返回箭头
+#define navBackarrow @"sf_icon_goBack"//返回箭头
 #define shopingCart @"ShopingCart"//购物车数组
 #define member @"member"//会员字典
 #define agen @"agen"//会员字典

@@ -23,9 +23,10 @@
 #import "SearchHouseVC.h"
 #import "HYPersonalCenterVC.h"
 #import "ShoppingCartVC.h"
-
-
+#import "ShoppingMainVC.h"
+#import "DecorateMainVC.h"
 #import "ZLCGuidePageView.h"
+
 @interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate>
 {
     NSString *registrationID;
@@ -117,10 +118,10 @@ static NSInteger seq = 0;
     [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];
     
     //引导页图片数组
-    NSArray *images =  @[[UIImage imageNamed:@"bp_01_1242"],[UIImage imageNamed:@"bp_02_1242"],[UIImage imageNamed:@"bp_03_1242"]];
+//    NSArray *images =  @[[UIImage imageNamed:@"bp_01_1242"],[UIImage imageNamed:@"bp_02_1242"],[UIImage imageNamed:@"bp_03_1242"]];
     //创建引导页视图
-    ZLCGuidePageView *pageView = [[ZLCGuidePageView alloc]initWithFrame:CGRectMake( 0, 0, CXCWidth, CXCHeight) WithImages:images];
-    [self.window addSubview:pageView];
+//    ZLCGuidePageView *pageView = [[ZLCGuidePageView alloc]initWithFrame:CGRectMake( 0, 0, CXCWidth, CXCHeight) WithImages:images];
+//    [self.window addSubview:pageView];
 }
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -201,16 +202,16 @@ static NSInteger seq = 0;
                                                     initWithRootViewController:secondViewController];
         [secondNavigationController setNavigationBarHidden:YES];
 
-    UIViewController *threeViewController = [[HYPersonalCenterVC alloc] init];
+    UIViewController *threeViewController = [[DecorateMainVC alloc] init];
     UINavigationController *threeNavigationController = [[UINavigationController alloc]
                                                     initWithRootViewController:threeViewController];
         [threeNavigationController setNavigationBarHidden:YES];
-    UIViewController *fourViewController = [[HYPersonalCenterVC alloc] init];
+    UIViewController *fourViewController = [[ShoppingMainVC alloc] init];
     UINavigationController *fourNavigationController = [[UINavigationController alloc]
                                                          initWithRootViewController:fourViewController];
     [threeNavigationController setNavigationBarHidden:YES];
     
-    UIViewController *fiveViewController = [[HYPersonalCenterVC alloc] init];
+    UIViewController *fiveViewController = [[ShoppingMainVC alloc] init];
     UINavigationController *fiveNavigationController = [[UINavigationController alloc]
                                                          initWithRootViewController:fiveViewController];
     [threeNavigationController setNavigationBarHidden:YES];

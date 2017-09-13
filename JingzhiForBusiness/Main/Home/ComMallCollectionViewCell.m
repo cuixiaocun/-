@@ -26,7 +26,7 @@
 //        self.promtpmcLabel.textAlignment = NSTextAlignmentCenter;
         self.promtpmcLabel.font = [UIFont fontWithName:@"Arial" size:13];
         self.promtpmcLabel.backgroundColor = [UIColor clearColor];
-        self.promtpmcLabel.text =@"温碧泉里头白真凝润四件套（护肤）";
+        self.promtpmcLabel.text =@"林氏木业地中海小户型布艺沙发组合美式乡村7字型蓝";
         _promtpmcLabel.numberOfLines =0;
         [self.contentView addSubview:self.promtpmcLabel];
         
@@ -41,6 +41,7 @@
     }
     return self;
 }
+
 -(void)setDic:(NSDictionary *)dic
 {
     _dic =dic;

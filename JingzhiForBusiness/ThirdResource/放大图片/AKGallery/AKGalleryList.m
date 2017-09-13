@@ -44,10 +44,9 @@ NSString* identifier  = @"AKGalleryListCell";
     
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(5, 20, 44, 44);
-    //    [returnBtn setImageEdgeInsets:UIEdgeInsetsMake(6, 10,6, 90)];    //    returnBtn.backgroundColor = [UIColor cyanColor];
-    [returnBtn setImage:[UIImage imageNamed:@"nav_backarrow.png"] forState:UIControlStateNormal];
-    //    [returnBtn setTitle:@"返回" forState:UIControlStateNormal];
+    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    [returnBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     [returnBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     

@@ -57,7 +57,6 @@
     [self mainView];
     [self getDetialInformation];
 
-    
 }
 
 - (void)shateButton
@@ -66,9 +65,6 @@
     [[self rdv_tabBarController] setSelectedIndex:1];
 
     [self.navigationController popViewControllerAnimated:NO];
-    
-
-    
     
 
 }
@@ -120,7 +116,7 @@
     //添加返回按钮
     UIButton *  returnBtnNomal = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtnNomal.frame = CGRectMake(0, 20, 44, 44);
-    [returnBtnNomal setImage:[UIImage imageNamed:@"details_btn_goback"] forState:UIControlStateNormal];
+    [returnBtnNomal setImage:[UIImage imageNamed:@"sf_icon_goBack"] forState:UIControlStateNormal];
     [returnBtnNomal addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageViewNomal addSubview:returnBtnNomal];
 //    //右
@@ -146,57 +142,81 @@
     nameLabel.font =[UIFont systemFontOfSize:14];
     [bgScrollView addSubview:nameLabel];
     
-    UILabel *jifenLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, nameLabel.bottom+15*Width, 500*Width, 30*Width)];
-    jifenLabel.text =@"最高可抵扣积分：300";
-    jifenLabel.tag=301;
-
-    jifenLabel.font =[UIFont  systemFontOfSize:12];
-    jifenLabel.textColor =TextGrayGrayColor;
-    [bgScrollView addSubview:jifenLabel];
-    
-    UILabel *pricesLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, jifenLabel.bottom+15*Width, 500*Width, 60*Width)];
+    UILabel *pricesLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, nameLabel.bottom+15*Width, 200*Width, 60*Width)];
     pricesLabel.text =@"¥ 300.00";
     pricesLabel.font =[UIFont  systemFontOfSize:16];
     pricesLabel.textColor =NavColor;
     pricesLabel.tag =302;
     [bgScrollView addSubview:pricesLabel];
+    
+    UILabel *shanchu =[[UILabel alloc]initWithFrame:CGRectMake(pricesLabel.right+24*Width, nameLabel.bottom+15*Width, 200*Width, 60*Width)];
+    shanchu.tag=301;
+    NSString *oldPrice = @"¥12345";
+    NSUInteger length = [oldPrice length];
+    
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, length)];
+    [shanchu setAttributedText:attri];
+    shanchu.font =[UIFont  systemFontOfSize:12];
+    shanchu.textColor =TextGrayGrayColor;
+    [bgScrollView addSubview:shanchu];
+
     //线
     UIImageView *xian =[[UIImageView alloc]initWithFrame:CGRectMake(0, pricesLabel.bottom+10*Width, CXCWidth, 20*Width)];
     xian.backgroundColor =BGColor;
     [bgScrollView addSubview:xian];
     //数量
-    UIView *numberBgview =[[UIView alloc]initWithFrame:CGRectMake(0, xian.bottom, CXCWidth, 82*Width)];
+    UIView *numberBgview =[[UIView alloc]initWithFrame:CGRectMake(0, xian.bottom, CXCWidth, 82*Width*3)];
     numberBgview.backgroundColor =[UIColor whiteColor];
     [bgScrollView addSubview:numberBgview];
-    
-    //数量选择
-    UIButton *chooseBtn =[[UIButton alloc]initWithFrame:CGRectMake(300*Width, 0,450*Width,82*Width)];
-    [numberBgview addSubview:chooseBtn];
-    chooseBtn.tag =10;
-    [chooseBtn addTarget:self action:@selector(numberChoose) forControlEvents:UIControlEventTouchUpInside];
-    //显示
-    UILabel*  proLabel = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 82*Width)];
-    proLabel.tag = 10101010;
-    proLabel.text = @"数量";
-    proLabel.font = [UIFont boldSystemFontOfSize:15];
-    proLabel.textColor = [UIColor grayColor];
-    [numberBgview addSubview:proLabel];
-    //文字购买数量
-    UILabel* rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,350*Width , 82*Width)];
-    rightLabel.text = @"1";
-    rightLabel.tag =20;
-    rightLabel.textAlignment =NSTextAlignmentRight;
-    rightLabel.font = [UIFont systemFontOfSize:16];
-    rightLabel.textColor = BlackColor;
-    [chooseBtn addSubview:rightLabel];
-    //箭头
-    UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width,23*Width,31*Width , 31*Width)];
-    [numberBgview addSubview:jiantou];
-    [jiantou setImage:[UIImage imageNamed:@"register_btn_nextPage"]];
+    NSArray *leftArr =@[@"库存",@"分类",@"数量"];
+    NSArray *rightArr =@[@"99",@"基础建材",@"1"];
+    for (int i=0; i<3; i++) {
+        //显示
+        UILabel*  proLabel = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, i*Width*82,200*Width , 82*Width)];
+        proLabel.text = [NSString stringWithFormat:@"%@",leftArr[i]];
+        proLabel.font = [UIFont boldSystemFontOfSize:15];
+        proLabel.textColor = [UIColor grayColor];
+        [numberBgview addSubview:proLabel];
+        //文字购买数量
+        UILabel* rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(300*Width, i*Width*82,390*Width , 82*Width)];
+               rightLabel.tag =20+i;
+        rightLabel.textAlignment =NSTextAlignmentRight;
+        rightLabel.font = [UIFont systemFontOfSize:16];
+        rightLabel.textColor = BlackColor;
+        [numberBgview addSubview:rightLabel];
+        if (i==2) {
+            //数量选择
+            UIButton *chooseBtn =[[UIButton alloc]initWithFrame:CGRectMake(300*Width, i*82*Width,450*Width,82*Width)];
+            [numberBgview addSubview:chooseBtn];
+            chooseBtn.tag =10;
+            [chooseBtn addTarget:self action:@selector(numberChoose:) forControlEvents:UIControlEventTouchUpInside];
+            rightLabel.text = @"1";
+            //箭头
+            UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(700*Width,23*Width+82*Width*2,21*Width , 31*Width)];
+            [numberBgview addSubview:jiantou];
+            [jiantou setImage:[UIImage imageNamed:@"home_btn_nextpage"]];
+            
+        }else
+        {
+            rightLabel.text =[NSString stringWithFormat:@"%@",rightArr[i]] ;
+            rightLabel.frame =CGRectMake(300*Width, i*Width*82,410*Width , 82*Width);
+            if (i==0) {
+                rightLabel.textColor =orangeColor;
+            }
+        }
+
+       
+        //线
+        UIImageView *xian2 =[[UIImageView alloc]initWithFrame:CGRectMake(0, 82*Width*(i+1)-1.5*Width, CXCWidth, 1.5*Width)];
+        xian2.backgroundColor =BGColor;
+        [numberBgview addSubview:xian2];
+    }
     //线
-    UIImageView *xian2 =[[UIImageView alloc]initWithFrame:CGRectMake(0, numberBgview.bottom+10*Width, CXCWidth, 20*Width)];
+    UIImageView *xian2 =[[UIImageView alloc]initWithFrame:CGRectMake(0, numberBgview.bottom, CXCWidth, 20*Width)];
     xian2.backgroundColor =BGColor;
     [bgScrollView addSubview:xian2];
+
 //    //商品详情
 //    UILabel *promlabel=[[UILabel alloc]initWithFrame:CGRectMake(24*Width, xian2.bottom+20*Width, 520*Width, 60*Width)];
 //    promlabel.backgroundColor =[UIColor whiteColor];
@@ -227,32 +247,29 @@
     UIButton * shopCartBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [shopCartBtn setFrame:CGRectMake(0*Width,CXCHeight-100*Width , 375*Width, 100*Width)];
     [shopCartBtn setBackgroundColor:[UIColor colorWithRed:240/255.0 green:112/255.0 blue:48/255.0 alpha:1]];
-    [shopCartBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
+    [shopCartBtn setTitle:@"立即购买" forState:UIControlStateNormal];
     [shopCartBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [shopCartBtn addTarget:self action:@selector(shopCartBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [shopCartBtn addTarget:self action:@selector(buyBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shopCartBtn];
     
     //确认提交按钮
     UIButton * buyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [buyBtn setFrame:CGRectMake(375*Width,CXCHeight-100*Width , 375*Width, 100*Width)];
-    [buyBtn setBackgroundColor:NavColor];
+    [buyBtn setBackgroundColor:[UIColor colorWithRed:230/255.00 green:47/255.00 blue:44/255.00 alpha:1]];
     buyBtn.layer.borderColor =[UIColor blueColor].CGColor;
-    [buyBtn setTitle:@"立即购买" forState:UIControlStateNormal];
+    [buyBtn setTitle:@"预约购买" forState:UIControlStateNormal];
     [buyBtn.titleLabel setTextColor:[UIColor whiteColor]];
     [buyBtn addTarget:self action:@selector(buyBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:buyBtn];
    
 }
-- (void)numberChoose
+- (void)numberChoose:(UIButton *)btn
 {
-    [self alterView:[@"1" integerValue] ];
-
-
-
+    [self alterView:[@"1" integerValue]];
 }
 -(void)shopCartBtnAction
 {
-    UILabel *numbLable =[self.view viewWithTag:20];
+    UILabel *numbLable =[self.view viewWithTag:22];
     
     [MBProgressHUD showSuccess:[NSString stringWithFormat:@"此商品在购物车中+%@",numbLable.text] ToView:self.view];
     NSString*num =[NSString stringWithFormat:@"%@",numbLable.text];
@@ -340,7 +357,7 @@
         [self.navigationController pushViewController:loginPage animated:YES];
         return;
     }
-    UILabel *numbLable =[self.view viewWithTag:20];
+    UILabel *numbLable =[self.view viewWithTag:22];
 
     NSString*num =[NSString stringWithFormat:@"%@",numbLable.text];
    NSMutableArray* goodsMutableArr =[[NSMutableArray alloc]init];
@@ -498,7 +515,7 @@
     
     UITextField *textF =[self.view viewWithTag:120];
     [textF becomeFirstResponder];//收起键盘
-    UILabel *numberLabel =[self.view viewWithTag:20];
+    UILabel *numberLabel =[self.view viewWithTag:22];
     textF.text =[NSString stringWithFormat:@"%@",numberLabel.text];//取得数量
     
     blackBgView.hidden=NO;
@@ -539,7 +556,7 @@
     
     UITextField *textF =[self.view viewWithTag:120];
     [textF resignFirstResponder];
-    UILabel *numberLabel =[self.view viewWithTag:20];
+    UILabel *numberLabel =[self.view viewWithTag:22];
     
     if ([textF.text integerValue]==0) {
         
