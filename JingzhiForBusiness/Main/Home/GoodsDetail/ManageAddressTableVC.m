@@ -29,7 +29,7 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -44,7 +44,7 @@
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    [navTitle setTextColor:[UIColor blackColor]];
     [self.view addSubview:navTitle];
     
     [self mainView];
@@ -100,8 +100,6 @@
     AddAddressVC *addVC =[[AddAddressVC alloc]init];
     addVC.delegate =self;
     [self.navigationController pushViewController:addVC animated:YES];
-
-
 }
 - (void)returnBtnAction
 {
@@ -116,17 +114,15 @@
         {
             NSLog(@"切换默认地址");
             [self setDefultAdress:(int)index.row];
-           
-
-            break;
             
+            break;
         }
         case 111://编辑
         {
             NSLog(@"编辑");
 
             AddAddressVC *addVC =[[AddAddressVC alloc]init];
-            addVC.dic =infoArray[index.row] ;
+//            addVC.dic =infoArray[index.row] ;
             addVC.delegate =self;
             [self.navigationController pushViewController:addVC animated:YES];
             
@@ -252,7 +248,9 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-        return infoArray.count ;
+//        return infoArray.count ;
+    return 10 ;
+
 }
 
 
@@ -275,8 +273,8 @@
         cell.delegate = self;
 
     }
-        NSDictionary *dict = [infoArray objectAtIndex:row];
-        [cell setDic:dict];
+//        NSDictionary *dict = [infoArray objectAtIndex:row];
+//        [cell setDic:dict];
          return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

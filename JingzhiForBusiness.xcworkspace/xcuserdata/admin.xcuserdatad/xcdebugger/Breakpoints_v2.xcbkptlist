@@ -174,11 +174,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "475"
-            endingLineNumber = "475"
+            startingLineNumber = "478"
+            endingLineNumber = "478"
             landmarkName = "@implementation AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -190,11 +190,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "388"
-            endingLineNumber = "388"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
             landmarkName = "@implementation AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -286,11 +286,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "443"
-            endingLineNumber = "443"
+            startingLineNumber = "446"
+            endingLineNumber = "446"
             landmarkName = "@implementation AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -302,11 +302,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
+            startingLineNumber = "399"
+            endingLineNumber = "399"
             landmarkName = "@implementation AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -318,11 +318,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "401"
-            endingLineNumber = "401"
+            startingLineNumber = "404"
+            endingLineNumber = "404"
             landmarkName = "@implementation AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -334,11 +334,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "439"
-            endingLineNumber = "439"
+            startingLineNumber = "442"
+            endingLineNumber = "442"
             landmarkName = "@implementation AppDelegate"
             landmarkType = "3">
          </BreakpointContent>
@@ -510,11 +510,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
+            startingLineNumber = "550"
+            endingLineNumber = "550"
             landmarkName = "-onResp:"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,11 +526,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "632"
-            endingLineNumber = "632"
+            startingLineNumber = "635"
+            endingLineNumber = "635"
             landmarkName = "-_topViewController:"
             landmarkType = "7">
          </BreakpointContent>
@@ -542,11 +542,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "634"
-            endingLineNumber = "634"
+            startingLineNumber = "637"
+            endingLineNumber = "637"
             landmarkName = "-_topViewController:"
             landmarkType = "7">
          </BreakpointContent>
@@ -558,11 +558,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/AppDelegate.m"
-            timestampString = "526893648.850304"
+            timestampString = "527063702.257364"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "638"
-            endingLineNumber = "638"
+            startingLineNumber = "641"
+            endingLineNumber = "641"
             landmarkName = "-_topViewController:"
             landmarkType = "7">
          </BreakpointContent>
@@ -686,11 +686,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/Main/login/LoginPage.m"
-            timestampString = "526376253.882053"
+            timestampString = "527673774.894595"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "-loginAdmin"
             landmarkType = "7">
          </BreakpointContent>
@@ -702,11 +702,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/Main/login/LoginPage.m"
-            timestampString = "526376253.882053"
+            timestampString = "527673774.894595"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "286"
-            endingLineNumber = "286"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
             landmarkName = "-loginAdmin"
             landmarkType = "7">
          </BreakpointContent>
@@ -781,12 +781,234 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/Decorate/diary/DiaryDetailVC.m"
-            timestampString = "526996490.975933"
+            filePath = "JingzhiForBusiness/Main/login/LoginPage.m"
+            timestampString = "527673774.894595"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "466"
+            endingLineNumber = "466"
+            landmarkName = "-returnBtnAction"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/ThirdResource/&#x653e;&#x5927;&#x56fe;&#x7247;/AKGallery/AKGalleryViewer.m"
+            timestampString = "527074723.620481"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/ThirdResource/&#x653e;&#x5927;&#x56fe;&#x7247;/AKGallery/AKGalleryViewer.m"
+            timestampString = "527074845.375466"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/Main/Home/nearly/NearlyDelegateVC.m"
+            timestampString = "527134745.630036"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "-viewDidLoad"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/Main/Home/nearly/NearlyDelegateVC.m"
+            timestampString = "527134848.391177"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "374"
+            endingLineNumber = "374"
+            landmarkName = "-didUpdateBMKUserLocation:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/ThirdResource/PublicFiles/PublicMethod.m"
+            timestampString = "527160484.289287"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
+            landmarkName = "+personalAFNetworkSuccess:fail:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/PersonalCenter/diary/ChooseCommunityOrCompany.m"
+            timestampString = "527392698.710912"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/PersonalCenter/diary/diaryDetail/EditDetailVC.m"
+            timestampString = "527745127.639803"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "661"
+            endingLineNumber = "661"
+            landmarkName = "-zhuanhuanTupian"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/PersonalCenter/diary/diaryDetail/EditDetailVC.m"
+            timestampString = "527745127.639803"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "761"
+            endingLineNumber = "761">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/ThirdResource/&#x653e;&#x5927;&#x56fe;&#x7247;/AKGallery/AKGallery.m"
+            timestampString = "527428989.391651"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "-setSelectIndex:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/ThirdResource/&#x653e;&#x5927;&#x56fe;&#x7247;/AKGallery/AKGallery.m"
+            timestampString = "527428990.640728"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "-init"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/ThirdResource/&#x653e;&#x5927;&#x56fe;&#x7247;/AKGallery/AKGalleryViewer.m"
+            timestampString = "527429010.669945"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/ThirdResource/&#x653e;&#x5927;&#x56fe;&#x7247;/AKGallery/AKGalleryViewer.m"
+            timestampString = "527429046.636809"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "573"
+            endingLineNumber = "573"
+            landmarkName = "-previous"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/ThirdResource/&#x653e;&#x5927;&#x56fe;&#x7247;/AKGallery/AKGallery.m"
+            timestampString = "527429076.901935"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "+itemWithTitle:url:img:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/Main/Home/FindCompany/IntroduceCompanyVC.m"
+            timestampString = "527517907.073796"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "-mainView"
             landmarkType = "7">
          </BreakpointContent>
@@ -797,13 +1019,157 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/Decorate/diary/DiaryDetailVC.m"
-            timestampString = "526996899.546704"
+            filePath = "JingzhiForBusiness/Main/Home/FindCompany/IntroduceCompanyVC.m"
+            timestampString = "527517907.073796"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "539"
-            endingLineNumber = "539"
-            landmarkName = "-scrollViewDidScroll:"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "-collectionView:numberOfItemsInSection:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/Main/Home/FindCompany/IntroduceCompanyVC.m"
+            timestampString = "527517907.073796"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "-collectionView:viewForSupplementaryElementOfKind:atIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/Main/Home/FindCompany/talk/TalkCompanyVC.m"
+            timestampString = "527673774.894595"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
+            landmarkName = "-touchesBegan:withEvent:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/Decorate/knowledge/PostHeaderCell.m"
+            timestampString = "527589500.773208"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
+            landmarkName = "-initWithStyle:reuseIdentifier:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/PersonalCenter/AccoutSetVC.m"
+            timestampString = "527654963.601864"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "450"
+            endingLineNumber = "450"
+            landmarkName = "-tureBtnActionAndTheAlterView:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/PersonalCenter/AccoutSetVC.m"
+            timestampString = "527654968.155165"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "443"
+            endingLineNumber = "443"
+            landmarkName = "-cancelBtnActinAndTheAlterView:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/PersonalCenter/AccoutSetVC.m"
+            timestampString = "527654969.614515"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "433"
+            endingLineNumber = "433"
+            landmarkName = "-nextStep"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/Main/Home/HomePage.m"
+            timestampString = "527754307.690224"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "676"
+            endingLineNumber = "676"
+            landmarkName = "-dropMenuView:didSelectName:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/searchHouse/SearchHouseTableViewController.m"
+            timestampString = "527667985.062931"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "143"
+            endingLineNumber = "143"
+            landmarkName = "-addressArr"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JingzhiForBusiness/&#x4f1a;&#x5458;/searchHouse/SearchHouseTableViewController.m"
+            timestampString = "527669571.697511"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "-btnClickBtn:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

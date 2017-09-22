@@ -21,7 +21,7 @@
 /*如下是会员的的*/
 #import "HomePage.h"
 #import "SearchHouseVC.h"
-#import "HYPersonalCenterVC.h"
+#import "SJSPersonalCenterVC.h"
 #import "ShoppingCartVC.h"
 #import "ShoppingMainVC.h"
 #import "DecorateMainVC.h"
@@ -41,7 +41,7 @@ static NSInteger seq = 0;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-   
+   [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [self setupViewControllers];
     [self customizeInterface];
     _mapManager = [[BMKMapManager alloc]init];
@@ -197,30 +197,33 @@ static NSInteger seq = 0;
     UINavigationController *firstNavigationController = [[UINavigationController alloc]initWithRootViewController:firstViewController];
         [firstNavigationController setNavigationBarHidden:YES];
 
+    
     UIViewController *secondViewController = [[SearchHouseVC alloc] init];
-    UINavigationController *secondNavigationController = [[UINavigationController alloc]
-                                                    initWithRootViewController:secondViewController];
+    UINavigationController *secondNavigationController = [[UINavigationController alloc]                                             initWithRootViewController:secondViewController];
         [secondNavigationController setNavigationBarHidden:YES];
 
+   
     UIViewController *threeViewController = [[DecorateMainVC alloc] init];
-    UINavigationController *threeNavigationController = [[UINavigationController alloc]
-                                                    initWithRootViewController:threeViewController];
+    UINavigationController *threeNavigationController = [[UINavigationController alloc]initWithRootViewController:threeViewController];
         [threeNavigationController setNavigationBarHidden:YES];
+    
+    
     UIViewController *fourViewController = [[ShoppingMainVC alloc] init];
     UINavigationController *fourNavigationController = [[UINavigationController alloc]
                                                          initWithRootViewController:fourViewController];
     [threeNavigationController setNavigationBarHidden:YES];
     
-    UIViewController *fiveViewController = [[ShoppingMainVC alloc] init];
+    
+    UIViewController *fiveViewController = [[SJSPersonalCenterVC alloc] init];
     UINavigationController *fiveNavigationController = [[UINavigationController alloc]
                                                          initWithRootViewController:fiveViewController];
     [threeNavigationController setNavigationBarHidden:YES];
     
-
     RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
     [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController,fourNavigationController,fiveNavigationController]];
     self.viewController = tabBarController;
     [self customizeTabBarForController:tabBarController];
+    
 }
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];

@@ -41,33 +41,12 @@
         
         //        初始化
         WBImageViewItem *imageView =[[WBImageViewItem alloc]initWithFrame:[WBImageView getFrameAtIndex:i]];
-        //        imageView.backgroundColor = [UIColor grayColor];
-        
-        
-        
-        //        NSDictionary *dic = _dataList[i];
-        
-        //        设置图片
-        //        NSURL *url=[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",PHOTOURL,_dataList[i]]];
-        //        UIImage *imgFromUrl =[[UIImage alloc]initWithData:[NSData dataWithContentsOfURL:url]];
-        //        CGSize size = {75,75};
-        //        [self OriginImage:imgFromUrl scaleToSize:size];
-        //        [imageView setImage:imgFromUrl];
-//        [imageView setImageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",PHOTOURL,_dataList[i]]]];
-        
-        //        [imageView setImageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",PHOTOURL,_dataList[i]]]];
-       //       NSLog(@"%@",[NSString stringWithFormat:@"%@/%@",PHOTOURL,_dataList[i]]);
-        [imageView setImage:[UIImage imageNamed: @"86.jpg"]];
-        //        [imageView setImageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",PHOTOURL,_dataList[i]]]];
-        
+              NSLog(@"%@",[NSString stringWithFormat:@"%@",_dataList[i]]);
+       [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_dataList[i]]]];
         imageView.dataList = _dataList;
-        
         imageView.index = i;
-        
         imageView.originSuperView  =self;
-        
         imageView.tag = 1000+i;
-        
         [self addSubview:imageView];
         
     }

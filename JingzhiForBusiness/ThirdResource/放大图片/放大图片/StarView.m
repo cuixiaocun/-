@@ -38,8 +38,8 @@
 
 - (void)_creatSubviews{
     
-    UIImage *grayImage = [UIImage imageNamed:@"star_hui.png"];
-    UIImage *yellowImage = [UIImage imageNamed:@"star_huang.png"];
+    UIImage *grayImage = [UIImage imageNamed:@"sjs_icon_star_nor"];
+    UIImage *yellowImage = [UIImage imageNamed:@"sjs_icon_star_sel"];
     
     //灰色星星视图
     UIView *grayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, grayImage.size.width * 5, grayImage.size.height)];

@@ -32,7 +32,7 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -47,7 +47,7 @@
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    [navTitle setTextColor:[UIColor blackColor]];
     [self.view addSubview:navTitle];
     
     
@@ -58,7 +58,6 @@
 {
 //    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, 466*Width)];
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64)];
-
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 20*Width, CXCWidth, 200*Width)];
@@ -68,6 +67,7 @@
     [self.view addSubview:bgScrollView];
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(30*Width, 25*Width, 260*Width, 50*Width)];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dicDetail objectForKey:@"receivename"] ];
+    
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     NSLog(@"物流====%@",_dicDetail);
@@ -89,13 +89,16 @@
     addressLabel.font =[UIFont systemFontOfSize:13];
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;
-    NSArray*arr =@[@"",@"待支付",@"待发货",@"已发货",@"已完成",@"取消",@"驳回",@"",];
-    
-    NSArray*leftArr =@[@"物流状态",@"快递公司",@"运单号",@"",@"",@"",@"",] ;
-    int i =[[_dicDetail objectForKey:@"status"] intValue];
-    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",arr[i]],[NSString stringWithFormat:@"%@",_logisticscom ]   ,[NSString stringWithFormat:@"%@",_logistics ],@"",@"",@"",] ;
-        
-        for (int i=0; i<3; i++) {
+//    NSArray*arr =@[@"",@"待支付",@"待发货",@"已发货",@"已完成",@"取消",@"驳回",@"",];
+    nameLabel.text =@"孙俪";
+    numberLabel.text =@"18737373711";
+    addressLabel.text =@"山东省潍坊市奎文区胜利街文化路7星假日酒店2929";
+    NSArray*leftArr =@[@"快递公司",@"运单号",@"",@"",@"",@"",] ;
+//    int i =[[_dicDetail objectForKey:@"status"] intValue];
+    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",@"顺丰快递"]   ,[NSString stringWithFormat:@"%@",@"1111093048905453" ],@"",@"",@"",] ;
+//    NSArray*rightArr =@[[NSString stringWithFormat:@"%@",_logisticscom ]   ,[NSString stringWithFormat:@"%@",_logistics ],@"",@"",@"",] ;
+
+        for (int i=0; i<2; i++) {
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];
@@ -133,10 +136,9 @@
             xian.frame =CGRectMake(0,80.5*Width, CXCWidth, 1.5*Width);
             
         }
-    UIWebView * webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, topView.bottom+283*Width,CXCWidth ,CXCHeight-64 )];
-    NSURLRequest *request =
-    
-    [NSURLRequest requestWithURL:[NSURL URLWithString:[[NSString stringWithFormat:@"https://m.kuaidi100.com/index_all.html?type=%@&postid=%@",_logisticscom,_logistics]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+    UIWebView * webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, topView.bottom+200*Width,CXCWidth ,CXCHeight-64 )];
+    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:[[NSString stringWithFormat:@"https://m.kuaidi100.com/index_all.html?type=%@&postid=%@",_logisticscom,_logistics]stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+
     
     [webView loadRequest:request];
     webView.delegate =self;

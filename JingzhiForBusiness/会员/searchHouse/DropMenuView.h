@@ -23,6 +23,7 @@
 
 /** 箭头变化 */
 @property (nonatomic, strong) UIView *arrowView;
+@property (nonatomic, strong) NSString *typeString;
 
 
 /**

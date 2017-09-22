@@ -134,7 +134,7 @@
     bool isBlack =  self.gallery.custUI.viewerBackgroundBlack;
     
     AKGalleryViewerContainer *containerVC= self.gallery.viewControllers[1];
-    [containerVC.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
+    [containerVC.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
     
     if (isBlack) {
         
@@ -475,13 +475,10 @@
     self.edgesForExtendedLayout=UIRectEdgeAll;
     self.automaticallyAdjustsScrollViewInsets=NO;
     self.extendedLayoutIncludesOpaqueBars=YES;
-    
-    //back bar button
-    UIBarButtonItem* backBarBtn =[[UIBarButtonItem alloc]initWithImage:[self reSizeImage:[UIImage  imageNamed:navBackarrow ] toSize:CGSizeMake(30, 23)] style:UIBarButtonItemStylePlain target:self action:@selector(pop)];
+    //back bar button[self reSizeImage:[UIImage  imageNamed:navBackarrow ] toSize:CGSizeMake(38, 30)]
+    UIBarButtonItem* backBarBtn =[[UIBarButtonItem alloc]initWithImage:[UIImage  imageNamed:navBackarrow ] style:UIBarButtonItemStylePlain target:self action:@selector(pop)];
     self.navigationItem.leftBarButtonItem=backBarBtn;
-    
-    
-    
+
     //toolBar
     UIToolbar* tBar = UIToolbar.new;
     tBar.tintColor=self.gallery.custUI.viewerBarTint;
@@ -507,11 +504,7 @@
     previousBarBtn = pBtn;
     nextBarBtn=nBtn;
     
-    
-    
-    
-    
-    
+        
     UIPageViewController* pvc= [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:@{
                                                                                                                                                                                                                   UIPageViewControllerOptionInterPageSpacingKey:@(self.gallery.custUI.spaceBetweenViewer)
                                                                                                                                                                                                                   } ];
@@ -755,4 +748,5 @@
     
     return [reSizeImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
+
 @end

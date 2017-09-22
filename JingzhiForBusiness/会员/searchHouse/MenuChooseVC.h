@@ -25,6 +25,10 @@
 @property(assign,nonatomic)id<MenuChooseDelegate>delegate;
 @property (nonatomic, strong) DropMenuView *oneLinkageDropMenu;
 @property (nonatomic, strong) NSArray *addressArr;
+@property (nonatomic, strong) NSString *typeString;
+
+@property (nonatomic, assign) NSInteger level;
+
 
 - (id)initWithFrame:(CGRect)frame buttonArr:(NSArray *)btnArr;
 @end

@@ -79,27 +79,25 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(0, 20, 44, 44);
-    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    [returnBtn setImage:[UIImage imageNamed:@"sf_icon_goBack"] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     
-    UIView *navBgView =[[UIView alloc]initWithFrame:CGRectMake(120*Width, 20+14*Width,480*Width , 60*Width)];
+    UIView *navBgView =[[UIView alloc]initWithFrame:CGRectMake(120*Width, 20+10*Width,480*Width , 60*Width)];
     [topImageView addSubview:navBgView];
-    [navBgView.layer setCornerRadius:4];
-    
-    navBgView.backgroundColor =[UIColor whiteColor];
+    [navBgView.layer setCornerRadius:30*Width];
+    navBgView.backgroundColor =BGColor;
     UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(36*Width, 15*Width, 30*Width, 30*Width)];
-    bigShowImgV.image =[UIImage imageNamed:@"viporder_icon_search"];
+    bigShowImgV.image =[UIImage imageNamed:@"sf_icon_search"];
     [navBgView addSubview:bigShowImgV];
     UITextField *searchTextField = [[UITextField alloc] init];
-    [searchTextField setPlaceholder:@"代理编号,微信号,手机号"];
+    [searchTextField setPlaceholder:@"请输入房产"];
     [searchTextField setDelegate:self];
-//    searchTextField.keyboardType =UIKeyboardTypeNumberPad;
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
     [searchTextField setTextColor:[UIColor blackColor]];
@@ -112,13 +110,12 @@
     //搜索按钮
     UIButton *  searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     searchBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
-    //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     searchBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
+    [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:searchBtn];
-    
-    
+
     
     nilBgView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, CXCHeight-64)];
     nilBgView.backgroundColor =BGColor;

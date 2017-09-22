@@ -49,7 +49,7 @@
     bgScrollView.backgroundColor =BGColor   ;
     topImageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = [UIColor whiteColor];
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     topImageView.alpha =0.0;
     //注册标签
@@ -421,6 +421,10 @@
             
         }
         [header addSubview:botLabel];
+        UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(30*Width, 98.5*Width, 690*Width, 1.5*Width)];
+        addShowImgV.backgroundColor =BGColor;
+        [header addSubview:addShowImgV];
+
         
         return header;
     }
@@ -454,7 +458,27 @@
 }
 - (void)chooseMore:(UIButton*)btn
 {
-    NSLog(@"%ld",btn.tag);
+    if (btn.tag==110)
+    {
+        DesignPlanVC *house =[[DesignPlanVC alloc]init];
+        [self.navigationController pushViewController:house animated:YES];
+        
+    }else if (btn.tag==111)
+    {
+        OtherPlanVC *house =[[OtherPlanVC alloc]init];
+        house.navString =@"户型图";
+        [self.navigationController pushViewController:house animated:YES];
+    }else if (btn.tag==112)
+    {
+        OtherPlanVC *house =[[OtherPlanVC alloc]init];
+        house.navString =@"实景图";
+        [self.navigationController pushViewController:house animated:YES];
+    }else if (btn.tag==113)
+    {
+        OtherPlanVC *house =[[OtherPlanVC alloc]init];
+        house.navString =@"样板间";
+        [self.navigationController pushViewController:house animated:YES];
+    }
 
 }
 //设置每个方块的尺寸

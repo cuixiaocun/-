@@ -15,16 +15,18 @@
     if (self) {
         self.backgroundColor =[UIColor whiteColor];
         UILabel *detailLabel = [[UILabel alloc]initWithFrame:CGRectMake(40*Width, 0*Width, 480*Width, 80*Width)];
-        detailLabel.text =@"";
+        detailLabel.text =@"收入";
         detailLabel.textColor = TextColor ;
         detailLabel.font =[UIFont systemFontOfSize:15];
         [self addSubview:detailLabel];
         detailLabel.tag =100;
 
         UILabel *pricesLabel =[[UILabel alloc]initWithFrame:CGRectMake(400*Width, 0,310*Width , 80*Width)];
-        pricesLabel.text =@"100";
+        pricesLabel.text =@"+100";
         pricesLabel.textAlignment =NSTextAlignmentRight;
         pricesLabel.textColor =[UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        pricesLabel.textColor =orangeColor;
+
         pricesLabel.font =[UIFont systemFontOfSize:14];
         [self addSubview:pricesLabel];
         pricesLabel.tag =101;

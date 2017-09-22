@@ -31,7 +31,7 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = [UIColor whiteColor];
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -55,6 +55,8 @@
     topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 85*Width) buttonArr:btnArr];
     topView.backgroundColor =[UIColor redColor];
     topView.delegate =self;
+    topView.level = 2;
+
     [self.view addSubview:topView];
     
     UIView *xianV =[[UIView alloc]initWithFrame:CGRectMake(0*Width,0*Width,CXCWidth,1.5*Width)];
@@ -105,7 +107,8 @@
 }
 - (void)returnBtnAction
 {
-    
+    [topView.oneLinkageDropMenu dismiss];
+
     [self.navigationController popViewControllerAnimated:YES];
     
 }

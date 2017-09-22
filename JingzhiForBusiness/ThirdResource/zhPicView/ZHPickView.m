@@ -137,7 +137,7 @@
 -(void)setUpPickView{
     
     UIPickerView *pickView=[[UIPickerView alloc] init];
-    pickView.backgroundColor=[UIColor lightGrayColor];
+    pickView.backgroundColor=[UIColor whiteColor];
     pickView.delegate=self;
     pickView.dataSource=self;
     pickView.frame=CGRectMake(0, ZHToobarHeight, CXCWidth, pickView.frame.size.height);
@@ -152,7 +152,7 @@
     UIDatePicker *datePicker=[[UIDatePicker alloc] init];
     datePicker.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
     datePicker.datePickerMode = datePickerMode;
-    datePicker.backgroundColor=[UIColor lightGrayColor];
+    datePicker.backgroundColor=[UIColor whiteColor];
     if (_defaulDate) {
         [datePicker setDate:_defaulDate];
     }
@@ -171,10 +171,12 @@
     UIToolbar *toolbar=[[UIToolbar alloc] init];
     
     UIBarButtonItem *lefttem=[[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(setNilForResultString)];
-    
+    [lefttem setTintColor:TextGrayColor];
+
     UIBarButtonItem *centerSpace=[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     
     UIBarButtonItem *right=[[UIBarButtonItem alloc] initWithTitle:@"确定" style:UIBarButtonItemStylePlain target:self action:@selector(doneClick)];
+    [right setTintColor:NavColor];
     toolbar.items=@[lefttem,centerSpace,right];
     return toolbar;
 }

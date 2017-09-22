@@ -29,7 +29,7 @@
         //状态
         UILabel* orderStatuerLabel  = [[UILabel alloc]init];
         orderStatuerLabel.font = [UIFont systemFontOfSize:14];
-        orderStatuerLabel.text = @"待审核";
+        orderStatuerLabel.text = @"未付款";
         orderStatuerLabel.tag =334;
 
         orderStatuerLabel.textAlignment =NSTextAlignmentRight;
@@ -44,14 +44,13 @@
         
         
         
-        _goodsImgView =[[EGOImageView alloc]initWithImage:[UIImage imageNamed:@""]];
-        _goodsImgView.backgroundColor =BGColor;
+        _goodsImgView =[[EGOImageView alloc]initWithImage:[UIImage imageNamed:@"timg-8.jpeg"]];
         _goodsImgView.frame=CGRectMake(50*Width, 30*Width, 160*Width, 160*Width);
         [bgView addSubview:_goodsImgView];
         
         //商品名称
-        _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+60*Width,20*Width, 310*Width, 100*Width)];
-//        _goodsTitleLab.text = @"商品A-21饮清新养元茶";
+        _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+60*Width,20*Width, 410*Width, 100*Width)];
+        _goodsTitleLab.text = @"商品a箭牌总裁套餐欧式浴室使用防电净化空气无污染";
         _goodsTitleLab.textColor=BlackColor;
         _goodsTitleLab.numberOfLines =0;
         _goodsTitleLab.font =[UIFont systemFontOfSize:14];
@@ -61,7 +60,7 @@
         
         //价格
         UILabel* priceLabel =[[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+60*Width,_goodsTitleLab.bottom+20*Width, 360*Width, 50*Width)];
-//        priceLabel.text =@"¥400.00";
+        priceLabel.text =@"¥400.00";
         priceLabel.font =[UIFont systemFontOfSize:16];
         priceLabel.textColor =NavColor;
         [bgView addSubview:priceLabel];
@@ -77,9 +76,11 @@
         _promptLabel.textColor  =BlackColor;
         _promptLabel.textAlignment =NSTextAlignmentRight;
         _promptLabel.font =[UIFont systemFontOfSize:13];
-        _promptLabel.text = @"共计1箱2盒";
+        _promptLabel.text = @"共计1件商品";
         
         _allPricesLabel = [[UILabel alloc]initWithFrame:CGRectMake(420*Width,0,320*Width,82*Width)];
+        _allPricesLabel.text = @"总金额400元";
+
         [middleView addSubview:_allPricesLabel];
         _allPricesLabel.textColor  =BlackColor;
                 _allPricesLabel.font =[UIFont systemFontOfSize:13];
@@ -173,7 +174,16 @@
             _tureBtn.layer.borderColor =NavColor.CGColor;
             [bgview addSubview:_tureBtn];
             
-           
+            [_deliverBtn setFrame:CGRectMake(610*Width,13.5*Width , 120*Width, 55*Width)];
+            [_rejectBtn setFrame:CGRectMake(440*Width,13.5*Width , 150*Width, 55*Width)];
+            [_seeBtn setFrame:CGRectMake(330*Width,13.5*Width , 90*Width, 55*Width)];
+            [_seeLogBtn setFrame:CGRectMake(160*Width,13.5*Width , 150*Width, 55*Width)];
+
+            _tureBtn.hidden = YES;
+            _seeLogBtn.hidden = NO;
+            _rejectBtn.hidden =NO;
+            _deliverBtn.hidden =NO;
+
          
 
         }

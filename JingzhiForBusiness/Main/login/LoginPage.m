@@ -12,8 +12,7 @@
 #import "RDVTabBarItem.h"
 #import "ShoppingCartVC.h"
 #import "HomePage.h"
-#import "RegisteredVC.h"
-#import "HYPersonalCenterVC.h"
+#import "SJSPersonalCenterVC.h"
 #import "HYRegisteredVC.h"
 #import "LoginCell.h"
 #import "ForgetPasswordVC.h"
@@ -42,8 +41,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    isbool= NO;
-    isLeveler =@"NO";
+    
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
@@ -53,58 +51,21 @@
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(0, 20, 44, 44);
-    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    [returnBtn setImage:[UIImage imageNamed:navBackarrowWhite] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     
-    UIImageView*bgImg =[[UIImageView alloc]init];
-    bgImg.backgroundColor=[UIColor whiteColor];
-    [topImageView addSubview:bgImg];
-    bgImg.userInteractionEnabled = YES;
-    bgImg.layer.cornerRadius=2;
-    [bgImg setFrame:CGRectMake(183*Width, 20+(44-56*Width)/2-1, 384*Width, 60*Width)];
-    //会员
-    UIButton *hyBtn =[[UIButton alloc]initWithFrame:CGRectMake(2*Width, 2*Width, 190*Width, 56*Width)];
-    [hyBtn setBackgroundColor:[UIColor whiteColor]];
-    hyBtn.selected=YES;
-
-    if (hyBtn.selected==YES) {
-        [hyBtn setBackgroundColor:[UIColor whiteColor]];
-    }else
-    {
-        [hyBtn setBackgroundColor:NavColor];
-    }
-    [hyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [hyBtn setTitleColor:NavColor forState:UIControlStateSelected];
-    [hyBtn setTitle:@"会员登录" forState:UIControlStateNormal];
-    [hyBtn setTitle:@"会员登录" forState:UIControlStateSelected];
-    hyBtn.tag =120;
-    hyBtn.titleLabel.font =[UIFont systemFontOfSize:15];
-//    hyBtn.layer.cornerRadius=4;
-    [hyBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
-    [bgImg addSubview:hyBtn];
-
-    //代理
-    UIButton *dlBtn =[[UIButton alloc]initWithFrame:CGRectMake(hyBtn.right,2*Width, 190*Width, 56*Width)];
-    [dlBtn setBackgroundColor:[UIColor whiteColor]];
-    dlBtn.selected=NO;
-//    dlBtn.layer.cornerRadius=4;
-    if (dlBtn.selected==YES) {
-        [dlBtn setBackgroundColor:[UIColor whiteColor]];
-    }else
-    {
-        [dlBtn setBackgroundColor:NavColor];
-    }
-    dlBtn.titleLabel.font =[UIFont systemFontOfSize:15];
-    [dlBtn setTitle:@"代理登录" forState:UIControlStateNormal];
-    [dlBtn setTitle:@"代理登录" forState:UIControlStateSelected];
-    [dlBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [dlBtn setTitleColor:NavColor forState:UIControlStateSelected];
-    [topImageView addSubview:dlBtn];
-    dlBtn.tag =121;
-    [dlBtn addTarget:self action:@selector(login:) forControlEvents:UIControlEventTouchUpInside];
-
-    [bgImg addSubview:dlBtn];
+    //标签
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    [navTitle setText:@"登录"];
+    [navTitle setTextAlignment:NSTextAlignmentCenter];
+    [navTitle setBackgroundColor:[UIColor clearColor]];
+    [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
+    [navTitle setNumberOfLines:0];
+    [navTitle setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:navTitle];
+    
+    
     [self  mainView];
 }
 - (void)mainView
@@ -156,17 +117,32 @@
         
     }
     
-    loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [loginBtn setFrame:CGRectMake(40*Width,232*Width+106*Width , 670*Width, 88*Width)];
-    [loginBtn setBackgroundColor:[UIColor colorWithRed:246/255.0 green:91/255.0 blue:94/255.0 alpha:1]];
-    [loginBtn.layer setCornerRadius:4];
-    [loginBtn.layer setMasksToBounds:YES];
+    CALayer *layer = [CALayer layer];
+    layer.frame = CGRectMake(40*Width,232*Width+106*Width , 670*Width, 98*Width);
+    layer.backgroundColor = NavColor.CGColor;
+    layer.shadowOffset = CGSizeMake(5, 5);
+    layer.shadowOpacity = 0.4;
+    layer.shadowColor = NavColor.CGColor;
+    layer.cornerRadius = 44*Width;
+    layer.shadowColor = NavColor.CGColor;
+
+    [bgScrollView.layer addSublayer:layer];
     
+    //按钮
+    loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [loginBtn setFrame:CGRectMake(40*Width,232*Width+106*Width , 670*Width, 98*Width)];
+    [loginBtn setBackgroundColor:NavColor];
+    [loginBtn.layer setCornerRadius:44*Width];
+    [loginBtn.layer setMasksToBounds:YES];
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     [loginBtn.titleLabel setTextColor:[UIColor whiteColor]];
+    
     [loginBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [loginBtn addTarget:self action:@selector(loginAdmin) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:loginBtn];
+    
+
+    
     
     //忘记密码按钮
     UIButton *RegisteredBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -179,11 +155,6 @@
     RegisteredBtn.tag =456789;
     
     RegisteredBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    
-    
-    
-    
-    
     
     //忘记密码按钮
     UIButton *forgetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -212,32 +183,13 @@
 }
 - (void)registerBtnPressed
 {
-    if ([isLeveler isEqualToString:@"NO"]) {
-        
         HYRegisteredVC *hyRegisteredVC =[[HYRegisteredVC alloc]init];
         [self.navigationController pushViewController:hyRegisteredVC animated:YES];
-        
-        
-    }else if ([isLeveler isEqualToString:@"YES"])
-    {
-        RegisteredVC *registeredVC =[[RegisteredVC alloc]init];
-        [self.navigationController   pushViewController:registeredVC animated:YES];
-    }
-
-   
+    
 }
 - (void)forgetBtn
 {
     ForgetPasswordVC *forget =[[ForgetPasswordVC alloc]init];
-    if([isLeveler isEqualToString:@"YES"])//代理登录
-    {
-        forget.isHYOrDL =@"2";
-    }else//会员登录
-    {
-        forget.isHYOrDL =@"1";
-
-    }
-
     [self.navigationController pushViewController:forget animated:YES];
 
 
@@ -246,7 +198,7 @@
 {
     
 
-    
+//    
     UITextField *admin = (UITextField *)[self.view viewWithTag:1];
     UITextField *password = (UITextField *)[self.view viewWithTag:2];
     if (admin.text.length!=18&&admin.text.length!=11) {
@@ -257,61 +209,46 @@
         [MBProgressHUD showError:@"密码长度不得小于6位" ToView:self.view];
         return;
     }
-    NSString *statustring ;//判断状态
-    if ([isLeveler isEqualToString:@"YES"]) {
-        statustring =@"2";
-    }else if([isLeveler isEqualToString:@"NO"]){
-        statustring =@"1";
-    }
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"logintype":@"1",@"account":[NSString stringWithFormat:@"%@",@"15610280531"],@"password":@"111111"}];
-    [dic1 setDictionary:@{@"logintype":statustring ,
-                          @"account":[NSString stringWithFormat:@"%@",admin.text],
-                          @"password":[NSString stringWithFormat:@"%@",password.text],
-                          @"tag":[NSString stringWithFormat:@"%@",[PublicMethod getDataStringKey:@"registrationID"]],
-    }];
-    NSLog(@"%@",dic1);
-    [PublicMethod AFNetworkPOSTurl:@"Home/Login/login" paraments:dic1  addView:self.view success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            //成功isLeveler=NO是会员登陆成功isLeveler=YES是代理成功
-            if ([isLeveler isEqualToString:@"NO"]) {
-                if ([_status isEqualToString:@"present"]) {
-                   //如果是其他页面跳到登录页面直接pop回去（购物详情页面，购物车去结算页面）
-                   [self.navigationController popViewControllerAnimated:NO];
-                }else
-                {
-                    //如果不是其他页面
-                    [self rdv_tabBarController].selectedIndex=2;
-                    [self setupViewControllersHYwithIsBack:@"NO"];
-                    [self.navigationController popViewControllerAnimated:YES];
-
-                }
-                //会员登录存值
+//    NSString *statustring ;//判断状态
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    [dic1 setDictionary:@{@"logintype":@"1",@"account":[NSString stringWithFormat:@"%@",@"15610280531"],@"password":@"111111"}];
+//    [dic1 setDictionary:@{@"logintype":statustring ,
+//                          @"account":[NSString stringWithFormat:@"%@",admin.text],
+//                          @"password":[NSString stringWithFormat:@"%@",password.text],
+//                          @"tag":[NSString stringWithFormat:@"%@",[PublicMethod getDataStringKey:@"registrationID"]],
+//    }];
+//    NSLog(@"%@",dic1);
+//    [PublicMethod AFNetworkPOSTurl:@"Home/Login/login" paraments:dic1  addView:self.view success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+//            //成功isLeveler=NO是会员登陆成功isLeveler=YES是代理成功
+//            if ([isLeveler isEqualToString:@"NO"]) {
+//                if ([_status isEqualToString:@"present"]) {
+//                   //如果是其他页面跳到登录页面直接pop回去（购物详情页面，购物车去结算页面）
+//                   [self.navigationController popViewControllerAnimated:NO];
+//                }else
+//                {
+//                    //如果不是其他页面
+//                    [self rdv_tabBarController].selectedIndex=2;
+//                    [self setupViewControllersHYwithIsBack:@"NO"];
+//                    [self.navigationController popViewControllerAnimated:YES];
+//
+//                }
+//                //会员登录存值
                 [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
-                NSLog(@"%@",[dict objectForKey:@"data"]);
                 [PublicMethod removeObjectForKey: agen];
-                [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"member"]withKey:member];
+//                [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"member"]withKey:member];
+                [self.navigationController popViewControllerAnimated:YES];
+
                 [self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
 
-                
-            }else if ([isLeveler isEqualToString:@"YES"])
-            {
-                //代理登录成功
-                [self setupViewControllers];
-                //代理登录存值
-                [PublicMethod saveDataString:@"DL" withKey:@"IsLogin"];
-                NSLog(@"%@",[dict objectForKey:@"data"]);
-                [PublicMethod removeObjectForKey: member];
-                [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"agen"]withKey:agen];
-                [self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
-
-            }
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
+//                
+//            }
+//}
+//        
+//    } fail:^(NSError *error) {
+//        
+//    }];
     
    
 }
@@ -345,7 +282,7 @@
         
     }else
     {
-        [loginBtn setBackgroundColor:[UIColor colorWithRed:246/255.0 green:91/255.0 blue:94/255.0 alpha:1]];
+        [loginBtn setBackgroundColor:orangeColor];
     }
     if (textField.tag == 1)
     {
@@ -517,79 +454,19 @@
 
 
 }
-- (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
-    UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
-    UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    NSArray *tabBarItemImages = @[@"proxy_icon_baodan", @"proxy_icon_order",@"proxy_icon_me"];
-    
-    NSInteger index = 0;
-    for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
-        [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
-        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_pre.png",
-                                                      [tabBarItemImages objectAtIndex:index]]];
-        UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@",
-                                                        [tabBarItemImages objectAtIndex:index]]];
-        [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
-        NSLog(@"%@",[NSString stringWithFormat:@"%@_pre",
-                     [tabBarItemImages objectAtIndex:index]]);
-        index++;
-    }
-}
-- (void)login:(UIButton *)btn//判断是会员还是代理
-{
-    for (int i=0; i<2; i++) {
-        UIButton *btnAll =[self.view viewWithTag:120+i];
-        btnAll.selected =NO;
-        [btnAll setBackgroundColor:NavColor];
-    }
-    
-    
-    [btn setBackgroundColor:[UIColor whiteColor]];
-    btn.selected =YES;
-
-    UIButton *btn1 =[self.view viewWithTag:456789];
-    btn1.hidden =@"NO";
-
-    if(btn.tag==120)
-    {
-        isLeveler=@"NO";//会员登录
-        UIButton *btn11 =[self.view viewWithTag:456789];
-        btn11.hidden =NO;
-        
-        
-    }else
-    {
-        isLeveler=@"YES";//代理登录
-        UIButton *btn11 =[self.view viewWithTag:456789];
-        btn11.hidden =YES;
-        
-        
-    }
-
-    
-    
-    
-}
 - (void)returnBtnAction
 {
+    
+    
     if ([_status isEqualToString:@"present"]) {
         [self.navigationController popViewControllerAnimated:NO];
         return;
     }else
     {
-        [self setupViewControllersHYwithIsBack:@"YES"];
-        [PublicMethod removeObjectForKey: @"IsLogin"];
-        [PublicMethod removeObjectForKey: member];
-        [PublicMethod removeObjectForKey: agen];
-        [PublicMethod removeObjectForKey: shopingCart];
-        [PublicMethod removeObjectForKey: @"Isdelegate"];
-        [PublicMethod removeObjectForKey: @"zhangyue_searchJiLu"];
-        [PublicMethod removeObjectForKey: @"wantSearch"];
-
+        [[self rdv_tabBarController] setSelectedIndex:0];
+        [self.navigationController popViewControllerAnimated:YES];
 
     }
-
-    
 
 
 }
@@ -602,68 +479,6 @@
     // Pass the selected object to the new view controller.
 }
 */
-- (void)setupViewControllersHYwithIsBack:(NSString *)isBackString{
-    //    if ([[PublicMethod getDataStringKey:@"WetherFirstInput"]isEqualToString:@"1"]) {//若为1，表示登录了
-    //        [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];//是否第一次进入
-    //
-    UIViewController *firstViewController = [[HomePage alloc] init];
-    UINavigationController *firstNavigationController = [[UINavigationController alloc]initWithRootViewController:firstViewController];
-    [firstNavigationController setNavigationBarHidden:YES];
-    
-    UIViewController *secondViewController = [[ShoppingCartVC alloc] init];
-    UINavigationController *secondNavigationController = [[UINavigationController alloc]
-                                                          initWithRootViewController:secondViewController];
-    [secondNavigationController setNavigationBarHidden:YES];
-    
-    UIViewController *threeViewController = [[HYPersonalCenterVC alloc] init];
-    UINavigationController *threeNavigationController = [[UINavigationController alloc]
-                                                         initWithRootViewController:threeViewController];
-    [threeNavigationController setNavigationBarHidden:YES];
-    
-    RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
-    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,threeNavigationController]];
-    [UIApplication sharedApplication].keyWindow.rootViewController =tabBarController ;
-//    [[self rdv_tabBarController].tabBar.delegate tabBar: [self rdv_tabBarController].tabBar didSelectItemAtIndex:2];
-
-    [self customizeTabBarForControllerHY:tabBarController andBackString:isBackString] ;
-    
-    //    }else//若不为1表示没登录
-    //    {
-    //        LoginPage *rootViewController = [[LoginPage alloc] init];
-    //        UINavigationController* _navigationController = [[UINavigationController alloc] initWithRootViewController:rootViewController];
-    //        self.viewController =_navigationController;
-    //        [_navigationController setNavigationBarHidden:YES];
-    //
-    //    }
-    //
-}
-- (void)customizeTabBarForControllerHY:(RDVTabBarController *)tabBarController andBackString:(NSString*)isBackString {
-    UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
-    UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    NSArray *tabBarItemImages = @[@"huiyuan_icon_home", @"huiyuan_icon_cart",@"proxy_icon_me"];
-    
-    NSInteger index = 0;
-    for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
-        [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
-        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_pre.png",
-                                                      [tabBarItemImages objectAtIndex:index]]];
-        UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@",
-                                                        [tabBarItemImages objectAtIndex:index]]];
-        [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
-        NSLog(@"%@",[NSString stringWithFormat:@"%@_pre",
-                     [tabBarItemImages objectAtIndex:index]]);
-        index++;
-    }
-    if ([isBackString isEqualToString:@"YES"]) {
-        [tabBarController setSelectedIndex:0];//若是返回按钮
-        
-    }else
-    {
-        [tabBarController setSelectedIndex:2];//若是登录按钮
-        
-    }
-
-}
 //高
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

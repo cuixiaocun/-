@@ -13,5 +13,8 @@
 @property(nonatomic,retain)NSDictionary *dic;
 @property (nonatomic,strong)EGOImageView  *topMCImage;
 @property (nonatomic,strong) UILabel *titleLabel;
-@property (nonatomic,strong) UILabel *numberLabel;
+@property (nonatomic,strong) UILabel *timeLabel;
+@property (nonatomic,strong) UILabel *seeLabel;
+@property (nonatomic,strong) UILabel *talkLabel;
+
 @end

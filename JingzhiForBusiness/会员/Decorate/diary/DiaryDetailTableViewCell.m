@@ -47,21 +47,18 @@
         _contentLabel.text =@"看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。\n所以他们的家看起来也是那种干净，简洁，但每种装饰都有它必须在那里的理由。有从比如埃及带回来的装饰品，有从发货某个二手市场淘回来的小家具...放在那里就让整个房间焕发一种温馨的感觉。\nOk，拉回来，我想说的是，这种审美会传染人。于是我也渐渐开始建立起这样的审美。也开始想象自己有这样的家。我最开始感觉就是在看软装，这个沙发，那个吊灯...totally wrong direction.现在开始落地起来，开始找装修公司设计师，SD、MF、NH，开始看预算，开始和小伙伴聊中央空调，\n西门子开关，比较优劣，开始看各位16楼的日记，哈，工作之余的事情就是装修！现在是午休时间，给自己开了篇。";
         CGSize titleSize;//通过文本得到高度
         titleSize = [_contentLabel.text boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-        
-
         _contentLabel.frame =CGRectMake(24*Width ,_titleLabel.bottom, 700*Width,titleSize.height);
         _contentLabel.numberOfLines =0;
-
-
         _webImage =[[WBImageView alloc]initWithFrame:CGRectMake(25*Width, _contentLabel.bottom, 700*Width,170*Width )];
         _webImage.userInteractionEnabled = YES;
         _webImage.hidden = NO;
         _webImage.left = 15;
+        
         _webImage.top = _contentLabel.bottom;
         _webImage.height = [WBImageView heightForCount:9];//因为开始的时候是以坐标做得这里应该是照片的数量
         NSLog(@"%f-------",_webImage.height);
         _webImage.width = 320;
-        [_webImage setDataList:@[@"zx_icon_zal",@"home_icon_xue",@"zx_icon_rj",@"zx_icon_twt",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_more"]];
+        [_webImage setDataList:@[@"http://oo849p911.bkt.clouddn.com/ddsc2017-08-04_5983c4a128242.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505392560832&di=206e9c2d41f3c5cb99fdc82cb14e1d67&imgtype=0&src=http%3A%2F%2Fpic73.nipic.com%2Ffile%2F20150724%2F9448607_174837076000_2.jpg",@"http://oo849p911.bkt.clouddn.com/ddsc2017-08-04_5983c4a128242.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505392560832&di=98a69409cf8e6abb4fdee414b7dab0e4&imgtype=0&src=http%3A%2F%2Fpic18.nipic.com%2F20111208%2F8282523_212410561181_2.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505393035479&di=8cda738d292a7406465f9bd80b19228c&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike150%252C5%252C5%252C150%252C50%2Fsign%3D05056ad1a5efce1bfe26c098ce3898bb%2F838ba61ea8d3fd1fd4de8b1d324e251f94ca5fc5.jpg",@"http://oo849p911.bkt.clouddn.com/ddsc2017-08-04_5983c4a128242.jpg",@"http://oo849p911.bkt.clouddn.com/ddsc2017-08-04_5983c4a128242.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505392560829&di=7ecdb0cfd44a0120d1c365aa7c9a9056&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F13%2F70%2F05%2F91b1OOOPIC59.jpg"]];
         [_webImage setTag:777];
         [self addSubview:_webImage];
         
@@ -98,7 +95,6 @@
     }else
     {
         cirLabel.frame =CGRectMake(24*Width ,80*Width, 700*Width,titleSize.height+20*Width);
-        
     }
     
     UILabel *timeLabel =[self viewWithTag:201];

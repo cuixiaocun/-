@@ -253,7 +253,7 @@
     
           failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
               NSLog(@"%@",error);
-              [ProgressHUD showError:@"网络连接失败，请检查网络"];
+//              [ProgressHUD showError:@"网络连接失败，请检查网络"];
               
           }];
 

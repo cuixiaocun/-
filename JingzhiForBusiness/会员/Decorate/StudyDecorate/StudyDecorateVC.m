@@ -33,7 +33,7 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = [UIColor whiteColor];
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -63,6 +63,7 @@
 - (void)returnBtnAction
 {
 
+ 
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning {

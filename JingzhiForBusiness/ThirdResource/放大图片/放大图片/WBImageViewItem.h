@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "WBImageView.h"
-@interface WBImageViewItem : EGOImageView
+#import "WebImgViewTwo.h"
+@interface WBImageViewItem : UIImageView
 
 @property (nonatomic,copy) NSArray *dataList;
 
@@ -18,6 +19,7 @@
 @property (assign) CGRect originFrame;
 //保存原有的superview （WBImageView）
 @property (nonatomic,weak) WBImageView *originSuperView;
+@property (nonatomic,weak) WebImgViewTwo *originSuperView2;
 
 -(CGRect)getNewFrameAtWindow:(CGRect)originFrame;
 

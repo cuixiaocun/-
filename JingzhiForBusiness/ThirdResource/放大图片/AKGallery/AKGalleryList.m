@@ -38,7 +38,7 @@ NSString* identifier  = @"AKGalleryListCell";
     self.view.backgroundColor = BGColor;
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     
     
@@ -46,7 +46,7 @@ NSString* identifier  = @"AKGalleryListCell";
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(0, 20, 44, 44);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
-    [returnBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+    [returnBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 5, 10, 10)];
     [returnBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     

@@ -34,7 +34,7 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -44,13 +44,19 @@
     [topImageView addSubview:returnBtn];
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"我的订单"];
+    [navTitle setText:@"商城订单"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    [navTitle setTextColor:[UIColor blackColor]];
     [self.view addSubview:navTitle];
+    //横线
+    UIImageView*xian =[[UIImageView alloc]init];
+    xian.backgroundColor =BGColor;
+    [topImageView addSubview:xian];
+    xian.frame =CGRectMake(0,63, CXCWidth, 1);
+
     currentPage =0;
     [self getInfoList];
     
@@ -67,7 +73,7 @@
     UIView *topView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
     topView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:topView];
-    NSArray *btnArr =@[@"全部",@"待支付",@"待发货",@"待收货",@"已完成"];
+    NSArray *btnArr =@[@"全部",@"未支付",@"已付款",@"已收货",@"已完成"];
     for (int i=0; i<5; i++) {
         UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         statuBtn.frame = CGRectMake(CXCWidth/5*i, 0,CXCWidth/5-2*Width ,100*Width);
@@ -141,7 +147,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-        return infoArray.count ;
+//        return infoArray.count ;
+    return 10;
+
 }
 
 
@@ -164,8 +172,8 @@
         
     }
     cell.delegate =self;
-    NSDictionary *dict = [infoArray objectAtIndex:row];
-    [cell setDic:dict];
+//    NSDictionary *dict = [infoArray objectAtIndex:row];
+//    [cell setDic:dict];
 
     return cell;
 }
@@ -361,14 +369,14 @@
 }
 -(void)btnClick:(UITableViewCell *)cell andBtnActionTag:(NSInteger)tag
 {
-    index = [ self.tableView indexPathForCell:cell];
+//    index = [ self.tableView indexPathForCell:cell];
     
     switch (tag) {
         case 130:
         {
             //详情
             HYOrderDetailVC *declar =[[HYOrderDetailVC alloc]init];
-            declar.dic =infoArray[index.row];
+//            declar.dic =infoArray[index.row];
             [self.navigationController pushViewController:declar animated:YES];
             
             break;
@@ -391,8 +399,8 @@
         {
             NSLog(@"去支付");
             CashierVC *cash =[[CashierVC alloc]init];
-            cash.orderDic =infoArray[index.row];
-            cash.orderId =[infoArray[index.row] objectForKey:@"id"];
+//            cash.orderDic =infoArray[index.row];
+//            cash.orderId =[infoArray[index.row] objectForKey:@"id"];
             [self.navigationController pushViewController:cash animated:YES];
             
             break;
@@ -403,9 +411,9 @@
             NSLog(@"查看物流");
             
             LogisticsDetailVC *logVC =[[LogisticsDetailVC alloc]init];
-            logVC.dicDetail =infoArray[index.row];
-            logVC.logistics = [infoArray[index.row] objectForKey:@"logistics"];
-            logVC.logisticscom = [infoArray[index.row] objectForKey:@"logisticscom"];
+//            logVC.dicDetail =infoArray[index.row];
+//            logVC.logistics = [infoArray[index.row] objectForKey:@"logistics"];
+//            logVC.logisticscom = [infoArray[index.row] objectForKey:@"logisticscom"];
 
             [self.navigationController pushViewController:logVC animated:YES];
             break;
@@ -469,53 +477,53 @@
 }
 - (void)cancelOrder//取消订单
 {
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    
-    [dic1 setDictionary:@{
-                          @"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
-//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
-                          }];
-    
-    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/cancel" paraments:dic1  addView:self.view success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    
+//    [dic1 setDictionary:@{
+//                          @"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
+////                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+//                          }];
+//    
+//    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/cancel" paraments:dic1  addView:self.view success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+//            
             [MBProgressHUD showSuccess:@"订单取消成功" ToView:self.view];
-            currentPage =0;
-            [self getInfoList ];
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
-    
+//            currentPage =0;
+//            [self getInfoList ];
+//        }
+//        
+//    } fail:^(NSError *error) {
+//        
+//    }];
+//    
 
 
 
 }
 - (void)tureGetGoods//确认收货
 {
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    
-    [dic1 setDictionary:@{@"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
-//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
-                          }];
-    
-    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/receive" paraments:dic1  addView:self.view success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    
+//    [dic1 setDictionary:@{@"id":[[infoArray objectAtIndex:index.row ] objectForKey:@"id"],
+////                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+//                          }];
+//    
+//    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/receive" paraments:dic1  addView:self.view success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+//            
             [MBProgressHUD showSuccess:@"收货成功" ToView:self.view];
-            currentPage =0;
-            [self getInfoList ];
-
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
-    
-
+//            currentPage =0;
+//            [self getInfoList ];
+//
+//        }
+//        
+//    } fail:^(NSError *error) {
+//        
+//    }];
+//    
+//
 
 }
 - (void)getInfoList

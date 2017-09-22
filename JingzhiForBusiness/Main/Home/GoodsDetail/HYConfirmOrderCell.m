@@ -20,14 +20,14 @@
         bgView.backgroundColor = [UIColor whiteColor];
         [self addSubview:bgView];
         
-        _goodsImgView =[[EGOImageView alloc]initWithImage:[UIImage imageNamed:@""]];
+        _goodsImgView =[[EGOImageView alloc]initWithImage:[UIImage imageNamed:@"timg-8.jpeg"]];
         _goodsImgView.backgroundColor =BGColor  ;
         _goodsImgView.frame=CGRectMake(50*Width, 30*Width, 160*Width, 160*Width);
         [bgView addSubview:_goodsImgView];
         
         //商品名称
         _goodsTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+60*Width,10*Width, 310*Width, 100*Width)];
-        _goodsTitleLab.text = @"商品A-几万块合法";
+        _goodsTitleLab.text = @"商品A-几万块合法商品A-几万块合法商品A-几万块合法商品A-几万块合法商品A-几万块合法";
         _goodsTitleLab.textColor=BlackColor;
         _goodsTitleLab.numberOfLines =0;
         _goodsTitleLab.font =[UIFont systemFontOfSize:14];
@@ -39,7 +39,7 @@
         [bgView addSubview:_promptLabel];
         _promptLabel.textColor  =[UIColor colorWithRed:128/255.0 green:128/255.0 blue:128/255.0 alpha:1];
         _promptLabel.font =[UIFont systemFontOfSize:12];
-        _promptLabel.text = @"一箱2盒";
+        _promptLabel.text = @"1件";
         //价格
         UILabel* priceLabel =[[UILabel alloc]initWithFrame:CGRectMake(_goodsImgView.right+60*Width,_promptLabel.bottom, 360*Width, 60*Width)];
         priceLabel.text =@"¥400.00";

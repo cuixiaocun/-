@@ -59,7 +59,7 @@
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(0, 20, 44, 44);
-    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    [returnBtn setImage:[UIImage imageNamed:navBackarrowWhite] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     //注册标签
@@ -76,32 +76,7 @@
 }
 - (void)getDelegate
 {
-    
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"memberlat":memberlat ,
-                          @"memberlng":memberlng,
-//                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
-}];
-    
-    NSLog(@"%@",dic1);
-    [PublicMethod AFNetworkPOSTurl:@"Home/Index/nearbyagent" paraments:dic1  addView:self.view success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            arr =[dict objectForKey:@"data"];
-            for (int i=0; i<arr.count; i++) {
-                [delegateArr insertObject:[NSString stringWithFormat:@"%@:%@   %.2fkm",[arr[i] objectForKey:@"name"],[arr[i] objectForKey:@"account"],[[arr[i] objectForKey:@"juli"] floatValue]/1000.00]atIndex:i];
-            }
-            
-        }else
-        {
-            
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
-    
-    
+
 }
 - (void)returnBtnAction
 {
@@ -114,11 +89,11 @@
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
-    NSArray*leftArr =@[@"推荐人",@"手机号",@"昵称",@"密码",@"确认密码",@"代理",@"身份证号",@"身份证件",@"",@"",@"",@"",] ;
-    NSArray *rightArr =@[@"推荐人账号(非必填)",@"手机号",@"姓名或昵称",@"6-16位数字、字母或字符",@"确认密码",_delegateNumber?_delegateNumber:@"选择代理" ,@"",@"",@"",@"",];
+    NSArray*leftArr =@[@"账户类型",@"用户名",@"手机号",@"密码",@"确认密码",@"",@"",@"",@"",] ;
+    NSArray *rightArr =@[@"选择账户类型",@"姓名或昵称",@"手机号",@"6-16位数字、字母",@"确认密码" ,@"",@"",@"",@"",];
     
     //列表
-    for (int i=0; i<6; i++) {
+    for (int i=0; i<5; i++) {
         UIView *bgview =[[UIView alloc]init];
         bgview.backgroundColor =[UIColor whiteColor];
         [bgScrollView addSubview:bgview];
@@ -127,13 +102,13 @@
         labe.font = [UIFont systemFontOfSize:15];
         labe.textColor = [UIColor grayColor];
         [bgview addSubview:labe];
-        if (i!=5) {
+        if (i!=0) {
             UITextField *inputText = [[UITextField alloc] init];
             [inputText setTag:i+10];
             if (i==3||i==4) {
                 inputText.secureTextEntry =YES;
                 
-            }else if(i==1)
+            }else if(i==2)
             {
                 [inputText setKeyboardType:UIKeyboardTypePhonePad];
             }
@@ -141,23 +116,22 @@
             [inputText setDelegate:self];
             [inputText setFont:[UIFont systemFontOfSize:16]];
             [inputText setTextColor:[UIColor blackColor]];
-            [inputText setFrame:CGRectMake(290*Width, 0,580*Width,106*Width)];
+            [inputText setFrame:CGRectMake(280*Width, 0,450*Width,106*Width)];
             [inputText setClearButtonMode:UITextFieldViewModeWhileEditing];
             [bgview addSubview:inputText];
             
         }else
         {
-            //代理级别与上传身份证
-            UIButton *chooseBtn =[[UIButton alloc]initWithFrame:CGRectMake(290*Width, 0,580*Width,106*Width)];
+            //选择角色
+            UIButton *chooseBtn =[[UIButton alloc]initWithFrame:CGRectMake(280*Width, 0,450*Width,106*Width)];
             [bgview addSubview:chooseBtn];
             chooseBtn.tag =10+i;
             [chooseBtn addTarget:self action:@selector(levelChoosen:) forControlEvents:UIControlEventTouchUpInside];
             //文字
-            UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,580*Width , 106*Width)];
+            UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,400*Width , 106*Width)];
             wzlabe.text = rightArr[i];
-            if ( [wzlabe.text isEqualToString:@"选择代理"]) {
+            if ( [wzlabe.text isEqualToString:@"选择账户类型"]) {
                 wzlabe.textColor = TextGrayGrayColor;
-
             }else
             {
                 wzlabe.textColor = [UIColor blackColor];
@@ -187,11 +161,21 @@
             bgview.frame =CGRectMake(0, 60*Width+i*106*Width, CXCWidth, 106*Width);
         }
     }
-    //下一步按钮
+    
+    CALayer *layer = [CALayer layer];
+    layer.frame = CGRectMake(40*Width,700*Width , 670*Width, 98*Width);
+    layer.backgroundColor = NavColor.CGColor;
+    layer.shadowOffset = CGSizeMake(5, 5);
+    layer.shadowOpacity = 0.4;
+    layer.shadowColor = NavColor.CGColor;
+
+    layer.cornerRadius = 44*Width;
+    [bgScrollView.layer addSublayer:layer];
+    //注册按钮
     UIButton*nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [nextBtn setFrame:CGRectMake(40*Width,800*Width , 670*Width, 88*Width)];
+    [nextBtn setFrame:CGRectMake(40*Width,700*Width , 670*Width, 98*Width)];
     [nextBtn setBackgroundColor:NavColor];
-    [nextBtn.layer setCornerRadius:4];
+    [nextBtn.layer setCornerRadius:44*Width];
     [nextBtn.layer setMasksToBounds:YES];
     [nextBtn setTitle:@"注册" forState:UIControlStateNormal];
     [nextBtn.titleLabel setTextColor:[UIColor whiteColor]];
@@ -206,12 +190,10 @@
 }
 - (void)nextStep
 {
-    UITextField *parent =[self.view viewWithTag:10];
-    UITextField *name =[self.view viewWithTag:12];
-    UITextField *account =[self.view viewWithTag:11];
+    UITextField *name =[self.view viewWithTag:11];
+    UITextField *account =[self.view viewWithTag:12];
     UITextField *password =[self.view viewWithTag:13];
     UITextField *password2 =[self.view viewWithTag:14];
-    UILabel*delegateLabel =[self.view viewWithTag:25];
     if (name.text.length>10) {
         [MBProgressHUD showError:@"昵称最多为10位" ToView:self.view];
         return;
@@ -233,41 +215,35 @@
         [MBProgressHUD showError:@"确认密码不能为空" ToView:self.view];
         return;
     }
-        if ([delegateLabel.text isEqualToString:@"选择代理"]) {
-        [MBProgressHUD showError:@"请选择代理" ToView:self.view];
-        return;
-    }
+//    [ProgressHUD show:@"正在请求。。。"];
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    [dic1 setDictionary:@{@"account":[NSString stringWithFormat:@"%@",account.text],
+//                          @"password":[NSString stringWithFormat:@"%@",password.text],
+//                          @"password2":[NSString stringWithFormat:@"%@",password2.text],
+//                          @"name":[NSString stringWithFormat:@"%@",name.text],
+//                          @"parent":[NSString stringWithFormat:@"%@",parent.text]}];
+//    NSLog(@"%@",dic1);
+//    [PublicMethod AFNetworkPOSTurl:@"Home/Login/regMember" paraments:dic1 addView:self.view success:^(id responseDic) {
+//            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+//                for (UIViewController *controller in self.navigationController.viewControllers) {
+//                    [ProgressHUD  showSuccess:@"注册成功"];
+//                    if ([controller isKindOfClass:[LoginPage  class]]) {
+//                        [self.navigationController popToViewController:controller animated:YES];
+//                    }else if ([controller isKindOfClass:[SelfDetailVC  class]])
+//                    {
+//                        LoginPage*loginPage =[[LoginPage alloc]init];
+//                        [self.navigationController pushViewController:loginPage animated:YES];
+//                        
+//                    }
+// 
+//               }
+//          }
+//            
+//        } fail:^(NSError *error) {
+//            
+//        }];
     
-    [ProgressHUD show:@"正在请求。。。"];
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"account":[NSString stringWithFormat:@"%@",account.text],
-                          @"password":[NSString stringWithFormat:@"%@",password.text],
-                          @"password2":[NSString stringWithFormat:@"%@",password2.text],
-                          @"name":[NSString stringWithFormat:@"%@",name.text],
-                          @"upagenaccount":[NSString stringWithFormat:@"%@",delegateLabel.text],
-                          @"parent":[NSString stringWithFormat:@"%@",parent.text]}];
-    NSLog(@"%@",dic1);
-    [PublicMethod AFNetworkPOSTurl:@"Home/Login/regMember" paraments:dic1 addView:self.view success:^(id responseDic) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-                for (UIViewController *controller in self.navigationController.viewControllers) {
-                    [ProgressHUD  showSuccess:@"注册成功"];
-                    if ([controller isKindOfClass:[LoginPage  class]]) {
-                        [self.navigationController popToViewController:controller animated:YES];
-                    }else if ([controller isKindOfClass:[SelfDetailVC  class]])
-                    {
-                        LoginPage*loginPage =[[LoginPage alloc]init];
-                        [self.navigationController pushViewController:loginPage animated:YES];
-                        
-                    }
- 
-               }
-          }
-            
-        } fail:^(NSError *error) {
-            
-        }];
-        
     
     
   }
@@ -288,9 +264,10 @@
         UITextField *inputTExt = (UITextField *)[self.view viewWithTag:i+10];
         [inputTExt resignFirstResponder];
     }
-    if (btn.tag==15) {
+    if (btn.tag==10) {
         //选择代理
-        SRActionSheet *actionSheet = [SRActionSheet sr_actionSheetViewWithTitle:@"请选择代理"
+        delegateArr =[NSMutableArray arrayWithArray:@[@"用户",@"设计师",@"商家",@"物业公司"]];
+        SRActionSheet *actionSheet = [SRActionSheet sr_actionSheetViewWithTitle:@"账户类型"
                                                                     cancelTitle:@"取消"
                                                                destructiveTitle:nil
                                                                      withNumber:[NSString stringWithFormat:@"%ld",(delegateArr.count+1)] withLineNumber:@"1"
@@ -304,34 +281,34 @@
                                                                   
                                                                   NSLog(@"%zd", index);
                                                               }];
-        actionSheet.number=@"7";
-        actionSheet.lineNumber=@"1";
-        
         
         [actionSheet show];
     }
 }
 -(void) actionSheetButtonAtIndex:(NSInteger)buttonIndex
 {
-    UILabel *labelOne  =[self.view viewWithTag:25];
+    UILabel *labelOne  =[self.view viewWithTag:20];
     labelOne.textColor =[UIColor blackColor];
+    
+    
+    
     
     if (buttonIndex<delegateArr.count&&buttonIndex>=0) {
         levelString =[NSString stringWithFormat:@"%@",delegateArr[ buttonIndex]];
 
-        NSRange range = [levelString rangeOfString:@":"];
-        range.location =range.location+1;
-        levelString = [levelString substringFromIndex:range.location];
-        NSRange range2 = [levelString rangeOfString:@" "];
-        levelString = [levelString substringToIndex:range2.location];
-
-        NSLog(@"string:%@",levelString);
+//        NSRange range = [levelString rangeOfString:@":"];
+//        range.location =range.location+1;
+//        levelString = [levelString substringFromIndex:range.location];
+//        NSRange range2 = [levelString rangeOfString:@" "];
+//        levelString = [levelString substringToIndex:range2.location];
+//
+//        NSLog(@"string:%@",levelString);
         labelOne.text =levelString;
 
     }else
     {
         labelOne.textColor =TextGrayGrayColor;
-        labelOne.text =@"选择级别";
+        labelOne.text =@"选择账户类型";
     }
 
     
@@ -343,7 +320,7 @@
     NSInteger existedLength = textField.text.length;
     NSInteger selectedLength = range.length;
     NSInteger replaceLength = string.length;
-    if (textField.tag==11||textField.tag ==10) {
+    if (textField.tag==12) {
         if (existedLength - selectedLength + replaceLength >= 12) {
             
             [textField resignFirstResponder];
@@ -353,19 +330,11 @@
             
         }
         
-    }else if (textField.tag==17)
-    {
-        if (existedLength - selectedLength + replaceLength >= 19) {
-            
-            [textField resignFirstResponder];
-            return NO;
-            
-        }
     }else if (textField.tag==13||textField.tag==14)
     {
         
         if (existedLength - selectedLength + replaceLength >= 17) {
-            [MBProgressHUD showError:@"密码为8-16位" ToView:self.view];
+            [MBProgressHUD showError:@"密码为6-16位" ToView:self.view];
             
             [textField resignFirstResponder];
             return NO;
@@ -375,12 +344,7 @@
         
     }
     
-    
-    
-    
-    
-    
-    return YES;
+      return YES;
     
     
     

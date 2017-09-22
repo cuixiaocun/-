@@ -31,11 +31,12 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
@@ -46,7 +47,7 @@
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    [navTitle setTextColor:[UIColor blackColor]];
     [self.view addSubview:navTitle];
     
     
@@ -96,6 +97,7 @@
     UILabel*nameLabel =[[UILabel alloc]initWithFrame:CGRectMake(60*Width, 25*Width, 250*Width, 50*Width)];
     nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
     nameLabel.tag=450;
+
     nameLabel.font =[UIFont systemFontOfSize:16];
     [topView addSubview:nameLabel];
     
@@ -117,6 +119,9 @@
     addressLabel.numberOfLines= 0;
     addressLabel.textColor =TextGrayColor;
     addressLabel.tag=452;
+    numberLabel.text =@"18366666666";
+    nameLabel.text =@"孙俪";
+    addressLabel.text=@"山东省潍坊市奎文区胜利街新华路中天下国际";
 
     
     return bgScrollView ;
@@ -129,7 +134,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return goodsArr.count;
+//    return goodsArr.count;
+    return 1;
+
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -151,8 +158,8 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-    NSDictionary *dict = [goodsArr objectAtIndex:[indexPath row]];
-    [cell setDic:dict];
+//    NSDictionary *dict = [goodsArr objectAtIndex:[indexPath row]];
+//    [cell setDic:dict];
     return cell;
     
     
@@ -207,7 +214,6 @@
 
     
     
-    
     UIView *detailView =[[UIView alloc]init ];
 
     if ([[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]]isEqualToString:@"5"]||[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]]isEqualToString:@"6"]||[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status"]]isEqualToString:@"1"])
@@ -225,9 +231,10 @@
     
     [bottomBgView addSubview:detailView];
     detailView.backgroundColor =[UIColor whiteColor];
-    NSArray *leftArr =@[@"商品总额",@"积分"];
-    NSArray *rightArr =@[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"total"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"integral"]]];
-    
+    NSArray *leftArr =@[@"商品总额",@"金币"];
+//    NSArray *rightArr =@[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"total"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"integral"]]];
+    NSArray *rightArr =@[[NSString stringWithFormat:@"%@",@"400"],[NSString stringWithFormat:@"%@",@"11"]];
+
     for (int i=0; i<2; i++) {
         UILabel *leftLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width, 10*Width+57.5*Width*i, 200*Width, 57.5*Width)];
         leftLabel.font =[UIFont systemFontOfSize:14];
@@ -264,7 +271,13 @@
     [subPromLabel  setFont:[UIFont systemFontOfSize:14]];
     [detailView   addSubview:subPromLabel];
     
+    cardPhoto.image =[UIImage imageNamed:@"pay_icon_alipay"];
+    bankNameLabel.text =@"支付宝支付";
+
+    
+    
     return bottomBgView;
+    
 }
 
 - (void)examinePass:(UIButton*)btn

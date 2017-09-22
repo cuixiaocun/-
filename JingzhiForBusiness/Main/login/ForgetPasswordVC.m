@@ -51,7 +51,7 @@
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     returnBtn.frame = CGRectMake(0, 20, 44, 44);
-    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    [returnBtn setImage:[UIImage imageNamed:navBackarrowWhite] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     
@@ -82,9 +82,11 @@
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
+    bgScrollView.showsVerticalScrollIndicator = FALSE;
+    bgScrollView.showsHorizontalScrollIndicator = FALSE;
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1500*Width)];
     NSArray*leftArr =@[@"账号",@"验证码",@"新密码",@"确认密码",] ;
-    NSArray *rightArr =@[@"账号",@"验证码",@"请输入6-16位字母、数字密码",@"请再次输入6-16位字母、数字密码"];
+    NSArray *rightArr =@[@"账号",@"验证码",@"请输入6-16位字母、数字密码",@"请再次输密码"];
     //列表
 
     for (int i=0; i<4; i++) {
@@ -144,14 +146,25 @@
 
         }
     
-        
+    
+    CALayer *layer = [CALayer layer];
+    layer.frame = CGRectMake(40*Width,600*Width , 670*Width, 98*Width);
+    layer.backgroundColor = NavColor.CGColor;
+    layer.shadowOffset = CGSizeMake(5, 5);
+    layer.shadowOpacity = 0.4;
+    layer.shadowColor = NavColor.CGColor;
+    layer.cornerRadius = 44*Width;
+    
+    [bgScrollView.layer addSublayer:layer];
+    
+
     //下一步按钮
     UIButton*nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [nextBtn setFrame:CGRectMake(40*Width,600*Width , 670*Width, 88*Width)];
+    [nextBtn setFrame:CGRectMake(40*Width,600*Width , 670*Width, 98*Width)];
     [nextBtn setBackgroundColor:NavColor];
-    [nextBtn.layer setCornerRadius:4];
+    [nextBtn.layer setCornerRadius:44*Width];
     [nextBtn.layer setMasksToBounds:YES];
-    [nextBtn setTitle:@"重置" forState:UIControlStateNormal];
+    [nextBtn setTitle:@"确认修改" forState:UIControlStateNormal];
     [nextBtn.titleLabel setTextColor:[UIColor whiteColor]];
     [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [nextBtn addTarget:self action:@selector(nextStep) forControlEvents:UIControlEventTouchUpInside];

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface HomeTwoCollectionViewCell : UICollectionViewCell
 @property (nonatomic,strong)EGOImageView  *topMCImage;
 @property (nonatomic,strong) UILabel *promtpmcLabel;

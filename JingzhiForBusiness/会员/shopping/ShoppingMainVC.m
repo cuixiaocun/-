@@ -114,7 +114,7 @@
     [btnView setBackgroundColor:[UIColor whiteColor ]];
     [bgScrollView addSubview:btnView];
     NSArray *topArr =@[@"mall_icon_jcjc",@"mall_icon_jiaju",@"mall_icon_jd",@"mall_icon_rzps",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_more",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
-    NSArray*bottomArr =@[@"基础建材",@"家具",@"家电",@"软装配饰",@"",@"",];
+    NSArray*bottomArr =@[@"基础建材",@"家居定制",@"家电",@"软装配饰",@"",@"",];
     [btnView setBackgroundColor:[UIColor whiteColor]];
     for (int i=0; i<4; i++) {
         //大按钮
@@ -192,7 +192,7 @@
     }else if (btn.tag==301)
     {
         ClassificationList*search =[[ClassificationList alloc]init];
-        search.btnNameString =@"家居";
+        search.btnNameString =@"家居定制";
         [self.navigationController pushViewController:search animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         

@@ -31,7 +31,7 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = [UIColor whiteColor];
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -73,7 +73,9 @@
     NSArray *btnArr =@[@"区域",@"类型",@"价格",@"排序",@"123"];
     topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, 64+1, CXCWidth, 85*Width) buttonArr:btnArr];
     topView.backgroundColor =[UIColor redColor];
+    topView.level = 2;
     topView.delegate =self;
+    
     [self.view addSubview:topView];
 //    for (int i=0; i<4; i++) {
 //        UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -135,8 +137,20 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
+
+-(NSArray *)addressArr{
+    
+    if (_addressArr == nil) {
+        NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"address.plist" ofType:nil]];
+        _addressArr = [dic objectForKey:@"address"];
+        NSLog(@"address=%@",_addressArr);
+    }
+    return _addressArr;
+}
 -(void)btnClickBtn:(UIButton *)cell
 {
+    topView.addressArr =self.addressArr;
+    topView.typeString =@"city";
 
 
 }
@@ -152,6 +166,7 @@
 }
 - (void)returnBtnAction
 {
+    [topView.oneLinkageDropMenu dismiss];
 
     [self.navigationController popViewControllerAnimated:YES];
 

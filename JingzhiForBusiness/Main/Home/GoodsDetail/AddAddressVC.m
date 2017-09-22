@@ -29,7 +29,7 @@
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -44,7 +44,7 @@
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    [navTitle setTextColor:[UIColor blackColor]];
     [self.view addSubview:navTitle];
     
     [self mainView];
@@ -63,7 +63,7 @@
      rightArr =@[[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"phone"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name_path"]],[NSString stringWithFormat:@"%@",[_dic objectForKey:@"address"]]];
     }else
     {
-        rightArr =@[@"",@"",@"",@"",@"",@"",@"",@""];
+        rightArr =@[@"孙类",@"18363671722",@"山东省潍坊市奎文区",@"新华路胜利街路口西北角宝鼎花园2208号",@"",@"",@"",@""];
 
     
     
@@ -91,7 +91,7 @@
             [inputText setFont:[UIFont systemFontOfSize:16]];
             [inputText setTextColor:[UIColor blackColor]];
             [inputText setText:[NSString stringWithFormat:@"%@",rightArr[i]]];
-            
+            inputText.textAlignment =NSTextAlignmentRight;
             [inputText setFrame:CGRectMake(200*Width, 0,520*Width,99*Width)];
             [inputText setClearButtonMode:UITextFieldViewModeWhileEditing];
             [bgview addSubview:inputText];
@@ -103,12 +103,14 @@
             chooseBtn.tag =10+i;
             [chooseBtn addTarget:self action:@selector(addressChoose) forControlEvents:UIControlEventTouchUpInside];
             //文字
-            UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,580*Width , 99*Width)];
+            UILabel* wzlabe = [[UILabel alloc]initWithFrame:CGRectMake(0*Width, 0,470*Width , 99*Width)];
             wzlabe.text =[NSString stringWithFormat:@"%@",rightArr[i]] ;
             wzlabe.tag =111;
             wzlabe.font = [UIFont systemFontOfSize:14];
             wzlabe.textColor = [UIColor blackColor];
             [chooseBtn addSubview:wzlabe];
+            wzlabe.textAlignment =NSTextAlignmentRight;
+
             //箭头
             UIImageView  *jiantou =[[UIImageView alloc]initWithFrame:CGRectMake(680*Width, 35*Width,30*Width , 30*Width)];
             [bgview addSubview:jiantou];
@@ -297,7 +299,7 @@
     UILabel *label =[self.view viewWithTag:111];
     
 
-    [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:@"北京市-北京市-东城区" numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
+    [[MOFSPickerManager shareManger] showMOFSAddressPickerWithDefaultAddress:nil numberOfComponents:3 title:@"" cancelTitle:@"取消" commitTitle:@"确定" commitBlock:^(NSString *address, NSString *zipcode) {
        label.text = [address stringByReplacingOccurrencesOfString:@"-" withString:@"/"];
     } cancelBlock:^{
         

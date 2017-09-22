@@ -14,10 +14,11 @@
 #import "HouseDetailMainVC.h"
 @interface SearchHouseVC ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
-    UIScrollView *bgScrollView;//最底下的背景
     NSMutableArray *imagesArray;//滚动图片数组
     SDCycleScrollView *cycleScrollView2;//这个是轮播
     UITableView *tableview;
+    UIScrollView *bgScrollView;//最底下的背景
+
 }
 @end
 
@@ -217,7 +218,9 @@
 
 - (void)myBtnAciton:(UIButton *)btn
 {
-
+    HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
+    [self.navigationController  pushViewController:house animated:YES];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 
 }
 - (void)getBestRecommend
@@ -330,6 +333,8 @@
 
     HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
     [self.navigationController  pushViewController:house animated:YES];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -383,6 +388,9 @@
 }
 - (void)moreTJ
 {
+    SearchHouseTableViewController  *search =[[SearchHouseTableViewController alloc]init];
+    [self.navigationController pushViewController:search animated:YES];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     NSLog(@"111");
 }
 - (void)moreTS

@@ -10,10 +10,8 @@
 #import "RDVTabBarController.h"
 #import "RDVTabBar.h"
 #import "RDVTabBarItem.h"
-#import "ShoppingCartVC.h"
 #import "LoginPage.h"
 #import "ViewController.h"
-#import "ComMallView.h"
 #import "SearchPage.h"
 #import "NoticeVC.h"
 #import "GoodsDetailVC.h"
@@ -28,9 +26,17 @@
 #import "HomeTwoCollectionViewCell.h"
 #import "HomeThreeCollectionViewCell.h"
 #import "HouseDetailMainVC.h"
-
+#import "DropMenuView.h"
+#import "FindDesignerVC.h"
+#import "FindCompanyVC.h"
+#import "DecorateBestVC.h"
+#import "KnowledgeVC.h"
+#import "ActivityForYouhui.h"
+#import "SearchHouseTableViewController.h"
+#import "IWantDecorateVC.h"
+#import "XYMScanViewController.h"
 //#import "JPUSHService.h"
-@interface HomePage ()<SDCycleScrollViewDelegate,OnClickCMallDelegate,UICollectionViewDataSource,UICollectionViewDelegate,TXScrollLabelViewDelegate>
+@interface HomePage ()<SDCycleScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,DropMenuViewDelegate,TXScrollLabelViewDelegate>
 {
     UIScrollView *bgScrollView;//最底下的背景
     NSMutableArray *imagesArray;//滚动图片数组
@@ -42,11 +48,14 @@
     NSArray *goodsArr;
     NSMutableArray *titleArr;//公告
     NSArray *imgArr;//banner
-
+   
+    //替代导航栏的imageview
+    UIImageView *topImageView;
 }
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
-@property (nonatomic,weak) id<OnClickCMallDelegate> CMallDelegate;//协议
 @property (weak, nonatomic) TXScrollLabelView *scrollLabelView;//
+@property (nonatomic, strong) DropMenuView *oneLinkageDropMenu;
+@property (nonatomic, strong) NSArray *addressArr;//地址arr
 
 @end
 static NSInteger seq = 0;
@@ -59,39 +68,44 @@ static NSInteger seq = 0;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    //黑底白字
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
+    
     self.navigationController.navigationBarHidden =YES;
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [_oneLinkageDropMenu dismiss ];
 }
 //首页
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self.view setBackgroundColor:BGColor];
   
-    //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
 
-    UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width, 20,140*Width , 44)];
+    UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width, 20,160*Width , 44)];
+    
     [topImageView addSubview:addressBtn];
     [addressBtn addTarget:self action:@selector(chooseAddress) forControlEvents:UIControlEventTouchUpInside];
     UILabel *addLabel = [[UILabel alloc] init];
     [addLabel setText:@"潍坊"];
     addLabel.tag =30;
+    addLabel.textAlignment  =NSTextAlignmentCenter;
     addLabel.textColor =[UIColor whiteColor];
     [addLabel setFont:[UIFont systemFontOfSize:14]];
-    [addLabel setFrame:CGRectMake(30*Width, 0*Width,75*Width,40)];
+    [addLabel setFrame:CGRectMake(30*Width, 0*Width,100*Width,40)];
     [addressBtn addSubview:addLabel];
-
-    
-    UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(100*Width, 25*Width, 15*Width, 24*Width)];
+    UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(130*Width, 25*Width, 15*Width, 24*Width)];
     addShowImgV.image =[UIImage imageNamed:@"home_icon_morecity"];
     [addressBtn addSubview:addShowImgV];
     
-    UIButton *navBgView =[[UIButton alloc]initWithFrame:CGRectMake(160*Width, 20+10*Width,430*Width , 60*Width)];
     
+    UIButton *navBgView =[[UIButton alloc]initWithFrame:CGRectMake(160*Width, 20+10*Width,430*Width , 60*Width)];
     navBgView.backgroundColor =[UIColor colorWithRed:252/255.00 green:93/255.00 blue:40/255.00 alpha:1];
     [topImageView addSubview:navBgView];
     [navBgView addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
@@ -107,22 +121,64 @@ static NSInteger seq = 0;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
     [searchTextField setFrame:CGRectMake(bigShowImgV.right+12*Width, 0,400*Width,60*Width)];
     [navBgView addSubview:searchTextField];
-    
-    
   
+    UIButton *  rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    rightBtn.frame = CGRectMake(CXCWidth-44, 20, 44, 44);
+    [rightBtn setImage:[UIImage imageNamed:@"home_btn_scan"] forState:UIControlStateNormal];
+    [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     
+    [topImageView addSubview:rightBtn];
     [self makeThisView];//主页面
     [self getBanner];//banner
     [self getNotice];//黄条公告
 //    [self getJPUSHServiceTags];//极光推送tags
     [self getGoods];//获取商品
 }
+- (void)rightBtnAction
+{
+    XYMScanViewController *scan =[[XYMScanViewController alloc]init];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+    [self.navigationController pushViewController:scan animated:YES];
+}
 - (void)chooseAddress
 {
+    [self.oneLinkageDropMenu removeFromSuperview];
+    self.oneLinkageDropMenu = [[DropMenuView alloc] init];
+    self.oneLinkageDropMenu.delegate = self;
+    [self.oneLinkageDropMenu creatDropView:topImageView withShowTableNum:2 withData:self.addressArr];
+}
+-(void)btnClickBtn:(UIButton *)cell
+{
+    [self.oneLinkageDropMenu dismiss];
 }
 - (void)chooseMore:(UIButton*)btn
 {
+    
+    
     NSLog(@"%@",btn);
+    if (btn.tag==440) {
+        SearchHouseTableViewController  *search =[[SearchHouseTableViewController alloc]init];
+        [self.navigationController pushViewController:search animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+    }else if (btn.tag==441) {
+        DecorateBestVC *search =[[DecorateBestVC alloc]init];
+        [self.navigationController pushViewController:search animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    }else
+    {
+        ClassificationList*search =[[ClassificationList alloc]init];
+        search.btnNameString =@"家居定制";
+        [self.navigationController pushViewController:search animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    }
+    
+    
+    
+    
+    
 
 }
 - (void)withDrawlsBtnAction //寻找
@@ -222,8 +278,8 @@ static NSInteger seq = 0;
     UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0,cycleScrollView2.bottom ,CXCWidth ,460*Width )];
     [btnView setBackgroundColor:[UIColor whiteColor ]];
     [bgScrollView addSubview:btnView];
-      NSArray *topArr =@[@"home_icon_xiaoguo",@"home_icon_xue",@"home_icon_designer",@"home_icon_gongzhang",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_more",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
-     NSArray*bottomArr =@[@"效果图",@"学装修",@"设计师",@"找工长",@"装修公司",@"我要装修",@"建材商城",@"更多",@"",@"",];
+      NSArray *topArr =@[@"home_icon_xiaoguo",@"home_icon_xue",@"home_icon_designer",@"zx_icon_twt",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_hd",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+     NSArray*bottomArr =@[@"效果图",@"学装修",@"设计师",@"论坛",@"装修公司",@"我要装修",@"建材商城",@"优惠活动",@"",@"",];
     [btnView setBackgroundColor:[UIColor whiteColor]];
     for (int i=0; i<8; i++) {
         //大按钮
@@ -232,6 +288,7 @@ static NSInteger seq = 0;
         btn.tag =i+300;
         btn.backgroundColor =[UIColor whiteColor];
         [btnView addSubview:btn];
+        
         //上边图片
         UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(40.5*Width,25*Width,105*Width,105*Width)];
         topImgV.image=[UIImage imageNamed:[NSString stringWithFormat:@"%@",topArr[i]]];
@@ -302,7 +359,7 @@ static NSInteger seq = 0;
     _mainCMallCollectionView.scrollEnabled = NO;
     [_mainCMallCollectionView reloadData];
     
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2800*Width+440*Width)];
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2800*Width+640*Width)];
     _mainCMallCollectionView.height = (14/2+14%2)*440*Width+20*Width ;//高度=(数量/2+1)*440*width+20*width
 }
 - (void)hiddenTheTopView
@@ -315,7 +372,7 @@ static NSInteger seq = 0;
 {
     if (btn.tag ==300) {
 
-        NearlyDelegateVC *search =[[NearlyDelegateVC alloc]init];
+        DecorateBestVC *search =[[DecorateBestVC alloc]init];
         [self.navigationController pushViewController:search animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 
@@ -328,26 +385,25 @@ static NSInteger seq = 0;
     
     }else if (btn.tag==302)
     {
-        NoticeVC  *notice =[[NoticeVC alloc]init];
-        notice.hyOrDl =@"HY";
+        FindDesignerVC  *notice =[[FindDesignerVC alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
     }else if (btn.tag==303)
     {
-        HYProblemVC  *notice =[[HYProblemVC alloc]init];
+        KnowledgeVC  *notice =[[KnowledgeVC alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
     }else if (btn.tag==304)
     {
-        HYProblemVC  *notice =[[HYProblemVC alloc]init];
+        FindCompanyVC  *notice =[[FindCompanyVC alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
     }else if (btn.tag==305)
     {
-        HYProblemVC  *notice =[[HYProblemVC alloc]init];
+        IWantDecorateVC  *notice =[[IWantDecorateVC alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
@@ -361,7 +417,7 @@ static NSInteger seq = 0;
 
     }else if (btn.tag==307)
     {
-        HYProblemVC  *notice =[[HYProblemVC alloc]init];
+        ActivityForYouhui  *notice =[[ActivityForYouhui alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
@@ -422,7 +478,7 @@ static MLLinkLabel * kProtypeLabel() {
             botLabel.text =[NSString stringWithFormat:@"%@",@"    精选设计案例"];
             
         }else if(indexPath.section ==2) {
-            botLabel.text =[NSString stringWithFormat:@"%@",@"    家居商城"];
+            botLabel.text =[NSString stringWithFormat:@"%@",@"    家居定制"];
             
         }
         [header addSubview:botLabel];
@@ -530,15 +586,21 @@ static MLLinkLabel * kProtypeLabel() {
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController  pushViewController:goode animated:YES];
     
+    }else  if (indexPath.section==1)
+    {
+        DecorateBestVC *search =[[DecorateBestVC alloc]init];
+        [self.navigationController pushViewController:search animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     }else
     {
         GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
         goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController  pushViewController:goode animated:YES];
-        
 
     }
+   
+  
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
@@ -608,6 +670,33 @@ static MLLinkLabel * kProtypeLabel() {
     NSMutableSet * tags = [[NSMutableSet alloc] init];
     [tags addObjectsFromArray:tagsList];
     return tags;
+}
+-(void)dropMenuView:(DropMenuView *)view didSelectName:(NSString *)str
+{
+    UILabel *btn =[self.view viewWithTag:30];
+    btn.text =str;
+    
+//    [btn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+    
+//    NSLog(@"currTag = %ld=======%@",(long)currTag,str);
+    
+//    [btn setTitle:str forState:UIControlStateNormal];
+//    [btn setImage:[UIImage imageNamed:@"sf_icon_down"]forState:UIControlStateNormal];
+    
+}
+-(void)dissMissLoad
+{
+    [self.oneLinkageDropMenu dismiss];
+}
+-(NSArray *)addressArr{
+    
+    if (_addressArr == nil) {
+        NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"address.plist" ofType:nil]];
+        
+        _addressArr = [dic objectForKey:@"address"];
+        NSLog(@"address=%@",_addressArr);
+    }
+    return _addressArr;
 }
 
 - (NSInteger)seq {

@@ -12,7 +12,10 @@
 #import <BaiduMapAPI_Location/BMKLocationComponent.h>
 #import <BaiduMapAPI_Base/BMKUserLocation.h>
 #import <BaiduMapAPI_Location/BMKLocationService.h>
+#import <BaiduMapAPI_Search/BMKGeocodeSearch.h>
+#import <BaiduMapAPI_Search/BMKGeocodeType.h>
 #import "NearDelegateCell.h"
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
 @interface NearlyDelegateVC ()<BMKLocationServiceDelegate>
 {
     UIView *nilBgView;
@@ -366,10 +369,29 @@
     [self performSelector:@selector(getInfoList)];
     [_locService stopUserLocationService];
 
-
+    NSLog(@"当前的坐标是:%f,%f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude);
+    
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation: userLocation.location completionHandler:^(NSArray *array, NSError *error) {
+        if (array.count > 0) {
+            CLPlacemark *placemark = [array objectAtIndex:0];
+            if (placemark != nil) {
+                NSString *city = placemark.locality;
+                
+                NSLog(@"当前城市名称------%@",city);
+                BMKOfflineMap * _offlineMap = [[BMKOfflineMap alloc] init];
+//                _offlineMap.delegate = self;//可以不要
+                NSArray* records = [_offlineMap searchCity:city];
+                BMKOLSearchRecord* oneRecord = [records objectAtIndex:0];
+                //城市编码如:北京为131
+                NSInteger cityId = oneRecord.cityID;
+                NSLog(@"当前城市编号-------->%zd",cityId);
+                //找到了当前位置城市后就关闭服务
+                [_locService stopUserLocationService];
+            }
+        }
+    }];
 }
-
-
 /*
 #pragma mark - Navigation
 

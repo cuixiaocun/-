@@ -9,7 +9,7 @@
 #import "WBImageViewItem.h"
 //#import "WBImageViewController.h"
 #import "AKGallery.h"
-
+#import "UIImageView+WebCache.h"
 //#import "UIView+UIViewController.h"
 @implementation WBImageViewItem
 
@@ -67,9 +67,10 @@
     NSMutableArray* arr= @[].mutableCopy;
     
     for (int  i = 0; i<_dataList.count; i++) {
-    
-        AKGalleryItem* item = [AKGalleryItem itemWithTitle:[NSString stringWithFormat:@"%d",i+1] url:nil img:[UIImage imageNamed:@"86.jpg"]];
+//        UIImageView *imv =[[UIImageView alloc]init];
+//        [imv sd_setImageWithURL:_dataList[i]];
         
+        AKGalleryItem* item = [AKGalleryItem itemWithTitle:[NSString stringWithFormat:@"%d",i+1] url:[NSString stringWithFormat:@"%@",_dataList[i]] img:nil];
         [arr addObject:item];
     }
 
@@ -79,11 +80,11 @@
     gallery.selectIndex=self.index;
     gallery.completion=^{
         NSLog(@"completion gallery");
-        
     };
+    
        //show gallery
     [self presentAKGallery:gallery animated:YES completion:nil];
-//
+
 //    WBImageViewController *controller = [[WBImageViewController alloc] init];
 //    
 //    controller.dataList = self.dataList;
@@ -100,8 +101,6 @@
     //todo:defaults
 
     [gallery.navigationController.navigationBar setBarTintColor:[UIColor grayColor]];
-
-    
     [self.viewController presentViewController:gallery animated:flag completion:completion];
 
 }

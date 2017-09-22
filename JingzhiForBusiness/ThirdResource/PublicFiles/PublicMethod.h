@@ -40,6 +40,8 @@
 
 #define BGColor ([UIColor colorWithRed:240/255.0 green:240/255.0 blue:240/255.0 alpha:1])//背景颜色
 #define NavColor ([UIColor colorWithRed:255/255.0 green:102/255.0 blue:51/255.0 alpha:1])//导航栏颜色
+#define NavColorWhite ([UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1])//导航栏颜色
+
 #define NomalBtnBg ([UIColor colorWithRed:127/255.0 green:173/255.0 blue:206/255.0 alpha:1])//按钮普通颜色
 #define SelectBtnBg ([UIColor colorWithRed:51/255.0 green:127/255.0 blue:179/255.0 alpha:1])//按钮选中颜色
 #define Version ([[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey])
@@ -49,6 +51,7 @@
 #define CXCWidth ([[UIScreen mainScreen] bounds].size.width)/1.0
 #define Width [UIScreen mainScreen].bounds.size.width/750.000
 #define navBackarrow @"sf_icon_goBack"//返回箭头
+#define navBackarrowWhite @"register_btn_goBack_white"
 #define shopingCart @"ShopingCart"//购物车数组
 #define member @"member"//会员字典
 #define agen @"agen"//会员字典

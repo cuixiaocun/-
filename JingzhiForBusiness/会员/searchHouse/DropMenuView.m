@@ -46,7 +46,7 @@
 {
     self = [super init];
     if (self) {
-        
+//        self.backgroundColor=[UIColor redColor];
         /** 数据初始化 */
         self.dataArr = [NSArray array];
         
@@ -91,9 +91,7 @@
         for (UITableView *tableView in self.tableViewArr) {
             [tableView reloadData];
         }
-        
-        
-        
+                
         // 初始位置 设置
         CGFloat x = 0.f;
         CGFloat y = view.frame.origin.y + view.frame.size.height;
@@ -175,7 +173,6 @@
         adjustFrame.size.width = kWidth / addTableCount ;
         adjustFrame.origin.x = adjustFrame.size.width * i + 0.5 * i;
         adjustFrame.size.height = self.tableViewUnderView.frame.size.height ;
-        
         tableView.frame = adjustFrame;
     }
     
@@ -224,7 +221,7 @@
             
             if (self.tableCount == 2) {
                 
-                return [self.dataArr[firstSelectRow][@"subcategories"] count];
+                return [self.dataArr[firstSelectRow][@"sub"] count];
                 
             }else{
                 
@@ -267,7 +264,7 @@
     if (self.tableCount == 1) {
         
         
-        cell.textLabel.text = self.dataArr[indexPath.row][@"label"];
+        cell.textLabel.text = self.dataArr[indexPath.row][@"name"];
         
         
     }else if (self.tableCount == 2){
@@ -280,7 +277,8 @@
             
         }else if (tableView == self.tableViewArr[1]){
             
-            cell.textLabel.text = self.dataArr[firstSelectRow][@"subcategories"][indexPath.row];
+            cell.textLabel.text = self.dataArr[firstSelectRow][@"sub"][indexPath.row][@"name"];
+            NSLog(@"1111111%@",cell.textLabel.text);
         }
         
     }else if (self.tableCount == 3){
@@ -321,7 +319,7 @@
         
         [self saveSelects];
         [self dismiss];
-        [_delegate dropMenuView:self didSelectName:self.dataArr[indexPath.row][@"label"]];
+        [_delegate dropMenuView:self didSelectName:self.dataArr[indexPath.row][@"name"]];
         
         
     }else if (self.tableCount == 2){
@@ -341,7 +339,7 @@
             
             NSInteger firstSelectRow = ((UITableView *)self.tableViewArr[0]).indexPathForSelectedRow.row;
             
-            [_delegate dropMenuView:self didSelectName:self.dataArr[firstSelectRow][@"subcategories"][indexPath.row]];
+            [_delegate dropMenuView:self didSelectName:self.dataArr[firstSelectRow][@"sub"][indexPath.row][@"name"]];
         }
         
     }else if (self.tableCount == 3){

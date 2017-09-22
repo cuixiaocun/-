@@ -17,7 +17,7 @@
 #import "YBImgPickerViewController.h"
 #import "YBImgPickerViewCell.h"
 #import "YBImgPickerTableViewCell.h"
-static NSInteger photoCount = 3;
+static NSInteger photoCount = 9;
 
 @interface YBImgPickerViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     NSMutableArray * tableData;
@@ -316,7 +316,7 @@ static NSString * const tableReuseIdentifier = @"tableCell";
 - (void)showInViewContrller:(UIViewController *)vc choosenNum:(NSInteger)choosenNum delegate:(id<YBImgPickerViewControllerDelegate>)vcdelegate withArr:(NSMutableArray*)picArr{
     pictureArr = [NSMutableArray arrayWithCapacity:10];
     pictureArr = picArr;
-    photoCount = 3-pictureArr.count;
+    photoCount = 9-pictureArr.count;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:rightItemTitle style:UIBarButtonItemStyleDone target:self action:@selector(save)];
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
 
