@@ -7,13 +7,17 @@
 //
 
 #import "KnowledgeVC.h"
+#import "MenuChooseVC.h"
+#import "EditKnowledgeVC.h"
 #import "KnowledgeCell.h"
-@interface KnowledgeVC ()
-
+#import "PostMessageVC.h"
+@interface KnowledgeVC ()<UITextFieldDelegate,MenuChooseDelegate>
+{
+    MenuChooseVC *topView;
+}
 @end
 
 @implementation KnowledgeVC
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -21,12 +25,11 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    currentPage =0;
     
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = [UIColor whiteColor];
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -35,18 +38,48 @@
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     
-    //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
-    [navTitle setText:@"知识问答"];
-    [navTitle setTextAlignment:NSTextAlignmentCenter];
-    [navTitle setBackgroundColor:[UIColor clearColor]];
-    [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
-    [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor blackColor]];
-    [self.view addSubview:navTitle];
+    UIView *navBgView =[[UIView alloc]initWithFrame:CGRectMake(140*Width, 20+10*Width,470*Width , 60*Width)];
+    [topImageView addSubview:navBgView];
+    [navBgView.layer setCornerRadius:30*Width];
+    navBgView.backgroundColor =BGColor;
+    UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(36*Width, 15*Width, 30*Width, 30*Width)];
+    bigShowImgV.image =[UIImage imageNamed:@"sf_icon_search"];
+    [navBgView addSubview:bigShowImgV];
+    UITextField *searchTextField = [[UITextField alloc] init];
+    [searchTextField setPlaceholder:@"请输入问题"];
+    [searchTextField setDelegate:self];
+    searchTextField.tag =30;
+    [searchTextField setFont:[UIFont systemFontOfSize:14]];
+    [searchTextField setTextColor:[UIColor blackColor]];
+    [searchTextField setFrame:CGRectMake(bigShowImgV.right+12*Width, 0,400*Width,60*Width)];
+    searchTextField.returnKeyType=UIReturnKeySearch;
+    [searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
+    [navBgView addSubview:searchTextField];
+    
+    
+    //搜索按钮
+    UIButton *  searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    searchBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
+    searchBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
+    [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
+    [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [searchBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [topImageView addSubview:searchBtn];
+    
+    NSArray *btnArr =@[@"家装设计",@"装修流程",@"家居产品",@"装饰材料",@"排序"];
+    topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 85*Width) buttonArr:btnArr];
+    topView.backgroundColor =[UIColor redColor];
+    topView.delegate =self;
+    topView.level = 2;
+    
+    [self.view addSubview:topView];
+    
+    UIView *xianV =[[UIView alloc]initWithFrame:CGRectMake(0*Width,0*Width,CXCWidth,1.5*Width)];
+    xianV.backgroundColor =BGColor;
+    [topView addSubview:xianV];
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,64+85*Width+20*Width, CXCWidth, CXCHeight-20-85*Width)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     self.tableView .showsVerticalScrollIndicator = NO;
@@ -62,20 +95,40 @@
     
     
     infoArray = [[NSMutableArray alloc] init];
-    //    [self performSelector:@selector(getInfoList)];
+    CALayer *layer = [CALayer layer];
+    layer.frame = CGRectMake(CXCWidth-230*Width,CXCHeight-350*Width , 150*Width, 150*Width);
+    layer.backgroundColor = NavColor.CGColor;
+    layer.shadowOffset = CGSizeMake(5, 5);
+    layer.shadowOpacity = 0.4;
+    layer.shadowColor = NavColor.CGColor;
+
+    layer.cornerRadius = 75*Width;
+    [self.view.layer addSublayer:layer];
     
+    //按钮
+    UIButton *nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [nextBtn setFrame:CGRectMake(CXCWidth-230*Width,CXCHeight-350*Width , 150*Width, 150*Width)];
+    [nextBtn setBackgroundColor:NavColor];
+    [nextBtn.layer setCornerRadius:75*Width];
+    [nextBtn.layer setMasksToBounds:YES];
+    [nextBtn setTitle:@"发帖" forState:UIControlStateNormal];
+    [nextBtn.titleLabel setTextColor:[UIColor whiteColor]];
     
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+    [nextBtn addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:nextBtn];
+
+}
+- (void)sendMessage
+{
+    EditKnowledgeVC *edit=[[EditKnowledgeVC alloc]init];
+    [self.navigationController pushViewController:edit animated:YES];
+
+
 }
 -(void)btnClickBtn:(UIButton *)cell
 {
-    
-    
+    [topView.oneLinkageDropMenu dismiss];
 }
 - (void)changeStatuBtnOut:(UIButton *)btn
 {
@@ -89,7 +142,8 @@
 }
 - (void)returnBtnAction
 {
-    
+    [topView.oneLinkageDropMenu dismiss];
+
     [self.navigationController popViewControllerAnimated:YES];
     
 }
@@ -127,7 +181,12 @@
     //    [cell setDic:dict];
     return cell;
 }
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PostMessageVC *post =[[PostMessageVC alloc]init];
+    [self.navigationController pushViewController:post animated:YES];
+    
+}
 
 
 #pragma mark - Pull to Refresh
@@ -371,13 +430,6 @@
     } fail:^(NSError *error) {
         
     }];
-    
-}
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-//    HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
-//    [self.navigationController  pushViewController:house animated:YES];
     
 }
 /*
