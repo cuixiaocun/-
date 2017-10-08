@@ -28,8 +28,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
-    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+    if (@available(iOS 11.0, *)) {
+        bgScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    else {
+        if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+        }
     }
     photoOfArr =[[NSArray alloc]init];
     
@@ -192,13 +197,13 @@
     infoArray = [[NSMutableArray alloc] init];
     [self addFooter];
 
-    topImageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    topImageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     topImageView.alpha =0.0;
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, Frame_rectStatus, 550*Width, Frame_rectNav)];
     [navTitle setText:@"歌尔绿城"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -209,11 +214,11 @@
     
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
-    topImageViewNomal= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    topImageViewNomal= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageViewNomal.userInteractionEnabled = YES;
     topImageViewNomal.backgroundColor = [UIColor clearColor];
     [self.view addSubview:topImageViewNomal];
@@ -355,7 +360,7 @@
         CGFloat reOffset = scrollView.contentOffset.y ;
         //    (kOriginalImageHeight - 64)这个数值决定了导航条在图片上滑时开始出现  alpha 从 0 ~ 0.99 变化
         //    当图片底部到达导航条底部时 导航条  aphla 变为1 导航条完全出现
-        CGFloat alpha = reOffset /(556.0*Width-64) ;
+        CGFloat alpha = reOffset /(556.0*Width-Frame_NavAndStatus) ;
         NSLog(@"reOffset=%f",alpha);
         // 设置导航条的背景图片 其透明度随  alpha 值 而改变
         topImageView.alpha =alpha;

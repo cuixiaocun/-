@@ -182,12 +182,22 @@
 - (void)hudDestroy
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
-	//---------------------------------------------------------------------------------------------------------------------------------------------
-	[label removeFromSuperview];	label = nil;
-	[image removeFromSuperview];	image = nil;
-	[spinner removeFromSuperview];	spinner = nil;
-	[hud removeFromSuperview];		hud = nil;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+        //---------------------------------------------------------------------------------------------------------------------------------------------
+        [label removeFromSuperview];
+        label = nil;
+        [image removeFromSuperview];
+        image = nil;
+        [spinner removeFromSuperview];
+        spinner = nil;
+        [hud removeFromSuperview];
+        hud = nil;
+        
+    });
+    
+
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -322,20 +332,20 @@
 - (void)hudHide
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 {
-	if (self.alpha == 1)
-	{
-		NSUInteger options = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseIn;
-
-		[UIView animateWithDuration:0.15 delay:0 options:options animations:^{
-			hud.transform = CGAffineTransformScale(hud.transform, 0.7, 0.7);
-			hud.alpha = 0;
-		}
-		completion:^(BOOL finished)
-		{
+//    if (self.alpha == 1)
+//    {
+//        NSUInteger options = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationCurveEaseIn;
+//
+//        [UIView animateWithDuration:0.15 delay:0 options:options animations:^{
+//            hud.transform = CGAffineTransformScale(hud.transform, 0.7, 0.7);
+//            hud.alpha = 0;
+//        }
+//        completion:^(BOOL finished)
+//        {
 			[self hudDestroy];
 			self.alpha = 0;
-		}];
-	}
+//        }];
+//    }
 }
 - (void)hudHideKS
 //-------------------------------------------------------------------------------------------------------------------------------------------------
@@ -359,15 +369,16 @@
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 - (void)timedHide
-//-------------------------------------------------------------------------------------------------------------------------------------------------
 {
 	@autoreleasepool
 	{
-		double length = label.text.length;
-		NSTimeInterval sleep = length * 0.04 + 0.5;
-		
-		[NSThread sleepForTimeInterval:sleep];
-		[self hudHide];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            double length = label.text.length;
+            NSTimeInterval sleep = length * 0.04 + 0.5;
+            [NSThread sleepForTimeInterval:sleep];
+            [self hudHide];
+        });
+       
 	}
 }
 

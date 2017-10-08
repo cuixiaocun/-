@@ -22,20 +22,20 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
-    [returnBtn setImage:[UIImage imageNamed:@"sf_icon_goBack"] forState:UIControlStateNormal];
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
+    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
+    
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];
     [navTitle setText:@"优惠券"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -47,7 +47,7 @@
     UIImageView*xian =[[UIImageView alloc]init];
     xian.backgroundColor =BGColor;
     [topImageView addSubview:xian];
-    xian.frame =CGRectMake(0,63, CXCWidth, 1);
+    xian.frame =CGRectMake(0,Frame_NavAndStatus-1, CXCWidth, 1);
     
     [self makeThisView];
     
@@ -73,7 +73,7 @@
 ////首页页面布局
 -(void)makeThisView
 {
-    tableview  =[[UITableView alloc]initWithFrame:CGRectMake(0,64, CXCWidth, CXCHeight  -20)style:UITableViewStyleGrouped];
+    tableview  =[[UITableView alloc]initWithFrame:CGRectMake(0,Frame_NavAndStatus , CXCWidth, CXCHeight  -Frame_NavAndStatus)style:UITableViewStyleGrouped];
     tableview .showsVerticalScrollIndicator = NO;
     [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [tableview setDelegate:self];

@@ -27,18 +27,18 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth,Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, Frame_rectStatus, 550*Width, Frame_rectNav)];
     [navTitle setText:@"收货地址管理"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -52,7 +52,7 @@
 - (void)mainView
 {
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20-128*Width)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_rectStatus-128*Width)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -193,39 +193,26 @@
         
     }
 
-    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
             if ([[NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"isdefault"]]isEqualToString:@"1"])
             {
-                if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
-                    
+                
                     NSMutableDictionary * memberDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:member]];
                     [memberDic setObject:@"<null>" forKey:@"addressid"];
                     [memberDic setObject:@"<null>" forKey:@"name_path"];
                     [memberDic setObject:@"<null>" forKey:@"address"];
                     [memberDic setObject:@"<null>" forKey:@"receivename"];
                     [memberDic setObject:@"<null>" forKey:@"phone"];
-                    
                     [PublicMethod saveData:memberDic withKey:member];
                     
-                }else
-                {
-                    NSMutableDictionary * agenDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:agen]];
-                    [agenDic setObject:@"<null>" forKey:@"addressid"];
-                    [agenDic setObject:@"<null>" forKey:@"name_path"];
-                    [agenDic setObject:@"<null>" forKey:@"reveiveaddress"];
-                    [agenDic setObject:@"<null>" forKey:@"receivename"];
-                    [agenDic setObject:@"<null>" forKey:@"phone"];
-                    
-                    [PublicMethod saveData:agenDic withKey:agen];
-                }
+              
             }
            
             for (int i=0; i<infoArray.count; i++) {
                 [infoArray [i] setObject:@"2" forKey:@"isdefault"];
-                
             }
             [infoArray removeObjectAtIndex:index.row];
             
@@ -291,7 +278,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20-128*Width)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_rectStatus  -128*Width)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
@@ -481,7 +468,7 @@
     
     }
     
-    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
         
@@ -519,11 +506,9 @@
     }
 
     
-    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
-            if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
             
             NSMutableDictionary * memberDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:member]];
             [memberDic setObject:[infoArray[indexRow] objectForKey:@"id"] forKey:@"addressid"];
@@ -532,25 +517,7 @@
             [memberDic setObject:[infoArray[indexRow] objectForKey:@"name"] forKey:@"receivename"];
             [memberDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"phone"];
 
-                [PublicMethod saveData:memberDic withKey:member];
-            
-            }else
-            {
-                NSMutableDictionary * agenDic  = [NSMutableDictionary dictionaryWithDictionary:[PublicMethod getDataKey:agen]];
-                [agenDic setObject:[infoArray[indexRow] objectForKey:@"id"] forKey:@"addressid"];
-                [agenDic setObject:[infoArray[indexRow] objectForKey:@"name_path"] forKey:@"name_path"];
-                [agenDic setObject:[infoArray[indexRow] objectForKey:@"address"] forKey:@"reveiveaddress"];
-                [agenDic setObject:[infoArray[indexRow] objectForKey:@"name"] forKey:@"receivename"];
-                [agenDic setObject:[infoArray[indexRow] objectForKey:@"phone"] forKey:@"phone"];
-
-                [PublicMethod saveData:agenDic withKey:agen];
-            }
-            
-            
-            
-            
-            
-            
+            [PublicMethod saveData:memberDic withKey:member];
             
             for (int i=0; i<infoArray.count; i++) {
                 [infoArray [i] setObject:@"2" forKey:@"isdefault"];

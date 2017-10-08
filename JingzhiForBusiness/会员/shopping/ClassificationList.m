@@ -36,22 +36,22 @@
     currentPage =0;
 
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:@"sf_icon_goBack"] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     
-    UIView *navBgView =[[UIView alloc]initWithFrame:CGRectMake(140*Width, 20+10*Width,470*Width , 60*Width)];
+    UIView *navBgView =[[UIView alloc]initWithFrame:CGRectMake(140*Width, Frame_rectStatus+8,470*Width , 28)];
     [topImageView addSubview:navBgView];
-    [navBgView.layer setCornerRadius:30*Width];
+    [navBgView.layer setCornerRadius:14];
     navBgView.backgroundColor =BGColor;
-    UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(36*Width, 15*Width, 30*Width, 30*Width)];
+    UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(18, 6, 16, 16)];
     bigShowImgV.image =[UIImage imageNamed:@"sf_icon_search"];
     [navBgView addSubview:bigShowImgV];
     UITextField *searchTextField = [[UITextField alloc] init];
@@ -60,10 +60,11 @@
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
     [searchTextField setTextColor:[UIColor blackColor]];
-    [searchTextField setFrame:CGRectMake(bigShowImgV.right+12*Width, 0,400*Width,60*Width)];
+    [searchTextField setFrame:CGRectMake(bigShowImgV.right+10, 0,350*Width,28)];
     searchTextField.returnKeyType=UIReturnKeySearch;
     [searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [navBgView addSubview:searchTextField];
+    
     
     
     //搜索按钮
@@ -84,7 +85,7 @@
         btnArr =@[@"类型",@"排序"];
 
     }
-    topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, 64+1, CXCWidth, 85*Width) buttonArr:btnArr];
+    topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus+1, CXCWidth, 85*Width) buttonArr:btnArr];
     topView.level = 1;
     topView.backgroundColor =[UIColor redColor];
     topView.delegate =self;
@@ -98,7 +99,7 @@
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     
     //3\初始化collextionVIewCell
-    _mainCMallCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 65+85*Width, CXCWidth,CXCHeight-64-85*Width) collectionViewLayout:layout];
+    _mainCMallCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus+1+85*Width, CXCWidth,CXCHeight-Frame_NavAndStatus-85*Width) collectionViewLayout:layout];
     [self.view addSubview:_mainCMallCollectionView];
     [_mainCMallCollectionView setBackgroundColor:BGColor];
     //注册collectionViewCell
@@ -151,7 +152,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    return CGSizeMake(340*Width,390*Width);
+    return CGSizeMake(340*Width,480*Width);
 }
 //两个cell之间的间距（同一行的cell的间距）
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section

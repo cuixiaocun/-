@@ -12,6 +12,8 @@
 @end
 
 @interface SJSPersonalCenterVC : UIViewController
+
+
 @property(assign,nonatomic)id<SJSPersonalCenterDelegate>delegate;
 @property(strong,nonatomic)UILabel *roleLabel;//角色
 @property(strong,nonatomic)UILabel *nameLabel;//姓名

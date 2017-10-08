@@ -11,7 +11,7 @@
 
 - (id)initWithFrame:(CGRect)frame withArr:(NSArray*)arr
 {
-    
+    NSLog(@"城市---%@",arr);
     if ( self= [super initWithFrame:frame]) {
         _dataArray =[[NSArray alloc]init];
         _bgview =[[UIView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight)];
@@ -64,20 +64,25 @@
 
         [_deleteBtn setFrame:CGRectMake(0*Width,13.5*Width , 150*Width, 55*Width)];
         [_changeBtn setFrame:CGRectMake(600*Width,13.5*Width , 150*Width, 55*Width)];
+        NSArray *arr =[_dataArray[0] objectForKey:@"city"];
         
-
+        _name  =[arr[0] objectForKey:@"city_name"];
+        _nameId =[arr[0] objectForKey:@"city_id"];
+        isFrist =NO;
+        
     }
     return self;
 }
 - (void)btnAction:(UIButton *)btn
 {
-    
+    NSLog(@"%@,,,,,,,,,%@",_name,_nameId);
     if (btn.tag==131) {
         [self.delegate cancelBtnAction:_name forRow:_nameId];
 
     }else
     {
         [self.delegate tureBtnAction:_name forRow:_nameId];
+        
 
     }
     [self removeFromSuperview];
@@ -90,15 +95,35 @@
 //设置UIPickerView的hang
 
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    if (component==0) {
-        return _dataArray.count;
+    if ([_type isEqualToString:@"cityList"]) {//城市列表
+        if (component==0) {
+            return _dataArray.count;
+        }else
+        {
+            NSArray *arr =[[NSArray alloc]init];
+            long Index = [self.myPickerView selectedRowInComponent:0];
+            arr =[_dataArray[Index] objectForKey:@"city"];
+            NSLog(@"省=%@市=%ld",arr,(long)indx);
+            
+            return arr.count;
+        }
+        
     }else
     {
-        NSArray *arr =[[NSArray alloc]init];
-        arr =[_dataArray[indx] objectForKey:@"name2"];
-        return arr.count;
-    
+        //装修
+        if (component==0) {
+            return _dataArray.count;
+        }else
+        {
+            long Index = [self.myPickerView selectedRowInComponent:0];
+
+            NSArray *arr =[[NSArray alloc]init];
+            arr =[_dataArray[Index] objectForKey:@"name2"];
+            return arr.count;
+            
+        }
     }
+   
     
 }
 //设置UIPickerView的行高
@@ -108,41 +133,117 @@
 
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
-    if (component==0) {
-        indx=row;
-        return [NSString stringWithFormat:@"%@",[_dataArray[row] objectForKey:@"name1"]];
+    if ([_type isEqualToString:@"cityList"]) {//城市列表
+        if (component==0) {
+            indx=row;
+            return [NSString stringWithFormat:@"%@",[_dataArray[row] objectForKey:@"province_name"]];
+            
+        }else
+        {
+            if (isFrist==NO) {
+                isFrist=YES;
+                NSArray *arr =[[NSArray alloc]init];
+                arr =[_dataArray[0] objectForKey:@"city"];
+                return [NSString stringWithFormat:@"%@",[arr[row] objectForKey:@"city_name"]];
+            }else
+            {
+                long Index = [self.myPickerView selectedRowInComponent:0];
+                isFrist=YES;
+                NSArray *arr =[[NSArray alloc]init];
+                arr =[_dataArray[Index] objectForKey:@"city"];
+                NSLog(@"-------%@----%ld------%d",arr,(long)indx,row);
+                return [NSString stringWithFormat:@"%@",[arr[row] objectForKey:@"city_name"]];
+                
+            }
+           
+            
+        }
         
     }else
     {
-        NSArray *arr =[[NSArray alloc]init];
-        arr =[_dataArray[indx] objectForKey:@"name2"];
-        return [NSString stringWithFormat:@"%@",arr[row]];
+        
+        if (component==0) {
+            indx=row;
+            return [NSString stringWithFormat:@"%@",[_dataArray[row] objectForKey:@"name1"]];
+            
+        }else
+        {
+            long Index = [self.myPickerView selectedRowInComponent:0];
+            NSArray *arr =[[NSArray alloc]init];
+            arr =[_dataArray[Index] objectForKey:@"name2"];
+            return [NSString stringWithFormat:@"%@",arr[row]];
+            
+        }
         
     }
+
     
     
 }
 //5、UIPickerView的点击事件
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
-    if (component==0) {
-        indx =row;
-        _name =[_dataArray[indx]objectForKey:@"name1"];
-        [pickerView reloadComponent:1];
-        [pickerView selectRow:0 inComponent:1 animated: YES];
-        
-    }else
-    {
-        if (row==0) {
-           
+    if ([_type isEqualToString:@"cityList"]) {//城市列表
+        if (component==0) {
+            long Index = [self.myPickerView selectedRowInComponent:0];
+
+            indx =row;
+            NSArray *arr =[[NSArray alloc]init];
+            
+            arr =[_dataArray[Index] objectForKey:@"city"];
+            NSLog(@"%@",arr[0]);
+
+            _name =[NSString stringWithFormat:@"%@",[arr[0] objectForKey:@"city_name"]];
+            _nameId =[NSString stringWithFormat:@"%@",[arr[0] objectForKey:@"city_id"]];
+
+            NSLog(@"00000000000000%@",_name);
+            [pickerView reloadComponent:1];
+            [pickerView selectRow:0 inComponent:1 animated: YES];
+            
         }else
         {
-            NSArray *arr =[[NSArray alloc]init];
-            arr =[_dataArray[indx] objectForKey:@"name2"];
-            _name =arr[row];
+            long Index = [self.myPickerView selectedRowInComponent:0];
 
+            NSArray *arr =[[NSArray alloc]init];
+            arr =[_dataArray[Index] objectForKey:@"city"];
+            _name =[NSString stringWithFormat:@"%@",[arr[row] objectForKey:@"city_name"]];
+            NSLog(@"00000000000000%@",_name);
+            _nameId =[NSString stringWithFormat:@"%@",[arr[row] objectForKey:@"city_id"]];
         }
+        
+        NSLog(@"%@,,,,,,,,,%@",_name,_nameId);
+
+    }else
+    {
+       
+        
+        if (component==0) {
+            long Index = [self.myPickerView selectedRowInComponent:0];
+
+            indx =row;
+            _name =[_dataArray[Index]objectForKey:@"name1"];
+            [pickerView reloadComponent:1];
+            [pickerView selectRow:0 inComponent:1 animated: YES];
+            
+        }else
+        {
+            if (row==0) {
+                
+            }else
+            {
+                NSArray *arr =[[NSArray alloc]init];
+                long Index = [self.myPickerView selectedRowInComponent:0];
+
+                arr =[_dataArray[Index] objectForKey:@"name2"];
+                _name =arr[row];
+                
+            }
+        }
+        
+        
+        
     }
+    
     
     
 }

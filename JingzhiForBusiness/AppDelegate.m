@@ -15,10 +15,8 @@
 #import "RDVTabBar.h"
 #import "RDVTabBarItem.h"
 
-//会员代理登录是一个界面
-#import "LoginPage.h"
 
-/*如下是会员的的*/
+/*tabber*/
 #import "HomePage.h"
 #import "SearchHouseVC.h"
 #import "SJSPersonalCenterVC.h"
@@ -26,7 +24,10 @@
 #import "ShoppingMainVC.h"
 #import "DecorateMainVC.h"
 #import "ZLCGuidePageView.h"
-
+#import "LoginPage.h"
+#import "AboutUsVC.h"
+#import "FreeSendVC.h"
+#import "KnowledgeVC.h"
 @interface AppDelegate ()<UIAlertViewDelegate,WXApiDelegate>
 {
     NSString *registrationID;
@@ -40,8 +41,7 @@ static NSInteger seq = 0;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
-   [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+    self.window.backgroundColor = BGColor;
     [self setupViewControllers];
     [self customizeInterface];
     _mapManager = [[BMKMapManager alloc]init];
@@ -50,22 +50,19 @@ static NSInteger seq = 0;
     if (!ret) {
         NSLog(@"manager start failed!");
     }
+    if (@available(iOS 11, *)) {
+        [UIScrollView appearance].contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
     [self.window setRootViewController:self.viewController];
     [self.window makeKeyAndVisible];
+    [PublicMethod removeObjectForKey: @"token"];
     [PublicMethod removeObjectForKey: @"IsLogin"];
     [PublicMethod removeObjectForKey: member];
-    [PublicMethod removeObjectForKey: agen];
-
     [PublicMethod removeObjectForKey: shopingCart];
-    [PublicMethod removeObjectForKey: @"token"];
     [PublicMethod removeObjectForKey: @"Isdelegate"];
     [PublicMethod removeObjectForKey: @"zhangyue_searchJiLu"];
     [PublicMethod removeObjectForKey: @"wantSearch"];
     
-    [self getToken];
-//    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-
     /*******************************************向微信注册********************************/
     [WXApi registerApp:@"wxa4ab2adb1a8934e4"];
     
@@ -117,11 +114,7 @@ static NSInteger seq = 0;
 {
     [PublicMethod saveDataString:@"1" withKey:@"WetherFirstInput"];
     
-    //引导页图片数组
-//    NSArray *images =  @[[UIImage imageNamed:@"bp_01_1242"],[UIImage imageNamed:@"bp_02_1242"],[UIImage imageNamed:@"bp_03_1242"]];
-    //创建引导页视图
-//    ZLCGuidePageView *pageView = [[ZLCGuidePageView alloc]initWithFrame:CGRectMake( 0, 0, CXCWidth, CXCHeight) WithImages:images];
-//    [self.window addSubview:pageView];
+ 
 }
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -196,19 +189,20 @@ static NSInteger seq = 0;
     UIViewController *firstViewController = [[HomePage alloc] init];
     UINavigationController *firstNavigationController = [[UINavigationController alloc]initWithRootViewController:firstViewController];
         [firstNavigationController setNavigationBarHidden:YES];
-
-    
-    UIViewController *secondViewController = [[SearchHouseVC alloc] init];
+    //仿推送，推送过来可以直接
+//    LoginPage *log =[[LoginPage alloc]init];
+//    [firstNavigationController pushViewController:log animated:YES];
+    UIViewController *secondViewController = [[AboutUsVC alloc] init];
     UINavigationController *secondNavigationController = [[UINavigationController alloc]                                             initWithRootViewController:secondViewController];
         [secondNavigationController setNavigationBarHidden:YES];
 
    
-    UIViewController *threeViewController = [[DecorateMainVC alloc] init];
+    UIViewController *threeViewController = [[FreeSendVC    alloc] init];
     UINavigationController *threeNavigationController = [[UINavigationController alloc]initWithRootViewController:threeViewController];
         [threeNavigationController setNavigationBarHidden:YES];
     
     
-    UIViewController *fourViewController = [[ShoppingMainVC alloc] init];
+    UIViewController *fourViewController = [[KnowledgeVC alloc] init];
     UINavigationController *fourNavigationController = [[UINavigationController alloc]
                                                          initWithRootViewController:fourViewController];
     [threeNavigationController setNavigationBarHidden:YES];
@@ -228,19 +222,26 @@ static NSInteger seq = 0;
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    NSArray *tabBarItemImages = @[@"icon_home", @"home_icon_soufang",@"home_icon_zhuangxiu",@"home_icon_mall", @"home_icon_me"];
-    NSArray *tabBarItemTitles = @[@"首页", @"搜房", @"装修",@"商城", @"我的"];
+    NSArray *tabBarItemImages = @[@"icon_home", @"home_icon_about",@"home_icon_publish_pre",@"home_icon_forum", @"home_icon_me"];
+    NSArray *tabBarItemTitles = @[@"首页", @"关于我们",@"发布消息", @"论坛", @"我的"];
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
+        if (index == 2) {
+            item.itemHeight = 70;
+            
+        } else {
+        }
         [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
-        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_pre.png",
-                                                      [tabBarItemImages objectAtIndex:index]]];
+      
+        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@%@",
+                                                      [tabBarItemImages objectAtIndex:index],index==2?@"": @"_pre.png"]];
         UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@",
-                                                        [tabBarItemImages objectAtIndex:index]]];
+        [tabBarItemImages objectAtIndex:index]]];
         [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
         NSLog(@"%@",[NSString stringWithFormat:@"%@_pre",
                      [tabBarItemImages objectAtIndex:index]]);
         [item setTitle:[tabBarItemTitles objectAtIndex:index]];
+        
         item.selectedTitleAttributes = @{
                                          NSFontAttributeName: [UIFont boldSystemFontOfSize:12],
                                          NSForegroundColorAttributeName:NavColor,
@@ -254,7 +255,6 @@ static NSInteger seq = 0;
         index++;
     }
 }
-
 - (void)customizeInterface {
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     
@@ -359,33 +359,7 @@ static NSInteger seq = 0;
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
 }
-- (void)getToken
-{
-    if (![PublicMethod getDataStringKey:@"token"]) {
-        
-        
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
-        NSString *url=@"http://heart.qwangluo.cn/index.php/home/Index/makeToken";
-        //    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];//当加密的时候用
-        NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
-        [parameter setDictionary:@{}];
-        [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"请求成功JSON:%@", dict);
-            NSDictionary*dataDict  =[dict objectForKey:@"data"];
-            [PublicMethod setObject:[dataDict objectForKey:@"token"] key:@"token"];
-            NSLog(@"token%@",[PublicMethod getObjectForKey:@"token"]);
-            
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        }];
-    }
-}
+
 //-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 //{
 //    NSLog(@"My token is: %@", deviceToken);
@@ -587,16 +561,9 @@ static NSInteger seq = 0;
                 
                 [alertWindow.rootViewController presentViewController:alertController animated:YES completion:nil];
                 
-                
-
-            
-            
             }
                 
-                
-                
-                
-                
+               
                 strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
                 NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
                 break;
@@ -637,9 +604,7 @@ static NSInteger seq = 0;
         return [self _topViewController:[(UITabBarController *)vc selectedViewController]];
     } else {
         NSLog(@"---VC%@",vc.class);
-        
         return vc;
-        
     }
     return nil;
 }

@@ -11,4 +11,6 @@
 @interface OtherPhotoCell : UITableViewCell
 @property(strong,nonatomic)EGOImageView *imgView;//图片
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+@property(nonatomic,retain)NSDictionary *dic;
+
 @end

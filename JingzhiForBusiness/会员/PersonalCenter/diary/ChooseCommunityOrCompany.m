@@ -30,19 +30,19 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
-    //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
     
+    //注册标签
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];
     [navTitle setText:[NSString stringWithFormat:@"选择%@",_communityOrCompany]];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -54,7 +54,7 @@
     UIImageView*xian =[[UIImageView alloc]init];
     xian.backgroundColor =BGColor;
     [topImageView addSubview:xian];
-    xian.frame =CGRectMake(0,63, CXCWidth, 1);
+    xian.frame =CGRectMake(0,Frame_NavAndStatus-1, CXCWidth, 1);
 
     currentPage=0;
     
@@ -66,7 +66,7 @@
 {
     
     //替代导航栏的imageview
-    topImageViewx = [[UIImageView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, 100*Width)];
+    topImageViewx = [[UIImageView alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, 100*Width)];
     topImageViewx.userInteractionEnabled = YES;
     topImageViewx.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageViewx];
@@ -124,7 +124,7 @@
     
     
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,64+100*Width+20*Width, CXCWidth, CXCHeight-20-100*Width)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+100*Width+20*Width, CXCWidth, CXCHeight-Frame_rectStatus-100*Width)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -180,7 +180,9 @@
 
 - (void)returnBtnAction
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -259,7 +261,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,64+100*Width, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+100*Width, CXCWidth, CXCHeight-Frame_rectStatus)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
@@ -442,7 +444,7 @@
                           }
      ];
     
-    [PublicMethod AFNetworkPOSTurl:@"home/Agen/agenflow" paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"home/Agen/agenflow" paraments:dic1  addView:self.view addNavgationController:self.navigationController  success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         
         if (currentPage==0) {

@@ -16,7 +16,6 @@
     int timeCount;//上传图片请求
     UIView *bottomView;
     UIView *topView;
-
 }
 @end
 
@@ -29,18 +28,19 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
+    
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];
     [navTitle setText:@"日记文章"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -51,7 +51,6 @@
 
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(tupian:) name:@"tupian" object:nil];
     _uploadImageVArray =[[NSMutableArray alloc]init];
-    
     _picArr =[[NSMutableArray alloc]init];
     _picUrlArr =[[NSMutableArray alloc]init];
     _picIdArr =[[NSMutableArray alloc]init];
@@ -62,12 +61,9 @@
 {
     [_pickview remove];
     [self.navigationController popViewControllerAnimated:YES];
-    
-    
 }
 - (void)mainView
-{
-    bgScrollView =[[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, 64+20*Width, CXCWidth, CXCHeight-64)];
+{    bgScrollView =[[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus+20*Width, CXCWidth, CXCHeight-Frame_NavAndStatus)];
     [bgScrollView setUserInteractionEnabled:YES];
     bgScrollView .userInteractionEnabled = YES;
     //bgScrollView.backgroundColor =[UIColor redColor];
@@ -81,10 +77,9 @@
     NSArray*rightArr =@[@"请填写标题",@"选择阶段",@""] ;
 
     for (int i=0; i<3; i++) {
-        
+
         UIView *bgview =[[UIView alloc]init];
         bgview.frame =CGRectMake(0,100*i*Width, CXCWidth, 100*Width);
-        
         bgview.backgroundColor =[UIColor whiteColor];
         [topView addSubview:bgview];
         UILabel* leftLabe = [[UILabel alloc]initWithFrame:CGRectMake(100*Width,20*Width ,200*Width , 40*Width)];
@@ -214,14 +209,6 @@
 
 
 }
-
-
-
-
-
-
-
-
 - (int)compareOneDay:(NSDate *)oneDay withAnotherDay:(NSDate *)anotherDay
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

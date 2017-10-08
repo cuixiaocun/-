@@ -75,33 +75,32 @@
     [self.view setBackgroundColor:BGColor];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
-    }
-    //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    }    //替代导航栏的imageview
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:@"sf_icon_goBack"] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     
-    UIView *navBgView =[[UIView alloc]initWithFrame:CGRectMake(120*Width, 20+10*Width,480*Width , 60*Width)];
+    UIView *navBgView =[[UIView alloc]initWithFrame:CGRectMake(140*Width, Frame_rectStatus+8,470*Width , 28)];
     [topImageView addSubview:navBgView];
-    [navBgView.layer setCornerRadius:30*Width];
+    [navBgView.layer setCornerRadius:14];
     navBgView.backgroundColor =BGColor;
-    UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(36*Width, 15*Width, 30*Width, 30*Width)];
+    UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(18, 6, 16, 16)];
     bigShowImgV.image =[UIImage imageNamed:@"sf_icon_search"];
     [navBgView addSubview:bigShowImgV];
     UITextField *searchTextField = [[UITextField alloc] init];
-    [searchTextField setPlaceholder:@"请输入房产"];
+    [searchTextField setPlaceholder:@"请输入问题"];
     [searchTextField setDelegate:self];
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
     [searchTextField setTextColor:[UIColor blackColor]];
-    [searchTextField setFrame:CGRectMake(bigShowImgV.right+12*Width, 0,400*Width,60*Width)];
+    [searchTextField setFrame:CGRectMake(bigShowImgV.right+10, 0,350*Width,28)];
     searchTextField.returnKeyType=UIReturnKeySearch;
     [searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [navBgView addSubview:searchTextField];
@@ -109,15 +108,16 @@
     
     //搜索按钮
     UIButton *  searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
+    searchBtn.frame = CGRectMake(CXCWidth-60, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     searchBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:searchBtn];
 
+
     
-    nilBgView =[[UIView alloc]initWithFrame:CGRectMake(0, 64, CXCWidth, CXCHeight-64)];
+    nilBgView =[[UIView alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus )];
     nilBgView.backgroundColor =BGColor;
     [self.view addSubview:nilBgView];
     
@@ -136,7 +136,7 @@
     
     
     //添加tableview
-    [self.tableView setFrame:CGRectMake(0, 64, CXCWidth, CXCHeight-64)];
+    [self.tableView setFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus)];
     [self.tableView setHidden:YES];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -533,7 +533,7 @@
 }];
     
     NSLog(@"%@",dic1);
-    [PublicMethod AFNetworkPOSTurl:@"Home/Index/selagen" paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"Home/Index/selagen" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
             
@@ -612,7 +612,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,64, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_rectNav)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;

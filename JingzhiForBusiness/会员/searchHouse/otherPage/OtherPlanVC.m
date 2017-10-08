@@ -28,18 +28,19 @@
     }
     
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = [UIColor whiteColor  ];
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
+    
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];
     [navTitle setText:_navString];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -49,11 +50,13 @@
     [self.view addSubview:navTitle];
     
     [ self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [ self.tableView setFrame:CGRectMake(0,64+20*Width, CXCWidth, CXCHeight-64)];
+    [ self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+20*Width, CXCWidth, CXCHeight-Frame_NavAndStatus)];
     [ self.tableView setDelegate:self];
     [ self.tableView setDataSource:self];
     [ self.tableView setBackgroundColor:[UIColor clearColor]];
      self.tableView .showsVerticalScrollIndicator = NO;
+    infoArray =[[NSMutableArray alloc]init];
+    [self getNotice];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,8 +69,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //    return infoArray.count ;
-    return 10 ;
+        return infoArray.count ;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -76,7 +78,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSInteger row =[indexPath row];
+    NSInteger row =[indexPath row];
     static NSString *CellIdentifier = @"Cell";
     OtherPhotoCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -84,12 +86,9 @@
                                    reuseIdentifier:CellIdentifier ];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-//    cell.dic =_dic;
+        cell.dic = infoArray[row];
         return cell;
-    
-    
 }
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -110,7 +109,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,64+20*Width, CXCWidth, CXCHeight-100*Width-20)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+20*Width, CXCWidth, CXCHeight-100*Width-Frame_rectStatus)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
@@ -290,18 +289,30 @@
 }
 - (void)getNotice
 {
-    NSString *urlString;
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{@"home_id":[NSString stringWithFormat:@"%@",_idString],
+                          @"limit":@"1000",
+                          @"type":_typeString,
+                          }];
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/Index/notice" paraments:@{}  addView:self.view success:^(id responseDic) {
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?soufang-photolist.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-        
-        
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            infoArray  = [dict objectForKey:@"data"];
+            if ([infoArray isEqual:[NSNull null]]) {
+                infoArray =[[NSMutableArray  alloc]init];
+            }
+            [self.tableView reloadData];
+            NSLog(@"infoArray = %@",infoArray);
+            
         }
         
     } fail:^(NSError *error) {
         
     }];
+    
+    
     
 }
 

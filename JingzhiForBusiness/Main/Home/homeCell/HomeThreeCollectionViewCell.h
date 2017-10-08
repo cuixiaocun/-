@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface HomeThreeCollectionViewCell : UICollectionViewCell
-@property (nonatomic,strong)EGOImageView  *topMCImage;
+@property (nonatomic,strong)UIImageView  *topMCImage;
 @property (nonatomic,strong) UILabel *promtpmcLabel;
 @property (nonatomic,strong) UILabel *pricesLabel;
 @property(nonatomic,retain)NSDictionary *dic;

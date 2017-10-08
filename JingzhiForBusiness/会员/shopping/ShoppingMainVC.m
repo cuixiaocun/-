@@ -11,6 +11,9 @@
 #import "GoodsDetailVC.h"
 #import "MJRefresh.h"
 #import "ClassificationList.h"
+#import "ComCompanyCell.h"
+#import "ComCompanyList.h"
+#import "ShoppingMainVC.h"
 @interface ShoppingMainVC ()<SDCycleScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 {
     UIScrollView *bgScrollView;//最底下的背景
@@ -31,38 +34,43 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden =YES;
-    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
 }
-
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:BGColor];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheme) name:ThemeNotificationInformatica object:nil];
+
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
-//    //添加返回按钮
-//    UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    returnBtn.frame = CGRectMake(0, 20, 44, 44);
-//    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
-//    [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
-//    [topImageView addSubview:returnBtn];
+    //添加返回按钮
+    UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [topImageView addSubview:returnBtn];
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, Frame_rectStatus, 550*Width, Frame_rectNav)];
     [navTitle setText:@"商城"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    
+//    [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     UIButton *  rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.frame = CGRectMake(CXCWidth-44, 20, 44, 44);
-    [rightBtn setImage:[UIImage imageNamed:@"home_icon_search"] forState:UIControlStateNormal];
+    rightBtn.frame = CGRectMake(CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
+    [rightBtn setImage:[UIImage imageNamed:@"sf_icon_search"] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     
@@ -70,18 +78,49 @@
     [self getBanner];
     [self makeThisView];
 }
+- (void)changeTheme
+{
+    
+    
+    NSLog(@"商城更新城市拉啦");
+}
 - (void)rightBtnAction
 {
-    ClassificationList*search =[[ClassificationList alloc]init];
-    [self.navigationController pushViewController:search animated:YES];
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    
+    NSArray *arr =@[@"搜商品",@"搜商家"];
+    //选择银行
+    SRActionSheet *actionSheet = [SRActionSheet sr_actionSheetViewWithTitle:@"选择搜索类型" cancelTitle:@"取消" destructiveTitle:nil withNumber:@"3" withLineNumber:@"1" otherTitles:@[@"搜商品",@"搜商家"] otherImages:nil selectActionBlock:^(SRActionSheet *actionSheet, NSInteger index) {
+        if (index<0||index>arr.count-1) {
+            return;
+        }
+        if(index==0)
+        {
+            ClassificationList*search =[[ClassificationList alloc]init];
+            [self.navigationController pushViewController:search animated:YES];
+            [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
+        }else
+        {
+            ComCompanyList*search =[[ComCompanyList alloc]init];
+            [self.navigationController pushViewController:search animated:YES];
+            [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+            
+
+        
+        }
+        
+    }];
+    
+    [actionSheet show];
+    
+
     
 
 
 }
 - (void)returnBtnAction
 {
-
+    [self.navigationController popViewControllerAnimated:YES];
 
 }
 - (void)getGoods
@@ -97,7 +136,7 @@
 -(void)makeThisView
 {
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CXCWidth, 540*Width)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:bgScrollView];
@@ -137,36 +176,21 @@
         [btn addSubview:botLabel];
     }
     
-    UIView *xianV =[[UIView alloc]initWithFrame:CGRectMake(0,btnView.bottom+20*Width,CXCWidth,80*Width)];
-    xianV.backgroundColor =[UIColor whiteColor];
-    [bgScrollView addSubview:xianV];
-    UILabel *hxian =[[UILabel alloc]initWithFrame:CGRectMake(200*Width,44*Width,350*Width,2*Width)];
-    hxian.backgroundColor =BGColor;
-    [xianV addSubview:hxian];
-    
-    //文字
-    UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(300*Width,0*Width,150*Width,80*Width)];
-    botLabel.font =[UIFont systemFontOfSize:16];
-    botLabel.textColor =BlackColor;
-    botLabel.backgroundColor =[UIColor whiteColor];
-    botLabel.textAlignment =NSTextAlignmentCenter;
-    botLabel.text =[NSString stringWithFormat:@"%@",@"特卖汇"];
-    [xianV addSubview:botLabel];
-    
-
-    //1\初始化layout
+       //1\初始化layout
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     //2\设置headerView的尺寸大小
-    layout.headerReferenceSize = CGSizeMake(CXCWidth, 80*Width);
+    layout.headerReferenceSize = CGSizeMake(CXCWidth, 100*Width);
+    layout.footerReferenceSize = CGSizeMake(CXCWidth, 80*Width);
     
     //3\初始化collextionVIewCell
-    _mainCMallCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, CXCWidth,CXCHeight-64-49) collectionViewLayout:layout];
-    [self.view addSubview:_mainCMallCollectionView];
+    _mainCMallCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0,btnView.bottom+0*Width, CXCWidth,0*Width) collectionViewLayout:layout];
+    [bgScrollView addSubview:_mainCMallCollectionView];
     [_mainCMallCollectionView setBackgroundColor:BGColor];
     //注册collectionViewCell
     //注意，此处的ReuseIdentifier必须和cellForItemAtIndexPath方法中一致，必须为cellId
     [_mainCMallCollectionView registerClass:[ComMallCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([ComMallCollectionViewCell class])];
-    
+    [_mainCMallCollectionView registerClass:[ComCompanyCell class] forCellWithReuseIdentifier:NSStringFromClass([ComCompanyCell class])];
+
     //注册headerView 此处的ReuseiDentifier必须个cellForItemAtIndexPath方法中一致，均为reusableView
     [_mainCMallCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView"];
     [_mainCMallCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footerView"];
@@ -175,6 +199,9 @@
     //设置代理
     _mainCMallCollectionView.delegate = self;
     _mainCMallCollectionView.dataSource = self;
+    _mainCMallCollectionView.scrollEnabled = NO;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2800*Width+440*Width)];
+    _mainCMallCollectionView.height = (14/2+14%2)*440*Width+20*Width ;//高度=(数量/2+1)*440*width+20*width
     [_mainCMallCollectionView reloadData];
     [self addFooter];
     
@@ -217,12 +244,12 @@
 
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 1;
+    return 2;
 }
 //返回section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 30;
+    return 3;
 }
 //  返回头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -230,17 +257,69 @@
     //如果是头视图
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         UICollectionReusableView *header=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"headerView" forIndexPath:indexPath];
-        [header addSubview:bgScrollView];
+        header.backgroundColor =BGColor;
+        UIView *xianV =[[UIView alloc]initWithFrame:CGRectMake(0,20*Width,CXCWidth,80*Width)];
+        xianV.backgroundColor =[UIColor whiteColor];
+        [header addSubview:xianV];
+        UILabel *hxian =[[UILabel alloc]initWithFrame:CGRectMake(200*Width,44*Width,350*Width,2*Width)];
+        hxian.backgroundColor =BGColor;
+        [xianV addSubview:hxian];
+        //文字
+        UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(300*Width,0*Width,150*Width,80*Width)];
+        botLabel.font =[UIFont systemFontOfSize:14];
+        botLabel.textColor =BlackColor;
+        botLabel.backgroundColor =[UIColor whiteColor];
+        botLabel.textAlignment =NSTextAlignmentCenter;
+        if (indexPath.section==0) {
+            botLabel.text =[NSString stringWithFormat:@"%@",@"特卖汇"];
+            [xianV addSubview:botLabel];
 
-    return header;
-    }else
+        }else
+        {
+            botLabel.text =[NSString stringWithFormat:@"%@",@"优选商家"];
+            [xianV addSubview:botLabel];
+        }
+         return header;
+        
+    }else if([kind isEqualToString:UICollectionElementKindSectionFooter]){
+        UICollectionReusableView *footer=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"footerView" forIndexPath:indexPath];
+        
+        UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth , 80*Width)];
+        addressBtn.tag=440+indexPath.section;
+        [footer addSubview:addressBtn];
+        [addressBtn addTarget:self action:@selector(chooseMore:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UILabel *addLabel = [[UILabel alloc] init];
+        [addLabel setText:@"查看更多 >"];
+        addLabel.textColor =BlackColor;
+        addLabel.textAlignment =NSTextAlignmentCenter;
+        [addLabel setFont:[UIFont systemFontOfSize:14]];
+        [addLabel setFrame:CGRectMake(0*Width,1.5*Width,CXCWidth , 78.5*Width)];
+        addLabel.backgroundColor =[UIColor whiteColor];
+        [addressBtn addSubview:addLabel];
+        [addressBtn setBackgroundColor:[UIColor whiteColor]];
+        UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(30*Width, 0*Width, 690*Width, 1.5*Width)];
+        addressBtn.backgroundColor =BGColor;
+        [addressBtn addSubview:addShowImgV];
+        
+        return footer;
+        
+    }
+
         return nil;
 }
 //设置每个方块的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section==0) {
+        return CGSizeMake(340*Width,480*Width);
+
+    }else
+    {
+        return CGSizeMake(CXCWidth,280*Width);
+
     
-        return CGSizeMake(340*Width,390*Width);
+    }
 }
 //两个cell之间的间距（同一行的cell的间距）
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
@@ -265,26 +344,47 @@
 //每个cell的数据
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section==0) {
+
         ComMallCollectionViewCell* onecell = (ComMallCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ComMallCollectionViewCell class]) forIndexPath:indexPath];
         onecell.backgroundColor = [UIColor whiteColor];
         //    _cell.dic =goodsArr[indexPath.row];
         return onecell;
-        
+    }else
+    {
+    
+        ComCompanyCell* onecell = (ComCompanyCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ComCompanyCell class]) forIndexPath:indexPath];
+        onecell.backgroundColor = [UIColor whiteColor];
+        //    _cell.dic =goodsArr[indexPath.row];
+        return onecell;
+    }
+    
 }
 //点击方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
-    goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-    [self.navigationController  pushViewController:goode animated:YES];
+    if (indexPath.section ==0) {
+        GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
+        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController  pushViewController:goode animated:YES];
+    }else
+    {
+        ShoppingMainVC   *goode =[[ShoppingMainVC alloc]init];
+//        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self.navigationController  pushViewController:goode animated:YES];
+    
+    
+    }
+    
     
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    return CGSizeMake(CXCWidth,540*Width);
-    
+    return CGSizeMake(CXCWidth,100*Width);
 }
+
 - (void)addFooter
 {
     __unsafe_unretained typeof(self) vc = self;
@@ -309,6 +409,26 @@
 {
     cycleScrollView2.imageURLStringsGroup = @[@"home_banner01",@"home_banner01",@"home_banner01"];//放上图片
 }
+- (void)chooseMore:(UIButton *)btn
+{
+    if(btn.tag==440)
+    {
+        ClassificationList*search =[[ClassificationList alloc]init];
+        [self.navigationController pushViewController:search animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+    }else
+    {
+        ComCompanyList*search =[[ComCompanyList alloc]init];
+        [self.navigationController pushViewController:search animated:YES];
+        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        
+        
+        
+    }
+    
+    
+  }
 
 
 /*

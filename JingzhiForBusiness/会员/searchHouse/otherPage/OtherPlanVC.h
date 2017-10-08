@@ -20,4 +20,7 @@
 
 @property(nonatomic,retain)NSArray *photoArr;
 @property(nonatomic,copy)NSString *navString;
+@property(nonatomic,copy)NSString *typeString;
+@property(nonatomic,copy)NSString *idString;
+
 @end

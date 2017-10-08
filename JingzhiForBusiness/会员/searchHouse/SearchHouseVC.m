@@ -26,7 +26,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden =YES;
-    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+//    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,23 +38,31 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheme) name:ThemeNotificationInformatica object:nil];
+
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
-    topImageView.backgroundColor = NavColor;
+    topImageView.backgroundColor = NavColorWhite;
     [self.view addSubview:topImageView];
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, Frame_rectStatus , 550*Width, Frame_rectNav)];
     [navTitle setText:@"搜房"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    //添加返回按钮
+    UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
+    [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [topImageView addSubview:returnBtn];
+//    [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
     UIButton *  rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.frame = CGRectMake(CXCWidth-44, 20, 44, 44);
-    [rightBtn setImage:[UIImage imageNamed:@"home_icon_search"] forState:UIControlStateNormal];
+    rightBtn.frame = CGRectMake(CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
+    [rightBtn setImage:[UIImage imageNamed:@"sf_icon_search"] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     
@@ -58,23 +70,28 @@
 
     [self mainView];
 }
+//更换城市重新请求
+-(void)changeTheme{
+    
+    NSLog(@"搜房换城市了啊");
+    
+    
+}
+
 - (void)rightBtnAction
 {
     SearchHouseTableViewController  *search =[[SearchHouseTableViewController alloc]init];
     [self.navigationController pushViewController:search animated:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
-
 }
 - (void)returnBtnAction
 {
-
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)mainView
 {
-
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, CXCWidth, CXCHeight-64-49)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1000*2)];

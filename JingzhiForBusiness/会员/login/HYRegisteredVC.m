@@ -13,7 +13,6 @@
 #import "LoginPage.h"
 #import "SelfDetailVC.h"
 #import "TPKeyboardAvoidingScrollView.h"
-
 @interface HYRegisteredVC ()<UITextFieldDelegate,SRActionSheetDelegate,BMKLocationServiceDelegate>
 {
     //底部scrollview
@@ -24,6 +23,7 @@
     NSString *memberlng;
     NSMutableArray *delegateArr;
     NSArray *arr ;
+    NSString *typeString;
 }
 
 @end
@@ -41,7 +41,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+    typeString =@"";
     _locService = [[BMKLocationService alloc]init];
     _locService.delegate = self;
     [_locService startUserLocationService];
@@ -52,18 +52,19 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrowWhite] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
+    
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];
     [navTitle setText:@"注册"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -84,7 +85,7 @@
 }
 - (void)mainView
 {
-    bgScrollView =[[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64 )];
+    bgScrollView =[[TPKeyboardAvoidingScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus,CXCWidth, CXCHeight-Frame_NavAndStatus )];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
@@ -190,6 +191,10 @@
 }
 - (void)nextStep
 {
+    if ([typeString isEqualToString:@""]) {
+        [MBProgressHUD showError:@"请选择账户类型" ToView:self.view];
+        return;
+    }
     UITextField *name =[self.view viewWithTag:11];
     UITextField *account =[self.view viewWithTag:12];
     UITextField *password =[self.view viewWithTag:13];
@@ -215,34 +220,36 @@
         [MBProgressHUD showError:@"确认密码不能为空" ToView:self.view];
         return;
     }
-//    [ProgressHUD show:@"正在请求。。。"];
-//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-//    [dic1 setDictionary:@{@"account":[NSString stringWithFormat:@"%@",account.text],
-//                          @"password":[NSString stringWithFormat:@"%@",password.text],
-//                          @"password2":[NSString stringWithFormat:@"%@",password2.text],
-//                          @"name":[NSString stringWithFormat:@"%@",name.text],
-//                          @"parent":[NSString stringWithFormat:@"%@",parent.text]}];
-//    NSLog(@"%@",dic1);
-//    [PublicMethod AFNetworkPOSTurl:@"Home/Login/regMember" paraments:dic1 addView:self.view success:^(id responseDic) {
-//            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-//            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-//                for (UIViewController *controller in self.navigationController.viewControllers) {
-//                    [ProgressHUD  showSuccess:@"注册成功"];
-//                    if ([controller isKindOfClass:[LoginPage  class]]) {
-//                        [self.navigationController popToViewController:controller animated:YES];
-//                    }else if ([controller isKindOfClass:[SelfDetailVC  class]])
-//                    {
-//                        LoginPage*loginPage =[[LoginPage alloc]init];
-//                        [self.navigationController pushViewController:loginPage animated:YES];
-//                        
-//                    }
-// 
-//               }
-//          }
-//            
-//        } fail:^(NSError *error) {
-//            
-//        }];
+    [ProgressHUD show:@"正在请求。。。"];
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{@"from":[NSString stringWithFormat:@"%@",typeString],
+                          @"uname":[NSString stringWithFormat:@"%@",name.text],
+                          @"mobile":[NSString stringWithFormat:@"%@",account.text],
+                          @"passwd":[NSString stringWithFormat:@"%@",password.text],
+                          @"confirmpasswd":[NSString stringWithFormat:@"%@",password2.text]
+                          
+                          }];
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?passport-create.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+                for (UIViewController *controller in self.navigationController.viewControllers) {
+                    [ProgressHUD  showSuccess:@"注册成功"];
+                    if ([controller isKindOfClass:[LoginPage  class]]) {
+                        [self.navigationController popToViewController:controller animated:YES];
+                    }else if ([controller isKindOfClass:[SelfDetailVC  class]])
+                    {
+                        LoginPage*loginPage =[[LoginPage alloc]init];
+                        [self.navigationController pushViewController:loginPage animated:YES];
+                        
+                    }
+ 
+               }
+          }
+        
+        } fail:^(NSError *error) {
+            
+        }];
     
     
     
@@ -266,7 +273,9 @@
     }
     if (btn.tag==10) {
         //选择代理
-        delegateArr =[NSMutableArray arrayWithArray:@[@"用户",@"设计师",@"商家",@"物业公司"]];
+        delegateArr =[NSMutableArray arrayWithArray:@[@"业主",@"公司",@"设计师",@"商家"]];
+        NSMutableArray * strArr =[NSMutableArray arrayWithArray:@[@"member",@"company",@"designer",@"shop"]];
+
         SRActionSheet *actionSheet = [SRActionSheet sr_actionSheetViewWithTitle:@"账户类型"
                                                                     cancelTitle:@"取消"
                                                                destructiveTitle:nil
@@ -278,8 +287,9 @@
                                         
                                                                   [self actionSheetButtonAtIndex:index];
                                                                   
+                                                          typeString=strArr[index];
                                                                   
-                                                                  NSLog(@"%zd", index);
+                                                          NSLog(@"%zd===typeString",typeString ,index);
                                                               }];
         
         [actionSheet show];

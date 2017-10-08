@@ -21,12 +21,13 @@
 #import "MBProgressHUD+MP.h"
 #import "SRActionSheet.h"
 #import "UIImageView+WebCache.h"
+#import "LoginPage.h"
 
 //服务器地址
-#define IMAGEURL  @"http://heart.qwangluo.cn/index.php"
-#define SERVERURL @"http://heart.qwangluo.cn/index.php"
+#define IMAGEURL  @"http://fc.qwangluo.cn/attachs/"
+#define SERVERURL @"http://fc.qwangluo.cn"
 //是否为空
-#define IsNilString(__String)   (__String==nil || [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqual:[NSNull null]]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"]||[__String isEqualToString:@""])
+#define IsNilString(__String)   (__String==nil ||[__String isEqual:[NSNull null]]|| [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"]||[__String isEqualToString:@""])
 
 #define orangeColor ([UIColor colorWithRed:255/255.0 green:102/255.0 blue:51/255.0 alpha:1])//
 
@@ -47,22 +48,29 @@
 #define Version ([[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey])
 #define IOS7 ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 ? YES : NO)
 
-#define CXCHeight ([[UIScreen mainScreen] bounds].size.height)/1.0
-#define CXCWidth ([[UIScreen mainScreen] bounds].size.width)/1.0
-#define Width [UIScreen mainScreen].bounds.size.width/750.000
+
+#define CXCHeight   ( ([UIScreen mainScreen].bounds.size.height==812.00)?([[UIScreen mainScreen] bounds].size.height-34):([[UIScreen mainScreen] bounds].size.height)/1.000)
+#define CXCWidth ([[UIScreen mainScreen] bounds].size.width/1.000)
+#define Width ([UIScreen mainScreen].bounds.size.width/750.000)
 #define navBackarrow @"sf_icon_goBack"//返回箭头
 #define navBackarrowWhite @"register_btn_goBack_white"
 #define shopingCart @"ShopingCart"//购物车数组
 #define member @"member"//会员字典
-#define agen @"agen"//会员字典
+//#define agen @"agen"//会员字典
 
+#define Frame_rectStatus ([[UIApplication sharedApplication] statusBarFrame].size.height)
+#define Frame_rectNav (self.navigationController.navigationBar.frame.size.height)
+#define Frame_NavAndStatus (self.navigationController.navigationBar.frame.size.height+[[UIApplication sharedApplication] statusBarFrame].size.height)
 #define yuanjiao 4
-
 #define iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
-
 #define KEYOFMD5 @"123456"
+#define ThemeNotificationInformatica @"ThemeNotificationInformatica"
 
 @interface PublicMethod : NSObject
+{
+    
+}
+
 //md5加密
 +(NSString *)md5:(NSString *)str;
 +(BOOL)isMobileNumber:(NSString *)mobile;
@@ -80,8 +88,8 @@
 //存取字典
 + (void) saveData:(NSDictionary *)dict withKey:(NSString *)key;
 + (NSDictionary *) getDataKey:(NSString *)key;
-+(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
-+(void)AFNetworkGETurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
++(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view addNavgationController:(UINavigationController*)nav success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
++(void)AFNetworkGETurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view addNavgationController:(UINavigationController*)nav success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
 +(void)personalAFNetworkSuccess:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail;
 //存取字符串
 + (void) saveDataString:(NSString *)string withKey:(NSString *)key;

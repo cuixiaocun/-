@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface HomeOneCollectionViewCell : UICollectionViewCell
 @property (nonatomic,strong)UIImageView  *topMCImage;
 @property (nonatomic,strong) UILabel *promtpmcLabel;
 @property (nonatomic,strong) UILabel *pricesLabel;
-@property(nonatomic,retain)NSDictionary *dic;
+@property(nonatomic,strong)NSDictionary *dic;
 @end

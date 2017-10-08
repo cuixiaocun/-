@@ -35,24 +35,36 @@
 #import "SearchHouseTableViewController.h"
 #import "IWantDecorateVC.h"
 #import "XYMScanViewController.h"
-//#import "JPUSHService.h"
-@interface HomePage ()<SDCycleScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,DropMenuViewDelegate,TXScrollLabelViewDelegate>
+#import "FreeSendVC.h"
+#import "CXCPickView.h"
+#import "ShoppingMainVC.h"
+#import "DecorateMainVC.h"
+#import "SearchHouseVC.h"
+@interface HomePage ()<SDCycleScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate,DropMenuViewDelegate,TXScrollLabelViewDelegate,CXCPickerViewDelegate>
 {
     UIScrollView *bgScrollView;//最底下的背景
     NSMutableArray *imagesArray;//滚动图片数组
     SDCycleScrollView *cycleScrollView2;//这个是轮播
     UIView * bottomView;
     UIView *topview ;
-    //商品
-    UIView *goodsXian;
-    NSArray *goodsArr;
+    //collectionViewData
+    NSArray *rxlpArr;
+    NSArray *jxsjArr;
+    NSArray *jjdzArr;
     NSMutableArray *titleArr;//公告
     NSArray *imgArr;//banner
-   
+    CGFloat last ;
+    CGFloat lagerst ;
+    NSMutableArray *cityArr;
+
     //替代导航栏的imageview
     UIImageView *topImageView;
+    //按钮
+    UIButton *nextBtn;
 }
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
+@property(strong, nonatomic) CXCPickView*myPickerView;
+
 @property (weak, nonatomic) TXScrollLabelView *scrollLabelView;//
 @property (nonatomic, strong) DropMenuView *oneLinkageDropMenu;
 @property (nonatomic, strong) NSArray *addressArr;//地址arr
@@ -63,8 +75,6 @@ static NSInteger seq = 0;
 @implementation HomePage
 -(void)btnClickPush:(NSString *)str
 {
-
-
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -82,36 +92,42 @@ static NSInteger seq = 0;
 //首页
 - (void)viewDidLoad {
     [super viewDidLoad];
-  
-    topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    NSLog(@"%.2f",([[UIScreen mainScreen] bounds].size.height));
+
+    topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_rectStatus+Frame_rectNav)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
 
-    UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width, 20,160*Width , 44)];
-    
+    UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width, Frame_rectStatus,160*Width , Frame_rectNav)];
     [topImageView addSubview:addressBtn];
     [addressBtn addTarget:self action:@selector(chooseAddress) forControlEvents:UIControlEventTouchUpInside];
     UILabel *addLabel = [[UILabel alloc] init];
-    [addLabel setText:@"潍坊"];
+    [self getToken];
+
+    if ([PublicMethod getDataStringKey:@"city_id"]) {
+        addLabel.text=  [PublicMethod getDataStringKey:@"city_name"];
+    }else
+    {
+        [addLabel setText:@"北京"];
+    }
     addLabel.tag =30;
     addLabel.textAlignment  =NSTextAlignmentCenter;
     addLabel.textColor =[UIColor whiteColor];
     [addLabel setFont:[UIFont systemFontOfSize:14]];
-    [addLabel setFrame:CGRectMake(30*Width, 0*Width,100*Width,40)];
+    [addLabel setFrame:CGRectMake(20*Width, 0*Width,120*Width,Frame_rectNav)];
     [addressBtn addSubview:addLabel];
-    UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(130*Width, 25*Width, 15*Width, 24*Width)];
+    UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(140*Width, 14, 7, 12)];
     addShowImgV.image =[UIImage imageNamed:@"home_icon_morecity"];
     [addressBtn addSubview:addShowImgV];
     
-    
-    UIButton *navBgView =[[UIButton alloc]initWithFrame:CGRectMake(160*Width, 20+10*Width,430*Width , 60*Width)];
+    UIButton *navBgView =[[UIButton alloc]initWithFrame:CGRectMake(180*Width, Frame_rectStatus+8,430*Width , Frame_rectNav-16)];
     navBgView.backgroundColor =[UIColor colorWithRed:252/255.00 green:93/255.00 blue:40/255.00 alpha:1];
     [topImageView addSubview:navBgView];
     [navBgView addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [navBgView.layer setCornerRadius:30*Width];
     
-    UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(36*Width, 15*Width, 30*Width, 30*Width)];
+    UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(18, 6, 16, 16)];
     bigShowImgV.image =[UIImage imageNamed:@"home_icon_search"];
     [navBgView addSubview:bigShowImgV];
     UILabel *searchTextField = [[UILabel alloc] init];
@@ -119,35 +135,153 @@ static NSInteger seq = 0;
     searchTextField.tag =30;
     searchTextField.textColor =[UIColor whiteColor];
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
-    [searchTextField setFrame:CGRectMake(bigShowImgV.right+12*Width, 0,400*Width,60*Width)];
+    [searchTextField setFrame:CGRectMake(bigShowImgV.right+10, 0,150,28)];
     [navBgView addSubview:searchTextField];
   
     UIButton *  rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.frame = CGRectMake(CXCWidth-44, 20, 44, 44);
+    rightBtn.frame = CGRectMake(CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [rightBtn setImage:[UIImage imageNamed:@"home_btn_scan"] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     
     [topImageView addSubview:rightBtn];
     [self makeThisView];//主页面
-    [self getBanner];//banner
-    [self getNotice];//黄条公告
-//    [self getJPUSHServiceTags];//极光推送tags
-    [self getGoods];//获取商品
+    rxlpArr =[[NSArray alloc]init];
+    jxsjArr =[[NSArray alloc]init];
+    jjdzArr =[[NSArray alloc]init];
+    titleArr =[[NSMutableArray  alloc]init];
+    imgArr =[[NSMutableArray alloc]init];
+    
+    
+}
+- (void)getToken
+{
+    if (![PublicMethod getDataStringKey:@"token"]) {
+        [PublicMethod AFNetworkPOSTurl:@"mobileapi/?index-gettoken.html" paraments:@{} success:^(id responseDic) {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"请求成功JSON:%@", dict);
+            [PublicMethod setObject:[dict objectForKey:@"token"]key:@"token"];
+            [self getCity];
+            NSLog(@"token%@",[PublicMethod getObjectForKey:@"token"]);
+        } fail:^(NSError *error) {
+            
+        }];
+        
+    }
+}
+- (void)getCity
+{
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?index-getcitylist.html" paraments:@{} addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            {
+                cityArr =[[NSMutableArray  alloc]init];
+                
+                NSMutableArray *provinceBeforeArrary =[[NSMutableArray alloc]init];
+                provinceBeforeArrary =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"province_list"]];
+                
+                NSMutableArray  *cityArrary =[[NSMutableArray alloc]init];
+                NSMutableArray  *cityAfterArr =[[NSMutableArray alloc]init];
+                cityArrary =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"city_list"]];
+                
+                NSLog(@"%@,12,%@",provinceBeforeArrary,cityArrary);
+                
+                
+                for (int i=0; i<provinceBeforeArrary.count; i++) {
+                    NSMutableDictionary *dic= provinceBeforeArrary[i];
+                    cityAfterArr =[[NSMutableArray alloc]init];
+                    for (int j=0; j<cityArrary.count; j++) {
+                        if ([[NSString stringWithFormat:@"%@",[provinceBeforeArrary[i] objectForKey:@"province_id"]]isEqualToString:[NSString stringWithFormat:@"%@", [cityArrary[j] objectForKey:@"province_id"]]]) {
+                            [cityAfterArr addObject:cityArrary[j] ];
+                            NSLog(@"cityAfterArr = %@",cityAfterArr);
+                        }
+                    }
+                    [dic setObject:cityAfterArr forKey:@"city"];
+                    [cityArr addObject:dic];
+                    
+                }
+                
+                if (![PublicMethod getDataStringKey:@"city_id"]) {
+                    NSArray *arr =[cityArr[0] objectForKey:@"city"];
+                    [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",[arr[0] objectForKey:@"city_id"]] withKey:@"city_id"];
+                    [PublicMethod saveDataString:[NSString stringWithFormat:@"%@",[arr[0] objectForKey:@"city_name"]] withKey:@"city_name"];
+                  
+                }
+                
+                    [self getInfor];
+                NSLog(@"cityArr = %@",cityArr);
+
+            }
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+}
+- (void)getInfor
+{
+  
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?index-index.html" paraments:@{} addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            {
+                imgArr  =[[dict objectForKey:@"data"] objectForKey:@"top_advs"];
+                rxlpArr =[[dict objectForKey:@"data"] objectForKey:@"rxlp"];
+                jxsjArr =[[dict objectForKey:@"data"] objectForKey:@"jpsj"];
+                jjdzArr =[[dict objectForKey:@"data"] objectForKey:@"jjsc"];
+                titleArr =[[NSMutableArray alloc]init];
+                NSArray *arr =[[dict objectForKey:@"data"] objectForKey:@"ask"];
+                for (NSDictionary *dic in arr)
+                {
+                    NSString *titleString =[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]];
+                    [titleArr addObject: titleString];
+                }
+                [self getBanner];
+                [self addWith:TXScrollLabelViewTypeFlipNoRepeat velocity:titleArr.count isArray:YES withArr:titleArr];
+
+                [_mainCMallCollectionView reloadData];
+                
+                _mainCMallCollectionView.height =180*3*Width+((int)(rxlpArr.count+1)/2)*230*Width+((int)(jxsjArr.count+1))/2*360*Width+((int)(jjdzArr.count+1))/2*480*Width;//高度=(数量/2+1)*440*width+20*width
+                NSLog(@"mmmmmmm%f----%f===%f---%f",_mainCMallCollectionView.height,_mainCMallCollectionView.bottom,_mainCMallCollectionView.top,topview.bottom);
+
+                [bgScrollView setContentSize:CGSizeMake(CXCWidth, _mainCMallCollectionView.bottom)];
+                
+            }
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+}
+- (void)cityListArrInit
+{
+    
+    
+    
 }
 - (void)rightBtnAction
 {
     XYMScanViewController *scan =[[XYMScanViewController alloc]init];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
     [self.navigationController pushViewController:scan animated:YES];
 }
 - (void)chooseAddress
 {
-    [self.oneLinkageDropMenu removeFromSuperview];
-    self.oneLinkageDropMenu = [[DropMenuView alloc] init];
-    self.oneLinkageDropMenu.delegate = self;
-    [self.oneLinkageDropMenu creatDropView:topImageView withShowTableNum:2 withData:self.addressArr];
+//    [self.oneLinkageDropMenu removeFromSuperview];
+//    self.oneLinkageDropMenu = [[DropMenuView alloc] init];
+//    self.oneLinkageDropMenu.delegate = self;
+//    [self.oneLinkageDropMenu creatDropView:topImageView withShowTableNum:2 withData:self.addressArr];
+    [_myPickerView removeFromSuperview];
+    _myPickerView =[[CXCPickView alloc ]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight)withArr:cityArr];
+    _myPickerView.delegate=self;
+    _myPickerView.type =@"cityList";
+
+    [self.view addSubview:_myPickerView];
 }
 -(void)btnClickBtn:(UIButton *)cell
 {
@@ -175,11 +309,7 @@ static NSInteger seq = 0;
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     }
     
-    
-    
-    
-    
-
+  
 }
 - (void)withDrawlsBtnAction //寻找
 {
@@ -189,84 +319,22 @@ static NSInteger seq = 0;
 }
 -(void)getBanner
 {
-    cycleScrollView2.imageURLStringsGroup = @[@"home_banner01",@"home_banner01",@"home_banner01"];//放上图片
-
-//    [PublicMethod AFNetworkPOSTurl:@"Home/Index/show" paraments:@{}  addView:self.view success:^(id responseDic) {
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-//            imgArr=[[NSArray alloc]init];
-//            imgArr =  [dict objectForKey:@"data"];
-//            imagesArray =[[NSMutableArray alloc]init];
-//            
-//            for (int i=0; i<imgArr.count; i++) {
-//                [imagesArray insertObject:[imgArr[i] objectForKey:@"img"] atIndex:i];
-//            }
-//            cycleScrollView2.imageURLStringsGroup = imagesArray;//放上图片
-//        }
-//        
-//    } fail:^(NSError *error) {
-//        
-//    }];
-}
-- (void)getNotice
-{
-    [PublicMethod AFNetworkPOSTurl:@"Home/Index/notice" paraments:@{}  addView:self.view success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            NSArray *allArr =[dict objectForKey:@"data"];
-            titleArr=[[NSMutableArray alloc]init];
-            NSMutableArray* titleArray =[[NSMutableArray alloc]init];
-        
-            for (int i=0 ; i<allArr.count; i++) {
-
-                if ([[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"type"]]isEqualToString:@"2"]) {
-                    
-                    [titleArray addObject:[NSString stringWithFormat:@"%@",[allArr[i] objectForKey:@"title"]]];
-                    
-                    [titleArr addObject:allArr[i]];
-                    
-                }
-            }
-            [self addWith:TXScrollLabelViewTypeFlipNoRepeat velocity:titleArr.count isArray:YES withArr:titleArray];
-
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
-
-
+    imagesArray =[[NSMutableArray alloc]init];
+    for (int i=0; i<imgArr.count; i++) {
+        [imagesArray insertObject:[NSString stringWithFormat:@"%@%@",IMAGEURL,[imgArr[i] objectForKey:@"thumb"]] atIndex:i];
+    }
+    cycleScrollView2.imageURLStringsGroup = imagesArray;//放上图片
 }
 
-- (void)getGoods
-{
-//    [PublicMethod AFNetworkPOSTurl:@"Home/Index/product" paraments:@{}  addView:self.view success:^(id responseDic) {
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-//            goodsArr =[[NSArray alloc]init];
-//            goodsArr =[dict objectForKey:@"data"];
-//            [_mainCMallCollectionView reloadData];
-//    
-////            _mainCMallCollectionView.height = (goodsArr.count/2+goodsArr.count%2)*440*Width+20*Width ;//高度=(数量/2+1)*440*width+20*width
-////            bottomView.top =  _mainCMallCollectionView.bottom;//得到数量的时候
-////            [bgScrollView setContentSize:CGSizeMake(CXCWidth, _mainCMallCollectionView.bottom+64)];
-//
-//        }
-//        
-//    } fail:^(NSError *error) {
-//        
-//    }];
-    
-    
-}
 ////首页页面布局
 -(void)makeThisView
 {
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, CXCWidth, CXCHeight-64-49)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_rectStatus+Frame_rectNav, CXCWidth, CXCHeight-Frame_NavAndStatus-49)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:bgScrollView];
+    bgScrollView.delegate=self;
     //顶部广告图
     cycleScrollView2 =[SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CXCWidth, 240*Width) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder@2x"]];
     cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
@@ -275,13 +343,18 @@ static NSInteger seq = 0;
     [bgScrollView addSubview:cycleScrollView2];
     
     
-    UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0,cycleScrollView2.bottom ,CXCWidth ,460*Width )];
+    UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0,cycleScrollView2.bottom ,CXCWidth ,230*Width )];
     [btnView setBackgroundColor:[UIColor whiteColor ]];
     [bgScrollView addSubview:btnView];
-      NSArray *topArr =@[@"home_icon_xiaoguo",@"home_icon_xue",@"home_icon_designer",@"zx_icon_twt",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_hd",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
-     NSArray*bottomArr =@[@"效果图",@"学装修",@"设计师",@"论坛",@"装修公司",@"我要装修",@"建材商城",@"优惠活动",@"",@"",];
+      NSArray *topArr =@[@"home_icon_xiaoguo",@"home_icon_xue",@"home_icon_designer",@"home_icon_jcsc",@"zx_icon_twt",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_hd",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+     NSArray*bottomArr =@[@"搜房",@"装修",@"商城",@"设计师",@"装修公司",@"我要装修",@"建材商城",@"优惠活动",@"",@"",];
     [btnView setBackgroundColor:[UIColor whiteColor]];
-    for (int i=0; i<8; i++) {
+    UIImageView *xianImg =[[UIImageView  alloc]initWithFrame:CGRectMake(0,228.5*Width, CXCWidth, 1.5*Width)];
+    xianImg.backgroundColor =BGColor;
+    [btnView addSubview:xianImg];
+    
+    
+    for (int i=0; i<4; i++) {
         //大按钮
         UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(187*Width*(i%4),200*Width*(i/4),186*Width,200*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
@@ -329,9 +402,8 @@ static NSInteger seq = 0;
     [btn setImageEdgeInsets:UIEdgeInsetsMake(19*Width, 19*Width, 19*Width, 19*Width)];
     [btn addTarget:self action:@selector(hiddenTheTopView) forControlEvents:UIControlEventTouchUpInside];
     [topview addSubview:btn];
-  
-    //商品详情
     
+    //商品详情
     //1\初始化layout
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     //2\设置headerView的尺寸大小
@@ -359,42 +431,61 @@ static NSInteger seq = 0;
     _mainCMallCollectionView.scrollEnabled = NO;
     [_mainCMallCollectionView reloadData];
     
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2800*Width+640*Width)];
-    _mainCMallCollectionView.height = (14/2+14%2)*440*Width+20*Width ;//高度=(数量/2+1)*440*width+20*width
+  
+    
+    //按钮
+    nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [nextBtn setFrame:CGRectMake(CXCWidth-230*Width,CXCHeight-350*Width , 150*Width, 150*Width)];
+    [nextBtn.layer setCornerRadius:75*Width];
+    [nextBtn.layer setMasksToBounds:YES];
+    nextBtn.alpha=0.9;
+    [nextBtn setImage:[UIImage imageNamed:@"home_icon_publish"] forState:UIControlStateNormal];
+
+    [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+    [nextBtn addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:nextBtn];
+
+}
+- (void)sendMessage
+{    FreeSendVC *free =[[FreeSendVC alloc]init];
+    [self.navigationController pushViewController:free animated:YES];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 - (void)hiddenTheTopView
 {
     topview.hidden=YES;
-    bgScrollView.top =64;
-
+    bgScrollView.top =Frame_NavAndStatus;
+    
 }
 - (void)myBtnAciton:(UIButton *)btn
 {
     if (btn.tag ==300) {
 
-        DecorateBestVC *search =[[DecorateBestVC alloc]init];
+        SearchHouseVC *search =[[SearchHouseVC alloc]init];
         [self.navigationController pushViewController:search animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 
     }else if (btn.tag==301)
     {
-        StudyDecorateVC*search =[[StudyDecorateVC alloc]init];
+        DecorateMainVC *search =[[DecorateMainVC alloc]init];
         [self.navigationController pushViewController:search animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
     
     }else if (btn.tag==302)
     {
-        FindDesignerVC  *notice =[[FindDesignerVC alloc]init];
+        ShoppingMainVC  *notice =[[ShoppingMainVC alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         
     }else if (btn.tag==303)
     {
-        KnowledgeVC  *notice =[[KnowledgeVC alloc]init];
+        FindDesignerVC  *notice =[[FindDesignerVC alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
+//        KnowledgeVC  *notice =[[KnowledgeVC alloc]init];
+//        [self.navigationController pushViewController:notice animated:YES];
+//        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     }else if (btn.tag==304)
     {
         FindCompanyVC  *notice =[[FindCompanyVC alloc]init];
@@ -406,21 +497,19 @@ static NSInteger seq = 0;
         IWantDecorateVC  *notice =[[IWantDecorateVC alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
+
     }else if (btn.tag==306)
     {
         ClassificationList*search =[[ClassificationList alloc]init];
         search.btnNameString =@"基础建材";
         [self.navigationController pushViewController:search animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
 
     }else if (btn.tag==307)
     {
         ActivityForYouhui  *notice =[[ActivityForYouhui alloc]init];
         [self.navigationController pushViewController:notice animated:YES];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
     }
     }
 
@@ -454,7 +543,16 @@ static MLLinkLabel * kProtypeLabel() {
 //返回section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 3;
+    if (section==0) {
+        return rxlpArr.count;
+    }else if (section ==1)
+    {
+        return jxsjArr.count;
+    }else{
+        
+        return jjdzArr.count;
+    }
+    
 }
 //  返回头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -473,13 +571,10 @@ static MLLinkLabel * kProtypeLabel() {
         botLabel.backgroundColor =[UIColor whiteColor];
         if (indexPath.section ==0) {
             botLabel.text =[NSString stringWithFormat:@"%@",@"    热销楼盘"];
-
         }else if(indexPath.section ==1) {
             botLabel.text =[NSString stringWithFormat:@"%@",@"    精选设计案例"];
-            
         }else if(indexPath.section ==2) {
             botLabel.text =[NSString stringWithFormat:@"%@",@"    家居定制"];
-            
         }
         [header addSubview:botLabel];
 
@@ -488,12 +583,10 @@ static MLLinkLabel * kProtypeLabel() {
 //    如果底部视图
         if([kind isEqualToString:UICollectionElementKindSectionFooter]){
             UICollectionReusableView *footer=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"footerView" forIndexPath:indexPath];
-           
             UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth , 80*Width)];
             addressBtn.tag=440+indexPath.section;
             [footer addSubview:addressBtn];
             [addressBtn addTarget:self action:@selector(chooseMore:) forControlEvents:UIControlEventTouchUpInside];
-          
             UILabel *addLabel = [[UILabel alloc] init];
             [addLabel setText:@"查看更多 >"];
             addLabel.tag =30;
@@ -507,9 +600,7 @@ static MLLinkLabel * kProtypeLabel() {
             UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(30*Width, 0*Width, 690*Width, 1.5*Width)];
             addressBtn.backgroundColor =BGColor;
             [addressBtn addSubview:addShowImgV];
-
             return footer;
-
         }
     return nil;
 }
@@ -559,32 +650,34 @@ static MLLinkLabel * kProtypeLabel() {
     if (indexPath.section==0) {
        HomeOneCollectionViewCell* onecell = (HomeOneCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HomeOneCollectionViewCell class]) forIndexPath:indexPath];
         onecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        onecell.dic =rxlpArr[indexPath.row];
         return onecell;
 
     }else  if (indexPath.section==1) {
         HomeTwoCollectionViewCell*twocell = (HomeTwoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HomeTwoCollectionViewCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        twocell.dic =jxsjArr[indexPath.row];
         return twocell;
         
     }else {
     
        HomeThreeCollectionViewCell*threecell = (HomeThreeCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HomeThreeCollectionViewCell class]) forIndexPath:indexPath];
         threecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        threecell.dic =jjdzArr[indexPath.row];
         return threecell;
-
     }
 }
 //点击方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        HouseDetailMainVC*goode =[[HouseDetailMainVC alloc]init];
-//        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+        HouseDetailMainVC*viewController =[[HouseDetailMainVC alloc]init];
+        NSLog(@"home_id =%@",[NSString stringWithFormat:@"%@",[rxlpArr[indexPath.row] objectForKey:@"home_id"]]);
+        
+        viewController.searchId =[NSString stringWithFormat:@"%@",[rxlpArr[indexPath.row] objectForKey:@"home_id"]];
+        
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        [self.navigationController  pushViewController:goode animated:YES];
+        [self.navigationController  pushViewController:viewController animated:YES];
     
     }else  if (indexPath.section==1)
     {
@@ -594,7 +687,7 @@ static MLLinkLabel * kProtypeLabel() {
     }else
     {
         GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
-        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+        goode.goodsId =[NSString stringWithFormat:@"%@",[jjdzArr[indexPath.row] objectForKey:@"product_id"]];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController  pushViewController:goode animated:YES];
 
@@ -675,14 +768,6 @@ static MLLinkLabel * kProtypeLabel() {
 {
     UILabel *btn =[self.view viewWithTag:30];
     btn.text =str;
-    
-//    [btn setTitleColor:TextGrayColor forState:UIControlStateNormal];
-    
-//    NSLog(@"currTag = %ld=======%@",(long)currTag,str);
-    
-//    [btn setTitle:str forState:UIControlStateNormal];
-//    [btn setImage:[UIImage imageNamed:@"sf_icon_down"]forState:UIControlStateNormal];
-    
 }
 -(void)dissMissLoad
 {
@@ -701,5 +786,53 @@ static MLLinkLabel * kProtypeLabel() {
 
 - (NSInteger)seq {
     return ++ seq;
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //相对于图片的偏移量
+    CGFloat reOffset = scrollView.contentOffset.y ;
+   
+    if (reOffset<last) {
+        last =reOffset;
+        nextBtn.hidden =NO;
+    }else
+    {
+        last =reOffset;
+        nextBtn.hidden =YES;
+        
+    }
+
+    CGFloat height = scrollView.frame.size.height;
+    CGFloat contentOffsetY = scrollView.contentOffset.y;
+    CGFloat bottomOffset = scrollView.contentSize.height - contentOffsetY;
+  
+
+    if (bottomOffset-1 <= height)
+    {
+        //在最底部
+        nextBtn.hidden = YES;
+    }
+    else
+    {
+      nextBtn.hidden = NO;
+    }
+    
+}
+#pragma mark--CXCPickViewDelegate
+-(void)tureBtnAction:(NSString *)componentstring forRow:(NSString *)rowString
+{
+    //选择
+    UILabel *typeLabel =[self.view viewWithTag:30];
+    typeLabel.text =componentstring;
+    NSLog(@"%@---%@",componentstring,rowString);
+    [PublicMethod saveDataString:rowString withKey:@"city_id"];
+    [PublicMethod saveDataString:componentstring withKey:@"city_name"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:ThemeNotificationInformatica object:nil];
+    
+}
+- (void)cancelBtnAction:(NSString *)componentstring forRow:(NSString *)rowString
+{
+    
+    
 }
 @end

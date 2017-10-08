@@ -71,13 +71,13 @@
     }
 
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
    
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, Frame_rectStatus, 550*Width, Frame_rectNav)];
     [navTitle setText:@"购物车"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -87,7 +87,7 @@
     [self.view addSubview:navTitle];
     //提现按钮
     UIButton *  withDrawlsBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    withDrawlsBtn.frame = CGRectMake(CXCWidth-90, 20, 74, 44);
+    withDrawlsBtn.frame = CGRectMake(CXCWidth-90, Frame_rectStatus  , 74, Frame_rectNav);
     //    [withDrawlsBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     withDrawlsBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
     [withDrawlsBtn setTitle:@"编辑" forState:UIControlStateNormal];
@@ -135,7 +135,7 @@
     [goodsTableview setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     goodsTableview .showsVerticalScrollIndicator = NO;
     goodsTableview.separatorStyle=UITableViewCellSeparatorStyleNone;
-    [goodsTableview setFrame:CGRectMake(0,64,CXCWidth,CXCHeight-64-200*Width)];
+    [goodsTableview setFrame:CGRectMake(0,Frame_NavAndStatus,CXCWidth,CXCHeight-Frame_NavAndStatus-200*Width)];
     [goodsTableview setDelegate:self];
     [goodsTableview setDataSource:self];
     [self.view addSubview:goodsTableview];

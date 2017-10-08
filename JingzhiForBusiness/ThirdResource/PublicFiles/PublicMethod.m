@@ -8,7 +8,6 @@
 #import "PublicMethod.h"
 #import "SGInfoAlert.h"
 #import "HomePage.h"
-
 @implementation PublicMethod
 //md5加密
 +(NSString *)md5:(NSString *)str
@@ -106,9 +105,49 @@
     
     return securityPolicy;
 }
++(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic success:(void (^)(id))success fail:(void (^)(NSError *))fail
+{
+    //    [ProgressHUD show:@"请等待"];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
+    NSString *url=[NSString stringWithFormat:@"%@/%@",SERVERURL,urlString];
+    //    NSDictionary *dic = [PublicMethod ASCIIwithDic:dic1];//当加密的时候用
+    NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
+    [parameter setDictionary:dic];
+    //    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];//证书的时候
+    NSLog(@"%@--url=%@",parameter,url);
+    
+    [manager POST:url parameters:parameter  progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if (success) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            success(responseObject);
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@请求成功JSON:%@", urlString,dict);
+            NSLog(@"请求成功JSON:%@", [self logDic:dict]);
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"1"])
+            {
+                [ProgressHUD dismiss];
+            }else
+            {
 
+            }
+            
+            
+        }
+    }
+          failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+              NSLog(@"error=%@",error);
+              [ProgressHUD showError:@"网络连接失败，请检查网络"];
+              
+          }];
+    
+}
 //urlString+SERVERURL（post）请求网络
-+(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
++(void)AFNetworkPOSTurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  addNavgationController:(UINavigationController*)nav success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
 {
 //    [ProgressHUD show:@"请等待"];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -119,41 +158,62 @@
     NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
     [parameter setDictionary:dic];
     [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
+    [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"city_id"]] forKey:@"city_id"];
+
 //    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];//证书的时候
-    NSLog(@"%@",parameter);
+    NSLog(@"%@--url=%@",parameter,url);
 
     [manager POST:url parameters:parameter  progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if (success) {
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             success(responseObject);
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"%@请求成功JSON:%@", urlString,dict);
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@请求成功JSON:%@", url,dict);
             NSLog(@"请求成功JSON:%@", [self logDic:dict]);
-            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"])
-            {
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+                
+                
+                
+                
+            }else if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"-101"]) {
+                
                 [ProgressHUD dismiss];
+                [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+                LoginPage *logP =[[LoginPage alloc]init];
+                [nav pushViewController:logP animated:YES];
+                return ;
+                
+            } else if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"100"]) {
+                
+                [ProgressHUD dismiss];
+                [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+                LoginPage *logP =[[LoginPage alloc]init];
+                [nav pushViewController:logP animated:YES];
+                return ;
+                
+                
             }else
             {
                 [ProgressHUD dismiss];
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
-
-            
+                
+                
+                
             }
             
             
         }
     }
           failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-              NSLog(@"网络连接失败");
+              NSLog(@"error=%@",error);
               [ProgressHUD showError:@"网络连接失败，请检查网络"];
 
     }];
     
 }
-+(void)AFNetworkGETurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view  success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
++(void)AFNetworkGETurl:(NSString *)urlString paraments:(NSDictionary *)dic addView:(UIView *)view addNavgationController:(UINavigationController*)nav success:(void (^)(id responseDic))success fail:(void (^)(NSError *error))fail
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -164,7 +224,9 @@
     //    [manager setSecurityPolicy:[PublicMethod customSecurityPolicy]];//证书的时候
     NSMutableDictionary*parameter =[NSMutableDictionary dictionary];
     [parameter setDictionary:dic];
-    [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
+    
+    
+    [parameter setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]?@"1":[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
     [manager GET:url parameters:parameter progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -174,15 +236,33 @@
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@请求成功JSON:%@", url,dict);
             NSLog(@"请求成功JSON:%@", [self logDic:dict]);
-            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+            if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
                 
                 
+                
+                
+            }else if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"-101"]) {
+                
+                [ProgressHUD dismiss];
+                [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+                LoginPage *logP =[[LoginPage alloc]init];
+                [nav pushViewController:logP animated:YES];
+                return ;
+                
+            } else if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"100"]) {
+                
+                [ProgressHUD dismiss];
+                [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+                LoginPage *logP =[[LoginPage alloc]init];
+                [nav pushViewController:logP animated:YES];
+                return ;
                 
                 
             }else
             {
                 [ProgressHUD dismiss];
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+            
                 
                 
             }
@@ -223,8 +303,6 @@
                 }
                 if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
                 {
-                    personDic =[[dict objectForKey:@"data"] objectForKey:@"message"];
-                    [PublicMethod saveData:personDic withKey:agen];
                 }
                 success(personDic);
 
@@ -236,10 +314,6 @@
                 if ([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"HY"]) {
                     success( [PublicMethod getDataKey:member]);
                     
-                }
-                if([[PublicMethod getDataStringKey:@"IsLogin"] isEqualToString:@"DL"])
-                {
-                     success([PublicMethod getDataKey:agen]);
                 }
                 
                 

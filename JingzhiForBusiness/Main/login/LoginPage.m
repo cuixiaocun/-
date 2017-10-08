@@ -41,22 +41,21 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
     
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrowWhite] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     
     //标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];
     [navTitle setText:@"登录"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -64,14 +63,12 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor whiteColor]];
     [self.view addSubview:navTitle];
-    
-    
     [self  mainView];
 }
 - (void)mainView
 {
     //底部scrollview
-    UIScrollView *bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, CXCHeight-64 )];
+    UIScrollView *bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0,Frame_NavAndStatus,CXCWidth, CXCHeight)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
@@ -94,7 +91,7 @@
         UITextField *inputText = [[UITextField alloc] init];
         [inputText setTag:i+1];
         if (i==0) {
-            [inputText setKeyboardType:UIKeyboardTypePhonePad];
+//            [inputText setKeyboardType:UIKeyboardTypePhonePad];
         }else
         {
             inputText.secureTextEntry =YES;
@@ -174,7 +171,6 @@
     self.nameTableView.dataSource = self;
     self.nameTableView.showsVerticalScrollIndicator = NO;
     self.nameTableView.backgroundColor = [UIColor whiteColor];
-    //    self.nameTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [bgScrollView addSubview:self.nameTableView];
     
     _nameTableView.hidden =YES;
@@ -197,60 +193,44 @@
 -(void)loginAdmin
 {
     
-
-//    
     UITextField *admin = (UITextField *)[self.view viewWithTag:1];
     UITextField *password = (UITextField *)[self.view viewWithTag:2];
-    if (admin.text.length!=18&&admin.text.length!=11) {
-        [MBProgressHUD showError:@"请输入正确的用户名" ToView:self.view];
-        return;
-    }
+
     if (password.text.length<6) {
         [MBProgressHUD showError:@"密码长度不得小于6位" ToView:self.view];
         return;
     }
-//    NSString *statustring ;//判断状态
-//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-//    [dic1 setDictionary:@{@"logintype":@"1",@"account":[NSString stringWithFormat:@"%@",@"15610280531"],@"password":@"111111"}];
-//    [dic1 setDictionary:@{@"logintype":statustring ,
-//                          @"account":[NSString stringWithFormat:@"%@",admin.text],
-//                          @"password":[NSString stringWithFormat:@"%@",password.text],
-//                          @"tag":[NSString stringWithFormat:@"%@",[PublicMethod getDataStringKey:@"registrationID"]],
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uname":@"shejishi",
+                          @"passwd":@"111111",
+                          }];
+//    [dic1 setDictionary:@{
+//                          @"uname":[NSString stringWithFormat:@"%@",admin.text],
+//                          @"passwd":[NSString stringWithFormat:@"%@",password.text],
 //    }];
-//    NSLog(@"%@",dic1);
-//    [PublicMethod AFNetworkPOSTurl:@"Home/Login/login" paraments:dic1  addView:self.view success:^(id responseDic) {
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-//            //成功isLeveler=NO是会员登陆成功isLeveler=YES是代理成功
-//            if ([isLeveler isEqualToString:@"NO"]) {
-//                if ([_status isEqualToString:@"present"]) {
-//                   //如果是其他页面跳到登录页面直接pop回去（购物详情页面，购物车去结算页面）
-//                   [self.navigationController popViewControllerAnimated:NO];
-//                }else
-//                {
-//                    //如果不是其他页面
-//                    [self rdv_tabBarController].selectedIndex=2;
-//                    [self setupViewControllersHYwithIsBack:@"NO"];
-//                    [self.navigationController popViewControllerAnimated:YES];
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?passport-login.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            //如果是其他页面跳到登录页面直接pop回去（购物详情页面，购物车去结算页面）
+            [self.navigationController popViewControllerAnimated:NO];
 //
-//                }
-//                //会员登录存值
-                [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
-                [PublicMethod removeObjectForKey: agen];
-//                [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"member"]withKey:member];
-                [self.navigationController popViewControllerAnimated:YES];
+            //会员登录存值
+            [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
+            [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"member"]withKey:member];
+            [self.navigationController popViewControllerAnimated:YES];
+            [self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
+            }
 
-                [self saveArrWithName:[NSString stringWithFormat:@"%@",admin.text]];
+    } fail:^(NSError *error) {
 
-//                
-//            }
-//}
-//        
-//    } fail:^(NSError *error) {
-//        
-//    }];
+    }];
+
+
     
-   
+    
+  
 }
 - (BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {

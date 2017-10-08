@@ -18,6 +18,7 @@
 @property(nonatomic,strong)SDLabTagsView*tagLabel;
 @property(nonatomic,strong)UILabel*numberLabel;
 @property (nonatomic,strong)NSMutableArray *dataArr;//标签
+@property (nonatomic,strong)NSString *searchId;//
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
 
 //@property(nonatomic,strong)UILabel*nameLabel;

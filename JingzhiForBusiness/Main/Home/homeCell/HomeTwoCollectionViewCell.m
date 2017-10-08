@@ -19,6 +19,9 @@
         self.topMCImage.backgroundColor = BGColor;
         self.topMCImage.userInteractionEnabled = YES;
         [self.contentView addSubview:self.topMCImage];
+        self.contentMode = UIViewContentModeScaleAspectFill;
+        self.clipsToBounds = YES;
+
         self.promtpmcLabel = [[UILabel alloc] initWithFrame:CGRectMake(0*Width,_topMCImage.bottom,336*Width,45*Width)];
         self.promtpmcLabel.textColor = TextColor;
         self.promtpmcLabel.font = [UIFont fontWithName:@"Arial" size:14];
@@ -40,9 +43,9 @@
 -(void)setDic:(NSDictionary *)dic
 {
     _dic =dic;
-    self.topMCImage.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"img"]]];
-    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
-    self.pricesLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
+    [_topMCImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"thumb"]]]];
+    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"title"]];
+    self.pricesLabel.text =[NSString stringWithFormat:@"%@",[[[_dic objectForKey:@"ext"] objectForKey:@"company"]objectForKey:@"name"]];
     
     
     

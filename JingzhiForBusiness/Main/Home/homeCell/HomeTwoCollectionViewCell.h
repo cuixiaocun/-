@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @interface HomeTwoCollectionViewCell : UICollectionViewCell
-@property (nonatomic,strong)EGOImageView  *topMCImage;
+@property (nonatomic,strong)UIImageView  *topMCImage;
 @property (nonatomic,strong) UILabel *promtpmcLabel;
 @property (nonatomic,strong) UILabel *pricesLabel;
 @property(nonatomic,retain)NSDictionary *dic;

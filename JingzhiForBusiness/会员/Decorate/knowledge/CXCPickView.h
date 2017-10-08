@@ -16,6 +16,10 @@
 
 @interface CXCPickView : UIView<UIPickerViewDelegate,UIPickerViewDataSource>
 {    NSInteger indx;
+     NSString *_name;
+     NSString *_nameId;
+     BOOL isFrist;
+
     
 }
 @property(nonatomic,strong) UIView* blackBgView;//输入框背景透明黑
@@ -25,11 +29,10 @@
 @property(nonatomic,strong)NSArray*dataArray;
 
 @property(nonatomic,strong)UIView *bgview;
-@property(nonatomic,retain)NSString *name;
-@property(nonatomic,retain)NSString *nameId;
+@property(nonatomic,assign)NSString *type;
 
 
-- (id)initWithFrame:(CGRect)frame withArr:(NSArray*)arr;
+- (id)initWithFrame:(CGRect)frame withArr:(NSArray*)arr ;
 @property(assign,nonatomic)id<CXCPickerViewDelegate>delegate;
 
 @end

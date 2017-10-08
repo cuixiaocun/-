@@ -196,7 +196,7 @@
     __weak RDVTabBarController *weakSelf = self;
     
     void (^block)() = ^{
-        CGSize viewSize = weakSelf.view.bounds.size;
+        CGSize viewSize = CGSizeMake(CXCWidth, CXCHeight);
         CGFloat tabBarStartingY = viewSize.height;
         CGFloat contentViewHeight = viewSize.height;
         CGFloat tabBarHeight = CGRectGetHeight([[weakSelf tabBar] frame]);

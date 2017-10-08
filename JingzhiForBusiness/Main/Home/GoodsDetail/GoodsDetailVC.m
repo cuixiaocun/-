@@ -11,7 +11,9 @@
 #import <WebKit/WebKit.h>
 #import "LoginPage.h"
 #import "AKGallery.h"
+#import "ShopStoreDetailVC.h"
 
+#import "ShopStoreMainVC.h"
 @interface GoodsDetailVC ()<UIScrollViewDelegate,SDCycleScrollViewDelegate,WKNavigationDelegate, WKUIDelegate,UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate,UITextFieldDelegate>
 {
     UIScrollView *bgScrollView;//最底下的背景
@@ -77,13 +79,13 @@
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:bgScrollView];
     bgScrollView.backgroundColor =[UIColor whiteColor];
-    topImageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    topImageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
     topImageView.alpha =0.0;
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, Frame_rectStatus, 550*Width, Frame_rectNav)];
     [navTitle setText:@"商品详情"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -106,7 +108,7 @@
     [topImageView addSubview:shareBtn];
     
     
-    topImageViewNomal= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    topImageViewNomal= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageViewNomal.userInteractionEnabled = YES;
     topImageViewNomal.backgroundColor = [UIColor clearColor];
     [self.view addSubview:topImageViewNomal];
@@ -115,12 +117,12 @@
     
     //添加返回按钮
     UIButton *  returnBtnNomal = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtnNomal.frame = CGRectMake(0, 20, 44, 44);
+    returnBtnNomal.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtnNomal setImage:[UIImage imageNamed:@"sf_icon_goBack"] forState:UIControlStateNormal];
     [returnBtnNomal addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageViewNomal addSubview:returnBtnNomal];
 //    //右
-    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
+    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav)];
     shareBtnNomal.backgroundColor = [UIColor clearColor];
     [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
     [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_cart"] forState:UIControlStateNormal];
@@ -243,23 +245,54 @@
     bgScrollView.userInteractionEnabled = YES;//控制是否可以响应用户点击事件（touch）
     bgScrollView.scrollEnabled = YES;//控制是否可以滚动
     
-    //确认提交按钮
+    //店铺
+    UIButton * shoppingBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [shoppingBtn setFrame:CGRectMake(0*Width,CXCHeight-100*Width , 250*Width, 100*Width)];
+    [shoppingBtn setBackgroundColor:BGColor];
+    //上边图片
+    UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(102.5*Width,8*Width,45*Width,45*Width)];
+    topImgV.image=[UIImage imageNamed:@"mall_icon_store"];
+    [shoppingBtn addSubview:topImgV];
+    //下边文字
+    UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.bottom+7*Width,250*Width,30*Width)];
+    botLabel.textAlignment=NSTextAlignmentCenter;
+    botLabel.font =[UIFont systemFontOfSize:13];
+    botLabel.textColor =BlackColor;
+    botLabel.text =[NSString stringWithFormat:@"%@",@"店铺"];
+    [shoppingBtn addSubview:botLabel];
+
+//    [shoppingBtn setTitle:@"店铺" forState:UIControlStateNormal];
+//    [shoppingBtn setImage:[UIImage imageNamed:@"mall_icon_store"] forState:UIControlStateNormal];
+//    [shoppingBtn setTitleEdgeInsets:UIEdgeInsetsMake(shoppingBtn.imageView.frame.size.height ,-shoppingBtn.imageView.frame.size.width, 0.0,0.0)];//文字距离上边框的距离增加imageView的高度，距离左边框减少imageView的宽度，距离下边框和右边框距离不变
+//    [shoppingBtn setImageEdgeInsets:UIEdgeInsetsMake(0.0, 0.0,0.0, -shoppingBtn.titleLabel.bounds.size.width)];//图片距离右边框距离减少图片的宽度，其它不边
+    [shoppingBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+    shoppingBtn.titleLabel.font =[UIFont systemFontOfSize:14];
+    shoppingBtn.tag =990;
+    [shoppingBtn addTarget:self action:@selector(buyBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:shoppingBtn];
+
+    //立即购买
     UIButton * shopCartBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shopCartBtn setFrame:CGRectMake(0*Width,CXCHeight-100*Width , 375*Width, 100*Width)];
+    [shopCartBtn setFrame:CGRectMake(250*Width,CXCHeight-100*Width , 250*Width, 100*Width)];
     [shopCartBtn setBackgroundColor:[UIColor colorWithRed:240/255.0 green:112/255.0 blue:48/255.0 alpha:1]];
+    shopCartBtn.titleLabel.font =[UIFont systemFontOfSize:16];
+    shopCartBtn.tag =991;
+
     [shopCartBtn setTitle:@"立即购买" forState:UIControlStateNormal];
     [shopCartBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [shopCartBtn addTarget:self action:@selector(buyBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [shopCartBtn addTarget:self action:@selector(buyBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:shopCartBtn];
     
-    //确认提交按钮
+    //预约购买
     UIButton * buyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [buyBtn setFrame:CGRectMake(375*Width,CXCHeight-100*Width , 375*Width, 100*Width)];
+    [buyBtn setFrame:CGRectMake(500*Width,CXCHeight-100*Width , 250*Width, 100*Width)];
     [buyBtn setBackgroundColor:[UIColor colorWithRed:230/255.00 green:47/255.00 blue:44/255.00 alpha:1]];
+    buyBtn.titleLabel.font =[UIFont systemFontOfSize:16];
+    buyBtn.tag =992;
     buyBtn.layer.borderColor =[UIColor blueColor].CGColor;
     [buyBtn setTitle:@"预约购买" forState:UIControlStateNormal];
     [buyBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [buyBtn addTarget:self action:@selector(buyBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [buyBtn addTarget:self action:@selector(buyBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:buyBtn];
    
 }
@@ -348,39 +381,54 @@
 
 
 }
-- (void)buyBtnAction
+- (void)buyBtnAction:(UIButton *)btn
 {
-    if (![PublicMethod getDataStringKey:@"IsLogin"])
-    {//若没登录请登录
-        LoginPage *loginPage =[[LoginPage     alloc]init];
-        loginPage.status =@"present";
-        [self.navigationController pushViewController:loginPage animated:YES];
-        return;
+    if (btn.tag==990) {
+        ShopStoreMainVC *shop =[[ShopStoreMainVC alloc]init];
+        [self.navigationController pushViewController:shop animated:YES];
+        
+    }else if (btn.tag==991)
+    {
+        
+        if (![PublicMethod getDataStringKey:@"IsLogin"])
+        {//若没登录请登录
+            LoginPage *loginPage =[[LoginPage     alloc]init];
+            loginPage.status =@"present";
+            [self.navigationController pushViewController:loginPage animated:YES];
+            return;
+        }
+        UILabel *numbLable =[self.view viewWithTag:22];
+        
+        NSString*num =[NSString stringWithFormat:@"%@",numbLable.text];
+        NSMutableArray* goodsMutableArr =[[NSMutableArray alloc]init];
+        
+        NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"name"]]forKey:@"goodsTitle"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"price"]] forKey:@"goodsPrice"];
+        [infoDict setValue:[NSString stringWithFormat:@"NO"] forKey:@"selectState"];
+        [infoDict setValue:[NSString stringWithFormat:@"%.2f",([[[dataDict objectForKey:@"product"] objectForKey:@"price"] floatValue] *[num floatValue])] forKey:@"goodsTotalPrice"];
+        [infoDict setValue:[NSNumber numberWithInt:[num intValue]] forKey:@"goodsNum"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"id"]] forKey:@"goodID"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"boxnum"]] forKey:@"boxnum"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"img"]] forKey:@"img"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"deductible"]] forKey:@"deductible"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",@"1"] forKey:@"ishidden"];//@“1”是隐藏所有的x按钮
+        
+        
+        [goodsMutableArr addObject:infoDict];
+        
+        
+        HYConfirmOrderVC *confirmOrderVC =[[HYConfirmOrderVC alloc]init];
+        confirmOrderVC.googsArr =goodsMutableArr;
+        [self.navigationController pushViewController:confirmOrderVC animated:YES];
+
     }
-    UILabel *numbLable =[self.view viewWithTag:22];
-
-    NSString*num =[NSString stringWithFormat:@"%@",numbLable.text];
-   NSMutableArray* goodsMutableArr =[[NSMutableArray alloc]init];
-
-    NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
-    [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"name"]]forKey:@"goodsTitle"];
-    [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"price"]] forKey:@"goodsPrice"];
-    [infoDict setValue:[NSString stringWithFormat:@"NO"] forKey:@"selectState"];
-    [infoDict setValue:[NSString stringWithFormat:@"%.2f",([[[dataDict objectForKey:@"product"] objectForKey:@"price"] floatValue] *[num floatValue])] forKey:@"goodsTotalPrice"];
-    [infoDict setValue:[NSNumber numberWithInt:[num intValue]] forKey:@"goodsNum"];
-    [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"id"]] forKey:@"goodID"];
-    [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"boxnum"]] forKey:@"boxnum"];
-    [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"img"]] forKey:@"img"];
-    [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"deductible"]] forKey:@"deductible"];
-    [infoDict setValue:[NSString stringWithFormat:@"%@",@"1"] forKey:@"ishidden"];//@“1”是隐藏所有的x按钮
-
     
-    [goodsMutableArr addObject:infoDict];
-
-
-    HYConfirmOrderVC *confirmOrderVC =[[HYConfirmOrderVC alloc]init];
-    confirmOrderVC.googsArr =goodsMutableArr;
-    [self.navigationController pushViewController:confirmOrderVC animated:YES];
+    
+    
+    
+    
+    
     
 }
 -(void)returnBtnAction
@@ -417,7 +465,7 @@
         CGFloat reOffset = scrollView.contentOffset.y ;
         //    (kOriginalImageHeight - 64)这个数值决定了导航条在图片上滑时开始出现  alpha 从 0 ~ 0.99 变化
         //    当图片底部到达导航条底部时 导航条  aphla 变为1 导航条完全出现
-        CGFloat alpha = reOffset /(560.0*Width-64) ;
+        CGFloat alpha = reOffset /(560.0*Width-Frame_NavAndStatus) ;
         NSLog(@"reOffset=%f",reOffset);
         // 设置导航条的背景图片 其透明度随  alpha 值 而改变
         topImageView.alpha =alpha;
@@ -582,9 +630,9 @@
 - (void)getDetialInformation
 {
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"id":_goodsId}];
+    [dic1 setDictionary:@{@"product_id":_goodsId}];
     NSLog(@"%@",dic1);
-    [PublicMethod AFNetworkGETurl:@"Home/Product/getProductInfo" paraments:dic1 addView:self.view success:^(id responseDic) {
+     [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-detail.html" paraments:@{} addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
          dataDict  =[dict objectForKey:@"data"];
         

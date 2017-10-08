@@ -36,18 +36,18 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     //替代导航栏的imageview
-    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, 64)];
+    UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
     topImageView.backgroundColor = NavColor;
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus , Frame_rectNav    , Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, 20, 550*Width, 44)];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, Frame_rectStatus, 550*Width, Frame_rectNav)];
     [navTitle setText:[NSString stringWithFormat:@"%@",_navTitle]];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
@@ -60,7 +60,7 @@
 }
 - (void)mainView
 {
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 64,CXCWidth, 360*Width )];
+    bgScrollView =[[TPKeyboardAvoidingScrollView   alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus,CXCWidth, 360*Width )];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setBackgroundColor:BGColor];
     [self.view addSubview:bgScrollView];
@@ -178,7 +178,7 @@
     [goodsTableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     goodsTableview .showsVerticalScrollIndicator = NO;
 
-    [goodsTableview setFrame:CGRectMake(0,bgScrollView.bottom,CXCWidth,CXCHeight-bgScrollView.height-64-100*Width )];
+    [goodsTableview setFrame:CGRectMake(0,bgScrollView.bottom,CXCWidth,CXCHeight-bgScrollView.height-Frame_NavAndStatus-100*Width )];
     [goodsTableview setDelegate:self];
     [goodsTableview setDataSource:self];
     [self.view addSubview:goodsTableview];
@@ -261,7 +261,7 @@
     
     }
     //网络请求
-    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
@@ -336,7 +336,7 @@
         
         
     }
-    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:url paraments:dic1  addView:self.view  addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
            
@@ -817,7 +817,7 @@
                          }];
     NSLog(@"%@",dic1);
 
-    [PublicMethod AFNetworkPOSTurl:@"Home/Index/getLevelInfo" paraments:dic1  addView:self.view success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"Home/Index/getLevelInfo" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
           minMoney=  [NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"]objectForKey:@"money"]];

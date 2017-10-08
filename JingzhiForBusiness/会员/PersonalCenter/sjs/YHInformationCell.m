@@ -1,29 +1,22 @@
 //
-//  TenderCell.m
+//  YHInformationCell.m
 //  家装
 //
-//  Created by Admin on 2017/9/15.
+//  Created by Admin on 2017/9/27.
 //  Copyright © 2017年 cuixiaocun. All rights reserved.
 //
 
-#import "TenderCell.h"
+#import "YHInformationCell.h"
 
-@implementation TenderCell
-
+@implementation YHInformationCell
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        //        //横线
-        //        UIImageView*xian =[[UIImageView alloc]init];
-        //        xian.backgroundColor =BGColor;
-        //        [self addSubview:xian];
-        //        xian.frame =CGRectMake(0,0*Width, CXCWidth, 1.5*Width);
+        NSArray*leftArr =@[@"半小时前",@"优惠信息",@"联系人",@"联系电话",@"",@"",@"",@"",];
         
-        NSArray*leftArr =@[@"半小时前",@"ID",@"城市",@"称呼",@"电话",@"已投标",@"流转时间",@"",@"",@"",@"",@"",];
-        
-        NSArray*rightArr =@[@"待审核",@"22222222",@"潍坊",@"张三",@"18363267772",@"3",@"",@"",];
-        for (int i=0; i<6; i++){
+        NSArray*rightArr =@[@"",@"XXXX信息",@"张三",@"18363267772",@"",@"",];
+        for (int i=0; i<4; i++){
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];
@@ -55,7 +48,6 @@
             if(i==0)
             {
                 bgview.backgroundColor =BGColor;
-                
                 labe.tag =199;
                 rightLabel.textColor =NavColor;
                 
@@ -82,8 +74,6 @@
     //待审核，已完成，已驳回
     _dic=Dict;
     UILabel *timeLabel =[self viewWithTag:199];
-    
-    UILabel *statuLabel =[self viewWithTag:200];
     UILabel *IDLabel =[self viewWithTag:201];
     UILabel *cityLabel =[self viewWithTag:202];
     
@@ -104,5 +94,7 @@
     
     // Configure the view for the selected state
 }
+
+
 
 @end

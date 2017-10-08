@@ -22,7 +22,7 @@
         _priceLab.text =@"¥100";
         _priceLab.textAlignment =NSTextAlignmentCenter  ;
         _priceLab.textColor = [UIColor whiteColor] ;
-        _priceLab.font =[UIFont systemFontOfSize:50];
+        _priceLab.font =[UIFont systemFontOfSize:40];
         [_bgImgView addSubview:_priceLab];
         
         _limitLab = [[UILabel alloc]initWithFrame:CGRectMake(40*Width,_priceLab.bottom , 200*Width, 60*Width)];
@@ -32,7 +32,7 @@
         _limitLab.font =[UIFont systemFontOfSize:14];
         [_bgImgView addSubview:_limitLab];
         
-        _promptLabel= [[UILabel alloc]initWithFrame:CGRectMake(285*Width, 25*Width, 110*Width, 30*Width)];
+        _promptLabel= [[UILabel alloc]initWithFrame:CGRectMake(285*Width, 15*Width, 110*Width, 50*Width)];
         _promptLabel.text =@"新春优惠";
         _promptLabel.textAlignment =NSTextAlignmentCenter  ;
         _promptLabel.backgroundColor =[UIColor colorWithRed:230/255.00 green:76/255.00 blue:42/255.00 alpha:1];
