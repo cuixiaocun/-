@@ -47,6 +47,9 @@
 //    [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
 //    [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
 //
+    
+    
+    
 //    [topImageView addSubview:rightBtn];
     
 }
