@@ -294,7 +294,6 @@
                           @"limit":@"2",
                           }];
     
-    NSLog(@"%@",dic1);
     [PublicMethod AFNetworkPOSTurl:@"mobileapi/?soufang-items.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {

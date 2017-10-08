@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JingzhiForBusiness/Main/Home/GoodsDetail/GoodsDetailVC.m"
-            timestampString = "529066933.696145"
+            timestampString = "529119333.905554"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
+            startingLineNumber = "644"
+            endingLineNumber = "644"
             landmarkName = "-getDetialInformation"
             landmarkType = "7">
          </BreakpointContent>
