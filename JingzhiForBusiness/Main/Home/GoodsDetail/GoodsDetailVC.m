@@ -42,12 +42,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
-
-
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
