@@ -15,7 +15,6 @@
 #import "RDVTabBar.h"
 #import "RDVTabBarItem.h"
 
-
 /*tabber*/
 #import "HomePage.h"
 #import "SearchHouseVC.h"
@@ -35,7 +34,6 @@
 }
 @end
 static NSInteger seq = 0;
-
 @implementation AppDelegate
 
 
@@ -45,7 +43,7 @@ static NSInteger seq = 0;
     [self setupViewControllers];
     [self customizeInterface];
     _mapManager = [[BMKMapManager alloc]init];
-    // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
+    // 如果要关注网络及授权验证事件，请设定 generalDelegate参数
     BOOL ret = [_mapManager start:@"XGHQHyG1dAOZMEr8Ri0INK7vUtYMmabz"  generalDelegate:nil];
     if (!ret) {
         NSLog(@"manager start failed!");

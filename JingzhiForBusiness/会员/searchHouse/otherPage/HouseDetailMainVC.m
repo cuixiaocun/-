@@ -28,7 +28,8 @@
     NSArray *hxtArr;
     NSArray *sjtArr;
     NSArray *ybjArr;
-    
+    NSArray *casesArr;
+ 
 }
 
 @end
@@ -48,7 +49,7 @@
 - (void)mainView
 {
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight-100*Width)];
     [bgScrollView setUserInteractionEnabled:YES];
     bgScrollView.delegate =self;
     [bgScrollView setShowsVerticalScrollIndicator:NO];
@@ -75,12 +76,12 @@
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
-    //右
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav)];
-    shareBtn.backgroundColor = [UIColor clearColor];
-    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
-    [shareBtn setImage:[UIImage imageNamed:@"details_btn_white"] forState:UIControlStateNormal];
-    [topImageView addSubview:shareBtn];
+//    //右
+//    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav)];
+//    shareBtn.backgroundColor = [UIColor clearColor];
+//    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
+//    [shareBtn setImage:[UIImage imageNamed:@"details_btn_white"] forState:UIControlStateNormal];
+//    [topImageView addSubview:shareBtn];
     
     
     topImageViewNomal= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
@@ -97,11 +98,11 @@
     [returnBtnNomal addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageViewNomal addSubview:returnBtnNomal];
     //    //右
-    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav,Frame_rectNav)];
-    shareBtnNomal.backgroundColor = [UIColor clearColor];
-    [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
-    [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_cart"] forState:UIControlStateNormal];
-    [topImageViewNomal addSubview:shareBtnNomal];
+//    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav,Frame_rectNav)];
+//    shareBtnNomal.backgroundColor = [UIColor clearColor];
+//    [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
+//    [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_cart"] forState:UIControlStateNormal];
+//    [topImageViewNomal addSubview:shareBtnNomal];
     
     UIImageView *touImageView =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0,CXCWidth , 556*Width)];
     touImageView.tag =1120;
@@ -170,13 +171,35 @@
     tabbarView =[[UIView alloc]initWithFrame:CGRectMake(0, touImageView.bottom, CXCWidth, 190*Width)];
     tabbarView.backgroundColor =[UIColor whiteColor];
     [bgScrollView addSubview:tabbarView];
-    NSArray *topArr =@[@"sfxq_icon_xq",@"sfxq_icon_fangan",@"sfxq_icon_huxing",@"sfxq_icon_shijing",@"sfxq_icon_yangban",@"",@"",@"",@"",@"",@"",];
-    NSArray*bottomArr =@[@"详情",@"设计方案",@"户型图",@"实景图",@"样板间",@"",@"",];
-    for (int i=0; i<5; i++) {
+    NSArray *topArr =[[NSArray alloc]init];
+    NSArray*bottomArr =[[NSArray alloc]init];
+    float spacW =0;
+    int number =0;//
+
+    if([_xinxiTypeId isEqualToString:@"0"])
+    {
+       topArr =@[@"sfxq_icon_xq",@"sfxq_icon_fangan",@"sfxq_icon_huxing",@"sfxq_icon_shijing",@"sfxq_icon_yangban"];
+       bottomArr =@[@"详情",@"设计方案",@"户型图",@"实景图",@"样板间"];
+        spacW =41;//宽度
+        number = 5;
+
+    }else
+    {
+        topArr =@[@"sfxq_icon_xq",@"sfxq_icon_huxing",@"sfxq_icon_shijing",@"sfxq_icon_yangban"];
+        bottomArr =@[@"详情",@"户型图",@"实景图",@"样板间"];
+        spacW =70;//宽度
+        number =3;
+        
+    }
+  
+        for (int i=0; i<topArr.count; i++) {
         //大按钮
-        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(41*Width+141*Width*i,0,100*Width,190*Width)];
+        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(spacW*Width*(i+1)+100*Width*i,0,100*Width,190*Width)];
         [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
         btn.tag =i+300;
+            if((![_xinxiTypeId isEqualToString:@"0"])&&i>0){
+                btn.tag =i+301;
+            }
         btn.backgroundColor =[UIColor whiteColor];
         [tabbarView addSubview:btn];
         //上边图片
@@ -196,30 +219,79 @@
     middleLabel.frame =CGRectMake(0, tabbarView.bottom+20*Width, CXCWidth, 315*Width);
     middleLabel.backgroundColor =[UIColor whiteColor];
     [bgScrollView addSubview:middleLabel];
+    
+    
 
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<number; i++) {
         //文字
-        if (i<3) {
+        if (i<number-1) {
             UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width,30*Width+i*65*Width,CXCWidth,65*Width)];
             botLabel.font =[UIFont systemFontOfSize:13];
             botLabel.textColor =BlackColor;
-            if (i==0) {
-                _addressLabel =botLabel;
-//                _addressLabel.text =@"地区：高新区健康街与淮安路交汇处东南300米";
-            }else if (i==1) {
-                _begainSellLabel =botLabel;
-//                _begainSellLabel.text =@"开盘：2017年09月07日28号楼加推";
-            }else if (i==2) {
-                _kfsLabel =botLabel;
-//                _kfsLabel.text =@"开发商：潍坊歌尔职业有限公司";
+            if([_xinxiTypeId isEqualToString:@"0"]){//新房
+                middleLabel.frame =CGRectMake(0, tabbarView.bottom+20*Width, CXCWidth, 355*Width);
+                if (i==0) {
+                    _addressLabel =botLabel;
+                }else if (i==1) {
+                    _begainSellLabel =botLabel;
+                }else if (i==2) {
+                    _jfLabel =botLabel;
+                }else if(i==3)
+                {
+                    _kfsLabel =botLabel;
+                }
+            }else if ([_xinxiTypeId isEqualToString:@"1"])//二手房
+            {
+                middleLabel.frame =CGRectMake(0, tabbarView.bottom+20*Width, CXCWidth, 220*Width);
+                if (i==0) {
+                    _addressLabel =botLabel;
+                }else if (i==1) {
+                    _kfsLabel =botLabel;
+                }
+                
+            }else//租房
+            {
+                middleLabel.frame =CGRectMake(0, tabbarView.bottom+20*Width, CXCWidth, 220*Width);
+                if (i==0) {
+                    _addressLabel =botLabel;
+                }else if (i==1) {
+                    _begainSellLabel =botLabel;
+                }
             }
             [middleLabel addSubview:botLabel];
 
         }else
         {
-            _tagLabel =[SDLabTagsView sdLabTagsViewWithTagsArr:self.dataArr];
-            _tagLabel.frame =CGRectMake(24*Width, _kfsLabel.bottom, 460*Width, (_tagLabel.rowNumber+1)*40*Width);
-            
+            _tagLabel =[[UILabel alloc]init];
+            _tagLabel.frame =CGRectMake(24*Width, 30*Width+i*65*Width, 120*Width, 40*Width);
+            _tagLabel.textAlignment  =NSTextAlignmentCenter;
+            [_tagLabel.layer setBorderWidth:1];
+            [_tagLabel.layer setCornerRadius:2];
+            [_tagLabel.layer setMasksToBounds:YES];
+            _tagLabel.font =[UIFont systemFontOfSize:13];
+            if([[NSString stringWithFormat:@"%@",_xinxiTypeId] isEqualToString:@"0"])
+            {
+                _tagLabel.text =@"新  房";
+                _tagLabel.textColor =NavColor;
+                _tagLabel.layer.borderColor =NavColor.CGColor;
+//                _priceLabel.text =[NSString stringWithFormat:@"售价:%@元/m²", IsNilString([dic  objectForKey:@"price"])?@"":[dic objectForKey:@"price"] ];
+
+                
+            }else if([[NSString stringWithFormat:@"%@",_xinxiTypeId] isEqualToString:@"1"])
+            {
+                _tagLabel.text =@"二手房";
+                _tagLabel.textColor =[UIColor colorWithRed:0 green:213/255.00 blue:155/255.00 alpha:1];
+                _tagLabel.layer.borderColor =[UIColor colorWithRed:0 green:213/255.00 blue:155/255.00 alpha:1].CGColor;
+//                _priceLabel.text =[NSString stringWithFormat:@"售价:%@元/m²", IsNilString([dic  objectForKey:@"price"])?@"":[dic objectForKey:@"price"] ];
+                
+            }else if([[NSString stringWithFormat:@"%@",_xinxiTypeId] isEqualToString:@"2"])
+            {
+                _tagLabel.text =@"租  房";
+                _tagLabel.textColor =[UIColor colorWithRed:22/255.00 green:128/255.00 blue:240/255.00 alpha:1];
+                _tagLabel.layer.borderColor =[UIColor colorWithRed:22/255.00 green:128/255.00 blue:240/255.00 alpha:1].CGColor;
+//                _priceLabel.text =[NSString stringWithFormat:@"月租金:%@元/月", IsNilString([dic  objectForKey:@"price"])?@"":[dic objectForKey:@"price"] ];
+                
+            }
             [middleLabel addSubview:_tagLabel];
         
         
@@ -227,6 +299,10 @@
         
         
     }
+    [self getInfor];
+    [self getInforHX];
+    [self getInforSJ];
+    [self getInforYB];
     //1\初始化layout
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     //2\设置headerView的尺寸大小
@@ -254,7 +330,6 @@
     _mainCMallCollectionView.scrollEnabled = NO;
     [_mainCMallCollectionView reloadData];
     
-    _mainCMallCollectionView.height = (14/2+14%2)*440*Width+20*Width ;//高度=(数量/2+1)*440*width+20*width
     //底部
     UIView *bottomBgview =[[UIView alloc]initWithFrame:CGRectMake(0, CXCHeight-100*Width, CXCWidth, 100*Width)];
     [bottomBgview setBackgroundColor:[UIColor colorWithRed:59/255.00 green:63/255.00 blue:80/255.00 alpha:1]];
@@ -276,42 +351,37 @@
     [bottomBgview addSubview:confirmBtn];
     
     sjalArr =[[NSArray alloc]init];
-    
     hxtArr=[[NSArray alloc]init];
     sjtArr=[[NSArray alloc]init];
     ybjArr=[[NSArray alloc]init];
-    [self getInfor];
-    [self getInforSJAL];
-    [self getInforHX];
-    [self getInforSJ];
-    [self getInforYB];
+   
 //    [self wwwwww1qqs];
 }
-- (void)getInforSJAL
-{
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"home_id":[NSString stringWithFormat:@"%@",_searchId],
-                          @"limit":@"2",
-                          }];
-    
-    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?soufang-items.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
-            sjalArr  = [[dict objectForKey:@"data"] objectForKey:@"items"];
-            if ([sjalArr isEqual:[NSNull null]]) {
-                sjalArr =[[NSArray alloc]init];
-                
-            }
-            [self reloadDataView];
-        }
-        
-    } fail:^(NSError *error) {
-        
-    }];
-    
-    
-    
-}
+//- (void)getInforSJAL
+//{
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    [dic1 setDictionary:@{@"home_id":[NSString stringWithFormat:@"%@",_searchId],
+//                          @"limit":@"2",
+//                          }];
+//
+//    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?soufang-items.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+//            sjalArr  = [[dict objectForKey:@"data"] objectForKey:@"items"];
+//            if ([sjalArr isEqual:[NSNull null]]) {
+//                sjalArr =[[NSArray alloc]init];
+//
+//            }
+//            [self reloadDataView];
+//        }
+//
+//    } fail:^(NSError *error) {
+//
+//    }];
+//
+//
+//
+//}
 - (void)getInforHX
 {
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
@@ -344,7 +414,8 @@
 - (void)reloadDataView
 {
     [_mainCMallCollectionView reloadData];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, _mainCMallCollectionView.bottom+100*Width)];
+    _mainCMallCollectionView.height =    ((int)(sjalArr.count+1)/2)*360*Width+((int)(hxtArr.count+1)/2)*260*Width+((int)(sjtArr.count+1)/2)*260*Width+((int)(ybjArr.count+1)/2)*260*Width+180*([_xinxiTypeId isEqualToString:@"0"]?4:3)*Width+80*Width;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, _mainCMallCollectionView.bottom)];
 }
 - (void)wwwwww1qqs{
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
@@ -441,21 +512,38 @@
     [PublicMethod AFNetworkPOSTurl:@"mobileapi/?soufang-detail.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
         if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
-            [[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"name"];
-            ;
-            
-            detailDict =[dict objectForKey:@"data"];
-            navTitle.text =[NSString stringWithFormat:@"%@", IsNilString([[dict objectForKey:@"data"] objectForKey:@"name"])?@"":[[dict objectForKey:@"data"] objectForKey:@"name"]];
+            casesArr=[[NSArray alloc]init] ;
 
-            _nameLabel.text =[NSString stringWithFormat:@"%@", IsNilString([[dict objectForKey:@"data"] objectForKey:@"name"])?@"":[[dict objectForKey:@"data"] objectForKey:@"name"]];
-            _junjiaLabel.text =[NSString stringWithFormat:@"均价：%@",IsNilString([[dict objectForKey:@"data"] objectForKey:@"price"])?@"":[[dict objectForKey:@"data"] objectForKey:@"price"]];
-            _pianquLabel.text =[NSString stringWithFormat:@"%@", IsNilString([[dict objectForKey:@"data"] objectForKey:@"kfs"])?@"":[[dict objectForKey:@"data"] objectForKey:@"kfs"]];
-            _addressLabel.text =[NSString stringWithFormat:@"地址:%@",IsNilString([[dict objectForKey:@"data"]  objectForKey:@"addr"])?@"":[[dict objectForKey:@"data"]  objectForKey:@"addr"]];
-            _begainSellLabel.text =[NSString stringWithFormat:@"开盘:%@", IsNilString([[dict objectForKey:@"data"]  objectForKey:@"kp_date"])?@"":[[dict objectForKey:@"data"]  objectForKey:@"kp_date"]];
-            _kfsLabel.text =[NSString stringWithFormat:@"开发商:%@", IsNilString([[dict objectForKey:@"data"] objectForKey:@"kfs"])?@"":[[dict objectForKey:@"data"] objectForKey:@"kfs"]];
-            _numberLabel.text =[NSString stringWithFormat:@"共%@张", IsNilString([[dict objectForKey:@"data"]  objectForKey:@"views"])?@"":[[dict objectForKey:@"data"]  objectForKey:@"views"]];
+            if ([[[dict objectForKey:@"data"] objectForKey:@"cases"]isEqual:[NSNull null]]) {
+                casesArr=[[NSArray alloc]init] ;
+
+            }else
+            {
+                casesArr=[[dict objectForKey:@"data"] objectForKey:@"cases"];
+            }
+            NSLog(@"casesArrcasesArrcasesArr=%@",casesArr);
+            sjalArr =casesArr;
+            [self reloadDataView];
+            detailDict =[[dict objectForKey:@"data"] objectForKey:@"detail"];
+            navTitle.text =[NSString stringWithFormat:@"%@",IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"name"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"name"]];
+            _nameLabel.text =[NSString stringWithFormat:@"%@", IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"name"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"name"]];
+            if ([_xinxiTypeId isEqualToString:@"2"]) {
+                _junjiaLabel.text =[NSString stringWithFormat:@"月租金：%@",IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"price"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"price"]];
+
+            }else
+            {
+                _junjiaLabel.text =[NSString stringWithFormat:@"均价：%@",IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"price"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"price"]];
+
+            }
+            _pianquLabel.text =[NSString stringWithFormat:@"%@", IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"kfs"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"kfs"]];
+            _addressLabel.text =[NSString stringWithFormat:@"地址:%@",IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"]  objectForKey:@"addr"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"]  objectForKey:@"addr"]];
+            _begainSellLabel.text =[NSString stringWithFormat:@"开盘时间:%@", IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"kp_date"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"]  objectForKey:@"kp_date"]];
+            _jfLabel.text =[NSString stringWithFormat:@"交房时间:%@", IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"jf_date"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"jf_date"]];
+
+            _kfsLabel.text =[NSString stringWithFormat:@"开发商:%@", IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"kfs"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"] objectForKey:@"kfs"]];
+            _numberLabel.text =[NSString stringWithFormat:@"共%@张", IsNilString([[[dict objectForKey:@"data"] objectForKey:@"detail"]  objectForKey:@"views"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"detail"]  objectForKey:@"views"]];
             UIImageView *touImgV =[self.view viewWithTag:1120];
-            [touImgV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[[dict objectForKey:@"data"]  objectForKey:@"thumb"]]] ];
+            [touImgV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[[[dict objectForKey:@"data"] objectForKey:@"detail"]  objectForKey:@"thumb"]]] ];
             
             
         }
@@ -470,21 +558,6 @@
 
 
 }
-- (NSMutableArray *)dataArr{
-    {
-        if (!_dataArr){
-            NSArray *dataArr =@[@{@"color":@"eb3027",@"title":@"住宅"},@{@"color":@"22b6ff",@"title":@"五证齐全"},@{@"color":@"51b20a",@"title":@"车位充足"},@{@"color":@"eb3027",@"title":@"创意地产"}];
-            NSMutableArray *tempArr =[NSMutableArray array];
-            for (NSDictionary *dict in dataArr){
-                TagsModel *model =[[TagsModel alloc]initWithTagsDict:dict];
-                [tempArr addObject:model];
-            }
-            _dataArr =[tempArr copy];
-        }
-        return _dataArr;
-    }
-    
-}
 
 - (void)myBtnAciton:(UIButton *)btn
 {
@@ -494,9 +567,14 @@
         [self.navigationController pushViewController:house animated:YES];
     }else if (btn.tag==301)
     {
-        DesignPlanVC *house =[[DesignPlanVC alloc]init];
-        [self.navigationController pushViewController:house animated:YES];
-    
+        if (sjalArr.count>0) {
+            DesignPlanVC *house =[[DesignPlanVC alloc]init];
+            house.searchId =[sjalArr[0] objectForKey:@"case_id"];
+            [self.navigationController pushViewController:house animated:YES];
+        }else
+        {
+            [MBProgressHUD  showSuccess:@"暂无精品设计方案" ToView:self.view];
+        }
     }else if (btn.tag==302)
     {
         OtherPlanVC *house =[[OtherPlanVC alloc]init];
@@ -582,23 +660,40 @@
 }
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 4;
+    if ([_xinxiTypeId isEqualToString:@"0"]) {
+        return 4;
+    }
+    return 3;
 }
 //返回section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if(section==0){
-        return sjalArr.count;
-
-    }else if (section ==1){
-        return hxtArr.count;
-    }else if(section==2)
-    {
-       return  sjtArr.count;
+    if ([_xinxiTypeId isEqualToString:@"0"]) {
+        if(section==0){
+            return sjalArr.count;
+        }else if (section ==1){
+            return hxtArr.count;
+        }else if(section==2)
+        {
+            return  sjtArr.count;
+        }else
+        {
+            return ybjArr.count;
+        }
     }else
     {
-        return ybjArr.count;
+        if (section ==0){
+            return hxtArr.count;
+        }else if(section==1)
+        {
+            return  sjtArr.count;
+        }else
+        {
+            return ybjArr.count;
+        }
+        
     }
+    
     
 }
 //  返回头视图
@@ -616,25 +711,37 @@
         botLabel.font =[UIFont systemFontOfSize:16];
         botLabel.textColor =BlackColor;
         botLabel.backgroundColor =[UIColor whiteColor];
-        if (indexPath.section ==0) {
-            botLabel.text =[NSString stringWithFormat:@"%@",@"    设计案例"];
-            
-        }else if(indexPath.section ==1) {
-            botLabel.text =[NSString stringWithFormat:@"%@",@"    户型图"];
-            
-        }else if(indexPath.section ==2) {
-            botLabel.text =[NSString stringWithFormat:@"%@",@"    实景图"];
-            
-        }else if(indexPath.section ==3) {
-            botLabel.text =[NSString stringWithFormat:@"%@",@"    样板间"];
-            
+        if ([_xinxiTypeId isEqualToString:@"0"]) {
+            if (indexPath.section ==0) {
+                botLabel.text =[NSString stringWithFormat:@"%@",@"    设计案例"];
+                
+            }else if(indexPath.section ==1) {
+                botLabel.text =[NSString stringWithFormat:@"%@",@"    户型图"];
+                
+            }else if(indexPath.section ==2) {
+                botLabel.text =[NSString stringWithFormat:@"%@",@"    实景图"];
+                
+            }else if(indexPath.section ==3) {
+                botLabel.text =[NSString stringWithFormat:@"%@",@"    样板间"];
+                
+            }
+        }else
+        {
+             if(indexPath.section ==0) {
+                botLabel.text =[NSString stringWithFormat:@"%@",@"    户型图"];
+                
+            }else if(indexPath.section ==1) {
+                botLabel.text =[NSString stringWithFormat:@"%@",@"    实景图"];
+                
+            }else if(indexPath.section ==2) {
+                botLabel.text =[NSString stringWithFormat:@"%@",@"    样板间"];
+                
+            }
         }
         [header addSubview:botLabel];
         UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(30*Width, 98.5*Width, 690*Width, 1.5*Width)];
         addShowImgV.backgroundColor =BGColor;
         [header addSubview:addShowImgV];
-
-        
         return header;
     }
     //    如果底部视图
@@ -667,46 +774,85 @@
 }
 - (void)chooseMore:(UIButton*)btn
 {
-    if (btn.tag==110)
+    if ([_xinxiTypeId isEqualToString:@"0"]) {
+        if (btn.tag==110)
+        {
+            if (sjalArr.count>0) {
+                DesignPlanVC *house =[[DesignPlanVC alloc]init];
+                house.searchId =[sjalArr[0] objectForKey:@"case_id"];
+                [self.navigationController pushViewController:house animated:YES];
+            }else
+            {
+                [MBProgressHUD  showSuccess:@"暂无精品设计方案" ToView:self.view];
+            }
+            
+        }else if (btn.tag==111)
+        {
+            OtherPlanVC *house =[[OtherPlanVC alloc]init];
+            house.navString =@"户型图";
+            house.typeString =@"1";
+            house.idString =_searchId;
+            [self.navigationController pushViewController:house animated:YES];
+        }else if (btn.tag==112)
+        {
+            OtherPlanVC *house =[[OtherPlanVC alloc]init];
+            house.navString =@"实景图";
+            house.typeString =@"2";
+            house.idString =_searchId;
+            
+            [self.navigationController pushViewController:house animated:YES];
+        }else if (btn.tag==113)
+        {
+            OtherPlanVC *house =[[OtherPlanVC alloc]init];
+            house.navString =@"样板间";
+            house.typeString =@"3";
+            house.idString =_searchId;
+            [self.navigationController pushViewController:house animated:YES];
+        }
+    }else
     {
-        DesignPlanVC *house =[[DesignPlanVC alloc]init];
-        [self.navigationController pushViewController:house animated:YES];
-        
-    }else if (btn.tag==111)
-    {
-        OtherPlanVC *house =[[OtherPlanVC alloc]init];
-        house.navString =@"户型图";
-        house.typeString =@"1";
-        house.idString =_searchId;
-        [self.navigationController pushViewController:house animated:YES];
-    }else if (btn.tag==112)
-    {
-        OtherPlanVC *house =[[OtherPlanVC alloc]init];
-        house.navString =@"实景图";
-        house.typeString =@"2";
-        house.idString =_searchId;
-
-        [self.navigationController pushViewController:house animated:YES];
-    }else if (btn.tag==113)
-    {
-        OtherPlanVC *house =[[OtherPlanVC alloc]init];
-        house.navString =@"样板间";
-        house.typeString =@"3";
-        house.idString =_searchId;
-        [self.navigationController pushViewController:house animated:YES];
+       if (btn.tag==110)
+        {
+            OtherPlanVC *house =[[OtherPlanVC alloc]init];
+            house.navString =@"户型图";
+            house.typeString =@"1";
+            house.idString =_searchId;
+            [self.navigationController pushViewController:house animated:YES];
+        }else if (btn.tag==111)
+        {
+            OtherPlanVC *house =[[OtherPlanVC alloc]init];
+            house.navString =@"实景图";
+            house.typeString =@"2";
+            house.idString =_searchId;
+            
+            [self.navigationController pushViewController:house animated:YES];
+        }else if (btn.tag==112)
+        {
+            OtherPlanVC *house =[[OtherPlanVC alloc]init];
+            house.navString =@"样板间";
+            house.typeString =@"3";
+            house.idString =_searchId;
+            [self.navigationController pushViewController:house animated:YES];
+        }
     }
+    
 
 }
 //设置每个方块的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
-        return CGSizeMake(340*Width,360*Width);
-        
-    }else {
-        return CGSizeMake(340*Width,260*Width);
-        
-    }
+    if ([_xinxiTypeId isEqualToString:@"0"]) {
+        if (indexPath.section==0) {
+            return CGSizeMake(340*Width,360*Width);
+            
+        }else {
+            return CGSizeMake(340*Width,260*Width);
+        }
+    }else{
+            return CGSizeMake(340*Width,260*Width);
+            
+        }
+    
 }
 //两个cell之间的间距（同一行的cell的间距）
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
@@ -731,41 +877,72 @@
 //每个cell的数据
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
-        HouseDMCollectionViewCell* onecell = (HouseDMCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HouseDMCollectionViewCell class]) forIndexPath:indexPath];
-        onecell.backgroundColor = [UIColor whiteColor];
-            onecell.dic =sjalArr[indexPath.row];
-        return onecell;
+    if([_xinxiTypeId isEqualToString:@"0"])
+    {
         
+        if (indexPath.section==0) {
+            HouseDMCollectionViewCell* onecell = (HouseDMCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HouseDMCollectionViewCell class]) forIndexPath:indexPath];
+            onecell.backgroundColor = [UIColor whiteColor];
+            onecell.dic =sjalArr[indexPath.row];
+            return onecell;
+            
+        }else
+        {
+            
+            HouseDMTwoCollectionViewCell*twocell = (HouseDMTwoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HouseDMTwoCollectionViewCell class]) forIndexPath:indexPath];
+            twocell.backgroundColor = [UIColor whiteColor];
+            if (indexPath.section==1) {
+                twocell.dic =hxtArr[indexPath.row];
+                
+            }else if(indexPath.section ==2)
+            {
+                twocell.dic =sjtArr[indexPath.row];
+                
+            }else
+            {
+                twocell.dic =ybjArr[indexPath.row];
+            }
+            
+            return twocell;
+            
+        }
     }else
     {
         
-        HouseDMTwoCollectionViewCell*twocell = (HouseDMTwoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HouseDMTwoCollectionViewCell class]) forIndexPath:indexPath];
-        twocell.backgroundColor = [UIColor whiteColor];
-        if (indexPath.section==1) {
-            twocell.dic =hxtArr[indexPath.row];
-           
-        }else if(indexPath.section ==2)
-        {
-            twocell.dic =sjtArr[indexPath.row];
-
-        }else
-        {
-            twocell.dic =ybjArr[indexPath.row];
-        }
             
-        return twocell;
-        
+            HouseDMTwoCollectionViewCell*twocell = (HouseDMTwoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HouseDMTwoCollectionViewCell class]) forIndexPath:indexPath];
+            twocell.backgroundColor = [UIColor whiteColor];
+            if (indexPath.section==0) {
+                twocell.dic =hxtArr[indexPath.row];
+                
+            }else if(indexPath.section ==1)
+            {
+                twocell.dic =sjtArr[indexPath.row];
+                
+            }else
+            {
+                twocell.dic =ybjArr[indexPath.row];
+            }
+            
+            return twocell;
+            
     }
+    
     
 }
 //点击方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
-//    goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
-//    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-//    [self.navigationController  pushViewController:goode animated:YES];
+    if (indexPath.section==0) {
+        if (sjalArr.count>0) {
+            DesignPlanVC *house =[[DesignPlanVC alloc]init];
+            house.searchId =[sjalArr[indexPath.row] objectForKey:@"case_id"];
+            [self.navigationController pushViewController:house animated:YES];
+        }else
+        {
+            [MBProgressHUD  showSuccess:@"暂无精品设计方案" ToView:self.view];
+        }
+    }
     
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
@@ -775,7 +952,6 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {    return CGSizeMake(CXCWidth,80*Width);
-    
     
 }
 

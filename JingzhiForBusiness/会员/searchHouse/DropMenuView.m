@@ -80,12 +80,9 @@
 -(void)creatDropView:(UIView *)view withShowTableNum:(NSInteger)tableNum withData:(NSArray *)arr{
     
     if (!self.show) {
-        
         self.show = !self.show;
-        
         // 显示 TableView数量
         self.tableCount = tableNum;
-        
         // 数据
         self.dataArr = arr;
         for (UITableView *tableView in self.tableViewArr) {
@@ -319,8 +316,7 @@
         
         [self saveSelects];
         [self dismiss];
-        [_delegate dropMenuView:self didSelectName:self.dataArr[indexPath.row][@"name"]];
-        
+        [_delegate dropMenuView:self didSelectName:self.dataArr[indexPath.row][@"name"] withString:self.dataArr[indexPath.row][@"zipcode"]];
         
     }else if (self.tableCount == 2){
         
@@ -339,7 +335,8 @@
             
             NSInteger firstSelectRow = ((UITableView *)self.tableViewArr[0]).indexPathForSelectedRow.row;
             
-            [_delegate dropMenuView:self didSelectName:self.dataArr[firstSelectRow][@"sub"][indexPath.row][@"name"]];
+            [_delegate dropMenuView:self didSelectName:self.dataArr[firstSelectRow][@"sub"][indexPath.row][@"name"] withString:self.dataArr[firstSelectRow][@"sub"][indexPath.row][@"zipcode"]];
+            
         }
         
     }else if (self.tableCount == 3){
@@ -370,7 +367,7 @@
             
             [self saveSelects];
             [self dismiss];
-            [_delegate dropMenuView:self didSelectName:self.dataArr[firstSelectRow][@"sub"][secondSelectRow][@"sub"][indexPath.row]];
+            [_delegate dropMenuView:self didSelectName:self.dataArr[firstSelectRow][@"sub"][secondSelectRow][@"sub"][indexPath.row] withString:@"1"];
             
         }
     }

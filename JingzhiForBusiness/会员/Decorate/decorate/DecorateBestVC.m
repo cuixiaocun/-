@@ -9,11 +9,20 @@
 #import "DecorateBestVC.h"
 #import "DecorateBestCell.h"
 #import "MenuChooseVC.h"
-
+#import "AKGallery.h"
 @interface DecorateBestVC ()<MenuChooseDelegate>
 {
-
     MenuChooseVC *topView;
+    NSMutableArray *typeArr;
+    NSMutableArray *apartmentArr;
+    NSMutableArray *orderArr;
+    
+    
+    NSString *typeId;
+    NSString *apartmentId;
+    NSString *orderId;
+
+
 }
 @end
 
@@ -26,7 +35,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    currentPage =0;
+    currentPage =1;
     
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
@@ -49,9 +58,8 @@
     [navTitle setNumberOfLines:0];
     [navTitle setTextColor:[UIColor blackColor]];
     [self.view addSubview:navTitle];
-    
 
-    NSArray *btnArr =@[@"户型",@"户型",@"局部"];
+    NSArray *btnArr =@[@"户型",@"风格",@"排序"];
     topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, 85*Width) buttonArr:btnArr];
     topView.backgroundColor =[UIColor redColor];
     topView.delegate =self;
@@ -78,7 +86,7 @@
     DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
     self.footerView = footerView;
     
-    
+    [self getInfoList ];
     infoArray = [[NSMutableArray alloc] init];
     //    [self performSelector:@selector(getInfoList)];
     
@@ -92,8 +100,41 @@
 }
 -(void)btnClickBtn:(UIButton *)cell
 {
+    if (cell.tag==230) {
+        topView.addressArr =apartmentArr;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        NSLog(@"cityArr = %@",apartmentArr);
+    }else if (cell.tag==231)
+    {
+        topView.addressArr =typeArr;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        
+    }else if (cell.tag==232)
+    {
+        topView.addressArr =orderArr;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        NSLog(@"cityArr = %@",orderArr);
+    }
     
     
+}
+-(void)chooseBtnReturn:(UIButton *)btn withStringId:(NSString *)stringId
+{
+    if (btn.tag==230) {
+        apartmentId =stringId;
+    }else if (btn.tag==231) {
+        typeId =stringId;
+    }else if (btn.tag==232) {
+        orderId =stringId;
+    }
+    NSLog(@"apartmentId=%@typeId=%@priceId=%@orderId",apartmentId,typeId,orderId);
+    //刷新
+    currentPage=1;
+    
+    [self performSelector:@selector(getInfoList)];
 }
 - (void)changeStatuBtnOut:(UIButton *)btn
 {
@@ -121,7 +162,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10 ;
+    return infoArray.count ;
 }
 
 
@@ -142,8 +183,8 @@
                                     reuseIdentifier:CellIdentifier ];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [infoArray objectAtIndex:row];
+        [cell setDic:dict];
     return cell;
 }
 
@@ -183,7 +224,7 @@
     DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
     if (willRefreshOnRelease){
         hv.title.text = @"松开即可更新...";
-        currentPage = 0;
+        currentPage = 1;
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.18f];
         ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -193,7 +234,7 @@
     else{
         
         if ([hv.title.text isEqualToString:@"松开即可更新..."]) {
-            currentPage = 0;
+            currentPage = 1;
             [CATransaction begin];
             [CATransaction setAnimationDuration:0.18f];
             ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
@@ -290,7 +331,7 @@
 - (void) addItemsOnTop
 {
     
-    currentPage=0;
+    currentPage=1;
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
     
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -333,58 +374,106 @@
 }
 - (void)getInfoList
 {
-    
+    UITextField *searchTF =[self.view viewWithTag:30];
+    [searchTF resignFirstResponder];
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"page":[NSString stringWithFormat:@"%ld",(long)currentPage] ,
-                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+    [dic1 setDictionary:@{@"apartment_layout_id":[NSString stringWithFormat:@"%@",apartmentId],
+                          @"type_id":[NSString stringWithFormat:@"%@",typeId],
+                          @"order":[NSString stringWithFormat:@"%@",orderId],
+                          @"page":[NSString stringWithFormat:@"%ld",(long)currentPage],
                           }];
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/Member/recommend2" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?case-items" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
-            if (currentPage==0) {
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+
+            if (currentPage==1) {
                 [infoArray removeAllObjects];
-                
             }
-            NSMutableArray *array=[dict objectForKey:@"data"];
+            apartmentArr =[[NSMutableArray alloc] init];
+            typeArr =[[NSMutableArray alloc] init];
+            orderArr =[[NSMutableArray alloc] init];
+           
+            //户型
+            NSArray *apartmentArry =[[dict objectForKey:@"data"] objectForKey:@"apartment_layout_list"];
+            NSMutableDictionary  *dictionary =[[NSMutableDictionary alloc]init];
+            [dictionary setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary setValue:[NSString stringWithFormat:@"%@",@""] forKey:@"zipcode"];
+            [apartmentArr addObject:dictionary];
+            for (NSDictionary*dic in apartmentArry) {
+                NSMutableDictionary  *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"attr_value_id"]] forKey:@"zipcode"];
+                [apartmentArr addObject:dictionary];
+            }
+            //type列表
+            NSArray *typeArry =[[dict objectForKey:@"data"] objectForKey:@"type_list"];
+            NSMutableDictionary  *dictionary1 =[[NSMutableDictionary alloc]init];
+            [dictionary1 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary1 setValue:[NSString stringWithFormat:@"%@",@""] forKey:@"zipcode"];
+            [typeArr addObject:dictionary1];
+            for (NSDictionary*dic in typeArry) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"attr_value_id"]] forKey:@"zipcode"];
+                [typeArr addObject:dictionary];
+                NSLog(@"%@",typeArr);
+                NSLog(@"%@",[dic objectForKey:@"title"]);
+
+            }
+           
+            //Order
+            NSArray *orderArry =[[dict objectForKey:@"data"] objectForKey:@"order_list"];
+            NSMutableDictionary  *dictionary3 =[[NSMutableDictionary alloc]init];
+            [dictionary3 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary3 setValue:[NSString stringWithFormat:@"%@",@"0"] forKey:@"zipcode"];
+            [orderArr addObject:dictionary3];
+            for (int i=0;i<orderArry.count; i++) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",orderArry[i]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%d",i+1] forKey:@"zipcode"];
+                [orderArr addObject:dictionary];
+            }
+            NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"items"];
             if ([array isKindOfClass:[NSNull class]]) {
-                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-                
+                [MBProgressHUD showError:@"暂无信息" ToView:self.view];
+                [self.tableView reloadData];
+
                 return ;
             }
-            
-            
+
             [infoArray addObjectsFromArray:array];
-            
-            if ([infoArray count]==0 && currentPage==0) {
-                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-                
+
+            if ([infoArray count]==0 && currentPage==1) {
+                [MBProgressHUD showError:@"暂无信息" ToView:self.view];
+                [self.tableView reloadData];
+
+
             }
-            pageCount =infoArray.count/20;
+            pageCount =infoArray.count/10;
             //判断是否加载更多
-            if (array.count==0 || array.count<20){
+            if (array.count==0 || array.count<10){
                 self.canLoadMore = NO; // signal that there won't be any more items to load
             }else{
                 self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
             }
-            
+
             DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
             [fv.activityIndicator stopAnimating];
-            
+
             if (!self.canLoadMore) {
                 fv.infoLabel.hidden = YES;
             }else{
                 fv.infoLabel.hidden = NO;
             }
-            
-            
+
+
             [self.tableView reloadData];
-            if (currentPage==0) {
+            if (currentPage==1) {
                 [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
             }
             [self.tableView reloadData];
-            
+
         }
         
     } fail:^(NSError *error) {
@@ -394,11 +483,49 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    //    HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
-    //    [self.navigationController  pushViewController:house animated:YES];
+    [self jxsjWithId:[infoArray[indexPath.row] objectForKey:@"case_id"]];
+
     
 }
+- (void)jxsjWithId:(NSString *)stringId
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"case_id":stringId
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?case-detail.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController  success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            NSArray *_dataList =[dict objectForKey:@"data"];
+            NSMutableArray* arr= @[].mutableCopy;
+            
+            for (int  i = 0; i<_dataList.count; i++) {
+                
+                AKGalleryItem* item = [AKGalleryItem itemWithTitle:[NSString stringWithFormat:@"%d",i+1] url:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dataList[i] objectForKey:@"photo"]] img:nil];
+                [arr addObject:item];
+            }
+            
+            AKGallery* gallery = AKGallery.new;
+            gallery.items=arr;
+            gallery.custUI=AKGalleryCustUI.new;
+            gallery.selectIndex=0;
+            gallery.completion=^{
+                NSLog(@"completion gallery");
+            };
+            
+            //show gallery
+            [self presentAKGallery:gallery animated:YES completion:nil];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+
+
 /*
 #pragma mark - Navigation
 

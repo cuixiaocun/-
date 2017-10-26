@@ -15,10 +15,18 @@
 #import "DecorateBestVC.h"
 #import "StudyDecorateVC.h"
 #import "DiaryMainVC.h"
+#import "AKGallery.h"
+
 @interface DecorateMainVC ()<SDCycleScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 {
     UIScrollView *bgScrollView;//最底下的背景
     SDCycleScrollView *cycleScrollView2;//这个是轮播
+    NSMutableArray *jpsjArr;
+    NSMutableArray *topArr;
+    NSMutableArray *xzxArr;
+    NSMutableArray *zxrjArr;
+    NSMutableArray *wdzqArr;
+
 
 
     
@@ -43,7 +51,6 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheme) name:ThemeNotificationInformatica object:nil];
 
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
@@ -73,10 +80,14 @@
 //    [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
 //    [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
 //    [topImageView addSubview:rightBtn];
-    
-    
-    [self getBanner];
+    topArr =[[NSMutableArray alloc]init];
+    jpsjArr =[[NSMutableArray alloc]init];
+    xzxArr =[[NSMutableArray alloc]init];
+    zxrjArr =[[NSMutableArray alloc]init];
+    wdzqArr =[[NSMutableArray alloc]init];
+
     [self makeThisView];
+    [self getInfor];
 }
 - (void)rightBtnAction
 {
@@ -120,7 +131,6 @@
     cycleScrollView2.currentPageDotColor = [UIColor whiteColor];
     // 自定义分页控件小圆标颜色
     [bgScrollView addSubview:cycleScrollView2];
-    [self getBanner];
     
     UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0,cycleScrollView2.bottom ,CXCWidth ,200*Width )];
     [btnView setBackgroundColor:[UIColor whiteColor ]];
@@ -206,10 +216,10 @@
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     }else if (btn.tag==303)
     {
-        KnowledgeVC  *search =[[KnowledgeVC alloc]init];
-        [self.navigationController pushViewController:search animated:YES];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
+
+//
+        [[self rdv_tabBarController] setSelectedIndex:3];
+
 
     }
     
@@ -224,7 +234,16 @@
 //返回section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 2;
+    if (section ==0) {
+        return jpsjArr.count;
+    }else if (section ==1) {
+        return xzxArr.count;
+    }else if (section ==2) {
+        return zxrjArr.count;
+    }else {
+        return wdzqArr.count;
+    }
+
 }
 //  返回头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -361,37 +380,35 @@
     if (indexPath.section==0) {
         DecorateOneCell* onecell = (DecorateOneCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DecorateOneCell class]) forIndexPath:indexPath];
         onecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        onecell.dic =jpsjArr[indexPath.row];
         return onecell;
         
     }else  if (indexPath.section==1) {
         DecorateTwoCell*twocell = (DecorateTwoCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DecorateTwoCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+            twocell.dic =xzxArr[indexPath.row];
         return twocell;
         
     }else  if (indexPath.section==3) {
         DecorateFourCell*twocell = (DecorateFourCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DecorateFourCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+            twocell.dic =wdzqArr[indexPath.row];
         return twocell;
         
     }else {
         
         DecorateThreeCell*threecell = (DecorateThreeCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([DecorateThreeCell class]) forIndexPath:indexPath];
         threecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        threecell.dic =zxrjArr[indexPath.row];
         return threecell;
-        
     }
 }
 //点击方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        DecorateBestVC*search =[[DecorateBestVC alloc]init];
-        [self.navigationController pushViewController:search animated:YES];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self jxsjWithId:[jpsjArr[indexPath.row] objectForKey:@"case_id"]];
+
     }else if (indexPath.section==1) {
         StudyDecorateVC*search =[[StudyDecorateVC alloc]init];
         [self.navigationController pushViewController:search animated:YES];
@@ -429,10 +446,88 @@
 //    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     
 }
--(void)getBanner
+
+- (void)getInfor
 {
-    cycleScrollView2.imageURLStringsGroup = @[@"home_banner01",@"home_banner01",@"home_banner01"];//放上图片
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          }];
+    
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?article-index.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"])
+        {
+            
+            NSArray *topArry =[[dict objectForKey:@"data"] objectForKey:@"top_advs"];
+            
+            for (int i=0; i<topArry.count; i++) {
+                [topArr insertObject:[NSString stringWithFormat:@"%@%@",IMAGEURL,[topArry[i] objectForKey:@"thumb"]] atIndex:i];
+            }
+            NSLog(@"thumb =thun=%@",topArr);
+            cycleScrollView2.imageURLStringsGroup = topArr;//放上图片
+            jpsjArr=[[dict objectForKey:@"data"] objectForKey:@"jpsj"];
+            xzxArr=[[dict objectForKey:@"data"] objectForKey:@"xzx"];
+            zxrjArr=[[dict objectForKey:@"data"] objectForKey:@"zxrj"];
+            wdzqArr=[[dict objectForKey:@"data"] objectForKey:@"wdzq"];
+           
+        
+
+            [self reloadDataView];
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
 }
+- (void)reloadDataView
+{
+    [_mainCMallCollectionView reloadData];
+    _mainCMallCollectionView.height =   ((int)(jpsjArr.count+1)/2)*380*Width+((int)(xzxArr.count+1)/2)*350*Width+((int)(zxrjArr.count+1)/2)*360*Width+(wdzqArr.count)*205*Width+180*4*Width+80*Width;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, _mainCMallCollectionView.bottom)];
+}
+- (void)jxsjWithId:(NSString *)stringId
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"case_id":stringId
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?case-detail.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController  success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            NSArray *_dataList =[dict objectForKey:@"data"];
+            NSMutableArray* arr= @[].mutableCopy;
+            
+            for (int  i = 0; i<_dataList.count; i++) {
+                AKGalleryItem* item = [AKGalleryItem itemWithTitle:[NSString stringWithFormat:@"%d",i+1] url:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dataList[i] objectForKey:@"photo"]] img:nil];
+                [arr addObject:item];
+            }
+            
+            AKGallery* gallery = AKGallery.new;
+            gallery.items=arr;
+            gallery.custUI=AKGalleryCustUI.new;
+            gallery.selectIndex=0;
+            gallery.completion=^{
+                NSLog(@"completion gallery");
+            };
+            
+            //show gallery
+            [self presentAKGallery:gallery animated:YES completion:nil];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+
 /*
 #pragma mark - Navigation
 

@@ -59,7 +59,7 @@
 {
   [super viewDidLoad];
   
-  self.tableView = [[[UITableView alloc] init] autorelease];
+  self.tableView = [[[TPKeyboardAvoidingTableView alloc] init] autorelease];
   tableView.frame = self.view.bounds;
   tableView.autoresizingMask =  UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   tableView.dataSource = self;

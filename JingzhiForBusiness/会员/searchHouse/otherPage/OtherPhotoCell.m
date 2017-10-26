@@ -36,7 +36,6 @@
     [_imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"photo"]]]];
     NSLog(@"%@",[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"photo"]]);
     
-    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

@@ -55,7 +55,7 @@
 {
 
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_rectStatus)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:bgScrollView];
@@ -73,38 +73,92 @@
     UIImageView *xian =[[UIImageView alloc]initWithFrame:CGRectMake(0, promLabel.bottom, CXCWidth, 1.5*Width)];
     [topView addSubview:xian];
     xian.backgroundColor =BGColor;
-    
-    for (int i=0; i<6; i++) {
+    int number =0;
+
+    if([[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"xinxitype"]] isEqualToString:@"0"])//新房
+    {
+        number =7;
+        topView.frame =CGRectMake(0, 20*Width, CXCWidth,600*Width );
+        
+    }else
+    {
+        topView.frame =CGRectMake(0, 20*Width, CXCWidth,470*Width );
+        number =5;
+
+    }
+    for (int i=0; i<number; i++) {
         //文字
-        if (i<5) {
+        if (i<number-1) {
             UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width,30*Width+i*65*Width+xian.bottom,CXCWidth,65*Width)];
             botLabel.font =[UIFont systemFontOfSize:14];
             botLabel.textColor =BlackColor;
+            
             if (i==0) {
                 _priceLabel =botLabel;
+                _priceLabel.text =[NSString stringWithFormat:@"%@：%@%@",([[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"xinxitype"]] isEqualToString:@"2"]?@"租金":@"均价" ),(IsNilString([_detailDic objectForKey:@"price"])?@"":[_detailDic objectForKey:@"price"]),([[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"xinxitype"]] isEqualToString:@"2"]?@"/月":@"/平方米")];
                 
-                _priceLabel.text =[NSString stringWithFormat:@"价格：%@", IsNilString([_detailDic objectForKey:@"price"])?@"":[_detailDic objectForKey:@"price"]];
             }else if (i==1) {
                 _pianquLabel =botLabel;
-            
                 _pianquLabel.text =[NSString stringWithFormat:@"所属商圈：%@", IsNilString([_detailDic objectForKey:@""])?@"":[_detailDic objectForKey:@""]];
             }
             else if (i==2) {
                 _addressLabel =botLabel;
                 _addressLabel.text =[NSString stringWithFormat:@"地址：%@", IsNilString([_detailDic objectForKey:@"addr"])?@"":[_detailDic objectForKey:@"addr"]];
             }else if (i==3) {
-                _begainSellLabel =botLabel;
-                _begainSellLabel.text =[NSString stringWithFormat:@"开盘：%@", IsNilString([_detailDic objectForKey:@"kp_date"])?@"":[_detailDic objectForKey:@"kp_date"]];
+              
+                if([[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"xinxitype"]] isEqualToString:@"0"])//新房
+                {
+                    _begainSellLabel =botLabel;
+                    _begainSellLabel.text =[NSString stringWithFormat:@"开盘时间：%@", IsNilString([_detailDic objectForKey:@"kp_date"])?@"":[_detailDic objectForKey:@"kp_date"]];
+                }else if([[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"xinxitype"]] isEqualToString:@"1"])//二手房
+                {
+                    _jfLabel   =botLabel;
+                    _jfLabel.text =[NSString stringWithFormat:@"开发商：%@", IsNilString([_detailDic objectForKey:@"kfs"])?@"":[_detailDic objectForKey:@"kfs"]];
+                    
+                }else//租房
+                {
+                    _kfsLabel =botLabel;
+                    _kfsLabel.text =[NSString stringWithFormat:@"交房时间：%@", IsNilString([_detailDic objectForKey:@"jf_date"])?@"":[_detailDic objectForKey:@"jf_date"]];
+                }
             }else if (i==4) {
+                _jfLabel =botLabel;
+                _jfLabel.text =[NSString stringWithFormat:@"交房时间：%@", IsNilString([_detailDic objectForKey:@"jf_date"])?@"":[_detailDic objectForKey:@"jf_date"]];
+               
+            }else if (i==5) {
                 _kfsLabel =botLabel;
-                _kfsLabel.text =@"开发商：潍坊歌尔职业有限公司";
+                _kfsLabel.text =[NSString stringWithFormat:@"开发商：%@", IsNilString([_detailDic objectForKey:@"kfs"])?@"":[_detailDic objectForKey:@"kfs"]];
             }
             [topView addSubview:botLabel];
             
         }else
         {
-            _tagLabel =[SDLabTagsView sdLabTagsViewWithTagsArr:self.dataArr];
-            _tagLabel.frame =CGRectMake(24*Width, _kfsLabel.bottom, 460*Width, (_tagLabel.rowNumber+1)*40*Width);
+            _tagLabel =[[UILabel alloc]init];
+            _tagLabel.textAlignment  =NSTextAlignmentCenter;
+            [_tagLabel.layer setBorderWidth:1];
+            [_tagLabel.layer setCornerRadius:2];
+            _tagLabel.frame =CGRectMake(24*Width,30*Width+i*65*Width+xian.bottom,120*Width,40*Width);
+
+            [_tagLabel.layer setMasksToBounds:YES];
+            _tagLabel.font =[UIFont systemFontOfSize:13];
+            if([[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"xinxitype"]] isEqualToString:@"0"])
+            {
+                _tagLabel.text =@"新  房";
+                _tagLabel.textColor =NavColor;
+                _tagLabel.layer.borderColor =NavColor.CGColor;
+                
+            }else if([[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"xinxitype"]] isEqualToString:@"1"])
+            {
+                _tagLabel.text =@"二手房";
+                _tagLabel.textColor =[UIColor colorWithRed:0 green:213/255.00 blue:155/255.00 alpha:1];
+                _tagLabel.layer.borderColor =[UIColor colorWithRed:0 green:213/255.00 blue:155/255.00 alpha:1].CGColor;
+                
+            }else if([[NSString stringWithFormat:@"%@",[_detailDic objectForKey:@"xinxitype"]] isEqualToString:@"2"])
+            {
+                _tagLabel.text =@"租  房";
+                _tagLabel.textColor =[UIColor colorWithRed:22/255.00 green:128/255.00 blue:240/255.00 alpha:1];
+                _tagLabel.layer.borderColor =[UIColor colorWithRed:22/255.00 green:128/255.00 blue:240/255.00 alpha:1].CGColor;
+                
+            }
             [topView addSubview:_tagLabel];
             
             

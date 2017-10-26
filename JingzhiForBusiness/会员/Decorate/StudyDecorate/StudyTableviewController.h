@@ -16,4 +16,6 @@
     NSInteger currentPage; //当前页
     NSInteger pageCount;   //总页数
 }
+@property(nonatomic,retain)NSString *cateId;
+
 @end

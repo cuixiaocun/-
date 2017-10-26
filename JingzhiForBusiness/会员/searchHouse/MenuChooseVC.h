@@ -12,6 +12,8 @@
 @protocol MenuChooseDelegate <NSObject>
 
 -(void)btnClickBtn:(UIButton *)cell;
+-(void)chooseBtnReturn:(UIButton *)btn withStringId:(NSString *)stringId;
+
 @end
 
 @interface MenuChooseVC : UIView<DropMenuViewDelegate>
@@ -26,7 +28,6 @@
 @property (nonatomic, strong) DropMenuView *oneLinkageDropMenu;
 @property (nonatomic, strong) NSArray *addressArr;
 @property (nonatomic, strong) NSString *typeString;
-
 @property (nonatomic, assign) NSInteger level;
 
 

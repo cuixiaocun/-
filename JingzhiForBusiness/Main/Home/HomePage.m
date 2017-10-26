@@ -40,6 +40,7 @@
 #import "ShoppingMainVC.h"
 #import "DecorateMainVC.h"
 #import "SearchHouseVC.h"
+#import "AKGallery.h"
 @interface HomePage ()<SDCycleScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate,DropMenuViewDelegate,TXScrollLabelViewDelegate,CXCPickerViewDelegate>
 {
     UIScrollView *bgScrollView;//最底下的背景
@@ -138,13 +139,12 @@ static NSInteger seq = 0;
     [searchTextField setFrame:CGRectMake(bigShowImgV.right+10, 0,150,28)];
     [navBgView addSubview:searchTextField];
   
-    UIButton *  rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightBtn.frame = CGRectMake(CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
-    [rightBtn setImage:[UIImage imageNamed:@"home_btn_scan"] forState:UIControlStateNormal];
-    [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-    
-    [topImageView addSubview:rightBtn];
+//    UIButton *  rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    rightBtn.frame = CGRectMake(CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
+//    [rightBtn setImage:[UIImage imageNamed:@"home_btn_scan"] forState:UIControlStateNormal];
+//    [rightBtn addTarget:self action:@selector(rightBtnAction) forControlEvents:UIControlEventTouchUpInside];
+//    [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+//    [topImageView addSubview:rightBtn];
     [self makeThisView];//主页面
     rxlpArr =[[NSArray alloc]init];
     jxsjArr =[[NSArray alloc]init];
@@ -171,6 +171,7 @@ static NSInteger seq = 0;
 }
 - (void)getCity
 {
+    
     
     [PublicMethod AFNetworkPOSTurl:@"mobileapi/?index-getcitylist.html" paraments:@{} addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
@@ -433,17 +434,17 @@ static NSInteger seq = 0;
     
   
     
-    //按钮
-    nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [nextBtn setFrame:CGRectMake(CXCWidth-230*Width,CXCHeight-350*Width , 150*Width, 150*Width)];
-    [nextBtn.layer setCornerRadius:75*Width];
-    [nextBtn.layer setMasksToBounds:YES];
-    nextBtn.alpha=0.9;
-    [nextBtn setImage:[UIImage imageNamed:@"home_icon_publish"] forState:UIControlStateNormal];
-
-    [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    [nextBtn addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:nextBtn];
+//    //按钮
+//    nextBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [nextBtn setFrame:CGRectMake(CXCWidth-230*Width,CXCHeight-350*Width , 150*Width, 150*Width)];
+//    [nextBtn.layer setCornerRadius:75*Width];
+//    [nextBtn.layer setMasksToBounds:YES];
+//    nextBtn.alpha=0.9;
+//    [nextBtn setImage:[UIImage imageNamed:@"home_icon_publish"] forState:UIControlStateNormal];
+//
+//    [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:20]];
+//    [nextBtn addTarget:self action:@selector(sendMessage) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:nextBtn];
 
 }
 - (void)sendMessage
@@ -673,6 +674,7 @@ static MLLinkLabel * kProtypeLabel() {
     if (indexPath.section==0) {
         HouseDetailMainVC*viewController =[[HouseDetailMainVC alloc]init];
         NSLog(@"home_id =%@",[NSString stringWithFormat:@"%@",[rxlpArr[indexPath.row] objectForKey:@"home_id"]]);
+        viewController.xinxiTypeId =[NSString stringWithFormat:@"%@",[rxlpArr[indexPath.row] objectForKey:@"xinxitype"]];
         
         viewController.searchId =[NSString stringWithFormat:@"%@",[rxlpArr[indexPath.row] objectForKey:@"home_id"]];
         
@@ -681,9 +683,8 @@ static MLLinkLabel * kProtypeLabel() {
     
     }else  if (indexPath.section==1)
     {
-        DecorateBestVC *search =[[DecorateBestVC alloc]init];
-        [self.navigationController pushViewController:search animated:YES];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+        [self jxsjWithId:[jxsjArr[indexPath.row] objectForKey:@"case_id"]];
+        
     }else
     {
         GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
@@ -835,4 +836,51 @@ static MLLinkLabel * kProtypeLabel() {
     
     
 }
+- (void)jxsjWithId:(NSString *)stringId
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"case_id":stringId
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?case-detail.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController  success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            NSArray *_dataList =[dict objectForKey:@"data"];
+            NSMutableArray* arr= @[].mutableCopy;
+            
+            for (int  i = 0; i<_dataList.count; i++) {
+                
+                AKGalleryItem* item = [AKGalleryItem itemWithTitle:[NSString stringWithFormat:@"%d",i+1] url:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dataList[i] objectForKey:@"photo"]] img:nil];
+                [arr addObject:item];
+            }
+            
+            AKGallery* gallery = AKGallery.new;
+            gallery.items=arr;
+            gallery.custUI=AKGalleryCustUI.new;
+            gallery.selectIndex=0;
+            gallery.completion=^{
+                NSLog(@"completion gallery");
+            };
+            
+            //show gallery
+            [self presentAKGallery:gallery animated:YES completion:nil];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+
+-(void)presentAKGallery:(AKGallery *)gallery animated:(BOOL)flag completion:(void (^)(void))completion{
+    
+    //todo:defaults
+    
+    [gallery.navigationController.navigationBar setBarTintColor:[UIColor grayColor]];
+    [self presentViewController:gallery animated:flag completion:completion];
+    
+}
+
 @end

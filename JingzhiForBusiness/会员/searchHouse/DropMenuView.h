@@ -11,7 +11,7 @@
 @class DropMenuView;
 @protocol DropMenuViewDelegate <NSObject>
 
--(void)dropMenuView:(DropMenuView *)view didSelectName:(NSString *)str;
+-(void)dropMenuView:(DropMenuView *)view didSelectName:(NSString *)str withString:(NSString *)stringId;
 -(void)dissMissLoad;
 @end
 

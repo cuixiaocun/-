@@ -14,7 +14,17 @@
 {
 
     MenuChooseVC *topView;
+    NSMutableArray *cityArr;
+    NSMutableArray *typeArr;
+    NSMutableArray *priceArr;
+    NSMutableArray *orderArr;
+    NSMutableArray *xinxiTypeArr;
 
+    NSString *cityId;
+    NSString *priceId;
+    NSString *typeId;
+    NSString *orderId;
+    NSString *xinxiId;
 }
 @end
 
@@ -27,6 +37,7 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     currentPage =0;
+    xinxiId =@"4";
 
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
@@ -47,8 +58,9 @@
     UIImageView *bigShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(18, 6, 16, 16)];
     bigShowImgV.image =[UIImage imageNamed:@"sf_icon_search"];
     [navBgView addSubview:bigShowImgV];
+    
     UITextField *searchTextField = [[UITextField alloc] init];
-    [searchTextField setPlaceholder:@"请输入问题"];
+    [searchTextField setPlaceholder:@"请输入房产名称"];
     [searchTextField setDelegate:self];
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
@@ -57,8 +69,6 @@
     searchTextField.returnKeyType=UIReturnKeySearch;
     [searchTextField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [navBgView addSubview:searchTextField];
-    
-    
     
     //搜索按钮
     UIButton *  searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -69,42 +79,13 @@
     [searchBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:searchBtn];
     
-    
-    
-    NSArray *btnArr =@[@"区域",@"类型",@"价格",@"排序",@"123"];
+    NSArray *btnArr =@[@"区域",@"房产类型",@"类型",@"价格",@"排序"];
     topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus+1, CXCWidth, 85*Width) buttonArr:btnArr];
     topView.backgroundColor =[UIColor redColor];
-    topView.level = 2;
+    topView.level = 1;
     topView.delegate =self;
-    
     [self.view addSubview:topView];
-//    for (int i=0; i<4; i++) {
-//        UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        statuBtn.frame = CGRectMake(CXCWidth/4*i, 0,CXCWidth/4-2*Width ,85*Width);
-//        if (i==0) {
-//            statuBtn.selected =YES;
-//        }else
-//        {
-//            statuBtn.selected =NO;
-//        }
-//        [statuBtn addTarget:self action:@selector(changeStatuBtnOut:) forControlEvents:UIControlEventTouchUpInside];
-//        [topView addSubview:statuBtn];
-//        statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
-//        [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
-//        [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
-//        [statuBtn setTitleColor:NavColor forState:UIControlStateSelected];
-//        [statuBtn setImage:[UIImage imageNamed:@"sf_icon_down"]forState:UIControlStateNormal];
-//        [statuBtn setImage:[UIImage imageNamed:@"sf_icon_down_pre"]forState:UIControlStateSelected];
-//        
-//        statuBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;//左对齐(UIControlContentHorizontalAlignment、UIControlContentHorizontalAlignmentCenter、UIControlContentHorizontalAlignmentRight)
-//        [statuBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -statuBtn.imageView.bounds.size.width, 0, statuBtn.imageView.bounds.size.width)];
-//        
-//        [statuBtn setImageEdgeInsets:UIEdgeInsetsMake(0, statuBtn.titleLabel.bounds.size.width, 0, -statuBtn.titleLabel.bounds.size.width)];
-//        statuBtn.tag =230+i;
-//        [statuBtn addTarget:self action:@selector(changeStatuBtnOut:) forControlEvents:UIControlEventTouchUpInside];
-//        [topView addSubview:statuBtn];
-//        
-//    }
+    
     //横线
     UIImageView*xian =[[UIImageView alloc]init];
     xian.backgroundColor =BGColor;
@@ -112,7 +93,7 @@
     xian.frame =CGRectMake(0,83*Width, CXCWidth, 2*Width);
         
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+85*Width, CXCWidth, CXCHeight-Frame_rectStatus)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+85*Width, CXCWidth, CXCHeight-Frame_rectStatus-85*Width)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     self.tableView .showsVerticalScrollIndicator = NO;
@@ -125,11 +106,9 @@
     nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableFooterView" owner:self options:nil];
     DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
     self.footerView = footerView;
-    
-    
+
     infoArray = [[NSMutableArray alloc] init];
-    //    [self performSelector:@selector(getInfoList)];
-    
+    [self performSelector:@selector(getInfoList)];
 
  
     // Uncomment the following line to preserve selection between presentations.
@@ -139,21 +118,65 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
--(NSArray *)addressArr{
-    
-    if (_addressArr == nil) {
-        NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"address.plist" ofType:nil]];
-        _addressArr = [dic objectForKey:@"address"];
-        NSLog(@"address=%@",_addressArr);
+-(void)chooseBtnReturn:(UIButton *)btn withStringId:(NSString *)stringId
+{
+    if (btn.tag==230) {
+        cityId =stringId;
+    }else if (btn.tag==231) {
+        xinxiId =stringId;
+    }else if (btn.tag==232) {
+        typeId =stringId;
+    }else if (btn.tag==233) {
+        priceId =stringId;
+    }else if (btn.tag==234) {
+        orderId =stringId;
     }
-    return _addressArr;
+    NSLog(@"cityId=%@typeId=%@priceId=%@orderId=%@",cityId,typeId,priceId,orderId);
+    //刷新
+    currentPage=0;
+
+    [self performSelector:@selector(getInfoList)];
+
 }
 -(void)btnClickBtn:(UIButton *)cell
 {
-    topView.addressArr =self.addressArr;
-    topView.typeString =@"city";
+    if (cell.tag==230) {
+        topView.addressArr =cityArr;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        NSLog(@"cityArr = %@",cityArr);
+    }else if (cell.tag==231)
+    {
+        topView.addressArr =xinxiTypeArr;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        NSLog(@"cityArr = %@",xinxiTypeArr);
+        
+    }else if (cell.tag==232)
+    {
+        topView.addressArr =typeArr;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        NSLog(@"cityArr = %@",typeArr);
 
+    }else if(cell.tag==233)
+    {
+        topView.addressArr =priceArr;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        NSLog(@"cityArr = %@",priceArr);
 
+    }else if(cell.tag==234)
+    {
+        topView.addressArr =orderArr;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        NSLog(@"cityArr = %@",orderArr);
+
+    }
+    
+    
+    
 }
 - (void)changeStatuBtnOut:(UIButton *)btn
 {
@@ -162,13 +185,16 @@
 }
 - (void)withDrawlsBtnAction
 {
-
+    UITextField *textF =[self.view viewWithTag:30];
+    [textF resignFirstResponder];
+    currentPage =0;
+    [self getInfoList];
+    
 
 }
 - (void)returnBtnAction
 {
     [topView.oneLinkageDropMenu dismiss];
-
     [self.navigationController popViewControllerAnimated:YES];
 
 }
@@ -181,7 +207,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10 ;
+    return infoArray.count ;
 }
 
 
@@ -202,8 +228,8 @@
                                         reuseIdentifier:CellIdentifier ];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-//    NSDictionary *dict = [infoArray objectAtIndex:row];
-//    [cell setDic:dict];
+    NSDictionary *dict = [infoArray objectAtIndex:row];
+    [cell setDic:dict];
     return cell;
 }
 
@@ -219,7 +245,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+85*Width, CXCWidth, CXCHeight-20)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+85*Width, CXCWidth, CXCHeight-Frame_rectStatus-85*Width)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
@@ -391,34 +417,112 @@
     // Inform STableViewController that we have finished loading more items
     [self loadMoreCompleted];
 }
+
 - (void)getInfoList
 {
-    
+    UITextField *searchTF =[self.view viewWithTag:30];
+    [searchTF resignFirstResponder];
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"page":[NSString stringWithFormat:@"%ld",(long)currentPage] ,
-                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+    [dic1 setDictionary:@{@"area_id":[NSString stringWithFormat:@"%@",cityId],
+                          @"type_id":[NSString stringWithFormat:@"%@",typeId],
+                          @"price_id":[NSString stringWithFormat:@"%@",priceId],
+                          @"order":[NSString stringWithFormat:@"%@",orderId],
+                          @"xinxitype_id":[NSString stringWithFormat:@"%@",xinxiId],
+                          @"keywords":[NSString stringWithFormat:@"%@",searchTF.text]
                           }];
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/Member/recommend2" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?soufang-items.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
             
             if (currentPage==0) {
                 [infoArray removeAllObjects];
+            }
+            cityArr =[[NSMutableArray alloc] init];
+            typeArr =[[NSMutableArray alloc] init];
+            orderArr =[[NSMutableArray alloc] init];
+            priceArr =[[NSMutableArray alloc] init];
+            xinxiTypeArr =[[NSMutableArray alloc] init];
+            //城市列表
+            NSArray *cityArry =[[dict objectForKey:@"data"] objectForKey:@"area_list"];
+            NSMutableDictionary  *dictionary =[[NSMutableDictionary alloc]init];
+            [dictionary setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary setValue:[NSString stringWithFormat:@"%@",@""] forKey:@"zipcode"];
+            [cityArr addObject:dictionary];
+            for (NSDictionary*dic in cityArry) {
+                NSMutableDictionary  *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"area_name"]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"area_id"]] forKey:@"zipcode"];
+                [cityArr addObject:dictionary];
+            }
+            //type列表
+            NSArray *typeArry =[[dict objectForKey:@"data"] objectForKey:@"type_list"];
+            NSMutableDictionary  *dictionary1 =[[NSMutableDictionary alloc]init];
+            [dictionary1 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary1 setValue:[NSString stringWithFormat:@"%@",@""] forKey:@"zipcode"];
+            [typeArr addObject:dictionary1];
+            for (NSDictionary*dic in typeArry) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"attr_value_id"]] forKey:@"zipcode"];
+                [typeArr addObject:dictionary];
+                NSLog(@"%@",typeArr);
+                NSLog(@"%@",[dic objectForKey:@"title"]);
+
+            }
+            //价格
+            NSArray *priceArry =[[dict objectForKey:@"data"] objectForKey:@"price_list"];
+            NSMutableDictionary  *dictionary2 =[[NSMutableDictionary alloc]init];
+            [dictionary2 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary2 setValue:[NSString stringWithFormat:@"%@",@""] forKey:@"zipcode"];
+            [priceArr addObject:dictionary2];
+            for (NSDictionary*dic in priceArry) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"attr_value_id"]] forKey:@"zipcode"];
+                [priceArr addObject:dictionary];
                 
             }
-            NSMutableArray *array=[dict objectForKey:@"data"];
-            if ([array isKindOfClass:[NSNull class]]) {
-                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+            //Order
+            NSArray *orderArry =[[dict objectForKey:@"data"] objectForKey:@"order_list"];
+            NSMutableDictionary  *dictionary3 =[[NSMutableDictionary alloc]init];
+            [dictionary3 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary3 setValue:[NSString stringWithFormat:@"%@",@"0"] forKey:@"zipcode"];
+            [orderArr addObject:dictionary3];
+            for (int i=0;i<orderArry.count; i++) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",orderArry[i]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%d",i+1] forKey:@"zipcode"];
+                [orderArr addObject:dictionary];
                 
-                return ;
+            }
+            //xinxiType
+            NSArray *xinxiTypeArry =[[dict objectForKey:@"data"] objectForKey:@"xinxitype_list"];
+            NSMutableDictionary  *dictionary4 =[[NSMutableDictionary alloc]init];
+            [dictionary4 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary4 setValue:[NSString stringWithFormat:@"%@",@"4"] forKey:@"zipcode"];
+            [xinxiTypeArr addObject:dictionary4];
+            for (int i=0;i<xinxiTypeArry.count; i++) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",xinxiTypeArry[i]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%d",i] forKey:@"zipcode"];
+                [xinxiTypeArr addObject:dictionary];
             }
             
+            NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"items"];
+            if ([array isKindOfClass:[NSNull class]]) {
+                [MBProgressHUD showError:@"暂无信息" ToView:self.view];
+                [self.tableView reloadData];
+
+                return ;
+            }
             
             [infoArray addObjectsFromArray:array];
             
             if ([infoArray count]==0 && currentPage==0) {
-                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+                [MBProgressHUD showError:@"暂无信息" ToView:self.view];
+                [self.tableView reloadData];
+
                 
             }
             pageCount =infoArray.count/20;
@@ -456,9 +560,19 @@
 {
 
     HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
+        house.searchId =[NSString stringWithFormat:@"%@",[infoArray[indexPath.row] objectForKey:@"home_id"]];
+    house.xinxiTypeId =[NSString stringWithFormat:@"%@",[infoArray[indexPath.row] objectForKey:@"xinxitype"]];
+
     [self.navigationController  pushViewController:house animated:YES];
 
-}/*
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    [self getInfoList];
+    return YES;
+}
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
     

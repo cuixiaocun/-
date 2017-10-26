@@ -13,6 +13,8 @@
     UITableView *tableview;
     UIScrollView *bgScrollView;//最底下的背景
     UIView*topView;
+    NSArray *inforArr;
+    
 
 }
 @end
@@ -25,7 +27,7 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    inforArr =[[NSArray alloc]init];
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
@@ -52,38 +54,34 @@
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1000*2)];
     [self.view addSubview:bgScrollView];
 
     topView=[[UIView alloc]init];
-    topView.frame =CGRectMake(0, 20*Width, CXCWidth, 290*Width);
+    topView.frame =CGRectMake(0, 20*Width, CXCWidth, 240*Width);
     topView.backgroundColor =[UIColor whiteColor];
     [bgScrollView addSubview:topView];
     
-    for (int i=0; i<4; i++) {
+    for (int i=0; i<3; i++) {
         //文字
         UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width,30*Width+i*65*Width,CXCWidth,65*Width)];
         botLabel.font =[UIFont systemFontOfSize:13];
         botLabel.textColor =BlackColor;
         if (i==0) {
             _nameLabel =botLabel;
-            _nameLabel.text =@"小区：潍坊歌尔职业米";
+//            _nameLabel.text =@"小区及设计风格：潍坊歌尔职业米";
         }else if (i==1) {
             _planerLabel =botLabel;
-            _planerLabel.text =@"方案提供者：达美科技";
-        }else if (i==2) {
-            _styleLabel =botLabel;
-            _styleLabel.text =@"装修风格：美式装修";
+//            _planerLabel.text =@"方案提供者：达美科技";
         }else
         {
             _numberLabel =botLabel;
-            _numberLabel.text =@"预览人数：1000人";
+//            _numberLabel.text =@"预览人数：1000人";
         
         }
         [topView addSubview:botLabel];
     }
 
-    tableview  =[[UITableView alloc]initWithFrame:CGRectMake(0,topView.bottom, CXCWidth, 1000*1.5)style:UITableViewStyleGrouped];
+    tableview  =[[UITableView alloc]initWithFrame:CGRectMake(0,topView.bottom, CXCWidth, 0)style:UITableViewStyleGrouped];
     [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableview .showsVerticalScrollIndicator = NO;
     [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -112,7 +110,41 @@
     [confirmBtn.titleLabel setTextColor:[UIColor whiteColor]];
     [confirmBtn addTarget:self action:@selector(searchSheji) forControlEvents:UIControlEventTouchUpInside];
     [bottomBgview addSubview:confirmBtn];
+    [self getInforSJAL];
+}
+- (void)getInforSJAL
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{@"case_id":[NSString stringWithFormat:@"%@",_searchId],
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?soufang-shefan.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            NSDictionary *tgDic =[[dict objectForKey:@"data"] objectForKey:@"tigong"];
 
+            NSDictionary *detailDic =[[dict objectForKey:@"data"] objectForKey:@"tigong"];
+            _nameLabel.text =[NSString stringWithFormat:@"小区及设计风格：%@",IsNilString([detailDic objectForKey:@"title"])?@"":[detailDic objectForKey:@"title"]];
+            _planerLabel.text =[NSString stringWithFormat:@"方案提供者：%@人",IsNilString([tgDic objectForKey:@"name"])?@"":[tgDic objectForKey:@"name"]];
+            _numberLabel.text =[NSString stringWithFormat:@"预览人数：%@人",IsNilString([detailDic objectForKey:@"views"])?@"":[detailDic objectForKey:@"views"]];
+            
+            inforArr  = [[dict objectForKey:@"data"] objectForKey:@"sjimg"];
+            if ([inforArr isEqual:[NSNull null]]) {
+                inforArr =[[NSArray alloc]init];
+                inforArr =[[dict objectForKey:@"data"] objectForKey:@"sjimg"];
+                
+            }
+            [tableview reloadData ];
+            tableview.height =560*Width*inforArr.count+200*Width;
+            [bgScrollView setContentSize:CGSizeMake(CXCWidth,tableview.bottom)];
+
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
     
 }
 - (void)searchSheji
@@ -152,7 +184,7 @@
 {
     if(section==0)
     {
-        return 4;
+        return inforArr.count;
         
     }else
         
@@ -160,7 +192,7 @@
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -184,8 +216,8 @@
             
         }
     
-    //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [inforArr objectAtIndex:[indexPath row]];
+        [cell setDic:dict];
         return cell;
         
    
@@ -203,7 +235,7 @@
     botLabel.textColor =BlackColor;
     botLabel.backgroundColor =[UIColor whiteColor];
     if (section ==0) {
-        botLabel.text =[NSString stringWithFormat:@"%@",@"    平面图布局"];
+        botLabel.text =[NSString stringWithFormat:@"%@",@"    设计图"];
     }else if(section ==1) {
         botLabel.text =[NSString stringWithFormat:@"%@",@"    设计图"];
         

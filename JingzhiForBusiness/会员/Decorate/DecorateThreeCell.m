@@ -29,7 +29,7 @@
         tmView.backgroundColor =[UIColor blackColor];
         [btn addSubview:tmView];
         //橘黄色的
-        _orangeLabel   =[[UILabel alloc]initWithFrame:CGRectMake(216*Width,15*Width,120*Width,40*Width)];
+        _orangeLabel   =[[UILabel alloc]initWithFrame:CGRectMake(176*Width,15*Width,160*Width,40*Width)];
         _orangeLabel.textAlignment=NSTextAlignmentCenter;
         _orangeLabel.text =@"木工阶段";
         _orangeLabel.backgroundColor=orangeColor;
@@ -100,9 +100,13 @@
 -(void)setDic:(NSDictionary *)dic
 {
     _dic =dic;
-    self.topMCImage.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"img"]]];
-    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
-    
+    [_topMCImage sd_setImageWithURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"thumb"]]]];
+    self.styleLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"title"]];
+    self.nameLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"home_name"]];
+    self.contentLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"type_title"]];
+    self.orangeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"status_title"]];
+    self.decorateLabel.text =[NSString stringWithFormat:@"装修：%@",[_dic objectForKey:@"way_title"]];
+    self.priceLabel.text =[NSString stringWithFormat:@"总价:%@元",[_dic objectForKey:@"total_price"]];
 }
 
 

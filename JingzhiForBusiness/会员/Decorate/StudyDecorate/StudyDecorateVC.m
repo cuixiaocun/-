@@ -11,6 +11,7 @@
 #import "StudyTableviewController.h"
 @interface StudyDecorateVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
 {
+    NSMutableArray *inforArr;
 
 }
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
@@ -55,9 +56,9 @@
     xian.backgroundColor =BGColor;
     [topImageView addSubview:xian];
     xian.frame =CGRectMake(0,Frame_NavAndStatus-1, CXCWidth, 1);
-
+    inforArr =[[NSMutableArray alloc]init];
     [self makeThisView];
-
+    [self getInfor];
 }
 
 - (void)returnBtnAction
@@ -107,19 +108,27 @@
 }
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 10;
+    return inforArr.count;
 }
 //返回section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 5;
+    NSArray *arr =[inforArr[section] objectForKey:@"children"];
+    NSLog(@"children.count=%d",arr.count);
+    return arr.count;
+    
 }
 //  返回头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
+    UICollectionReusableView *header = nil;
+    
     //如果是头视图
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        UICollectionReusableView *header=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"headerView" forIndexPath:indexPath];
+        header=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"headerView" forIndexPath:indexPath];
+        [header.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    
         header.backgroundColor =BGColor;
         UILabel *xianV =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth,80*Width)];
         xianV.backgroundColor =[UIColor whiteColor];
@@ -129,6 +138,8 @@
         botLabel.font =[UIFont systemFontOfSize:16];
         botLabel.textColor =BlackColor;
         botLabel.backgroundColor =[UIColor whiteColor];
+        NSString *title =[inforArr[indexPath.section] objectForKey:@"children"];
+
         botLabel.text =[NSString stringWithFormat:@"%@",@"收房准备中"];
         [header addSubview:botLabel];
         
@@ -173,9 +184,11 @@
 //每个cell的数据
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
         StudyDecorateCell* onecell = (StudyDecorateCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([StudyDecorateCell class]) forIndexPath:indexPath];
         onecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        NSArray *arr  =[inforArr[indexPath.section] objectForKey:@"children"];
+        onecell.dic =arr[indexPath.row];
         return onecell;
         
    }
@@ -183,9 +196,11 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
         StudyTableviewController *study =[[StudyTableviewController alloc]init];
+    
+        NSArray *arr  =[inforArr[indexPath.section] objectForKey:@"children"];
+        study.cateId =   [arr[indexPath.row] objectForKey:@"cat_id"];    
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController  pushViewController:study animated:YES];
-    
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
@@ -202,6 +217,24 @@
     //    notice.bannarDic =[imgArr objectAtIndex:index];
     //    [self.navigationController pushViewController:notice animated:YES];
     //    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+    
+}
+- (void)getInfor{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?article-cate.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController  success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            inforArr =[[dict objectForKey:@"data"] objectForKey:@"article"];
+            [_mainCMallCollectionView reloadData];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
 }
 /*

@@ -14,11 +14,15 @@
 @property(nonatomic,strong)UILabel*pianquLabel;
 @property(nonatomic,strong)UILabel*addressLabel;
 @property(nonatomic,strong)UILabel*begainSellLabel;
+@property(nonatomic,strong)UILabel*jfLabel;
+
 @property(nonatomic,strong)UILabel*kfsLabel;
-@property(nonatomic,strong)SDLabTagsView*tagLabel;
+@property(nonatomic,strong)UILabel*tagLabel;
 @property(nonatomic,strong)UILabel*numberLabel;
 @property (nonatomic,strong)NSMutableArray *dataArr;//标签
 @property (nonatomic,strong)NSString *searchId;//
+@property (nonatomic,strong)NSString *xinxiTypeId;//
+
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
 
 //@property(nonatomic,strong)UILabel*nameLabel;

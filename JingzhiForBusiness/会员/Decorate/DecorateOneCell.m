@@ -40,9 +40,9 @@
 -(void)setDic:(NSDictionary *)dic
 {
     _dic =dic;
-    self.topMCImage.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"img"]]];
-    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
-    self.nameLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
+    [_topMCImage sd_setImageWithURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"photo"]]]];
+    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"title"]];
+    self.nameLabel.text =[NSString stringWithFormat:@"%@",[[[_dic objectForKey:@"ext"] objectForKey:@"company"] objectForKey:@"name"] ];
     
     
     

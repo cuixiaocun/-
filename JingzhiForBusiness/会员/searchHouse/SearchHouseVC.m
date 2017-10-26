@@ -12,12 +12,18 @@
 #import "SearchTwoCell.h"
 #import "SearchHouseTableViewController.h"
 #import "HouseDetailMainVC.h"
+#import "TPKeyboardAvoidingTableView.h"
+#import "EGOImageButton.h"
 @interface SearchHouseVC ()<SDCycleScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     NSMutableArray *imagesArray;//滚动图片数组
     SDCycleScrollView *cycleScrollView2;//这个是轮播
-    UITableView *tableview;
+    TPKeyboardAvoidingTableView *tableview;
     UIScrollView *bgScrollView;//最底下的背景
+    NSArray *imgArr;//banner
+    NSArray *inforArr;//下边推荐
+    NSArray *meiriOne;
+    NSArray *meiriThree;
 
 }
 @end
@@ -39,7 +45,6 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheme) name:ThemeNotificationInformatica object:nil];
-
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
@@ -67,7 +72,7 @@
     [rightBtn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
     
     [topImageView addSubview:rightBtn];
-
+    inforArr =[[NSArray alloc]init];
     [self mainView];
 }
 //更换城市重新请求
@@ -122,12 +127,15 @@
     titleLabel.textColor =TextColor;
     titleLabel.numberOfLines =0;
     titleLabel.font =[UIFont systemFontOfSize:14];
+    titleLabel.tag =3001;
     [bestRecomV addSubview:titleLabel];
     
-    EGOImageView *topImgv =[[EGOImageView alloc]initWithFrame:CGRectMake(titleLabel.right+24*Width, xian.bottom+15*Width, 220*Width, 170*Width)];
+     EGOImageButton*topImgv =[[EGOImageButton alloc]initWithFrame:CGRectMake(titleLabel.right+24*Width, xian.bottom+15*Width, 220*Width, 170*Width)];
     topImgv.backgroundColor =[UIColor grayColor];
     topImgv.contentMode =UIViewContentModeScaleToFill;
     [bestRecomV addSubview:topImgv];
+    [topImgv  addTarget:self action:@selector(choose) forControlEvents:UIControlEventTouchUpInside];
+    topImgv.tag =3002;
     UIImageView *xiantwo =[[UIImageView alloc]initWithFrame:CGRectMake(0,topImgv.bottom+13.5*Width, CXCWidth, 1.5*Width)];
     xiantwo.backgroundColor =BGColor;
     [bestRecomV addSubview:xiantwo];
@@ -143,7 +151,7 @@
     [bestRecomV  addSubview:prelabel ];
     UILabel *timelabel =[[UILabel alloc]initWithFrame:CGRectMake(prelabel.right+10*Width, prelabel.top,480*Width, 40*Width)];
     timelabel.text =@"2017-09-10";
-    timelabel.tag =11;
+    timelabel.tag =3003;
     timelabel.font =[UIFont systemFontOfSize:12];
     timelabel.textColor =TextGrayColor;
     [bestRecomV  addSubview:timelabel ];
@@ -155,28 +163,33 @@
     dtLabel.textColor =TextColor;
     dtLabel.font =[UIFont systemFontOfSize:14];
     [bestRecomV addSubview:dtLabel];
+    
+    
+   
     for (int i=0; i<3; i++) {
         //大按钮
-        UIButton *btn =[[UIButton alloc]initWithFrame:CGRectMake(25*(i+1)*Width+216*Width*(i%3),dtLabel.bottom+10*Width,216.7*Width,170*Width)];
-        [btn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
-        btn.tag =i+300;
+        UIView *btn =[[UIView alloc]initWithFrame:CGRectMake(25*(i+1)*Width+216*Width*(i%3),dtLabel.bottom+10*Width,216.7*Width,170*Width)];
         btn.backgroundColor =[UIColor redColor];
         [bestRecomV addSubview:btn];
         //上边图片
         UIImageView *topImgV =[[UIImageView alloc]initWithFrame:CGRectMake(0*Width,0*Width,216.7*Width,170*Width)];
         topImgV.image =[UIImage imageNamed:@"timg-8.jpeg"];
         topImgV.tag =20+i;
+        topImgv.userInteractionEnabled =YES;
         [btn addSubview:topImgV];
-        
-        UIView *tmView =[[UIView alloc]initWithFrame:CGRectMake(0*Width,0*Width,216.7*Width,170*Width)];
+//
+        UIImageView  *tmView =[[UIImageView alloc]initWithFrame:CGRectMake(0*Width,0*Width,216.7*Width,170*Width)];
         tmView.alpha =0.3;
+        tmView.userInteractionEnabled =YES;
         tmView.backgroundColor =[UIColor blackColor];
         [btn addSubview:tmView];
-        //shang边文字
+      //  shang边文字
         UILabel *topLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,topImgV.top+15*Width,216.7*Width,45*Width)];
         topLabel.textAlignment=NSTextAlignmentCenter;
         topLabel.font =[UIFont systemFontOfSize:13];
         topLabel.text =@"恒大绿洲";
+        topLabel.tag =120+i;
+        topLabel.userInteractionEnabled =YES;
         topLabel.textColor =[UIColor whiteColor];
         [btn addSubview:topLabel];
         //中间文字
@@ -184,16 +197,27 @@
         midLabel.textAlignment=NSTextAlignmentCenter;
         midLabel.font =[UIFont systemFontOfSize:12];
         midLabel.text =@"高新经济开发区";
+        midLabel.tag =220+i;
+        midLabel.userInteractionEnabled =YES;
+
         midLabel.textColor =[UIColor whiteColor];
         [btn addSubview:midLabel];
         //下边文字
         UILabel *botLabel =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,midLabel.bottom,216.7*Width,45*Width)];
         botLabel.textAlignment=NSTextAlignmentCenter;
         botLabel.text =@"孤灯广场";
+        botLabel.tag =320+i;
+        botLabel.userInteractionEnabled =YES;
         botLabel.textColor =[UIColor whiteColor];
         botLabel.font =[UIFont systemFontOfSize:12];
         botLabel.textColor =[UIColor whiteColor];
         [btn addSubview:botLabel];
+        
+        UIButton *selfBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width,0*Width,216.7*Width,170*Width)];
+        [btn addSubview:selfBtn];
+        [selfBtn addTarget:self action:@selector(myBtnAciton:) forControlEvents:UIControlEventTouchUpInside] ;
+        selfBtn.tag =i+300;
+        
     }
     UILabel *allprelabel =[[UILabel alloc]initWithFrame:CGRectMake(24*Width,dtLabel.bottom+ 190*Width,140*Width, 40*Width)];
     allprelabel.text =@"楼盘推荐";
@@ -212,9 +236,10 @@
     timeAlllabel.textColor =TextGrayColor;
     [bestRecomV  addSubview:timeAlllabel ];
     
-    [self getBanner];//banner
+    
+    imgArr =[[NSMutableArray alloc]init];
     [self getBestRecommend];
-    tableview  =[[UITableView alloc]initWithFrame:CGRectMake(0,bestRecomV.bottom, CXCWidth, 1000*1.5)style:UITableViewStyleGrouped];
+    tableview  =[[TPKeyboardAvoidingTableView alloc]initWithFrame:CGRectMake(0,bestRecomV.bottom, CXCWidth, 1000*1.5)style:UITableViewStyleGrouped];
     [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableview .showsVerticalScrollIndicator = NO;
     [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -225,9 +250,7 @@
     [tableview setBackgroundColor:[UIColor clearColor]];
     tableview .showsVerticalScrollIndicator = NO;
     [bgScrollView addSubview:tableview];
-    tableview.frame =CGRectMake(0,bestRecomV.bottom, CXCWidth, 1000*1.5);
-
-    
+    [self getInfoSF];
     
 
 
@@ -236,9 +259,10 @@
 - (void)myBtnAciton:(UIButton *)btn
 {
     HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
+    house.searchId =[meiriThree[btn.tag-300] objectForKey:@"home_id"];
+    house.xinxiTypeId =[NSString stringWithFormat:@"%@",[meiriThree[btn.tag-300] objectForKey:@"xinxitype"]];
     [self.navigationController  pushViewController:house animated:YES];
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
+    
 }
 - (void)getBestRecommend
 {
@@ -247,24 +271,11 @@
 }
 -(void)getBanner
 {
-    cycleScrollView2.imageURLStringsGroup = @[@"home_banner01",@"home_banner01",@"home_banner01"];//放上图片
-    
-    //    [PublicMethod AFNetworkPOSTurl:@"Home/Index/show" paraments:@{}  addView:self.view success:^(id responseDic) {
-    //        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-    //        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-    //            imgArr=[[NSArray alloc]init];
-    //            imgArr =  [dict objectForKey:@"data"];
-    //            imagesArray =[[NSMutableArray alloc]init];
-    //
-    //            for (int i=0; i<imgArr.count; i++) {
-    //                [imagesArray insertObject:[imgArr[i] objectForKey:@"img"] atIndex:i];
-    //            }
-    //            cycleScrollView2.imageURLStringsGroup = imagesArray;//放上图片
-    //        }
-    //
-    //    } fail:^(NSError *error) {
-    //        
-    //    }];
+    imagesArray =[[NSMutableArray alloc]init];
+    for (int i=0; i<imgArr.count; i++) {
+        [imagesArray insertObject:[NSString stringWithFormat:@"%@%@",IMAGEURL,[imgArr[i] objectForKey:@"thumb"]] atIndex:i];
+    }
+    cycleScrollView2.imageURLStringsGroup = imagesArray;//放上图片
 }
 
 - (void)didReceiveMemoryWarning {
@@ -272,76 +283,61 @@
     // Dispose of any resources that can be recreated.
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section==0) {
         return 100*Width;
 
-    }else
-    {
-        return 100*Width;
-
-    }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section==0) {
         return 80*Width;
 
-    }else
-    {
-        return 80*Width;
-
-    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(section==0)
-    {
-        return 4;
-        
-    }else
-        
-        return 4;
+//    if(section==0)
+//    {
+//        return 4;
+//
+//    }else
+    
+        return inforArr.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section==0)
-    {
+//    if(indexPath.section==0)
+//    {
         return 270*Width;
-    }else
-        return 210*Width;
+//    }else
+//        return 210*Width;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section==0) {
+//    if (indexPath.section==0) {
         static NSString *CellIdentifier = @"CellWithNumber";
-        
         SearchOneCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) {
             cell = [[SearchOneCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier ];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
         }
+        cell.dic = inforArr[indexPath.row];
         return cell;
-        
-        
-    }else
-    {
-        static NSString *CellIdentifier = @"Cell";
-        
-        SearchTwoCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (cell == nil) {
-            cell = [[SearchTwoCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                            reuseIdentifier:CellIdentifier ];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            
-        }
-        return cell;
-        
-        
-    }
+//    }else
+//    {
+//        static NSString *CellIdentifier = @"Cell";
+//        SearchTwoCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+//        if (cell == nil) {
+//            cell = [[SearchTwoCell alloc] initWithStyle:UITableViewCellStyleDefault
+//                                            reuseIdentifier:CellIdentifier ];
+//            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+//
+//        }
+//        return cell;
+//
+//
+//    }
     //    NSDictionary *dict = [infoArray objectAtIndex:[indexPath row]];
     //    [cell setDic:dict];
 }
@@ -349,8 +345,10 @@
 {
 
     HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
+    house.searchId =[inforArr[indexPath.row] objectForKey:@"home_id"];
+    house.xinxiTypeId =[NSString stringWithFormat:@"%@",[inforArr[indexPath.row] objectForKey:@"xinxitype"]];
+
     [self.navigationController  pushViewController:house animated:YES];
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -434,6 +432,66 @@
     btn.selected =YES;
     
     
+    
+}
+- (void)getInfoSF
+{
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?soufang-sindex.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController  success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            
+            imgArr  =[[dict objectForKey:@"data"] objectForKey:@"top_advs"];
+            [self getBanner];
+            UILabel *titleLabel =[self.view viewWithTag:3001];
+            meiriOne =[[dict objectForKey:@"data"] objectForKey:@"meiriyoutui1"];
+            titleLabel.text =[NSString stringWithFormat:@"%@", IsNilString([meiriOne[0]  objectForKey:@"name"])?@"":[meiriOne[0]  objectForKey:@"name"] ];
+            EGOImageView *topImgv =[self.view viewWithTag:3002];
+            [topImgv setImageURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[meiriOne[0] objectForKey:@"thumb"]]]];
+            UILabel *timeLabel =[self.view viewWithTag:3003];
+            timeLabel.text =[PublicMethod timeWithTimeIntervalString:[meiriOne[0]  objectForKey:@"dateline"]];
+
+            meiriThree =[[dict objectForKey:@"data"] objectForKey:@"meiriyoutui3"];
+            
+            for (int i=0; i<3; i++) {
+                UIImageView *img =[self.view viewWithTag:20+i];
+                UILabel *topLabel =[self.view viewWithTag:220+i];
+                UILabel *midLabel =[self.view viewWithTag:220+i];
+                UILabel *botLabel =[self.view viewWithTag:320+i];
+                UILabel *timeAlllabel =[self.view viewWithTag:11];
+
+                [img sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[meiriThree[i] objectForKey:@"thumb"]]]];
+                topLabel.text =[NSString stringWithFormat:@"%@", IsNilString([meiriThree[i]  objectForKey:@"name"])?@"":[meiriThree[i]  objectForKey:@"name"] ];
+                midLabel.text =[NSString stringWithFormat:@"%@", IsNilString([meiriThree[i]  objectForKey:@"area_name"])?@"":[meiriThree[i]  objectForKey:@"area_name"] ];
+                botLabel.text =[NSString stringWithFormat:@"%@", IsNilString([meiriThree[i]  objectForKey:@"addr"])?@"":[meiriThree[i]  objectForKey:@"addr"] ];
+                timeAlllabel.text =[PublicMethod timeWithTimeIntervalString:[meiriThree[i]  objectForKey:@"dateline"]];
+
+            }
+            inforArr =[[dict objectForKey:@"data"] objectForKey:@"items"];
+            tableview.height =inforArr.count*270*Width+180*Width;
+            [bgScrollView setContentSize:CGSizeMake(CXCWidth, tableview.bottom)];
+            
+            [tableview  reloadData];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+-(void)choose
+{
+    
+    HouseDetailMainVC *house =[[HouseDetailMainVC alloc]init];
+    house.searchId =[meiriOne[0] objectForKey:@"home_id"];
+    house.xinxiTypeId =[NSString stringWithFormat:@"%@",[meiriOne[0] objectForKey:@"xinxitype"]];
+
+    [self.navigationController  pushViewController:house animated:YES];
+
     
 }
 

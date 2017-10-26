@@ -62,7 +62,7 @@
     webView.scrollView.showsHorizontalScrollIndicator = NO;
     webView.scrollView.scrollEnabled = YES;
     
-    NSURL *url = [NSURL URLWithString:@"https://www.baidu.com"];
+    NSURL *url = [NSURL URLWithString:_contentString];
     
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
     [webView loadRequest:request];

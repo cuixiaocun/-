@@ -36,7 +36,7 @@
     allArr =btnarr;
     for (int i=0; i<btnArr.count; i++) {
         UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        if (btnarr.count<4) {
+        if (btnarr.count<=4) {
             statuBtn.frame = CGRectMake(CXCWidth/btnarr.count*i, 0,CXCWidth/btnarr.count-2*Width ,85*Width);
 
         }else if (btnarr.count>4)
@@ -87,18 +87,18 @@
 
 
 }
--(NSArray *)addressArr{
-    
-    if (_addressArr == nil) {
-        NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"address.plist" ofType:nil]];
-        _addressArr = [dic objectForKey:@"address"];
-        NSLog(@"address=%@",_addressArr);
-    }
-    return _addressArr;
-}
+//-(NSArray *)addressArr{
+//
+//    if (_addressArr == nil) {
+//        NSDictionary *dic = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"address.plist" ofType:nil]];
+//        _addressArr = [dic objectForKey:@"address"];
+//        NSLog(@"address=%@",_addressArr);
+//    }
+//    return _addressArr;
+//}
 
 
--(void)dropMenuView:(DropMenuView *)view didSelectName:(NSString *)str
+-(void)dropMenuView:(DropMenuView *)view didSelectName:(NSString *)str withString:(NSString *)stringId
 {
     UIButton *btn =[self viewWithTag:currTag];
     
@@ -106,6 +106,7 @@
     NSLog(@"currTag = %ld=======%@",(long)currTag,str);
     [btn setTitle:str forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:@"sf_icon_down"]forState:UIControlStateNormal];
+    [self.delegate chooseBtnReturn:btn withStringId:stringId];
 
 }
 -(void)dissMissLoad
@@ -114,6 +115,7 @@
     [btn setTitleColor:TextGrayColor forState:UIControlStateNormal];
     [btn setImage:[UIImage imageNamed:@"sf_icon_down"]forState:UIControlStateNormal];
 }
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

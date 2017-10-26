@@ -14,7 +14,7 @@
 @property(nonatomic,strong)UILabel *nameLabel;
 @property(nonatomic,strong)UIImageView *phoneImageV;
 @property(nonatomic,strong)UILabel *addressLabel;
-@property(nonatomic,strong)SDLabTagsView *tagLabel;
+@property(nonatomic,strong)UILabel *tagLabel;
 @property(nonatomic,strong)UILabel *priceLabel;
 @property(nonatomic,strong)UILabel *areaLabel;
 @property(nonatomic,strong)UIImageView *xianImageV;

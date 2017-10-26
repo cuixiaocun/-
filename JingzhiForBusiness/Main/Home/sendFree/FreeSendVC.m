@@ -115,11 +115,11 @@
     [self.view addSubview:free];
     free.hidden =NO;
     
-    free2 =[[FreeSendESFV alloc]initWithFrame:CGRectMake(0, topView.bottom, CXCWidth,CXCHeight-65)withViewController:self];
+    free2 =[[FreeSendESFV alloc]initWithFrame:CGRectMake(0, topView.bottom, CXCWidth,CXCHeight-(Frame_NavAndStatus +1))withViewController:self];
     [self.view addSubview:free2];
     free2.hidden =YES;
     
-    free3 =[[FreeSendZFV alloc]initWithFrame:CGRectMake(0, topView.bottom, CXCWidth,CXCHeight-65)withViewController:self];
+    free3 =[[FreeSendZFV alloc]initWithFrame:CGRectMake(0, topView.bottom, CXCWidth,CXCHeight-(Frame_NavAndStatus +1))withViewController:self];
     [self.view addSubview:free3];
     free3.hidden =YES;
 }

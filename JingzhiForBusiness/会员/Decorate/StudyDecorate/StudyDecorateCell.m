@@ -31,7 +31,7 @@
 -(void)setDic:(NSDictionary *)dic
 {
     _dic =dic;
-    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
+    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"title"]];
     
     
     

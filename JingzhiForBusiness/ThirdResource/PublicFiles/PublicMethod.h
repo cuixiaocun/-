@@ -107,5 +107,6 @@
 //删除数据
 + (BOOL)judgeIdentityStringValid:(NSString *)identityString;
 +(NSString*)stringNilString:(NSString *)string;
++ (NSString *)timeWithTimeIntervalString:(NSString *)timeString;
 
 @end

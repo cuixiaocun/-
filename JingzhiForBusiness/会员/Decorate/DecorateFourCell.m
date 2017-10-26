@@ -69,6 +69,11 @@
 }
 -(void)setDic:(NSDictionary *)dic
 {
+    _dic=dic;
+    self.titleLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"title"]];
+    self.timeLabel.text =[NSString stringWithFormat:@"%@",[PublicMethod timeWithTimeIntervalString:[NSString  stringWithFormat:@"%d",[[_dic objectForKey:@"dateline"] integerValue ]]]];
+    self.seeLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"views"]];
+    self.talkLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"answer_num"]];
     
 }
 

@@ -16,7 +16,9 @@
 @property(nonatomic,strong)UILabel*addressLabel;
 @property(nonatomic,strong)UILabel*begainSellLabel;
 @property(nonatomic,strong)UILabel*kfsLabel;
-@property(nonatomic,strong)SDLabTagsView*tagLabel;
+@property(nonatomic,strong)UILabel*jfLabel;
+
+@property(nonatomic,strong)UILabel*tagLabel;
 @property(nonatomic,strong)UILabel*introduceLabel;
 @property (nonatomic,strong)NSMutableArray *dataArr;//标签
 @property(nonatomic,strong)NSDictionary *detailDic;

@@ -13,4 +13,6 @@
 @property(nonatomic,strong)UILabel*planerLabel;
 @property(nonatomic,strong)UILabel*styleLabel;
 @property(nonatomic,strong)UILabel*numberLabel;
+@property (nonatomic,strong)NSString *searchId;//
+
 @end
