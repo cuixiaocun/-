@@ -104,7 +104,13 @@
     
     [btn setTitleColor:TextGrayColor forState:UIControlStateNormal];
     NSLog(@"currTag = %ld=======%@",(long)currTag,str);
-    [btn setTitle:str forState:UIControlStateNormal];
+    if (_isZhuangxiu) {
+        
+    }else
+    {
+        [btn setTitle:str forState:UIControlStateNormal];
+
+    }
     [btn setImage:[UIImage imageNamed:@"sf_icon_down"]forState:UIControlStateNormal];
     [self.delegate chooseBtnReturn:btn withStringId:stringId];
 

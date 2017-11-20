@@ -44,7 +44,7 @@
         _collegesLabel.font =[UIFont systemFontOfSize:14];
         _collegesLabel.textColor =TextColor;
         [self addSubview:_collegesLabel];
-        //面积
+        //设计理念
         _ideaLabel =[[UILabel alloc]initWithFrame:CGRectMake(_phoneImageV.right+24*Width, _collegesLabel.bottom, 500*Width, 50*Width)];
         _ideaLabel.text =@"设计理念：房屋装修以简约现代为主，金属粉还低中国风 ";
         _ideaLabel.font =[UIFont systemFontOfSize:13];
@@ -67,8 +67,9 @@
         [nextBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
         [nextBtn addTarget:self action:@selector(appointmentBtnAction) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:nextBtn];
+        
         //线
-      UIImageView*  imageV =[[UIImageView alloc]initWithFrame:CGRectMake(0*Width,_appointmentBtn.bottom,CXCWidth, 20*Width)];
+        UIImageView*  imageV =[[UIImageView alloc]initWithFrame:CGRectMake(0*Width,_appointmentBtn.bottom,CXCWidth, 20*Width)];
         imageV.backgroundColor =BGColor;
         [self addSubview:imageV];
         
@@ -88,8 +89,14 @@
 }
 -(void)setDic:(NSDictionary *)dic
 {
+    _dic =dic;
+    [_phoneImageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"face"]]]];
+    _nameLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"uname"])?@"":[dic objectForKey:@"uname"]];
     
-    
+    _caseLabel.text =[NSString stringWithFormat:@"案例:%@套", IsNilString([dic  objectForKey:@"case_num"])?@"":[dic objectForKey:@"case_num"]];
+    _collegesLabel.text =[NSString stringWithFormat:@"毕业院校:%@", IsNilString([dic  objectForKey:@"school"])?@"":[dic objectForKey:@"school"]];
+    _ideaLabel.text =[NSString stringWithFormat:@"设计理念:%@", IsNilString([dic  objectForKey:@"slogan"])?@"":[dic objectForKey:@"slogan"]];
+
 }
 
 @end

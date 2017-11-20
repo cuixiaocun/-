@@ -13,13 +13,22 @@
 #import <MLLabel/NSAttributedString+MLExpression.h>
 #import "WBImageView.h"
 
-@interface DiaryDetailTableViewCell : UITableViewCell
+#import "DiaryDetailTableViewCell.h"
+@class DiaryDetailTableViewCell;
+@protocol DiaryDetailCellDelegate <NSObject>
+- (void)webViewDidLoad:(DiaryDetailTableViewCell *)cell height:(CGFloat)height;
+@end
+
+@interface DiaryDetailTableViewCell : UITableViewCell<DiaryDetailCellDelegate,UIWebViewDelegate>
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
 @property (nonatomic, strong) MLLinkLabel *contentLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UIWebView *webView;
+@property (weak, nonatomic) id<DiaryDetailCellDelegate>delegate;
 
 @property (nonatomic, strong) WBImageView *webImage;
 @property(nonatomic,retain)NSDictionary *dic;
 
 @end
+

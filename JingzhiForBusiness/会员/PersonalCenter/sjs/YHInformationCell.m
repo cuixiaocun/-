@@ -15,19 +15,17 @@
     if (self) {
         NSArray*leftArr =@[@"半小时前",@"优惠信息",@"联系人",@"联系电话",@"",@"",@"",@"",];
         
-        NSArray*rightArr =@[@"",@"XXXX信息",@"张三",@"18363267772",@"",@"",];
+        NSArray*rightArr =@[@"",@"虹桥信息",@"张三品",@"18363267722",@"",@"",];
         for (int i=0; i<4; i++){
             //背景
             UIView *bgview =[[UIView alloc]init];
             bgview.backgroundColor =[UIColor whiteColor];
             [self addSubview:bgview];
             bgview.frame =CGRectMake(0, i*82*Width, CXCWidth, 82*Width);
-            
-            
             //左边提示
             UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,300*Width , 82*Width)];
             labe.text = leftArr[i];
-            //            labe.textAlignment=NSTextAlignmentLeft;
+            //labe.textAlignment=NSTextAlignmentLeft;
             labe.font = [UIFont systemFontOfSize:14];
             labe.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
             [bgview addSubview:labe];

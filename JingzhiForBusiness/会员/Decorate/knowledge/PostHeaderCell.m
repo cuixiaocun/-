@@ -41,45 +41,36 @@
         self.contentLabel = [[MLLinkLabel alloc] init];
         self.contentLabel.textColor = TextGrayColor;
         _contentLabel.numberOfLines =0;
-        NSString *ideaContent =@"他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！";
-        CGSize ideaSize;//通过文本得到高度
-        ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(580*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-        _contentLabel.frame =CGRectMake(self.topMCImage.right+20*Width,_nameLabel.bottom,600*Width,ideaSize.height);
-        _contentLabel.text =ideaContent;
+        _contentLabel.frame =CGRectMake(self.topMCImage.right+20*Width,_nameLabel.bottom,600*Width,0);
         self.contentLabel.font = [UIFont fontWithName:@"Arial" size:14];
         self.contentLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:self.contentLabel];
         
         self.detailLabel = [[MLLinkLabel alloc] init];
-        self.detailLabel.textColor = TextGrayColor;
-        _detailLabel.numberOfLines =0;
-        NSString *detailContent =@"他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！";
-        CGSize detailSize;//通过文本得到高度
-        detailSize = [detailContent boundingRectWithSize:CGSizeMake(550*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-        _detailLabel.frame =CGRectMake(_contentLabel.left+20*Width,_contentLabel.bottom+20*Width,550*Width,detailSize.height);
-        _detailLabel.text =detailContent;
+        self.detailLabel.textColor = [UIColor grayColor];
+        _detailLabel.numberOfLines = 0;
+        _detailLabel.frame =CGRectMake(_contentLabel.left+20*Width,_contentLabel.bottom+20*Width,550*Width,0);
         _detailLabel.backgroundColor =BGColor;
         self.detailLabel.font = [UIFont fontWithName:@"Arial" size:14];
         [self.contentView addSubview:self.detailLabel];
         
-
+        _xian=[[UIImageView alloc]initWithFrame:CGRectMake(0,0, 550*Width,1.5*Width)];
+        [_detailLabel addSubview:_xian];
+        _xian.backgroundColor =BGColor;
+        
         _webImage =[[WebImgViewTwo alloc]initWithFrame:CGRectMake(_detailLabel.left, _detailLabel.bottom+20*Width, 600*Width,170*Width )];
         _webImage.userInteractionEnabled = YES;
         _webImage.hidden = NO;
         _webImage.left = 15;
-        
         _webImage.top = _detailLabel.bottom+20*Width;
-        _webImage.height = [WebImgViewTwo heightForCount:8];//因为开始的时候是以坐标做得这里应该是照片的数量
+        _webImage.height = [WebImgViewTwo heightForCount:0];//因为开始的时候是以坐标做得这里应该是照片的数量
         NSLog(@"%f-------",_webImage.height);
         _webImage.width = 600*Width;
-        [_webImage setDataList:@[@"http://oo849p911.bkt.clouddn.com/ddsc2017-08-04_5983c4a128242.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505392560832&di=206e9c2d41f3c5cb99fdc82cb14e1d67&imgtype=0&src=http%3A%2F%2Fpic73.nipic.com%2Ffile%2F20150724%2F9448607_174837076000_2.jpg",@"http://oo849p911.bkt.clouddn.com/ddsc2017-08-04_5983c4a128242.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505392560832&di=98a69409cf8e6abb4fdee414b7dab0e4&imgtype=0&src=http%3A%2F%2Fpic18.nipic.com%2F20111208%2F8282523_212410561181_2.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505393035479&di=8cda738d292a7406465f9bd80b19228c&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Fbaike%2Fc0%253Dbaike150%252C5%252C5%252C150%252C50%2Fsign%3D05056ad1a5efce1bfe26c098ce3898bb%2F838ba61ea8d3fd1fd4de8b1d324e251f94ca5fc5.jpg",@"http://oo849p911.bkt.clouddn.com/ddsc2017-08-04_5983c4a128242.jpg",@"http://oo849p911.bkt.clouddn.com/ddsc2017-08-04_5983c4a128242.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505392560829&di=7ecdb0cfd44a0120d1c365aa7c9a9056&imgtype=0&src=http%3A%2F%2Fpic2.ooopic.com%2F13%2F70%2F05%2F91b1OOOPIC59.jpg"]];
+        [_webImage setDataList:@[]];
         [_webImage setTag:777];
         [self addSubview:_webImage];
-
         
-        _xian=[[UIImageView alloc]initWithFrame:CGRectMake(0,_contentLabel.bottom+15, CXCWidth,1.5*Width)];
-        [_contentLabel addSubview:_xian];
-        _xian.backgroundColor =BGColor;
+       
 
         
         _bottomView =[[UIView alloc]initWithFrame:CGRectMake(0,_webImage.bottom, CXCWidth,  80*Width)];
@@ -132,7 +123,38 @@
 }
 -(void)setDic:(NSDictionary *)dic
 {
+    _dic =dic;
+    [self.topMCImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"face"]]]];  ;
+    _nameLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"uname"])?@"":[dic objectForKey:@"uname"]];
+    self.contentLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"title"])?@"":[dic objectForKey:@"title"]];
+    _timeLabel.text =[PublicMethod timeWithTimeIntervalString:[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"dateline"])?@"":[dic objectForKey:@"dateline"]]];
+    _detailLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"intro"])?@"":[dic objectForKey:@"intro"]];
+    _webImage.dataList =@[[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"thumb"]]];
+   
+    _tagLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"detail_type"])?@"":[dic objectForKey:@"detail_type"]];
+    _seeLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"views"])?@"":[dic objectForKey:@"views"]];
+    _talkLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"answer_num"])?@"":[dic objectForKey:@"answer_num"]];
+    NSString *ideaContent =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"title"])?@"":[dic objectForKey:@"title"]];
+    CGSize ideaSize;//通过文本得到高度
+    ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(600*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    _contentLabel.frame =CGRectMake(self.topMCImage.right+20*Width,_nameLabel.bottom,600*Width,ideaSize.height+40*Width);
     
-    
+    NSString *detailContent =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"intro"])?@"":[dic objectForKey:@"intro"]];
+    CGSize detailSize;//通过文本得到高度
+    detailSize = [detailContent boundingRectWithSize:CGSizeMake(550*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    _detailLabel.frame =CGRectMake(self.topMCImage.right+20*Width,_contentLabel.bottom+1*Width,550*Width,detailSize.height+40*Width);
+    int count = [[NSString stringWithFormat:@"%@",[_dic objectForKey:@"thumb"]]isEqualToString:@"<null>"]?0:1;
+
+    if (count>0) {
+        _webImage.frame =CGRectMake(_detailLabel.left, _detailLabel.bottom+20*Width, 600*Width,[WebImgViewTwo heightForCount:1] ) ;//因为开始的时候是以坐标做得这里应该是照片的数量
+        _webImage.hidden =NO;
+
+    }else
+    {
+        _webImage.frame =CGRectMake(_detailLabel.left, _detailLabel.bottom+20*Width, 600*Width,0 ) ;//因为开始的时候是以坐标做得这里应该是照片的数量
+        _webImage.hidden =YES;
+    }
+    _bottomView.frame =CGRectMake(0,_webImage.bottom, CXCWidth,  80*Width);
+
 }
 @end

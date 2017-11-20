@@ -57,6 +57,7 @@
         _xian=[[UIImageView alloc]initWithFrame:CGRectMake(120*Width,0, 630*Width,3*Width)];
         [_bottomV addSubview:_xian];
         _xian.image =[UIImage imageNamed:@"sjs_icon_dotte"];
+        
         NSArray*leftArr =@[@"设计",@"服务",@"贴心"];
         for (int i=0; i<3; i++) {
             UILabel*proLabel = [[UILabel alloc] initWithFrame:CGRectMake(120*Width,60*Width*i+20*Width,100*Width,50*Width)];
@@ -69,19 +70,16 @@
             if (i==0) {
                 //星星
                 _sjImgView = [[StarView alloc]initWithFrame:CGRectMake(proLabel.right+20*Width,proLabel.top+10*Width, 150*Width, 30*Width)];
-                _sjImgView.rating = [[NSString stringWithFormat:@"%@",@"5"] floatValue];
                 [_bottomV addSubview:_sjImgView];
 
             }else if (i==1) {
                 //星星
                 _fwImgView = [[StarView alloc]initWithFrame:CGRectMake(proLabel.right+20*Width,proLabel.top+10*Width, 180*Width, 30*Width)];
-                _fwImgView.rating = [[NSString stringWithFormat:@"%@",@"4"] floatValue];
                 [_bottomV addSubview:_fwImgView];
 
             }else if (i==2) {
                 //星星
                 _txImgView = [[StarView alloc]initWithFrame:CGRectMake(proLabel.right+20*Width,proLabel.top+10*Width, 180*Width, 30*Width)];
-                _txImgView.rating = [[NSString stringWithFormat:@"%@",@"2.5"] floatValue];
                 [_bottomV addSubview:_txImgView];
                 
 
@@ -106,7 +104,21 @@
 }
 -(void)setDic:(NSDictionary *)dic
 {
+    _dic =dic;
     
+    [self.topMCImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"face"]]]];  ;
+    _nameLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"uname"])?@"":[dic objectForKey:@"uname"]];
+    _timeLabel.text =[PublicMethod timeWithTimeIntervalString:[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"dateline"])?@"":[dic objectForKey:@"dateline"]]];
+    NSString *ideaContent =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"content"])?@"":[dic objectForKey:@"content"]];
+    CGSize ideaSize;//通过文本得到高度
+    ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(560*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    _contentLabel.frame =CGRectMake(self.topMCImage.right+20*Width,_nameLabel.bottom,570*Width,ideaSize.height);
+    _contentLabel.text=ideaContent;
+    _bottomV.frame =CGRectMake(0,_contentLabel.bottom, CXCWidth, 200*Width);
+    
+    _sjImgView.rating = [[NSString stringWithFormat:@"%@",[_dic objectForKey:@"score1"]] floatValue];
+    _fwImgView.rating = [[NSString stringWithFormat:@"%@",[_dic objectForKey:@"score2"]] floatValue];
+    _txImgView.rating = [[NSString stringWithFormat:@"%@",[_dic objectForKey:@"score3"]] floatValue];
     
 }
 

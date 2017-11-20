@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "StarView.h"
-@interface ShopStoreTalkCell : UICollectionViewCell
+@interface ShopStoreTalkCell : UICollectionViewCell{
+    UIImageView *xian;
+}
 @property (nonatomic,strong)EGOImageView  *topMCImage;
 @property (nonatomic,strong) UILabel *nameLabel;
 @property (nonatomic,strong) UILabel *contentLabel;

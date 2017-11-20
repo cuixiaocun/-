@@ -63,7 +63,7 @@
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    [navTitle setTextColor:[UIColor blackColor]];
     [self.view addSubview:navTitle];
     
     
@@ -74,12 +74,12 @@
 {
     
     
-    [PublicMethod personalAFNetworkSuccess:^(id responseDic) {
-        NSDictionary *dict = responseDic;
-        NSLog(@"%@",dict);
-        addressIdString =[dict objectForKey:@"addressid"];
-        
-        
+//    [PublicMethod personalAFNetworkSuccess:^(id responseDic) {
+//        NSDictionary *dict = responseDic;
+//        NSLog(@"%@",dict);
+//        addressIdString =[dict objectForKey:@"addressid"];
+//
+    
         allIntegral =0.00;
         allPrice =0.00;
         turePay =0.00;
@@ -95,15 +95,13 @@
             NSLog(@"%@===%@===%.2f===%.2f",[model objectForKey:@"deductible"],[model objectForKey:@"goodsNum"],allIntegral,allPrice);
             
         }
-        if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"integral"]] floatValue]<allIntegral) {
-            
-            canPayIntegral =[[NSString stringWithFormat:@"%@",[dict objectForKey:@"integral"]] floatValue];
-            
-        }else
-        {
-            canPayIntegral =allIntegral;
-
-        }
+//        if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"integral"]] floatValue]<allIntegral) {
+//            
+//            canPayIntegral =[[NSString stringWithFormat:@"%@",[dict objectForKey:@"integral"]] floatValue];
+//        }else
+//        {
+//            canPayIntegral =allIntegral;
+//        }
         if (canPayIntegral==0.00) {
             isSelectedBtn.selected  =NO;
 
@@ -117,7 +115,8 @@
         
         NSLog(@"%.2f--%.2f--%.2f",turePay,allPrice,canPayIntegral);
         UILabel *jifenDetailLabel =[self.view viewWithTag:468];
-        jifenDetailLabel.text =[NSString stringWithFormat:@"共%@积分,可用%.2f积分,抵扣¥%.2f",[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]],canPayIntegral, canPayIntegral];//当前积分小于可抵扣积分的时候，显示当前积分，大于可抵扣积分时，显示可抵扣积分
+       jifenDetailLabel.text =[NSString stringWithFormat:@"可用%.2f积分,抵扣¥%.2f",canPayIntegral, canPayIntegral];//当前积分小于可抵扣积分的时候，显示当前积分，大于可抵扣积分时，显示可抵扣积分
+//        jifenDetailLabel.text =[NSString stringWithFormat:@"共%@积分,可用%.2f积分,抵扣¥%.2f",[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"integral"]],canPayIntegral, canPayIntegral];//当前积分小于可抵扣积分的时候，显示当前积分，大于可抵扣积分时，显示可抵扣积分
         NSString*str =[NSString stringWithFormat:@"实付款：¥%.2f",turePay ];
         UILabel *subPromLabel =[self.view viewWithTag:11112];
         [subPromLabel    setTextColor:[UIColor colorWithRed:33/255.0 green:36/255.0 blue:38/255.0 alpha:1]];
@@ -126,21 +125,17 @@
         NSRange rangel = [[textColor string] rangeOfString:[str substringFromIndex:4]];
         [textColor addAttribute:NSForegroundColorAttributeName value:NavColor range:rangel];
         [subPromLabel setAttributedText:textColor];
-        
-        
-        
         UILabel *jifenlabel =[self.view viewWithTag:3301];
         jifenlabel.text =[NSString stringWithFormat:@"-%.2f",canPayIntegral];
-        
         UILabel *zonglabel =[self.view viewWithTag:3300];
         zonglabel.text =[NSString stringWithFormat:@"%.2f",allPrice];
         
-
-    } fail:^(NSError *error) {
-        
-    }];
-    
-    
+//
+//    } fail:^(NSError *error) {
+//
+//    }];
+//
+//
     
     
     

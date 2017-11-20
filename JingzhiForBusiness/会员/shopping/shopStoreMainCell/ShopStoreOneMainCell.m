@@ -75,6 +75,26 @@
 {
     _dic =dic;
     
+    NSString *titleContent =[NSString stringWithFormat:@"商家名称：%@",[_dic  objectForKey:@"title"]];
+    CGSize titleSize;//通过文本得到高度
+    titleSize = [titleContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    _titleLabel.text = titleContent;
+    _titleLabel.frame =CGRectMake(24*Width ,30*Width, 690*Width,titleSize.height);
+    _companyLabel.text = [NSString stringWithFormat:@"联系人:%@",@""];
+//    _companyLabel.text = [NSString stringWithFormat:@"联系人:%@",[_dic  objectForKey:@""]];
+    _companyLabel.frame =CGRectMake(24*Width ,_titleLabel.bottom, 690*Width,70*Width);
+    _phoneLabel.text = [NSString stringWithFormat:@"联系方式：%@",[_dic  objectForKey:@"phone"]];
+    _phoneLabel.frame =CGRectMake(24*Width ,_companyLabel.bottom, 690*Width,70*Width);
+    _qqLabel.text =[NSString stringWithFormat:@"主营行业：%@",[_dic  objectForKey:@"cat_title"]];
+    _qqLabel.frame =CGRectMake(24*Width ,_phoneLabel.bottom, 690*Width,70*Width);
+    NSString *ideaContent =[NSString stringWithFormat:@"所在地点：%@",[_dic  objectForKey:@"addr"]];
+    CGSize ideaSize;//通过文本得到高度
+    ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    _ideaLabel .numberOfLines =0;
+    _ideaLabel.text = ideaContent ;
+    _ideaLabel.frame =CGRectMake(24*Width ,_qqLabel.bottom, 690*Width,ideaSize.height);
+    
+    
     
 }
 

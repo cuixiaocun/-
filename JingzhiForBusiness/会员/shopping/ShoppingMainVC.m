@@ -13,7 +13,7 @@
 #import "ClassificationList.h"
 #import "ComCompanyCell.h"
 #import "ComCompanyList.h"
-#import "ShoppingMainVC.h"
+#import "ShopStoreMainVC.h"
 @interface ShoppingMainVC ()<SDCycleScrollViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 {
     UIScrollView *bgScrollView;//最底下的背景
@@ -23,7 +23,11 @@
     //商品
     UIView *goodsXian;
     NSArray *goodsArr;
+    NSArray *companyArr;
+
     NSArray *imgArr;//banner
+    NSMutableArray *typeArr;
+
 
 }
 @property (nonatomic,retain) UICollectionView *mainCMallCollectionView;//按钮视图
@@ -45,6 +49,10 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    goodsArr =[[NSArray alloc]init];
+    companyArr = [[NSArray alloc]init];
+    typeArr =[[NSMutableArray alloc]init];
+
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeTheme) name:ThemeNotificationInformatica object:nil];
 
     //替代导航栏的imageview
@@ -54,7 +62,7 @@
     [self.view addSubview:topImageView];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
@@ -77,6 +85,9 @@
     [topImageView addSubview:rightBtn];
     [self getBanner];
     [self makeThisView];
+    [self yxsjListInfor];
+    [self tmhListInfor];
+    [self typeString];
 }
 - (void)changeTheme
 {
@@ -106,17 +117,12 @@
             [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
             
 
-        
         }
         
     }];
     
     [actionSheet show];
-    
-
-    
-
-
+  
 }
 - (void)returnBtnAction
 {
@@ -153,7 +159,6 @@
     [btnView setBackgroundColor:[UIColor whiteColor ]];
     [bgScrollView addSubview:btnView];
     NSArray *topArr =@[@"mall_icon_jcjc",@"mall_icon_jiaju",@"mall_icon_jd",@"mall_icon_rzps",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_more",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
-    NSArray*bottomArr =@[@"基础建材",@"家居定制",@"家电",@"软装配饰",@"",@"",];
     [btnView setBackgroundColor:[UIColor whiteColor]];
     for (int i=0; i<4; i++) {
         //大按钮
@@ -172,7 +177,8 @@
         botLabel.textAlignment=NSTextAlignmentCenter;
         botLabel.font =[UIFont systemFontOfSize:14];
         botLabel.textColor =BlackColor;
-        botLabel.text =[NSString stringWithFormat:@"%@",bottomArr[i]];
+        botLabel.tag =1200+i;
+//        botLabel.text =[NSString stringWithFormat:@"%@",bottomArr[i]];
         [btn addSubview:botLabel];
     }
     
@@ -209,34 +215,11 @@
 
 - (void)myBtnAciton:(UIButton *)btn
 {
-    if (btn.tag ==300) {
-        
-        ClassificationList*search =[[ClassificationList alloc]init];
-        search.btnNameString =@"基础建材";
-        [self.navigationController pushViewController:search animated:YES];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
-    }else if (btn.tag==301)
-    {
-        ClassificationList*search =[[ClassificationList alloc]init];
-        search.btnNameString =@"家居定制";
-        [self.navigationController pushViewController:search animated:YES];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-        
-        
-    }else if (btn.tag==302)
-    {
-        ClassificationList*search =[[ClassificationList alloc]init];
-        search.btnNameString =@"家电";
-        [self.navigationController pushViewController:search animated:YES];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-    }else if (btn.tag==303)
-    {
-        ClassificationList*search =[[ClassificationList alloc]init];
-        search.btnNameString =@"软装配饰";
-        [self.navigationController pushViewController:search animated:YES];
-        [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-    }
+    ClassificationList*search =[[ClassificationList alloc]init];
+    search.btnNameString =[typeArr[btn.tag-300] objectForKey:@"title"];
+    search.typeIdString =[typeArr[btn.tag-300] objectForKey:@"cat_id"];
+    [self.navigationController pushViewController:search animated:YES];
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     
 }
 
@@ -249,7 +232,13 @@
 //返回section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 3;
+    if (section==0) {
+        return goodsArr.count;
+    }else
+    {
+        return companyArr.count;
+
+    }
 }
 //  返回头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -318,7 +307,6 @@
     {
         return CGSizeMake(CXCWidth,280*Width);
 
-    
     }
 }
 //两个cell之间的间距（同一行的cell的间距）
@@ -329,17 +317,19 @@
 //这个是两行cell之间的间距（上下行cell的间距）
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     return 0*Width;
-    
-    
 }
 
 ////设置每个item四周的边距
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     
+    if(section==0)
+    {
         return UIEdgeInsetsMake(10*Width, 23.33*Width,10*Width,23.33*Width);
-        
-    
+
+    }else
+        return UIEdgeInsetsZero;
+
 }
 //每个cell的数据
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -348,14 +338,14 @@
 
         ComMallCollectionViewCell* onecell = (ComMallCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ComMallCollectionViewCell class]) forIndexPath:indexPath];
         onecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+          onecell.dic =goodsArr[indexPath.row];
         return onecell;
     }else
     {
     
         ComCompanyCell* onecell = (ComCompanyCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ComCompanyCell class]) forIndexPath:indexPath];
         onecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        onecell.dic =companyArr[indexPath.row];
         return onecell;
     }
     
@@ -365,20 +355,16 @@
 {
     if (indexPath.section ==0) {
         GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
-        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"itemId"]];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController  pushViewController:goode animated:YES];
     }else
     {
-        ShoppingMainVC   *goode =[[ShoppingMainVC alloc]init];
-//        goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+        ShopStoreMainVC*goode =[[ShopStoreMainVC alloc]init];
+        goode.shopId =[NSString stringWithFormat:@"%@",[companyArr[indexPath.row] objectForKey:@"shop_id"]];
         [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
         [self.navigationController  pushViewController:goode animated:YES];
-    
-    
     }
-    
-    
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
@@ -407,7 +393,32 @@
 }
 -(void)getBanner
 {
-    cycleScrollView2.imageURLStringsGroup = @[@"home_banner01",@"home_banner01",@"home_banner01"];//放上图片
+    
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-lunbotu.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            NSArray * imgArr =[[NSArray alloc]init];
+            imgArr = [dict objectForKey:@"data"];
+            NSMutableArray *imagesArray =[[NSMutableArray alloc]init];
+            for (int i=0; i<imgArr.count; i++) {
+
+                [imagesArray insertObject:[NSString stringWithFormat:@"%@%@",IMAGEURL,[imgArr[i] objectForKey:@"thumb"]] atIndex:i];
+                
+            }
+            cycleScrollView2.imageURLStringsGroup = imagesArray;//放上图片
+        }
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
 }
 - (void)chooseMore:(UIButton *)btn
 {
@@ -429,8 +440,101 @@
     
     
   }
+- (void)tmhListInfor{
+   
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"limit":@"4"
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-gettmh.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
 
+            goodsArr =[dict objectForKey:@"data"];
+            [_mainCMallCollectionView reloadData];
+            
+        
+        
+        
+        
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+}
+- (void)yxsjListInfor{
+    
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"limit":@"4"
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-getyxsj.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
 
+            companyArr =[dict objectForKey:@"data"];
+            [_mainCMallCollectionView reloadData];
+
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+}
+- (void)typeString{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"cat_id":@""
+                          }];
+    
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-cate.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"])
+        {
+            
+            NSArray *typeArry =[[dict objectForKey:@"data"] objectForKey:@"cate"];
+//            NSMutableDictionary *dic1 =[[NSMutableDictionary alloc]init];
+//            [dic1 setValue:@"全部" forKey:@"title"];
+//            [dic1 setValue:@"" forKey:@"cat_id"];
+//            [typeArr addObject:dic1];
+            
+            for (int i=0; i<typeArry.count; i++) {
+                NSMutableDictionary *dic =[[NSMutableDictionary alloc]init];
+                [dic setValue:[typeArry[i] objectForKey:@"title"] forKey:@"title"];
+                [dic setValue:[typeArry[i] objectForKey:@"cat_id"] forKey:@"cat_id"];
+                [typeArr addObject:dic];
+                
+            }
+            
+            for (int i=0; i<typeArr.count; i++) {
+                UILabel * botLabel = [self.view viewWithTag:1200+i];
+                botLabel.text =[typeArr[i] objectForKey:@"title"];
+                
+            }
+            
+            
+            
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+}
 /*
 #pragma mark - Navigation
 
@@ -440,5 +544,4 @@
     // Pass the selected object to the new view controller.
 }
 */
-
 @end

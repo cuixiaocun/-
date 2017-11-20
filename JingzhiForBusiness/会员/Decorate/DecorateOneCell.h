@@ -13,4 +13,6 @@
 @property (nonatomic,strong) UILabel *promtpmcLabel;
 @property (nonatomic,strong) UILabel *nameLabel;
 @property(nonatomic,retain)NSDictionary *dic;
+
+
 @end

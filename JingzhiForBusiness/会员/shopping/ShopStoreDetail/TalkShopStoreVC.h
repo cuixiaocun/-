@@ -12,5 +12,6 @@
 @interface TalkShopStoreVC : UIViewController
 @property(nonatomic,strong)UIImageView *phoneImageV;
 @property (nonatomic,strong) StarView *pfImgView;
+@property(strong,nonatomic)NSString *shopId;
 
 @end

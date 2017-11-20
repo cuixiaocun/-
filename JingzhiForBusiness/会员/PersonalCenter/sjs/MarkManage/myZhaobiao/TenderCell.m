@@ -89,7 +89,7 @@
 - (void)btnAction:(UIButton *)btn
 {
     
-    
+    [self.delegate LookManage:self];
     
 }
 -(void)calculateTheGoods

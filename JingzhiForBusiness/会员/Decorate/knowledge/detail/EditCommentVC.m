@@ -81,11 +81,37 @@
     [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [nextBtn addTarget:self action:@selector(upSendTalk) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:nextBtn];
-
 }
 - (void)upSendTalk
 {
-
+   
+    if ([self.contentTextView.text isEqualToString:@"说一下吧"]||[[NSString stringWithFormat:@"%@",self.contentTextView.text] isEqualToString:@""]) {
+        [MBProgressHUD showWarn:@"评论不能为空！" ToView:self.view];
+        return;
+        
+    }
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"ask_id":[NSString stringWithFormat:@"%@",_askId] ,
+                          @"contents":[NSString stringWithFormat:@"%@",_contentTextView.text]
+                          }
+     ];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?luntan-plun.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        NSLog(@"%@",dict);
+        if ([[NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            [MBProgressHUD  showSuccess:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:self.view];
+            [self performSelector:@selector(pinglunSuccess) withObject:nil afterDelay:1];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)pinglunSuccess
+{
+    [self.navigationController popViewControllerAnimated:YES];
 
 }
 - (void)returnBtnAction

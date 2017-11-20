@@ -15,5 +15,7 @@
 @end
 
 @interface YBImgPickerViewController : UIViewController
+@property (nonatomic , assign) NSInteger photoCount;
+
 - (void)showInViewContrller:(UIViewController *)vc choosenNum:(NSInteger)choosenNum delegate:(id<YBImgPickerViewControllerDelegate>)vcdelegate withArr:(NSMutableArray*)picArr;
 @end

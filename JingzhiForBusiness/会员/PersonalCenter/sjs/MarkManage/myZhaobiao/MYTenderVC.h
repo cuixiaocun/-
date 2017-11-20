@@ -14,7 +14,7 @@
 
 @interface MYTenderVC : STableViewController
 {
-    NSMutableArray *infoArray;  //存放列表数据
+    NSMutableArray *infoArray;//存放列表数据
     NSInteger currentPage; //当前页
     NSInteger pageCount;   //总页数
 }

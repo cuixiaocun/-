@@ -10,13 +10,8 @@
 #import "DiaryCell.h"
 #import "DiaryDetailVC.h"
 @interface DiaryMainVC ()
-
 @end
-
 @implementation DiaryMainVC
-
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:BGColor];
@@ -38,7 +33,8 @@
     [topImageView addSubview:returnBtn];
     
     //注册标签
-    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];    [navTitle setText:@"看日记"];
+    UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];
+    [navTitle setText:@"看日记"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
@@ -63,7 +59,7 @@
     
     
     infoArray = [[NSMutableArray alloc] init];
-    //    [self performSelector:@selector(getInfoList)];
+    [self performSelector:@selector(getInfoList)];
     
     
     
@@ -103,7 +99,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10 ;
+    return infoArray.count ;
 }
 
 
@@ -124,8 +120,8 @@
                                          reuseIdentifier:CellIdentifier ];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+        NSDictionary *dict = [infoArray objectAtIndex:row];
+        [cell setDic:dict];
     return cell;
 }
 
@@ -274,16 +270,12 @@
     
     currentPage=0;
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
-    
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-    
     if (currentPage >= pageCount-1){
         self.canLoadMore = NO; // signal that there won't be any more items to load
     }else{
         self.canLoadMore = YES;
     }
-    
-    
     
     
     if (!self.canLoadMore) {
@@ -317,19 +309,16 @@
 {
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"page":[NSString stringWithFormat:@"%ld",(long)currentPage] ,
-                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
-                          }];
+//    [dic1 setDictionary:@{@"page":[NSString stringWithFormat:@"%ld",(long)currentPage] ,
+//                          }];
     
-    [PublicMethod AFNetworkPOSTurl:@"Home/Member/recommend2" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?article-zxitems.htm" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
             if (currentPage==0) {
                 [infoArray removeAllObjects];
-                
             }
-            NSMutableArray *array=[dict objectForKey:@"data"];
+            NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"items"];
             if ([array isKindOfClass:[NSNull class]]) {
                 [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
                 
@@ -376,13 +365,12 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
         DiaryDetailVC *house =[[DiaryDetailVC alloc]init];
+        house.diary_id =[NSString stringWithFormat:@"%@",[infoArray[indexPath.row] objectForKey:@"diary_id"]];
         [self.navigationController  pushViewController:house animated:YES];
-    
-}/*
+}
+/*
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].

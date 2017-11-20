@@ -91,7 +91,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //    return infoArray.count ;
-    return 10 ;
+    return 1 ;
 }
 
 

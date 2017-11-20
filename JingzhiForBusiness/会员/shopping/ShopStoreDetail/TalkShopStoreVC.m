@@ -8,7 +8,7 @@
 
 #import "TalkShopStoreVC.h"
 
-@interface TalkShopStoreVC ()
+@interface TalkShopStoreVC ()<UITextViewDelegate>
 {
     UIView *bgScrollView;
     UITextView *textVPL;//评论
@@ -157,12 +157,45 @@
 }
 - (void)sureDrawls
 {
+    if ([[NSString stringWithFormat:@"%@",textVPL.text] isEqualToString:@""]||[NSString stringWithFormat:@"%@",textVPL.text].length<5) {
+        [MBProgressHUD showSuccess:@"请输入五字以上的文字" ToView:self.view];
+        return;
+    }
+    
+    
+    NSString* uid  = [NSString stringWithFormat:@"%@",_shopId];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"shop_id":uid,
+                          @"data[score]":[NSString stringWithFormat:@"%d",(int)_pfImgView.rating],
+                          @"data[content]":[NSString stringWithFormat:@"%@",textVPL.text],
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?shop-savecomment" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            
+            [MBProgressHUD showSuccess:@"评论成功" ToView:self.view];
+            [self performSelector:@selector(pinglunSuccess) withObject:nil afterDelay:1];
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+    
+    
+    
     
 }
 -(void)textViewDidChange:(UITextView *)textView
 {
     if (textView.text.length == 0) {
-        uilabel.text = @"写下你的评论吧...";
+        uilabel.text = @"你的点评...";
     }else{
         uilabel.text = @"";
     }
@@ -184,7 +217,7 @@
     {
         if(touchPoint.x>315*Width&&touchPoint.x<465*Width)
         {
-            _pfImgView.rating = ((touchPoint.x-315*Width)/30*Width*4);
+            _pfImgView.rating =(int) ((touchPoint.x-315*Width)/30*Width*4)+1;
             NSLog(@"*********%f",_pfImgView.rating);
             
             if (_pfImgView.rating>5) {
@@ -237,7 +270,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+- (void)pinglunSuccess
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
 /*
 #pragma mark - Navigation
 

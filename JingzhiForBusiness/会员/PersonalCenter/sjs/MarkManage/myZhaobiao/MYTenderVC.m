@@ -8,8 +8,8 @@
 
 #import "MYTenderVC.h"
 #import "TenderCell.h"
-
-@interface MYTenderVC ()
+#import "TenderDetailVC.h"
+@interface MYTenderVC ()<TenderCellDelegate>
 
 @end
 
@@ -44,9 +44,7 @@
     [self.view addSubview:navTitle];
     
     currentPage=0;
-    
     [self getInfoList];
-    
     [self mainView];
 }
 - (void)mainView
@@ -79,7 +77,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10 ;
+    return 1 ;
 //    return infoArray.count ;
 
 }
@@ -103,6 +101,7 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
+    cell.delegate =self;
 //    NSDictionary *dict = [infoArray objectAtIndex:row];
 //    [cell setDic:dict];
     return cell;
@@ -110,7 +109,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    TenderDetailVC *toubiao =[[TenderDetailVC alloc]init];
+    [self.navigationController pushViewController:toubiao animated:YES];
+
     
     
 }
@@ -221,14 +222,9 @@
     
     
     [self performSelector:@selector(addItemsOnBottom) withObject:nil afterDelay:0];
-    
-    
     // Inform STableViewController that we have finished loading more items
-    
     return YES;
 }
-
-
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView
 {
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -299,66 +295,71 @@
 - (void)getInfoList
 {
     
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
-                          @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
-                          
-                          }
-     ];
-    
-    [PublicMethod AFNetworkPOSTurl:@"home/Agen/agenflow" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        
-        if (currentPage==0) {
-            [infoArray removeAllObjects];
-            
-        }
-        NSMutableArray *array=[dict objectForKey:@"data"];
-        if ([array isKindOfClass:[NSNull class]]) {
-            [self.tableView reloadData];
-            
-            return ;
-        }
-        
-        
-        [infoArray addObjectsFromArray:array];
-        
-        if ([infoArray count]==0 && currentPage==0) {
-            
-        }
-        pageCount =infoArray.count/20;
-        //判断是否加载更多
-        if (array.count==0 || array.count<20){
-            self.canLoadMore = NO; // signal that there won't be any more items to load
-        }else{
-            self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
-        }
-        
-        DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-        [fv.activityIndicator stopAnimating];
-        
-        if (!self.canLoadMore) {
-            fv.infoLabel.hidden = YES;
-        }else{
-            fv.infoLabel.hidden = NO;
-        }
-        
-        
-        [self.tableView reloadData];
-        if (currentPage==0) {
-            //                [self.tableView setScrollsToTop:YES];
-            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
-        }
-        
-        [self.tableView reloadData];
-        
-    } fail:^(NSError *error) {
-        
-    }];
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    [dic1 setDictionary:@{
+//                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:agen] objectForKey:@"id"]],
+//                          @"page":[NSString stringWithFormat:@"%ld",currentPage] ,
+//
+//                          }
+//     ];
+//
+//    [PublicMethod AFNetworkPOSTurl:@"home/Agen/agenflow" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//
+//        if (currentPage==0) {
+//            [infoArray removeAllObjects];
+//
+//        }
+//        NSMutableArray *array=[dict objectForKey:@"data"];
+//        if ([array isKindOfClass:[NSNull class]]) {
+//            [self.tableView reloadData];
+//
+//            return ;
+//        }
+//
+//
+//        [infoArray addObjectsFromArray:array];
+//
+//        if ([infoArray count]==0 && currentPage==0) {
+//
+//        }
+//        pageCount =infoArray.count/20;
+//        //判断是否加载更多
+//        if (array.count==0 || array.count<20){
+//            self.canLoadMore = NO; // signal that there won't be any more items to load
+//        }else{
+//            self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
+//        }
+//
+//        DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+//        [fv.activityIndicator stopAnimating];
+//
+//        if (!self.canLoadMore) {
+//            fv.infoLabel.hidden = YES;
+//        }else{
+//            fv.infoLabel.hidden = NO;
+//        }
+//
+//
+//        [self.tableView reloadData];
+//        if (currentPage==0) {
+//            //                [self.tableView setScrollsToTop:YES];
+//            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+//        }
+//
+//        [self.tableView reloadData];
+//
+//    } fail:^(NSError *error) {
+//
+//    }];
     
 }
+-(void)LookManage:(TenderCell *)cell{
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    TenderDetailVC *toubiao =[[TenderDetailVC alloc]init];
+    [self.navigationController pushViewController:toubiao animated:YES];
 
+}
 /*
 #pragma mark - Navigation
 

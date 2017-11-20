@@ -101,6 +101,9 @@
         YHInformationVC *yhInfor =[[YHInformationVC alloc]init];
         [self.navigationController pushViewController:yhInfor animated:YES];
         
+    }else{
+        
+        
     }
     
 }

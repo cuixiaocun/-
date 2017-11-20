@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+@class TenderCell;
+@protocol TenderCellDelegate <NSObject>
+- (void)LookManage:(TenderCell *)cell;
+@end
 
 @interface TenderCell : UITableViewCell
 @property(nonatomic,retain)NSDictionary *dic;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier;
+@property (weak, nonatomic) id<TenderCellDelegate>delegate;
 
 @property(strong,nonatomic)UIButton * seeLogBtn;//查看物流
 

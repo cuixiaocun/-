@@ -99,7 +99,6 @@
 -(void)presentAKGallery:(AKGallery *)gallery animated:(BOOL)flag completion:(void (^)(void))completion{
     
     //todo:defaults
-
     [gallery.navigationController.navigationBar setBarTintColor:[UIColor grayColor]];
     [self.viewController presentViewController:gallery animated:flag completion:completion];
 

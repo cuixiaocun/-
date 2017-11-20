@@ -27,12 +27,12 @@
         _promtpmcLabel.numberOfLines =0;
         [self.contentView addSubview:self.promtpmcLabel];
         
-        self.pricesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0*Width,_promtpmcLabel.bottom,336*Width,45*Width)];
-        self.pricesLabel.textColor = TextGrayColor;
-        self.pricesLabel.font = [UIFont fontWithName:@"Arial" size:12];
-        self.pricesLabel.backgroundColor = [UIColor clearColor];
-        _pricesLabel.text =@"山东桥通天下";
-        [self.contentView addSubview:self.pricesLabel];
+//        self.pricesLabel = [[UILabel alloc] initWithFrame:CGRectMake(0*Width,_promtpmcLabel.bottom,336*Width,45*Width)];
+//        self.pricesLabel.textColor = TextGrayColor;
+//        self.pricesLabel.font = [UIFont fontWithName:@"Arial" size:12];
+//        self.pricesLabel.backgroundColor = [UIColor clearColor];
+//        _pricesLabel.text =@"山东桥通天下";
+//        [self.contentView addSubview:self.pricesLabel];
         
     }
     return self;
@@ -40,9 +40,10 @@
 -(void)setDic:(NSDictionary *)dic
 {
     _dic =dic;
-    self.topMCImage.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"img"]]];
-    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
-    self.pricesLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
+    [self.topMCImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"photo"]]]];  ;
+
+    self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"title"]];
+//    self.pricesLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
     
     
     

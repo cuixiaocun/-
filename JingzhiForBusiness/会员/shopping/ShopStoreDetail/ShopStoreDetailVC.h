@@ -10,11 +10,14 @@
 
 @interface ShopStoreDetailVC : UIViewController
 @property(nonatomic,strong)UIImageView *phoneImageV;
+@property(nonatomic,strong)UILabel *nameLabel1;
+
 @property(nonatomic,strong)UILabel *nameLabel;
 @property (nonatomic,strong) UILabel *peopleLabel;
 @property (nonatomic,strong) UILabel *phoneLabel;
 @property (nonatomic,strong) UILabel *companyLabel;
 @property (nonatomic,strong) UILabel *addressLabel;
+@property(strong,nonatomic)NSString *shopId;
 
 @property (nonatomic,strong) UILabel *jtLabel;
 @property (nonatomic,strong) UILabel *jianjieLabel;

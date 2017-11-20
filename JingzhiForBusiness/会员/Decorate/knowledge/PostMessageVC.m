@@ -15,6 +15,9 @@
 {
     UITableView *tableview;
     UIScrollView *bgScrollView;//最底下的背景
+    NSMutableArray *inforArrPL;//评论
+    NSDictionary *detailDic;//详情
+    NSMutableArray *inforArrWZ;//文章
 
 }
 
@@ -26,6 +29,10 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    inforArrPL =[[NSMutableArray alloc]init];
+    inforArrWZ =[[NSMutableArray alloc]init];
+    detailDic =[[NSDictionary alloc]init];
+
     [self.view setBackgroundColor:BGColor];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -54,6 +61,8 @@
     
     
     [self mainView];
+    [self getBestRecommend];
+    [self getWZ];
 }
 - (void)rightBtnAction
 {
@@ -68,22 +77,20 @@
 {
     
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus)];
-    [bgScrollView setUserInteractionEnabled:YES];
-    [bgScrollView setShowsVerticalScrollIndicator:NO];
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 10002)];
-    [self.view addSubview:bgScrollView];
-    tableview  =[[UITableView alloc]initWithFrame:CGRectMake(0,0, CXCWidth, 10001.5)style:UITableViewStyleGrouped];
-    [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+//    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus)];
+//    [bgScrollView setUserInteractionEnabled:YES];
+//    [bgScrollView setShowsVerticalScrollIndicator:NO];
+//    [self.view addSubview:bgScrollView];
+    tableview  =[[UITableView alloc]initWithFrame:CGRectMake(0,Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus-85*Width)style:UITableViewStyleGrouped];
+//    [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableview .showsVerticalScrollIndicator = NO;
-    [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+//    [tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [tableview setDelegate:self];
     [tableview setDataSource:self];
-    tableview.scrollEnabled = NO;
+//    tableview.scrollEnabled = NO;
     [tableview setBackgroundColor:[UIColor clearColor]];
     tableview .showsVerticalScrollIndicator = NO;
-    [bgScrollView addSubview:tableview];
-    
+    [self.view addSubview:tableview];
     
     //底部
     UIView *bottomBgview =[[UIView alloc]initWithFrame:CGRectMake(0, CXCHeight-100*Width, CXCWidth, 100*Width)];
@@ -112,6 +119,7 @@
 - (void)talkBtnAction
 {
     EditCommentVC *edit =[[EditCommentVC alloc]init];
+    edit.askId =_askId;
     [self.navigationController pushViewController:edit animated:YES];
     
 }
@@ -123,6 +131,28 @@
 - (void)getBestRecommend
 {
     
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"ask_id":_askId,
+                          }
+     ];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?luntan-qa.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@",dict);
+        if(![[NSString stringWithFormat:@"%@",[[dict objectForKey:@"data"] objectForKey:@"answers"]]isEqualToString:@"<null>"])
+        {
+            inforArrPL =[[dict objectForKey:@"data"] objectForKey:@"answers"];
+
+        }
+        detailDic =[[dict objectForKey:@"data"] objectForKey:@"detail"];
+        [tableview  reloadData];
+        [bgScrollView setContentSize:CGSizeMake(CXCWidth, tableview.bottom*2)];
+
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
 }
 
@@ -134,18 +164,19 @@
     if (section==0) {
         return 0.01;
     }else
-    {        return 100*Width;
+    {
+        return 100*Width;
 
         
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section==0) {
-        return 0*Width;
+        return 0.01*Width;
         
     }else
     {
-        return 80*Width;
+        return 0.01*Width;
         
     }
 }
@@ -154,10 +185,11 @@
     if(section==0)
     {
         return 1;
-        
-    }else
-        
-        return 4;
+    }else if(section==1)
+    {
+        return inforArrPL.count;
+    }
+    return inforArrWZ.count;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -167,22 +199,21 @@
 {
     if(indexPath.section==0)
     {
-        {
-            NSString *titleContent =@"他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！";
-            CGSize titleSize;//通过文本得到高度
-            titleSize = [titleContent boundingRectWithSize:CGSizeMake(580*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-            NSString *ideaContent =@"设计理念：看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。\n所以他们的家看起来也是那种干净，简洁，但每种装饰都有它必须在那里的理由。有从比如埃及带回来的装饰品，有从发货某个二手市场淘回来的小家具...放在那里就让整个房间焕发一种温馨的感觉。\nOk，拉回来，我想说的是，这种审美会传染人。于是我也渐渐开始建立起这样的审美。";
-            CGSize ideaSize;//通过文本得到高度
-            ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(550*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-            
-            
-            return ideaSize.height+titleSize.height+160*Width+200*4*Width;
-        }
-    }else if(indexPath.section==1){
-        NSString *ideaContent =@"他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！";
+        NSString *titleContent =[NSString stringWithFormat:@"%@",[detailDic objectForKey:@"title"]];
+        CGSize titleSize;//通过文本得到高度
+        titleSize = [titleContent boundingRectWithSize:CGSizeMake(600*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+        NSString *ideaContent =[NSString stringWithFormat:@"%@",[detailDic objectForKey:@"intro"]];
         CGSize ideaSize;//通过文本得到高度
-        ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(560*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-        return 120*Width+ideaSize.height;
+        ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(550*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+        int count = [[NSString stringWithFormat:@"%@",[detailDic objectForKey:@"thumb"]]isEqualToString:@"<null>"]?0:1;
+        
+        return ideaSize.height+titleSize.height+260*Width+235*count*Width;
+    }else if(indexPath.section==1){
+        
+        NSString *ideaContent =[inforArrPL[indexPath.row] objectForKey:@"contents"];
+        CGSize ideaSize;//通过文本得到高度
+        ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(600*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+        return 120*Width+ideaSize.height+40*Width;
 
     }else
     {
@@ -201,6 +232,7 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
         }
+        cell.dic =detailDic;
         return cell;
         
         
@@ -215,10 +247,11 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
         }
+        cell.dic =inforArrPL[indexPath.row];
         return cell;
         
         
-    }else    {
+    }else {
         static NSString *CellIdentifier = @"Cell2";
         
         KnowledgeCell *cell =[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -228,6 +261,8 @@
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
         }
+        cell.dic =inforArrWZ[indexPath.row];
+
         return cell;
         
         
@@ -256,7 +291,7 @@
         botLabel.textColor =BlackColor;
         botLabel.backgroundColor =[UIColor whiteColor];
         if (section ==1) {
-            botLabel.text =[NSString stringWithFormat:@"%@",@"     评论"];
+            botLabel.text =[NSString stringWithFormat:@"%@",@"    评论"];
         }else if(section ==2) {
             botLabel.text =[NSString stringWithFormat:@"%@",@"    相关热帖"];
             
@@ -269,38 +304,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     
-    if(section ==0)
-    {
-        return nil;
-    }else
-    {
-
-    UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth , 80*Width)];
-    if(section ==1)
-    {
-        [addressBtn addTarget:self action:@selector(moreTJ) forControlEvents:UIControlEventTouchUpInside];
-        
-    }else
-    {
-        [addressBtn addTarget:self action:@selector(moreTS) forControlEvents:UIControlEventTouchUpInside];
-        
-    }
-    
-    UILabel *addLabel = [[UILabel alloc] init];
-    [addLabel setText:@"查看更多 >"];
-    addLabel.tag =30;
-    addLabel.textColor =BlackColor;
-    addLabel.textAlignment =NSTextAlignmentCenter;
-    [addLabel setFont:[UIFont systemFontOfSize:14]];
-    [addLabel setFrame:CGRectMake(0*Width,1.5*Width,CXCWidth , 78.5*Width)];
-    addLabel.backgroundColor =[UIColor whiteColor];
-    [addressBtn addSubview:addLabel];
-    [addressBtn setBackgroundColor:[UIColor whiteColor]];
-    UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(30*Width, 0*Width, 690*Width, 1.5*Width)];
-    addressBtn.backgroundColor =BGColor;
-    [addressBtn addSubview:addShowImgV];
-    return addressBtn;
-    }
+    return nil;
 }
 - (void)moreTJ
 {
@@ -321,25 +325,21 @@
     
     
 }
-- (void)changeStatuBtn:(UIButton *)btn
-{
-    for (int i=0; i<5; i++) {
-        UIButton *statuBtn =[self.view viewWithTag:220+i];
-        statuBtn.selected=NO;
-    }
-    btn.selected =YES;
+-(void)getWZ{
     
-    
-    
-}
-/*
-#pragma mark - Navigation
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+   
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/index.php?luntan-related_links" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@",dict);
+        inforArrWZ =[[dict objectForKey:@"data"] objectForKey:@"related_links"];
+        [tableview reloadData];
+        [bgScrollView setContentSize:CGSizeMake(CXCWidth, tableview.bottom*2)];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
-*/
 
 @end

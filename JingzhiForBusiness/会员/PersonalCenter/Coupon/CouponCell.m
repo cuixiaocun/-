@@ -33,7 +33,7 @@
         [_bgImgView addSubview:_limitLab];
         
         _promptLabel= [[UILabel alloc]initWithFrame:CGRectMake(285*Width, 15*Width, 110*Width, 50*Width)];
-        _promptLabel.text =@"新春优惠";
+        _promptLabel.text =@"双十二";
         _promptLabel.textAlignment =NSTextAlignmentCenter  ;
         _promptLabel.backgroundColor =[UIColor colorWithRed:230/255.00 green:76/255.00 blue:42/255.00 alpha:1];
         _promptLabel.layer.cornerRadius=1;
@@ -43,7 +43,7 @@
         [_bgImgView addSubview:_promptLabel];
 
         _titleLabel= [[UILabel alloc]initWithFrame:CGRectMake(405*Width, 0*Width, 300*Width,80*Width)];
-        _titleLabel.text =@"限购【佳乐家二楼佳木斯家居总销售】新春优惠券";
+        _titleLabel.text =@"限购【佳乐家二楼佳木斯家居】双十一";
         _titleLabel.textColor = [UIColor blackColor] ;
         _titleLabel.numberOfLines =0;
         _titleLabel.font =[UIFont systemFontOfSize:14];
@@ -56,7 +56,7 @@
         [_bgImgView addSubview:_codeLabel];
 
         _timeLabel= [[UILabel alloc]initWithFrame:CGRectMake(285*Width, _codeLabel.bottom, 400*Width, 60*Width)];
-        _timeLabel.text =@"20170930-20190909";
+        _timeLabel.text =@"20171212-20171213";
         _timeLabel.textColor = TextGrayColor ;
         _timeLabel.font =[UIFont systemFontOfSize:14];
         [_bgImgView addSubview:_timeLabel];

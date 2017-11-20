@@ -33,10 +33,11 @@
         
         //        初始化
         WBImageViewItem *imageView =[[WBImageViewItem alloc]initWithFrame:[WebImgViewTwo getFrameAtIndex:i]];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_dataList[i]]] placeholderImage:[UIImage imageNamed:@"error.png"]];
         NSLog(@"%@",[NSString stringWithFormat:@"%@",_dataList[i]]);
-        [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_dataList[i]]]];
         imageView.dataList = _dataList;
         imageView.index = i;
+//        imageView.backgroundColor =BGColor;
         imageView.originSuperView2  =self;
         imageView.tag = 1000+i;
         [self addSubview:imageView];

@@ -13,4 +13,6 @@
 @property (nonatomic,strong) StarView *sjImgView;
 @property (nonatomic,strong) StarView *fwImgView;
 @property (nonatomic,strong) StarView *txImgView;
+@property(strong,nonatomic)NSString *sjsUserId;
+
 @end

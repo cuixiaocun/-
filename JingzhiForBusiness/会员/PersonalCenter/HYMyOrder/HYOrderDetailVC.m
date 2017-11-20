@@ -226,9 +226,6 @@
        detailView.frame = CGRectMake(0,middleBgView.bottom+20*Width , CXCWidth, 215*Width);
     }
     
-    
-    
-    
     [bottomBgView addSubview:detailView];
     detailView.backgroundColor =[UIColor whiteColor];
     NSArray *leftArr =@[@"商品总额",@"金币"];
@@ -241,7 +238,6 @@
         leftLabel.textColor =BlackColor;
         leftLabel.text = leftArr[i];
         [detailView addSubview:leftLabel];
-    
         
         UILabel *rightLabel =[[UILabel alloc]initWithFrame:CGRectMake(450*Width, 10*Width+57.5*Width*i, 275*Width, 57.5*Width)];
         rightLabel.font =[UIFont systemFontOfSize:14];
@@ -249,9 +245,7 @@
         rightLabel.text = rightArr[i];
         rightLabel.textAlignment =NSTextAlignmentRight;
         [detailView addSubview:rightLabel];
-        
-        
-    }
+     }
     
     //线
     UIImageView*xianBottom =[[UIImageView alloc]init];

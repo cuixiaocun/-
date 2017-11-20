@@ -218,10 +218,17 @@
             
             if (self.tableCount == 2) {
                 
+                NSLog(@"self.dataArr[firstSelectRow]%ld",(long)firstSelectRow);
+                NSLog(@"self.dataArr[firstSelectRow]%@",self.dataArr[firstSelectRow]);
+
                 return [self.dataArr[firstSelectRow][@"sub"] count];
                 
             }else{
-                
+                NSLog(@"qqqself.dataArr[firstSelectRow]1%ld",(long)firstSelectRow);
+                NSLog(@"qqqself.dataArr[firstSelectRow]2%@",self.dataArr);
+
+                NSLog(@"qqqself.dataArr[firstSelectRow]3%@",self.dataArr[firstSelectRow]);
+
                 return [self.dataArr[firstSelectRow][@"sub"] count];
             }
             
@@ -235,9 +242,8 @@
             
             return 0;
         }else{
-            NSLog(@"%@",self.dataArr);
+            NSLog(@"self.dataArr[firstSelectRow]%@",self.dataArr[firstSelectRow][@"sub"]);
             return [self.dataArr[firstSelectRow][@"sub"][secondSelectRow][@"sub"] count];
-            
         }
         
         
@@ -294,7 +300,9 @@
         }else if (tableView == self.tableViewArr[2]){
             
             
-            cell.textLabel.text =  self.dataArr[firstSelectRow][@"sub"][secondSelectRow][@"sub"][indexPath.row];
+            cell.textLabel.text =  [self.dataArr[firstSelectRow][@"sub"][secondSelectRow][@"sub"][indexPath.row] objectForKey:@"name"];
+            NSLog(@"1111111%@",cell.textLabel.text);
+
         }
     }
     
@@ -367,7 +375,7 @@
             
             [self saveSelects];
             [self dismiss];
-            [_delegate dropMenuView:self didSelectName:self.dataArr[firstSelectRow][@"sub"][secondSelectRow][@"sub"][indexPath.row] withString:@"1"];
+            [_delegate dropMenuView:self didSelectName:self.dataArr[firstSelectRow][@"sub"][secondSelectRow][@"sub"][indexPath.row][@"name"] withString:self.dataArr[firstSelectRow][@"sub"][secondSelectRow][@"sub"][indexPath.row][@"zipcode"]];
             
         }
     }

@@ -10,7 +10,7 @@
 #import "DiaryDetailTableViewCell.h"
 #import "MJRefresh.h"
 
-@interface DiaryDetailVC ()<UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface DiaryDetailVC ()<DiaryDetailCellDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     UIScrollView *bgScrollView;//最底下的背景
     //替代导航栏的imageview
@@ -19,6 +19,8 @@
     UIView *tabbarView;
     NSArray *photoOfArr;
     UIImageView *touImageView;
+    int webNumber;
+    
 }
 
 
@@ -42,13 +44,15 @@
 }
 - (void)mainView
 {
+    
+    webNumber =0;
     //底部scrollview
     bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CXCWidth, 676*Width)];
     [bgScrollView setUserInteractionEnabled:NO];
     bgScrollView.delegate =self;
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     bgScrollView.backgroundColor =BGColor   ;
-    //    //右
+//    //右
 //    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
 //    shareBtn.backgroundColor = [UIColor clearColor];
 //    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
@@ -86,24 +90,18 @@
             label.font =[UIFont boldSystemFontOfSize:15];
             _styleLabel=label;
             label.text =@"焕然一新打造美";
-            
-            
         }else if(i==1)
         {
             label.frame =CGRectMake(46*Width, _styleLabel.bottom, Width*250, 65*Width);
             label.font =[UIFont boldSystemFontOfSize:14];
             _nameLabel =label;
             label.text =@"东方世纪城";
-            
         }else if(i==2)
-            
         {
             label.frame =CGRectMake(_nameLabel.right, _styleLabel.bottom, Width*250, 65*Width);
-
             label.font =[UIFont boldSystemFontOfSize:14];
             _contentLabel =label;
             label.text =@"两室一厅";
-            
         }
         [touImageView addSubview:label];
         
@@ -181,7 +179,7 @@
     self.orangeLabel.layer.mask = maskLayer;
     _tableView =[[UITableView alloc]initWithFrame:CGRectMake(0,0, CXCWidth,CXCHeight ) style:UITableViewStyleGrouped];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.tableView setFrame:CGRectMake(0,0, CXCWidth, CXCHeight-100*Width)];
+    [self.tableView setFrame:CGRectMake(0,0, CXCWidth, CXCHeight)];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
     [self.tableView setBackgroundColor:[UIColor clearColor]];
@@ -195,7 +193,7 @@
 //    DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
 //    self.footerView = footerView;
     infoArray = [[NSMutableArray alloc] init];
-    [self addFooter];
+//    [self addFooter];
 
     topImageView= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
@@ -204,7 +202,7 @@
     topImageView.alpha =0.0;
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(100*Width, Frame_rectStatus, 550*Width, Frame_rectNav)];
-    [navTitle setText:@"歌尔绿城"];
+    [navTitle setText:@"日记详情"];
     [navTitle setTextAlignment:NSTextAlignmentCenter];
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
@@ -227,35 +225,40 @@
 
     //添加返回按钮
     UIButton *  returnBtnNomal = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtnNomal.frame = CGRectMake(0, 20, 44, 44);
+    returnBtnNomal.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtnNomal setImage:[UIImage imageNamed:@"sf_icon_xiang_goBack"] forState:UIControlStateNormal];
     [returnBtnNomal addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageViewNomal addSubview:returnBtnNomal];
 
-    //底部
-    UIView *bottomBgview =[[UIView alloc]initWithFrame:CGRectMake(0, CXCHeight-100*Width, CXCWidth, 100*Width)];
-    [bottomBgview setBackgroundColor:[UIColor colorWithRed:59/255.00 green:63/255.00 blue:80/255.00 alpha:1]];
-    [self.view addSubview:bottomBgview];
-    
-    UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(50*Width, 0, 500*Width, 100*Width)];
-    [subPromLabel setText:@"想了解具体细节？找TA问问"];
-    [subPromLabel  setFont:[UIFont systemFontOfSize:16]];
-    [bottomBgview  addSubview:subPromLabel];
-    [subPromLabel  setTextColor:[UIColor whiteColor]];
-    UIButton * confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [confirmBtn setFrame:CGRectMake(540*Width,20*Width , 170*Width, 60*Width)];
-    [confirmBtn setBackgroundColor:orangeColor];
-    confirmBtn.layer.cornerRadius =30*Width;
-    confirmBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-    [confirmBtn setTitle:@"免费设计" forState:UIControlStateNormal];
-    [confirmBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [confirmBtn addTarget:self action:@selector(searchSheji) forControlEvents:UIControlEventTouchUpInside];
-    [bottomBgview addSubview:confirmBtn];
-    
+//    //底部
+//    UIView *bottomBgview =[[UIView alloc]initWithFrame:CGRectMake(0, CXCHeight-100*Width, CXCWidth, 100*Width)];
+//    [bottomBgview setBackgroundColor:[UIColor colorWithRed:59/255.00 green:63/255.00 blue:80/255.00 alpha:1]];
+//    [self.view addSubview:bottomBgview];
+//
+//    UILabel *subPromLabel =[[UILabel alloc]initWithFrame:CGRectMake(50*Width, 0, 500*Width, 100*Width)];
+//    [subPromLabel setText:@"想了解具体细节？找TA问问"];
+//    [subPromLabel  setFont:[UIFont systemFontOfSize:16]];
+//    [bottomBgview  addSubview:subPromLabel];
+//    [subPromLabel  setTextColor:[UIColor whiteColor]];
+//    UIButton * confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [confirmBtn setFrame:CGRectMake(540*Width,20*Width , 170*Width, 60*Width)];
+//    [confirmBtn setBackgroundColor:orangeColor];
+//    confirmBtn.layer.cornerRadius =30*Width;
+//    confirmBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+//    [confirmBtn setTitle:@"免费设计" forState:UIControlStateNormal];
+//    [confirmBtn.titleLabel setTextColor:[UIColor whiteColor]];
+//    [confirmBtn addTarget:self action:@selector(searchSheji) forControlEvents:UIControlEventTouchUpInside];
+//    [bottomBgview addSubview:confirmBtn];
+    self.heightDic = [[NSMutableDictionary alloc] init];
+
+    infoArray =[[NSMutableArray  alloc]init];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti:) name:@"WEBVIEW_HEIGHT" object:nil];
+    // 用于缓存cell高度
+
+    [self getInfoList];
     
     
 }
-
 - (void)searchSheji
 {
     
@@ -283,8 +286,8 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    return infoArray.count ;
-    return 10 ;
+    return infoArray.count ;
+//    return 10 ;
 
 }
 
@@ -293,11 +296,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSString *titleContent =@"看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。\n所以他们的家看起来也是那种干净，简洁，但每种装饰都有它必须在那里的理由。有从比如埃及带回来的装饰品，有从发货某个二手市场淘回来的小家具...放在那里就让整个房间焕发一种温馨的感觉。\nOk，拉回来，我想说的是，这种审美会传染人。于是我也渐渐开始建立起这样的审美。也开始想象自己有这样的家。我最开始感觉就是在看软装，这个沙发，那个吊灯...totally wrong direction.现在开始落地起来，开始找装修公司设计师，SD、MF、NH，开始看预算，开始和小伙伴聊中央空调，\n西门子开关，比较优劣，开始看各位16楼的日记，哈，工作之余的事情就是装修！现在是午休时间，给自己开了篇。";
-    CGSize titleSize;//通过文本得到高度
-    titleSize = [titleContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+//
+//    NSString *titleContent =@"看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。\n所以他们的家看起来也是那种干净，简洁，但每种装饰都有它必须在那里的理由。有从比如埃及带回来的装饰品，有从发货某个二手市场淘回来的小家具...放在那里就让整个房间焕发一种温馨的感觉。\nOk，拉回来，我想说的是，这种审美会传染人。于是我也渐渐开始建立起这样的审美。也开始想象自己有这样的家。我最开始感觉就是在看软装，这个沙发，那个吊灯...totally wrong direction.现在开始落地起来，开始找装修公司设计师，SD、MF、NH，开始看预算，开始和小伙伴聊中央空调，\n西门子开关，比较优劣，开始看各位16楼的日记，哈，工作之余的事情就是装修！现在是午休时间，给自己开了篇。";
+//    CGSize titleSize;//通过文本得到高度
+//    titleSize = [titleContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    NSLog(@"刷新%f",[[infoArray[indexPath.row] objectForKey:@"heighOfWebview"] floatValue]);
     
-    return  titleSize.height+160*Width+230*3*Width;
+//    return [[infoArray[indexPath.row] objectForKey:@"heighOfWebview"] floatValue]+160*Width;
+
+    return [[infoArray[indexPath.row] objectForKey:@"heighOfWebview"] floatValue] ;
 }
 
 
@@ -312,9 +319,8 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
     }
-//    cell.dic =infoArray[indexPath.row];
-    
-    
+    cell.delegate =self;
+    cell.dic =infoArray[indexPath.row];
     return cell;
     
     
@@ -327,7 +333,47 @@
 - (void)getInfoList
 {
     
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+        [dic1 setDictionary:@{@"diary_id":[NSString stringWithFormat:@"%@",_diary_id]
+                              }];
     
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?article-zxdetail.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            NSDictionary *detailDic =[[dict objectForKey:@"data"] objectForKey:@"detail"];
+            
+            [touImageView  sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[detailDic objectForKey:@"thumb"]]]]  ;
+            _styleLabel.text =[NSString stringWithFormat:@"%@", IsNilString([detailDic  objectForKey:@"title"])?@"":[detailDic objectForKey:@"title"] ];
+            _nameLabel.text=[NSString stringWithFormat:@"%@", IsNilString([detailDic  objectForKey:@"home_name"])?@"":[detailDic objectForKey:@"home_name"] ];
+            _contentLabel.text =[NSString stringWithFormat:@"%@", IsNilString([detailDic  objectForKey:@"type_title"])?@"":[detailDic objectForKey:@"type_title"] ];
+            [_seeBtn setTitle:[NSString stringWithFormat:@"%@", IsNilString([detailDic  objectForKey:@"views"])?@"":[detailDic objectForKey:@"views"] ] forState:UIControlStateNormal];
+            [_talkBtn setTitle:[NSString stringWithFormat:@"%@", IsNilString([detailDic  objectForKey:@"comments"])?@"":[detailDic objectForKey:@"comments"] ] forState:UIControlStateNormal];
+            _priceLabel.text =[NSString stringWithFormat:@"价格:%@", IsNilString([detailDic  objectForKey:@"total_price"])?@"":[detailDic objectForKey:@"total_price"] ];
+            _isquanbaoLabel.text=[NSString stringWithFormat:@"%@", IsNilString([detailDic  objectForKey:@"way_title"])?@"":[detailDic objectForKey:@"way_title"] ];
+            self.startLabel.text =[NSString stringWithFormat:@"开始时间：%@", IsNilString([detailDic  objectForKey:@"start_date"])?@"":[detailDic objectForKey:@"start_date"] ];
+            self.kfsLabel.text =[NSString stringWithFormat:@"城市：%@", IsNilString([detailDic  objectForKey:@"city_name"])?@"":[detailDic objectForKey:@"city_name"] ];
+            self.endLabel.text =[NSString stringWithFormat:@"竣工时间：%@", IsNilString([detailDic  objectForKey:@"end_date"])?@"":[detailDic objectForKey:@"end_date"]];
+            _orangeLabel.text =[NSString stringWithFormat:@"%@", IsNilString([detailDic  objectForKey:@"status_title"])?@"":[detailDic objectForKey:@"status_title"] ];
+            [infoArray removeAllObjects];
+            
+            NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"items"];
+            for (int i=0; i<array.count; i++) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                dictionary  =array[i];
+                [dictionary setObject:@"0" forKey:@"heighOfWebview"];
+                [infoArray addObject:dictionary];
+            }
+            if ([array isKindOfClass:[NSNull class]]) {
+                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+                return ;
+            }
+//            [infoArray addObjectsFromArray:array];
+            [self.tableView reloadData];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
 }
 
@@ -337,18 +383,13 @@
     // 添加上拉刷新尾部控件
     [self.tableView addFooterWithCallback:^{
         // 进入刷新状态就会回调这个Block
-        
-        // 增加5条假数据
-        //        for (int i = 0; i<5; i++) {
-        //           [vc.fakeColors addObject:MJRandomColor];
-        //        }
-        
+        infoArray =[[NSMutableArray alloc]init];
+        [self getInfoList];
+
         // 模拟延迟加载数据，因此2秒后才调用（真实开发中，可以移除这段gcd代码）
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [vc.tableView reloadData];
+//            [vc.tableView reloadData];
             // 结束刷新
-            [vc.tableView footerEndRefreshing];
-        });
+//            [vc.tableView footerEndRefreshing];
     }];
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -361,7 +402,6 @@
         //    (kOriginalImageHeight - 64)这个数值决定了导航条在图片上滑时开始出现  alpha 从 0 ~ 0.99 变化
         //    当图片底部到达导航条底部时 导航条  aphla 变为1 导航条完全出现
         CGFloat alpha = reOffset /(556.0*Width-Frame_NavAndStatus) ;
-        NSLog(@"reOffset=%f",alpha);
         // 设置导航条的背景图片 其透明度随  alpha 值 而改变
         topImageView.alpha =alpha;
         topImageViewNomal.alpha =1-alpha;
@@ -377,7 +417,21 @@
     //  = [self imageWithColor:[UIColor colorWithRed:0.412 green:0.631 blue:0.933 alpha:alpha]];
     //    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
 }
+-(void)webViewDidLoad:(DiaryDetailTableViewCell *)cell height:(CGFloat)height
+{
+    
+    
+    NSLog(@"height:(CGFloat)height%.2f",height);
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    NSLog(@"indexindexindexindex==%ld",(long)index.row);
+    NSDictionary *dic =[infoArray objectAtIndex:index.row];
+    [dic setValue:[NSString stringWithFormat:@"%f",height] forKey:@"heighOfWebview"];
+    [infoArray replaceObjectAtIndex:index.row withObject:dic];
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index.row inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 
+
+
+}
 /*
 #pragma mark - Navigation
 
@@ -387,5 +441,37 @@
     // Pass the selected object to the new view controller.
 }
 */
+- (void)noti:(NSNotification *)sender
+{
+    
+    
+    webNumber ++;
+    DiaryDetailTableViewCell *cell = [sender object];
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    if ([[infoArray[index.row] objectForKey:@"heighOfWebview"]isEqualToString:@"0"]||([[infoArray[index.row] objectForKey:@"heighOfWebview"]floatValue]-cell.height>1))
+    {
+        NSLog(@"indexindexindexindex==%ld",(long)index.row);
+        NSDictionary *dic =[infoArray objectAtIndex:index.row];
+        [dic setValue:[NSString stringWithFormat:@"%f",cell.height] forKey:@"heighOfWebview"];
+        [infoArray replaceObjectAtIndex:index.row withObject:dic];
+        if (!(webNumber<infoArray.count)) {
+            
+            [self.tableView reloadData];
+
+        }
+    }
+//    DiaryDetailTableViewCell *cell = [sender object];
+//    NSIndexPath *index = [self.tableView indexPathForCell:sender];
+//
+//    if (![self.heightDic objectForKey:[NSString stringWithFormat:@"%ld",cell.tag]]||[[self.heightDic objectForKey:[NSString stringWithFormat:@"%ld",cell.tag]] floatValue] != cell.height)
+//    {
+//                NSDictionary *dic =[infoArray objectAtIndex:index.row];
+//                [dic setValue:[NSString stringWithFormat:@"%f",cell.height] forKey:@"heighOfWebview"];
+//                [infoArray replaceObjectAtIndex:index.row withObject:dic];
+//        [self.heightDic setObject:[NSNumber numberWithFloat:cell.height] forKey:[NSString stringWithFormat:@"%ld",cell.tag]];
+//        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:cell.tag inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//    }
+}
+
 
 @end

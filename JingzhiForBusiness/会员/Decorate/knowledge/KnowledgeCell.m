@@ -24,7 +24,6 @@
         addressImgV.image =[UIImage imageNamed:@"lt_icon_liulan_line"];
         [self addSubview:addressImgV];
         
-        
         _seeLabel=[[UILabel alloc]initWithFrame:CGRectMake(addressImgV.right+24*Width, _titleLabel.bottom,100*Width, 80*Width)];
         _seeLabel.numberOfLines =0;
         _seeLabel.text =@"10";
@@ -65,7 +64,16 @@
     [super awakeFromNib];
     // Initialization code
 }
+-(void)setDic:(NSDictionary *)dic
+{
+    _dic =dic;
+    _titleLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"title"])?@"":[dic objectForKey:@"title"]];
+    _seeLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"views"])?@"":[dic objectForKey:@"views"]];
+    _talkLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"answer_num"])?@"":[dic objectForKey:@"answer_num"]];
+    _timeLabel.text =[PublicMethod timeWithTimeIntervalString:[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"dateline"])?@"":[dic objectForKey:@"dateline"]]];
 
+
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

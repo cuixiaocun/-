@@ -170,7 +170,47 @@
 }
 - (void)sureDrawls
 {
+    if ([[NSString stringWithFormat:@"%@",textVPL.text] isEqualToString:@""]||[NSString stringWithFormat:@"%@",textVPL.text].length<5) {
+        [MBProgressHUD showSuccess:@"请输入五字以上的文字" ToView:self.view];
+        return;
+    }
+    
+    
+    NSString* uid  = [NSString stringWithFormat:@"%@",_sjsUserId];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":uid,
+                          @"data[score1]":[NSString stringWithFormat:@"%d",(int)_sjImgView.rating],
+                          @"data[score2]":[NSString stringWithFormat:@"%d",(int)_fwImgView.rating],
+                          @"data[score3]":[NSString stringWithFormat:@"%d",(int)_txImgView.rating],
+                          @"data[content]":[NSString stringWithFormat:@"%@",textVPL.text],
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-comment.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            
+            [MBProgressHUD showSuccess:@"评论成功" ToView:self.view];
+            [self performSelector:@selector(pinglunSuccess) withObject:nil afterDelay:1];
 
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+    
+    
+    
+
+}
+- (void)pinglunSuccess
+{
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 -(void)textViewDidChange:(UITextView *)textView
 {
@@ -197,7 +237,7 @@
     {
         if(touchPoint.x>315*Width&&touchPoint.x<465*Width)
         {
-            _sjImgView.rating = ((touchPoint.x-315*Width)/30*Width*4);
+            _sjImgView.rating =(int)((touchPoint.x-315*Width)/30*Width*4)+1;
             NSLog(@"*********%f",_sjImgView.rating);
             
             if (_sjImgView.rating>5) {
@@ -218,7 +258,7 @@
     {
         if(touchPoint.x>315*Width&&touchPoint.x<465*Width)
         {
-            _fwImgView.rating = ((touchPoint.x-315*Width)/30*Width*4);
+            _fwImgView.rating = (int)((touchPoint.x-315*Width)/30*Width*4)+1;
             NSLog(@"_fwImgView*********%f",_fwImgView.rating);
             
             if (_fwImgView.rating>5) {
@@ -239,7 +279,7 @@
     {
         if(touchPoint.x>315*Width&&touchPoint.x<465*Width)
         {
-            _txImgView.rating = ((touchPoint.x-315*Width)/30*Width*4);
+            _txImgView.rating = (int)((touchPoint.x-315*Width)/30*Width*4)+1;
             NSLog(@"_txImgView*********%f",_txImgView.rating);
             
             if (_txImgView.rating>5) {

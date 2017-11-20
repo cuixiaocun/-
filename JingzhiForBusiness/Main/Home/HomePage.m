@@ -52,6 +52,8 @@
     NSArray *rxlpArr;
     NSArray *jxsjArr;
     NSArray *jjdzArr;
+    NSArray *alltitleArr;//公告所有
+
     NSMutableArray *titleArr;//公告
     NSArray *imgArr;//banner
     CGFloat last ;
@@ -81,7 +83,6 @@ static NSInteger seq = 0;
 {
     //黑底白字
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
-    
     self.navigationController.navigationBarHidden =YES;
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
 }
@@ -149,6 +150,7 @@ static NSInteger seq = 0;
     rxlpArr =[[NSArray alloc]init];
     jxsjArr =[[NSArray alloc]init];
     jjdzArr =[[NSArray alloc]init];
+    alltitleArr = [[NSArray alloc]init];
     titleArr =[[NSMutableArray  alloc]init];
     imgArr =[[NSMutableArray alloc]init];
     
@@ -233,6 +235,7 @@ static NSInteger seq = 0;
                 rxlpArr =[[dict objectForKey:@"data"] objectForKey:@"rxlp"];
                 jxsjArr =[[dict objectForKey:@"data"] objectForKey:@"jpsj"];
                 jjdzArr =[[dict objectForKey:@"data"] objectForKey:@"jjsc"];
+                alltitleArr =[[dict objectForKey:@"data"] objectForKey:@"ask"];
                 titleArr =[[NSMutableArray alloc]init];
                 NSArray *arr =[[dict objectForKey:@"data"] objectForKey:@"ask"];
                 for (NSDictionary *dic in arr)
@@ -347,7 +350,7 @@ static NSInteger seq = 0;
     UIView *btnView =[[UIView alloc]initWithFrame:CGRectMake(0,cycleScrollView2.bottom ,CXCWidth ,230*Width )];
     [btnView setBackgroundColor:[UIColor whiteColor ]];
     [bgScrollView addSubview:btnView];
-      NSArray *topArr =@[@"home_icon_xiaoguo",@"home_icon_xue",@"home_icon_designer",@"home_icon_jcsc",@"zx_icon_twt",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_hd",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
+      NSArray *topArr =@[@"home_icon_xiaoguo",@"home_icon_xue",@"home_icon_jcsc",@"home_icon_designer",@"zx_icon_twt",@"home_icon_zxgs",@"home_icon_wyzx",@"home_icon_jcsc",@"home_icon_hd",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",];
      NSArray*bottomArr =@[@"搜房",@"装修",@"商城",@"设计师",@"装修公司",@"我要装修",@"建材商城",@"优惠活动",@"",@"",];
     [btnView setBackgroundColor:[UIColor whiteColor]];
     UIImageView *xianImg =[[UIImageView  alloc]initWithFrame:CGRectMake(0,228.5*Width, CXCWidth, 1.5*Width)];
@@ -659,9 +662,7 @@ static MLLinkLabel * kProtypeLabel() {
         twocell.backgroundColor = [UIColor whiteColor];
         twocell.dic =jxsjArr[indexPath.row];
         return twocell;
-        
     }else {
-    
        HomeThreeCollectionViewCell*threecell = (HomeThreeCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([HomeThreeCollectionViewCell class]) forIndexPath:indexPath];
         threecell.backgroundColor = [UIColor whiteColor];
         threecell.dic =jjdzArr[indexPath.row];
@@ -706,21 +707,17 @@ static MLLinkLabel * kProtypeLabel() {
     
     
 }
-
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     BannarDetailVC *notice =[[BannarDetailVC alloc]init];
     notice.bannarDic =[imgArr objectAtIndex:index];
     [self.navigationController pushViewController:notice animated:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-    
 }
 - (void)addWith:(TXScrollLabelViewType)type velocity:(CGFloat)velocity isArray:(BOOL)isArray  withArr:(NSArray *)stringArray{
-    
     /** Step1: 滚动文字 */
     NSString *scrollTitle = @"";
     NSArray *scrollTexts = stringArray;
-    
     /** Step2: 创建 ScrollLabelView */
     TXScrollLabelView *scrollLabelView = nil;
     if (isArray) {
@@ -745,9 +742,12 @@ static MLLinkLabel * kProtypeLabel() {
     NSLog(@"%@--%ld",text, (long)index);
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     
+  
     NoticeDetailVC *notice =[[NoticeDetailVC alloc]init];
-    notice.contentString =[titleArr[index] objectForKey:@"content"];
-    notice.titleString =[titleArr[index] objectForKey:@"title"];
+    notice.contentString =[alltitleArr[index] objectForKey:@"intro"];
+    notice.titleString =[alltitleArr[index] objectForKey:@"title"];
+    NSLog(@"%@---%@",notice.titleString,notice.contentString);
+
     [self.navigationController pushViewController:notice animated:YES];
 }
 

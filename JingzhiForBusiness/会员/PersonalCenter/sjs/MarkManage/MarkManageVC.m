@@ -8,7 +8,9 @@
 
 #import "MarkManageVC.h"
 #import "MYTenderVC.h"
-
+#import "IWantToubiao.h"
+#import "MYTenderVC.h"
+#import "MyToubiaoVC.h"
 @interface MarkManageVC ()
 {
     TPKeyboardAvoidingScrollView *bgScrollView;
@@ -107,10 +109,10 @@
         MYTenderVC*yhInfor =[[MYTenderVC alloc]init];
         [self.navigationController pushViewController:yhInfor animated:YES];
     }else if (btn.tag ==101) {
-        MYTenderVC*yhInfor =[[MYTenderVC alloc]init];
+        IWantToubiao*yhInfor =[[IWantToubiao alloc]init];
         [self.navigationController pushViewController:yhInfor animated:YES];
     }else if (btn.tag ==102) {
-        MYTenderVC*yhInfor =[[MYTenderVC alloc]init];
+        MyToubiaoVC*yhInfor =[[MyToubiaoVC alloc]init];
         [self.navigationController pushViewController:yhInfor animated:YES];
         
     }

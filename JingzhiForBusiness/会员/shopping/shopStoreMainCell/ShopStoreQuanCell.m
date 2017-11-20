@@ -25,15 +25,7 @@
         _priceLab.textAlignment =NSTextAlignmentCenter  ;
         _priceLab.textColor = [UIColor whiteColor] ;
         _priceLab.font =[UIFont systemFontOfSize:40];
-        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:_priceLab.text];
-        // 需要改变的区间
-        NSRange range = NSMakeRange(0, 1);
-        // 改变字体大小及类型
-        _priceLab.font =[UIFont fontWithName:@"Helvetica-Bold" size:100];
-        [noteStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:40] range:range];
-        // 为label添加Attributed
-        [_priceLab setAttributedText:noteStr];
-
+        
         [_bgImgView addSubview:_priceLab];
         
         _proImgView =[[UIImageView alloc]init];
@@ -58,31 +50,20 @@
     [super awakeFromNib];
     // Initialization code
 }
+
 -(void)setDic:(NSDictionary *)Dict
 {
     _dic=Dict;
-    UILabel *detailLabel =[self viewWithTag:100];
-    UILabel *pricesLabel =[self viewWithTag:101];
-    UILabel *surplusLabel =[self viewWithTag:103];
-    UILabel *timeLabel =[self viewWithTag:102];
-    //如果为负的变为绿色
-    detailLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"info"] ];
-    surplusLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"stname"] ];
-    timeLabel.text =[[NSString stringWithFormat:@"%@",[Dict objectForKey:@"createtime"] ] substringToIndex:11];
-    
-    if ([[NSString stringWithFormat:@"%@",[Dict objectForKey:@"type"] ]isEqualToString:@"2"]) {
-        pricesLabel.textColor =[UIColor colorWithRed:2/255.0 green:196/255.0 blue:66/255.0 alpha:1];
-        pricesLabel.text =[NSString stringWithFormat:@"-%@",[Dict objectForKey:@"changemoney"] ];
-    }else  if ([[NSString stringWithFormat:@"%@",[Dict objectForKey:@"type"] ]isEqualToString:@"1"])
-    {
-        pricesLabel.textColor =[UIColor colorWithRed:242/255.0 green:55/255.0 blue:59/255.0 alpha:1];
-        pricesLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"changemoney"] ];
-    }else
-    {
-        pricesLabel.text =[NSString stringWithFormat:@"%@",[Dict objectForKey:@"changemoney"] ];
-    }
-    
+    _priceLab.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"money"]];
+    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:_priceLab.text];
+    // 需要改变的区间
+    NSRange range = NSMakeRange(0, 1);
+    // 改变字体大小及类型
+    _priceLab.font =[UIFont fontWithName:@"Helvetica-Bold" size:100];
+    [noteStr addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:40] range:range];
+    // 为label添加Attributed
+    [_priceLab setAttributedText:noteStr];
+    _limitLab.text =[NSString stringWithFormat:@"满%@可用",[_dic objectForKey:@"min_amount"]];
 }
-
 
 @end

@@ -16,5 +16,5 @@
 @property (nonatomic,strong) UILabel *qqLabel;
 @property (nonatomic,strong) UILabel *ideaLabel;
 
-@property(nonatomic,retain)NSDictionary *dic;
+@property(nonatomic,strong)NSDictionary *dic;
 @end

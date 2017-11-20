@@ -62,7 +62,7 @@
         [bgView addSubview:self.priceLabel];
         
         //橘黄色的
-        _orangeLabel   =[[UILabel alloc]initWithFrame:CGRectMake(620*Width,400*Width,130*Width,40*Width)];
+        _orangeLabel   =[[UILabel alloc]initWithFrame:CGRectMake(580*Width,400*Width,170*Width,40*Width)];
         _orangeLabel.textAlignment=NSTextAlignmentCenter;
         _orangeLabel.text =@"木工阶段";
         _orangeLabel.backgroundColor=orangeColor;
@@ -88,16 +88,18 @@
 -(void)setDic:(NSDictionary *)dic
 {
     _dic =dic;
-    self.topMCImage.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"img"]]];
+    [self.topMCImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"thumb"]]]]  ;
     self.promtpmcLabel.text =[NSString stringWithFormat:@"%@",[_dic objectForKey:@"name"]];
-    self.nameLabel.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
-    
-    
-    
+    _styleLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"title"])?@"":[dic objectForKey:@"title"] ];
+    _nameLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"home_name"])?@"":[dic objectForKey:@"home_name"] ];
+    _decorateLabel.text =[NSString stringWithFormat:@"装修:%@", IsNilString([dic  objectForKey:@"way_title"])?@"":[dic objectForKey:@"way_title"] ];
+    _priceLabel.text =[NSString stringWithFormat:@"价格:%@", IsNilString([dic  objectForKey:@"total_price"])?@"":[dic objectForKey:@"total_price"] ];
+    _contentLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"type_title"])?@"":[dic objectForKey:@"type_title"] ];
+    _orangeLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"status_title"])?@"":[dic objectForKey:@"status_title"] ];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    
+
     // Configure the view for the selected state
 }
 

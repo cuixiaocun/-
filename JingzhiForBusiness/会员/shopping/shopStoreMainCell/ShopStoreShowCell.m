@@ -14,16 +14,11 @@
     self = [super initWithFrame:frame];
     if (self)
     {
-        
         self.backgroundColor =[UIColor whiteColor];
-        
         _bgImgView =[[UIImageView alloc]initWithFrame:CGRectMake(0*Width,0*Width, 340*Width, 250*Width)];
         _bgImgView.image =[UIImage imageNamed:@""];
         [self addSubview:_bgImgView];
         _bgImgView.backgroundColor =BGColor ;
-        
-        
-        
     }
     return self;
     

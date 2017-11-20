@@ -137,9 +137,7 @@
     [loginBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
     [loginBtn addTarget:self action:@selector(loginAdmin) forControlEvents:UIControlEventTouchUpInside];
     [bgScrollView addSubview:loginBtn];
-    
 
-    
     
     //忘记密码按钮
     UIButton *RegisteredBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -179,8 +177,8 @@
 }
 - (void)registerBtnPressed
 {
-        HYRegisteredVC *hyRegisteredVC =[[HYRegisteredVC alloc]init];
-        [self.navigationController pushViewController:hyRegisteredVC animated:YES];
+    HYRegisteredVC *hyRegisteredVC =[[HYRegisteredVC alloc]init];
+    [self.navigationController pushViewController:hyRegisteredVC animated:YES];
     
 }
 - (void)forgetBtn
@@ -195,11 +193,14 @@
     
     UITextField *admin = (UITextField *)[self.view viewWithTag:1];
     UITextField *password = (UITextField *)[self.view viewWithTag:2];
+    [admin resignFirstResponder];
+    [password resignFirstResponder];
 
     if (password.text.length<6) {
         [MBProgressHUD showError:@"密码长度不得小于6位" ToView:self.view];
         return;
     }
+    
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{
                           @"uname":@"shejishi",
@@ -212,10 +213,9 @@
     NSLog(@"%@",dic1);
     [PublicMethod AFNetworkPOSTurl:@"mobileapi/?passport-login.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]&&(![[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]]isEqualToString:@"用户名不正确"])) {
             //如果是其他页面跳到登录页面直接pop回去（购物详情页面，购物车去结算页面）
             [self.navigationController popViewControllerAnimated:NO];
-//
             //会员登录存值
             [PublicMethod saveDataString:@"HY" withKey:@"IsLogin"];
             [PublicMethod saveData:[[dict objectForKey:@"data"] objectForKey:@"member"]withKey:member];

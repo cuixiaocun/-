@@ -134,9 +134,7 @@
             }else
             {
 
-            }
-            
-            
+            }            
         }
     }
           failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -169,37 +167,33 @@
         
         if (success) {
             success(responseObject);
+            NSLog(@"%@",responseObject);
+            
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"%@请求成功JSON:%@", url,dict);
             NSLog(@"请求成功JSON:%@", [self logDic:dict]);
+           
             if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
-                
-                
-                
-                
+
             }else if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"-101"]) {
-                
                 [ProgressHUD dismiss];
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+
                 LoginPage *logP =[[LoginPage alloc]init];
-                [nav pushViewController:logP animated:YES];
+                [view.viewController.navigationController    pushViewController:logP animated:YES];
                 return ;
                 
             } else if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"100"]) {
-                
                 [ProgressHUD dismiss];
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
+                
                 LoginPage *logP =[[LoginPage alloc]init];
                 [nav pushViewController:logP animated:YES];
                 return ;
-                
-                
             }else
             {
                 [ProgressHUD dismiss];
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
-                
-                
                 
             }
             
@@ -246,6 +240,8 @@
                 [ProgressHUD dismiss];
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
                 LoginPage *logP =[[LoginPage alloc]init];
+                logP.status = @"present";
+
                 [nav pushViewController:logP animated:YES];
                 return ;
                 
@@ -254,6 +250,8 @@
                 [ProgressHUD dismiss];
                 [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[dict objectForKey:@"msg"]] ToView:view];
                 LoginPage *logP =[[LoginPage alloc]init];
+                logP.status = @"present";
+
                 [nav pushViewController:logP animated:YES];
                 return ;
                 
@@ -540,5 +538,18 @@
     NSString* dateString = [formatter stringFromDate:date];
     return dateString;
 }
-
++ (float) heightForString:(NSString *)value fontSize:(float)fontSize andWidth:(float)width
+{
+    CGSize titleSize;//通过文本得到高度
+    
+    titleSize = [value boundingRectWithSize:CGSizeMake(width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]} context:nil].size;
+    
+    return titleSize.height+40*Width;
+}
++(void)NavgationController:(UINavigationController*)na
+{
+    LoginPage *logP =[[LoginPage alloc]init];
+    logP.status = @"present";
+    [na pushViewController:logP animated:YES];
+}
 @end

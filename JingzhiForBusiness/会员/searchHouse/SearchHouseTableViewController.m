@@ -72,7 +72,7 @@
     
     //搜索按钮
     UIButton *  searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
+    searchBtn.frame = CGRectMake(CXCWidth-60, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     searchBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

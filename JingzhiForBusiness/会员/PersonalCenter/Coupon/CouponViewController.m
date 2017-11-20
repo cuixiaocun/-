@@ -101,14 +101,14 @@
 {
     if(section==0)
     {
-        return 4;
+        return 1;
         
     }else if(section==1)
     {
-        return 4;
+        return 0;
     }
         
-        return 4;
+        return 0;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

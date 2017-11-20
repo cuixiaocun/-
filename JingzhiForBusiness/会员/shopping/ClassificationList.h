@@ -10,5 +10,7 @@
 
 @interface ClassificationList : UIViewController
 @property(nonatomic,assign)NSString *btnNameString;
+@property(nonatomic,assign)NSString *typeIdString;
+@property(nonatomic,assign)NSString *shop_id;//如果有shop_id就是店铺的，如果没有shop_id就证明是所有的
 
 @end

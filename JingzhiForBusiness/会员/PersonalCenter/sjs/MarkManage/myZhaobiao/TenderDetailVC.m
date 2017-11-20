@@ -160,21 +160,21 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     //    return infoArray.count ;
-    if (section==0) {
+    if ([typeStr isEqualToString:@"220"]) {
         return 1;
     }else
-    return 10 ;
+    return 1;
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([typeStr isEqualToString:@"220"]) {
-        return  492*Width;
+        return  18*80*Width+2*20*Width;
     }else{
         NSString *titleContent =@"看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。";
         CGSize titleSize;//通过文本得到高度
-        titleSize = [titleContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+        titleSize = [titleContent boundingRectWithSize:CGSizeMake(600*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
         
         return  titleSize.height+40*Width+246*Width;
         }

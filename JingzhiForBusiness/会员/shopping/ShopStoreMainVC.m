@@ -13,23 +13,31 @@
 #import "ShopStoreQuanCell.h"
 #import "ShopStoreShowCell.h"
 #import "ShopStoreTalkCell.h"
+#import "ShopNewsCell.h"
 #import "FindCompanyTwoCell.h"
 #import "ShopStoreDetailVC.h"
 #import "TalkShopStoreVC.h"
 #import "GoodsDetailVC.h"
+#import "ShopGoodsListVC.h"
+#import "ShopNewsDetailVC.h"
+#import "YHQListVC.h"
+#import "ShopNewsListVC.h"
+#import "ShopTalkListVC.h"
 @interface ShopStoreMainVC ()<UICollectionViewDataSource,UICollectionViewDelegate,TXScrollLabelViewDelegate>
 {
     UIScrollView *bgScrollView;//
     UIView *topview ;
-    
+    NSMutableArray *plArr;
+    NSMutableArray *yhhdArr;
+    NSMutableArray *yhqArr;
+    NSMutableArray *goodsArr;
+    NSDictionary *detailDic;
     UIView *topview2;
+    float indexHeightAll;
 }
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
 @property(nonatomic,strong)UIImageView *phoneImageV;
 @property(nonatomic,strong)UILabel *nameLabel;
-
-
-
 
 @end
 
@@ -68,14 +76,24 @@
     xian.backgroundColor =BGColor;
     [topImageView addSubview:xian];
     xian.frame =CGRectMake(0,Frame_NavAndStatus-1, CXCWidth, 1);
-    
-    
+    plArr =[[NSMutableArray alloc]init];
+    detailDic =[[NSMutableDictionary alloc]init];
+    goodsArr =[[NSMutableArray alloc]init];
+    yhqArr =[[NSMutableArray alloc]init];
+    yhhdArr =[[NSMutableArray alloc]init];
+    indexHeightAll =0.0;
+
+    [self getInfor];
+    [self getyhq];
+    [self getNews];
+    [self getPL ];
+    [self getGoods];
     [self mainView];
 }
 - (void)mainView
 {
     //底部scrollview
-    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus-49)];
+    bgScrollView =[[UIScrollView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, CXCHeight-Frame_NavAndStatus)];
     [bgScrollView setUserInteractionEnabled:YES];
     [bgScrollView setShowsVerticalScrollIndicator:NO];
     [self.view addSubview:bgScrollView];
@@ -103,6 +121,7 @@
         label.text = [NSString stringWithFormat:@"%@",arr[i]];
         label.textColor=TextColor;
         label.numberOfLines =0;
+        label.tag =4800+i;
         label.font =[UIFont systemFontOfSize:13];
         label.backgroundColor = [UIColor clearColor];
         [bgScrollView addSubview:label];
@@ -123,7 +142,7 @@
             UIImage *heartImg =[UIImage imageNamed:@"mall_icon_xinyu"];
 
             UIImageView *img =[[UIImageView alloc]initWithFrame:CGRectMake(label.right,xian.bottom+(90*Width-heartImg.size.height-2)/2,heartImg.size.width*3 , heartImg.size.height-1)];
-            
+            img.tag =1200;
             img.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"mall_icon_xinyu"]];
             [bgScrollView addSubview:img];
             
@@ -131,9 +150,11 @@
         }else if(i==1)
         {
             label.frame =CGRectMake(350*Width, xian.bottom, 200*Width, 90*Width);
+            label.tag =190;
             
         }else
         {
+            label.tag =191;
             label.frame =CGRectMake(550*Width, xian.bottom, 200*Width, 90*Width);
 
         }
@@ -170,7 +191,7 @@
     [_mainCMallCollectionView registerClass:[ShopStoreOneMainCell class] forCellWithReuseIdentifier:NSStringFromClass([ShopStoreOneMainCell class])];
     [_mainCMallCollectionView registerClass:[ComMallCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([ComMallCollectionViewCell class])];
     [_mainCMallCollectionView registerClass:[ShopStoreQuanCell class] forCellWithReuseIdentifier:NSStringFromClass([ShopStoreQuanCell class])];
-    [_mainCMallCollectionView registerClass:[FindCompanyTwoCell class] forCellWithReuseIdentifier:NSStringFromClass([FindCompanyTwoCell class])];
+    [_mainCMallCollectionView registerClass:[ShopNewsCell class] forCellWithReuseIdentifier:NSStringFromClass([ShopNewsCell class])];
     [_mainCMallCollectionView registerClass:[ShopStoreShowCell class] forCellWithReuseIdentifier:NSStringFromClass([ShopStoreShowCell class])];
     [_mainCMallCollectionView registerClass:[ShopStoreTalkCell class] forCellWithReuseIdentifier:NSStringFromClass([ShopStoreTalkCell class])];
     //注册headerView 此处的ReuseiDentifier必须个cellForItemAtIndexPath方法中一致，均为reusableView
@@ -184,31 +205,29 @@
     _mainCMallCollectionView.scrollEnabled = NO;
     [_mainCMallCollectionView reloadData];
     
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth,100000)];
-    _mainCMallCollectionView.height = 100000 ;//高度=(数量/2+1)*440*width+20*width
+//    [bgScrollView setContentSize:CGSizeMake(CXCWidth,100000)];
+//    _mainCMallCollectionView.height = 100000 ;//高度=(数量/2+1)*440*width+20*width
     
+//    //确认提交按钮
+//    UIButton * shopCartBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [shopCartBtn setFrame:CGRectMake(0*Width,CXCHeight-100*Width , 375*Width, 100*Width)];
+//    [shopCartBtn setBackgroundColor:[UIColor colorWithRed:240/255.0 green:112/255.0 blue:48/255.0 alpha:1]];
+//    [shopCartBtn setTitle:@"关注" forState:UIControlStateNormal];
+//    [shopCartBtn.titleLabel setTextColor:[UIColor whiteColor]];
+//    [shopCartBtn addTarget:self action:@selector(guanzhuBtnAction) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:shopCartBtn];
+//
+//    //确认提交按钮
+//    UIButton * buyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [buyBtn setFrame:CGRectMake(375*Width,CXCHeight-100*Width , 375*Width, 100*Width)];
+//    [buyBtn setBackgroundColor:[UIColor colorWithRed:230/255.00 green:47/255.00 blue:44/255.00 alpha:1]];
+//    buyBtn.layer.borderColor =[UIColor blueColor].CGColor;
+//    [buyBtn setTitle:@"委托设计" forState:UIControlStateNormal];
+//    [buyBtn.titleLabel setTextColor:[UIColor whiteColor]];
+//    [buyBtn addTarget:self action:@selector(weituoBtnAction) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:buyBtn];
     
-    //确认提交按钮
-    UIButton * shopCartBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [shopCartBtn setFrame:CGRectMake(0*Width,CXCHeight-100*Width , 375*Width, 100*Width)];
-    [shopCartBtn setBackgroundColor:[UIColor colorWithRed:240/255.0 green:112/255.0 blue:48/255.0 alpha:1]];
-    [shopCartBtn setTitle:@"关注" forState:UIControlStateNormal];
-    [shopCartBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [shopCartBtn addTarget:self action:@selector(guanzhuBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:shopCartBtn];
-    
-    //确认提交按钮
-    UIButton * buyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [buyBtn setFrame:CGRectMake(375*Width,CXCHeight-100*Width , 375*Width, 100*Width)];
-    [buyBtn setBackgroundColor:[UIColor colorWithRed:230/255.00 green:47/255.00 blue:44/255.00 alpha:1]];
-    buyBtn.layer.borderColor =[UIColor blueColor].CGColor;
-    [buyBtn setTitle:@"委托设计" forState:UIControlStateNormal];
-    [buyBtn.titleLabel setTextColor:[UIColor whiteColor]];
-    [buyBtn addTarget:self action:@selector(weituoBtnAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:buyBtn];
-    
-    
-    
+
 }
 - (void)guanzhuBtnAction
 {
@@ -237,24 +256,32 @@
     {
         return 1;
         
-    }else if(section==1||section==3)
+    }else if(section==1)
     {
-        return 2;
+        return goodsArr.count;
         
-    }
-    else if(section==2)
+    }else if(section==2)
     {
-        return 1;
-    }else
-    
-    return 3;
+        return yhqArr.count;
+    }else if(section==3)
+    {
+        return yhhdArr.count;
+    }
+    else
+//    新闻列表---》》》
+    return plArr.count;
 }
 //  返回头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
+    UICollectionReusableView *header = nil;
+    UICollectionReusableView *footer =nil;
     //如果是头视图
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        UICollectionReusableView *header=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"headerView" forIndexPath:indexPath];
+        header=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"headerView" forIndexPath:indexPath];
+        [header.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+        
         header.backgroundColor =BGColor;
         UILabel *xianV =[[UILabel alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth,80*Width)];
         xianV.backgroundColor =BGColor;
@@ -277,7 +304,7 @@
             [header addSubview:botLabel];
             
         }else if(indexPath.section ==3) {
-            botLabel.text =[NSString stringWithFormat:@"%@",@"    优惠活动"];
+            botLabel.text =[NSString stringWithFormat:@"%@",@"    店铺新闻"];
             [header addSubview:botLabel];
             
         }else
@@ -304,8 +331,9 @@
     }
     //    如果底部视图
     if([kind isEqualToString:UICollectionElementKindSectionFooter]){
-        UICollectionReusableView *footer=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"footerView" forIndexPath:indexPath];
-        
+       footer=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"footerView" forIndexPath:indexPath];
+        [footer.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
         UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth , 80*Width)];
         addressBtn.tag=440+indexPath.section;
         [footer addSubview:addressBtn];
@@ -333,50 +361,72 @@
 - (void)btnAction:(UIButton *)btn
 {
     TalkShopStoreVC*talk =[[TalkShopStoreVC alloc]init];
+    talk.shopId =_shopId;
     [self.navigationController pushViewController:talk animated:YES];
     
 }
 - (void)chooseMore:(UIButton *)btn
 {
     if (btn.tag==440) {
+        
         ShopStoreDetailVC *talk =[[ShopStoreDetailVC alloc]init];
+        talk.shopId =_shopId;
         [self.navigationController pushViewController:talk animated:YES];
     }else  if (btn.tag==441) {
         
+        ShopGoodsListVC *class =[[ShopGoodsListVC   alloc]init];
+        class.shop_id =_shopId;
+        [self.navigationController pushViewController:class animated:YES];
     }else  if (btn.tag==442) {
-        
+        YHQListVC *class =[[YHQListVC   alloc]init];
+        class.shopId =_shopId;
+        [self.navigationController pushViewController:class animated:YES];
     }else  if (btn.tag==443) {
-//        ActivityForYouhui *talk =[[ActivityForYouhui alloc]init];
-//        [self.navigationController pushViewController:talk animated:YES];
-        
+        ShopNewsListVC *talk =[[ShopNewsListVC alloc]init];
+        talk.shopId =_shopId;
+        [self.navigationController pushViewController:talk animated:YES];
         
     }else {
-        
+        ShopTalkListVC *talk =[[ShopTalkListVC alloc]init];
+        talk.shopId =_shopId;
+        [self.navigationController pushViewController:talk animated:YES];
     }
-    
 }
 //设置每个方块的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (indexPath.section==0) {
-        
-        NSString *ideaContent =@"所在地点：山东省潍坊市寒亭区胜利街与新华路西南角战天下潍坊国际2203号";
+        NSString *ideaContent =[NSString stringWithFormat:@"所在地点:%@",[detailDic objectForKey:@"addr" ]];
         CGSize ideaSize;//通过文本得到高度
         ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-        return CGSizeMake(CXCWidth,ideaSize.height+300*Width)  ;
+        [self heightwithHeight:ideaSize.height+330*Width];
+
+        return CGSizeMake(CXCWidth,ideaSize.height+330*Width)  ;
     }else if (indexPath.section==1) {
+        if (indexPath.row%2==0) {
+            [self heightwithHeight:500*Width];
+            
+        }
+
         return CGSizeMake(340*Width,480*Width);
     }else if (indexPath.section==2) {
+        
+        [self heightwithHeight:360*Width];
+
         return CGSizeMake(CXCWidth,360*Width);
         
     }else if (indexPath.section==3) {
-        return CGSizeMake(340*Width,320*Width);
+        [self heightwithHeight:180*Width];
+
+        return CGSizeMake(CXCWidth,180*Width);
         
     }else{
-        NSString *ideaContent =@"他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！";
+        NSString *ideaContent =[plArr[indexPath.row] objectForKey:@"content"];
         CGSize ideaSize;//通过文本得到高度
         ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(560*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+        [self heightwithHeight:170*Width+ideaSize.height];
+
         return CGSizeMake(CXCWidth,170*Width+ideaSize.height);
     }
 }
@@ -393,7 +443,7 @@
 ////设置每个item四周的边距
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    if (section==1||section==3) {
+    if (section==1) {
         return UIEdgeInsetsMake(10*Width, 23.33*Width,10*Width,23.33*Width);
     }else  {
         return UIEdgeInsetsZero;
@@ -407,36 +457,33 @@
     if (indexPath.section==0) {
         ShopStoreOneMainCell* onecell = (ShopStoreOneMainCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ShopStoreOneMainCell class]) forIndexPath:indexPath];
         onecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        onecell.dic =detailDic;
         return onecell;
         
     }else  if (indexPath.section==1) {
         ComMallCollectionViewCell*twocell = (ComMallCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ComMallCollectionViewCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        twocell.dic =goodsArr[indexPath.row];
         return twocell;
         
     }else  if (indexPath.section==2) {
         ShopStoreQuanCell*twocell = (ShopStoreQuanCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ShopStoreQuanCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        twocell.dic =yhqArr[indexPath.row];
         return twocell;
         
     }else  if (indexPath.section==3) {
-        FindCompanyTwoCell*twocell = (FindCompanyTwoCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([FindCompanyTwoCell class]) forIndexPath:indexPath];
+        ShopNewsCell*twocell = (ShopNewsCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ShopNewsCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        twocell.dic =yhhdArr[indexPath.row];
         return twocell;
-        
     }else  {
         ShopStoreTalkCell*twocell = (ShopStoreTalkCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ShopStoreTalkCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        twocell.dic =plArr[indexPath.row];
         return twocell;
-        
-
-        
     }
+    
 }
 //点击方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -444,20 +491,18 @@
     if (indexPath.section==0) {
         
         
-        
-        
     }else if (indexPath.section==1) {
         GoodsDetailVC *good =[[GoodsDetailVC alloc]init];
+        good.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"product_id"]];
         [self.navigationController pushViewController:good animated:YES];
-        
-        
-        
-        
-        
+       
     }else if (indexPath.section==2) {
         
-    }else if (indexPath.section==3) {
         
+    }else if (indexPath.section==3) {
+        ShopNewsDetailVC *good =[[ShopNewsDetailVC alloc]init];
+        good.newsId =[NSString stringWithFormat:@"%@",[yhhdArr[indexPath.row] objectForKey:@"news_id"]];
+        [self.navigationController pushViewController:good animated:YES];
     }
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
@@ -469,8 +514,6 @@
 {
     
     return CGSizeMake(CXCWidth,80*Width);
-    
-    
 }
 - (void)addWith:(TXScrollLabelViewType)type velocity:(CGFloat)velocity isArray:(BOOL)isArray  withArr:(NSArray *)stringArray{
     
@@ -506,6 +549,153 @@
     //    notice.contentString =[titleArr[index] objectForKey:@"content"];
     //    notice.titleString =[titleArr[index] objectForKey:@"title"];
     //    [self.navigationController pushViewController:notice animated:YES];
+}
+- (void)getInfor
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"shop_id":[NSString stringWithFormat:@"%@",_shopId],
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?shop-index.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if([[NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]] isEqualToString:@"212"]){
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+
+        else{
+
+            detailDic =[[dict objectForKey:@"data"] objectForKey:@"shop"];
+            [_phoneImageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[detailDic objectForKey:@"logo"]]]];
+            _nameLabel.text =[detailDic objectForKey:@"name"];
+            UILabel *gzLabel =[self.view viewWithTag:4800];
+            gzLabel.text =[NSString stringWithFormat:@"电话:%@", IsNilString([detailDic  objectForKey:@"phone"])?@"":[detailDic objectForKey:@"phone"]];
+            UILabel *yysLabel =[self.view viewWithTag:4801];
+
+            yysLabel.text =[NSString stringWithFormat:@"入驻时间:%@",[PublicMethod timeWithTimeIntervalString:[detailDic objectForKey:@"dateline"]]];
+
+
+            UIImageView *img =[self.view viewWithTag:1200];
+            UIImage *heartImg =[UIImage imageNamed:@"mall_icon_xinyu"];
+            NSString *score =[NSString stringWithFormat:@"%@",[detailDic  objectForKey:@"audit"]];
+            img.frame =CGRectMake(100*Width,_phoneImageV.bottom+30*Width+(90*Width-heartImg.size.height-2)/2,heartImg.size.width*[score integerValue], heartImg.size.height-1);
+
+            UILabel *sjLabel =[self.view viewWithTag:190];
+            sjLabel.text =[NSString stringWithFormat:@"口碑:%@",[detailDic  objectForKey:@"avg_score"]];
+
+            UILabel *fwLabel =[self.view viewWithTag:191];
+            fwLabel.text =[NSString stringWithFormat:@"关注:%@", [detailDic  objectForKey:@"views"] ];
+
+            indexHeightAll = 0.0;
+            [self reloadCollectionViewData];
+
+
+
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)getPL{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"shop_id":[NSString stringWithFormat:@"%@",_shopId],
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?shop-comment_list" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            if (![[[dict objectForKey:@"data"] objectForKey:@"items"]isEqual:[NSNull null]]) {
+                plArr  =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"items"]];
+                indexHeightAll = 0.0;
+                [self reloadCollectionViewData];
+            }
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)getGoods{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"limit":@"4",
+                          @"page":@"1",
+                          @"shop_id":[NSString stringWithFormat:@"%@",_shopId],
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-shop_items.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            if (![[[dict objectForKey:@"data"] objectForKey:@"items"]isEqual:[NSNull null]]) {
+                goodsArr  =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"items"]];
+                indexHeightAll = 0.0;
+                [self reloadCollectionViewData];            }
+            
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)getyhq{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"limit":@"4",
+                          @"page":@"1",
+                          @"shop_id":[NSString stringWithFormat:@"%@",_shopId],
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-coupon.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            if (![[[dict objectForKey:@"data"] objectForKey:@"item"]isEqual:[NSNull null]]) {
+                yhqArr  =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"item"]];
+                indexHeightAll = 0.0;
+                [self reloadCollectionViewData];
+                
+            }
+            
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+-(void)getNews{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"shop_id":[NSString stringWithFormat:@"%@",_shopId],
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?shop-news" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            if (![[[dict objectForKey:@"data"] objectForKey:@"items"]isEqual:[NSNull null]]) {
+                yhhdArr  =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"items"]];
+                indexHeightAll = 0.0;
+                [self reloadCollectionViewData];
+                
+            }
+            
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)reloadCollectionViewData
+{
+    
+    [_mainCMallCollectionView reloadData];
+    NSLog(@"最近一次 %f",_mainCMallCollectionView.height);
+    NSLog(@"%f",bgScrollView.height);
+    
+}
+- (float)heightwithHeight:(float)height{
+    
+    indexHeightAll =indexHeightAll+height;
+    _mainCMallCollectionView.height =indexHeightAll+900*Width;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, indexHeightAll+330*Width+900*Width)];
+    return height;
 }
 /*
 #pragma mark - Navigation

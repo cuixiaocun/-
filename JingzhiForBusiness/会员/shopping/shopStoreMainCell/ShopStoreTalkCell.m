@@ -69,8 +69,8 @@
         _starImgView.rating = [[NSString stringWithFormat:@"%@",@"5"] floatValue];
         [_bottomV addSubview:_starImgView];
         
-        UIImageView *xian=[[UIImageView alloc]initWithFrame:CGRectMake(0,_bottomV.height-1.5*Width, CXCWidth,1.5*Width)];
-        [_bottomV addSubview:xian];
+        xian=[[UIImageView alloc]initWithFrame:CGRectMake(0,self.height-1.5*Width, CXCWidth,1.5*Width)];
+        [self addSubview:xian];
         xian.backgroundColor =BGColor;
         
         
@@ -85,6 +85,19 @@
 }
 -(void)setDic:(NSDictionary *)dic
 {
+    _dic =dic;
+    [self.topMCImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[_dic objectForKey:@"face"]]]];  ;
+    _nameLabel.text =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"uname"])?@"":[dic objectForKey:@"uname"]];
+    _timeLabel.text =[PublicMethod timeWithTimeIntervalString:[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"dateline"])?@"":[dic objectForKey:@"dateline"]]];
+    NSString *ideaContent =[NSString stringWithFormat:@"%@", IsNilString([dic  objectForKey:@"content"])?@"":[dic objectForKey:@"content"]];
+    CGSize ideaSize;//通过文本得到高度
+    ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(560*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+    _contentLabel.frame =CGRectMake(self.topMCImage.right+20*Width,_nameLabel.bottom,570*Width,ideaSize.height);
+    _contentLabel.text=ideaContent;
+    _bottomV.frame =CGRectMake(0,_contentLabel.bottom, CXCWidth, 200*Width);
+    
+    _starImgView.rating = [[NSString stringWithFormat:@"%@",[_dic objectForKey:@"score"]] floatValue];
+    xian.frame =CGRectMake(0,self.height-1.5*Width, CXCWidth,1.5*Width);
     
     
 }

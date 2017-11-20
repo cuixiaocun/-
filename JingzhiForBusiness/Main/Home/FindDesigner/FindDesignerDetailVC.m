@@ -16,6 +16,11 @@
 {
     UIScrollView *bgScrollView;//
     UIView *topview ;
+    NSMutableArray *commentArr;//评论
+    NSMutableArray *caseArr;//案例
+    NSMutableArray *wzArr;//文章
+    NSMutableDictionary *detailDic;
+    float indexHeightAll;
 
 }
 @property (nonatomic,strong) UICollectionView *mainCMallCollectionView;//按钮视图
@@ -33,6 +38,12 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    
+    detailDic =[[NSMutableDictionary alloc]init];
+    commentArr =[[NSMutableArray alloc]init];
+    caseArr =[[NSMutableArray alloc]init];
+    wzArr =[[NSMutableArray alloc]init];
+    indexHeightAll =0.0;
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
@@ -60,7 +71,9 @@
     [topImageView addSubview:xian];
     xian.frame =CGRectMake(0,Frame_NavAndStatus-1, CXCWidth, 1);
     
-
+    [self getInfor];
+    [self getWZ];
+    [self getAl];
     [self mainView];
 }
 - (void)mainView
@@ -94,6 +107,7 @@
         label.text = [NSString stringWithFormat:@"%@",arr[i]];
         label.textColor=TextColor;
         label.numberOfLines =0;
+        label.tag =4800+i;
         label.font =[UIFont systemFontOfSize:13];
         label.backgroundColor = [UIColor clearColor];
         [bgScrollView addSubview:label];
@@ -120,7 +134,7 @@
         label.text = [NSString stringWithFormat:@"%@",arr2[i]];
         label.textColor=TextGrayColor;
         label.numberOfLines =0;
-        
+        label.tag =1300+i;
         label.font =[UIFont systemFontOfSize:13];
         label.backgroundColor = [UIColor clearColor];
         [bgScrollView addSubview:label];
@@ -160,8 +174,6 @@
     _mainCMallCollectionView.scrollEnabled = NO;
     [_mainCMallCollectionView reloadData];
     
-    [bgScrollView setContentSize:CGSizeMake(CXCWidth, 2800*2)];
-    _mainCMallCollectionView.height = (14/2+14%2)*440+20*Width ;//高度=(数量/2+1)*440*width+20*width
 
 
     //确认提交按钮
@@ -188,11 +200,46 @@
 }
 - (void)guanzhuBtnAction
 {
+    NSString* uid  = [NSString stringWithFormat:@"%@",_sjsUserId];
 
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":uid,
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-attention.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            [MBProgressHUD showSuccess:@"关注成功" ToView:self.view];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
 }
 - (void)weituoBtnAction
 {
-
+    NSString* uid  = [NSString stringWithFormat:@"%@",_sjsUserId];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":uid,
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-yuyue.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            
+            [MBProgressHUD showSuccess:@"预约成功" ToView:self.view];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -216,14 +263,14 @@
 
     }if(section==1)
     {
-        return 2;
-        
+        return caseArr.count;
+
     }if(section==2)
     {
-        return 3;
-        
+        return wzArr.count;
     }
-    return 3;
+    else
+    return commentArr.count;
 }
 //  返回头视图
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -277,34 +324,35 @@
     //    如果底部视图
     if([kind isEqualToString:UICollectionElementKindSectionFooter]){
         UICollectionReusableView *footer=[collectionView    dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"footerView" forIndexPath:indexPath];
-        
-        UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth , 80*Width)];
-        addressBtn.tag=440+indexPath.section;
-        [footer addSubview:addressBtn];
-        [addressBtn addTarget:self action:@selector(chooseMore:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UILabel *addLabel = [[UILabel alloc] init];
-        [addLabel setText:@"查看全部 >"];
-        addLabel.tag =30;
-        addLabel.textColor =BlackColor;
-        addLabel.textAlignment =NSTextAlignmentCenter;
-        [addLabel setFont:[UIFont systemFontOfSize:14]];
-        [addLabel setFrame:CGRectMake(0*Width,1.5*Width,CXCWidth , 78.5*Width)];
-        addLabel.backgroundColor =[UIColor whiteColor];
-        [addressBtn addSubview:addLabel];
-        [addressBtn setBackgroundColor:[UIColor whiteColor]];
-        UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(30*Width, 0*Width, 690*Width, 1.5*Width)];
-        addressBtn.backgroundColor =BGColor;
-        [addressBtn addSubview:addShowImgV];
-        
+//
+//        UIButton *addressBtn =[[UIButton alloc]initWithFrame:CGRectMake(0*Width,0,CXCWidth , 80*Width)];
+//        addressBtn.tag=440+indexPath.section;
+//        [footer addSubview:addressBtn];
+//        [addressBtn addTarget:self action:@selector(chooseMore:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        UILabel *addLabel = [[UILabel alloc] init];
+//        [addLabel setText:@"查看全部 >"];
+//        addLabel.tag =30;
+//        addLabel.textColor =BlackColor;
+//        addLabel.textAlignment =NSTextAlignmentCenter;
+//        [addLabel setFont:[UIFont systemFontOfSize:14]];
+//        [addLabel setFrame:CGRectMake(0*Width,1.5*Width,CXCWidth , 78.5*Width)];
+//        addLabel.backgroundColor =[UIColor whiteColor];
+//        [addressBtn addSubview:addLabel];
+//        [addressBtn setBackgroundColor:[UIColor whiteColor]];
+//        UIImageView *addShowImgV =[[UIImageView alloc]initWithFrame:CGRectMake(30*Width, 0*Width, 690*Width, 1.5*Width)];
+//        addressBtn.backgroundColor =BGColor;
+//        [addressBtn addSubview:addShowImgV];
+//        
         return footer;
-        
+//
     }
     return nil;
 }
 - (void)btnAction:(UIButton *)btn
 {
     TalkDesignerVC *talk =[[TalkDesignerVC alloc]init];
+    talk.sjsUserId =_sjsUserId;
     [self.navigationController pushViewController:talk animated:YES];
 
 }
@@ -316,27 +364,35 @@
 //设置每个方块的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"indexHeightAllindexHeightAllindexHeightAll%f",indexHeightAll);
     if (indexPath.section==0) {
         
-        NSString *titleContent =@"个人简介：看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。\n所以他们的家看起来也是那种干净，简洁，但每种装饰都有它必须在那里的理由。有从比如埃及带回来的装饰品，有从发货某个二手市场淘回来的小家具...放在那里就让整个房间焕发一种温馨的感觉。\nOk，拉回来，我想说的是，这种审美会传染人。于是我也渐渐开始建立起这样的审美。";
-        CGSize titleSize;//通过文本得到高度
-        titleSize = [titleContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-        NSString *ideaContent =@"设计理念：看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。\n所以他们的家看起来也是那种干净，简洁，但每种装饰都有它必须在那里的理由。有从比如埃及带回来的装饰品，有从发货某个二手市场淘回来的小家具...放在那里就让整个房间焕发一种温馨的感觉。\nOk，拉回来，我想说的是，这种审美会传染人。于是我也渐渐开始建立起这样的审美。";
-        CGSize ideaSize;//通过文本得到高度
-        ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+     float aHeight=[self heightWithString:[NSString stringWithFormat:@"%@",[detailDic objectForKey:@"about"]] withattributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} withSize:CGSizeMake(680*Width, MAXFLOAT)];
+    float bHeight=[self heightWithString:[NSString stringWithFormat:@"设计理念：%@",[detailDic objectForKey:@"slogan"]] withattributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} withSize:CGSizeMake(680*Width, MAXFLOAT)];
+        [self heightwithHeight:aHeight+bHeight+300*Width];
 
-        return CGSizeMake(CXCWidth,ideaSize.height+titleSize.height+300*Width)  ;
+        return CGSizeMake(CXCWidth,aHeight+bHeight+300*Width);
     }else if (indexPath.section==1) {
-        return CGSizeMake(340*Width,360*Width);
+        if (indexPath.row%2==0) {
+            [self heightwithHeight:360*Width];
+
+        }
+
+        return CGSizeMake(340*Width,340*Width);
         
     }else if (indexPath.section==2) {
-        return CGSizeMake(CXCWidth,180*Width);
         
+        float bHeight=[self heightWithString:[NSString stringWithFormat:@"%@",[wzArr[indexPath.row] objectForKey:@"content"]] withattributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} withSize:CGSizeMake(650*Width, MAXFLOAT)];
+        [self heightwithHeight:150*Width+bHeight];
+
+        return CGSizeMake(CXCWidth,150*Width+bHeight);
+
     }else{
-        NSString *ideaContent =@"他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！他们的团队他别细心，非常专业，很棒的，继续努力！";
-        CGSize ideaSize;//通过文本得到高度
-        ideaSize = [ideaContent boundingRectWithSize:CGSizeMake(560*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-        return CGSizeMake(CXCWidth,300*Width+ideaSize.height);
+        
+        float bHeight=[self heightWithString:[NSString stringWithFormat:@"%@",[commentArr[indexPath.row] objectForKey:@"content"]] withattributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} withSize:CGSizeMake(560*Width, MAXFLOAT)];
+        [self heightwithHeight:300*Width+bHeight];
+
+        return CGSizeMake(CXCWidth,300*Width+bHeight);
     }
 }
 //两个cell之间的间距（同一行的cell的间距）
@@ -372,26 +428,28 @@
     if (indexPath.section==0) {
         FindDesignerOneCell* onecell = (FindDesignerOneCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([FindDesignerOneCell class]) forIndexPath:indexPath];
         onecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        onecell.dic =detailDic;
+        NSLog(@"detailDicdetailDicdetailDicdetailDicdetailDic=%@",detailDic);
+        
         return onecell;
         
     }else  if (indexPath.section==1) {
         FindDesignerTwoCell*twocell = (FindDesignerTwoCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([FindDesignerTwoCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        twocell.dic =caseArr[indexPath.row];
         return twocell;
         
     }else  if (indexPath.section==2) {
         FindDesignerThreeCell*twocell = (FindDesignerThreeCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([FindDesignerThreeCell class]) forIndexPath:indexPath];
         twocell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        twocell.dic =wzArr[indexPath.row];
         return twocell;
         
     }else {
         
         FindDesignerFourCell*threecell = (FindDesignerFourCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([FindDesignerFourCell class]) forIndexPath:indexPath];
         threecell.backgroundColor = [UIColor whiteColor];
-        //    _cell.dic =goodsArr[indexPath.row];
+        threecell.dic =commentArr[indexPath.row];
         return threecell;
         
     }
@@ -419,14 +477,147 @@
     if (section==0) {
         return CGSizeZero;
     }
-    return CGSizeMake(CXCWidth,80*Width);
+    return CGSizeMake(CXCWidth,0.01*Width);
+    
+}
+- (void)getInfor
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":[NSString stringWithFormat:@"%@",_sjsUserId],
+                          }];
+    
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-detail.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            if (![[[dict objectForKey:@"data"] objectForKey:@"comment_list"]isEqual:[NSNull null]]) {
+                commentArr  =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"comment_list"]];
+
+            }
+            
+            detailDic =[[dict objectForKey:@"data"] objectForKey:@"designer"];
+           
+            NSLog(@"commentArr =%@",commentArr);
+            NSLog(@"detailDic =%@",detailDic);
+
+            
+            
+            NSString *company =[NSString stringWithFormat:@"%@", IsNilString([[[dict objectForKey:@"data"] objectForKey:@"company"] objectForKey:@"name"])?@"":[[[dict objectForKey:@"data"] objectForKey:@"company"] objectForKey:@"name"]];
+            NSLog(@"companycompanycompany%@",company);
+            [detailDic setObject:company forKey:@"company_name"];
+//
+            [_phoneImageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[detailDic objectForKey:@"face"]]]];
+            _nameLabel.text =[detailDic objectForKey:@"uname"];
+            UILabel *gzLabel =[self.view viewWithTag:4800];
+            gzLabel.text =[NSString stringWithFormat:@"关注数:%@", IsNilString([detailDic  objectForKey:@"attention_num"])?@"":[detailDic objectForKey:@"attention_num"]];
+            UILabel *yysLabel =[self.view viewWithTag:4801];
+            yysLabel.text =[NSString stringWithFormat:@"预约数:%@", IsNilString([detailDic  objectForKey:@"yuyue_num"])?@"":[detailDic objectForKey:@"yuyue_num"]];
+
+            UILabel *alLabel =[self.view viewWithTag:4802];
+            alLabel.text =[NSString stringWithFormat:@"案例:%@", IsNilString([detailDic  objectForKey:@"case_num"])?@"":[detailDic objectForKey:@"case_num"]];
+
+            UILabel *bwLabel =[self.view viewWithTag:4803];
+            bwLabel.text =[NSString stringWithFormat:@"博文数:%@", IsNilString([detailDic  objectForKey:@"blog_num"])?@"":[detailDic objectForKey:@"blog_num"]];
+
+            UILabel *zhLabel =[self.view viewWithTag:1300];
+            zhLabel.text =[NSString stringWithFormat:@"综合评价:%@", [[detailDic  objectForKey:@"avg_scores"] objectForKey:@"score"]];
+
+            UILabel *sjLabel =[self.view viewWithTag:1301];
+            sjLabel.text =[NSString stringWithFormat:@"设计:%@",[[detailDic  objectForKey:@"avg_scores"] objectForKey:@"score1"]];
+
+            UILabel *fwLabel =[self.view viewWithTag:1302];
+            fwLabel.text =[NSString stringWithFormat:@"服务:%@", [[detailDic  objectForKey:@"avg_scores"] objectForKey:@"score2"]];
+            UILabel *txLabel =[self.view viewWithTag:1303];
+            txLabel.text =[NSString stringWithFormat:@"贴心:%@", [[detailDic  objectForKey:@"avg_scores"] objectForKey:@"score3"]];
+            indexHeightAll = 0.0;
+            [self reloadCollectionViewData];
+
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)getWZ{
+    NSString* uid  = [NSString stringWithFormat:@"%@",_sjsUserId];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":uid,
+                          @"page":@"1"
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-article.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            if (![[[dict objectForKey:@"data"] objectForKey:@"items"]isEqual:[NSNull null]]) {
+                 wzArr =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"items"]];
+                NSLog(@"%@",wzArr);
+                indexHeightAll = 0.0;
+                [self reloadCollectionViewData];
+
+
+            }
+            
+        }
+    } fail:^(NSError *error) {
+        
+    }];
+    
     
     
 }
+- (void)getAl{
+    NSString* uid  = [NSString stringWithFormat:@"%@",_sjsUserId];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":uid,
+                          @"page":@"1"
 
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-cases.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+
+            if (![[[dict objectForKey:@"data"] objectForKey:@"items"]isEqual:[NSNull null]]) {
+                caseArr  =[NSMutableArray arrayWithArray:[[dict objectForKey:@"data"] objectForKey:@"items"]];
+                
+                indexHeightAll = 0.0;
+                [self reloadCollectionViewData];
+            }
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)reloadCollectionViewData
+{
+   
+    [_mainCMallCollectionView reloadData];
+    NSLog(@"最近一次 %f",_mainCMallCollectionView.height);
+    NSLog(@"%f",bgScrollView.height);
+
+}
+- (float)heightWithString:(NSString *)str withattributes:(NSDictionary*)attributes withSize:(CGSize)size {
+    NSString *titleContent =str;
+    CGSize titleSize;//通过文本得到高度
+    titleSize = [titleContent boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+    return titleSize.height;
+}
+
+- (float)heightwithHeight:(float)height{
+
+    indexHeightAll =indexHeightAll+height;
+    _mainCMallCollectionView.height =indexHeightAll+450*Width;
+    [bgScrollView setContentSize:CGSizeMake(CXCWidth, indexHeightAll+330*Width+450*Width)];
+    return height;
+}
 /*
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].

@@ -7,8 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "STableViewController.h"
+#import "DemoTableHeaderView.h"
+#import "DemoTableFooterView.h"
 
-@interface ComCompanyList : UIViewController
+@interface ComCompanyList : STableViewController
+{
+    NSMutableArray *infoArray;
+    NSInteger pageCount;   //总页数
+}
 @property(nonatomic,assign)NSString *btnNameString;
+
 
 @end

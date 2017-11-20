@@ -59,7 +59,7 @@
     [navTitle setNumberOfLines:0];
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];

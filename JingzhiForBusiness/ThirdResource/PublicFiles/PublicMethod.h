@@ -24,8 +24,8 @@
 #import "LoginPage.h"
 
 //服务器地址
-#define IMAGEURL  @"http://fc.qwangluo.cn/attachs/"
-#define SERVERURL @"http://fc.qwangluo.cn"
+#define IMAGEURL  @"http://www.leplife.com/attachs/"
+#define SERVERURL @"http://www.leplife.com"
 //是否为空
 #define IsNilString(__String)   (__String==nil ||[__String isEqual:[NSNull null]]|| [__String isEqualToString:@"null"] || [__String isEqualToString:@"<null>"]||[__String isEqualToString:@"(null)"]||[__String isEqualToString:@"null~null"]||[__String isEqualToString:@""])
 
@@ -108,5 +108,6 @@
 + (BOOL)judgeIdentityStringValid:(NSString *)identityString;
 +(NSString*)stringNilString:(NSString *)string;
 + (NSString *)timeWithTimeIntervalString:(NSString *)timeString;
-
++ (float) heightForString:(NSString *)value fontSize:(float)fontSize andWidth:(float)width;
++(void)NavgationController:(UINavigationController*)na;
 @end

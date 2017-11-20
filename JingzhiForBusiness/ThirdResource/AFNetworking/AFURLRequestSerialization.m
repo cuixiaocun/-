@@ -760,6 +760,10 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
     [mutableHeaders setValue:mimeType forKey:@"Content-Type"];
 
     [self appendPartWithHeaders:mutableHeaders body:data];
+    
+    
+    
+    
 }
 
 - (void)appendPartWithFormData:(NSData *)data

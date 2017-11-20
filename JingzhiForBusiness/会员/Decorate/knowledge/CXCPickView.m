@@ -64,10 +64,17 @@
 
         [_deleteBtn setFrame:CGRectMake(0*Width,13.5*Width , 150*Width, 55*Width)];
         [_changeBtn setFrame:CGRectMake(600*Width,13.5*Width , 150*Width, 55*Width)];
-        NSArray *arr =[_dataArray[0] objectForKey:@"city"];
-        
-        _name  =[arr[0] objectForKey:@"city_name"];
-        _nameId =[arr[0] objectForKey:@"city_id"];
+        if ([_type isEqualToString:@"cityList"]) {//城市列表
+            NSArray *arr =[_dataArray[0] objectForKey:@"city"];
+            _name  =[arr[0] objectForKey:@"city_name"];
+            _nameId =[arr[0] objectForKey:@"city_id"];
+        }else
+        {
+
+            _name =[_dataArray[0] objectForKey:@"name"];
+            _nameId =[NSString stringWithFormat:@"%@",[_dataArray[0] objectForKey:@"zipcode"]];
+        }
+      
         isFrist =NO;
         
     }
@@ -118,7 +125,7 @@
             long Index = [self.myPickerView selectedRowInComponent:0];
 
             NSArray *arr =[[NSArray alloc]init];
-            arr =[_dataArray[Index] objectForKey:@"name2"];
+            arr =[_dataArray[Index] objectForKey:@"detailArr"];
             return arr.count;
             
         }
@@ -164,14 +171,14 @@
         
         if (component==0) {
             indx=row;
-            return [NSString stringWithFormat:@"%@",[_dataArray[row] objectForKey:@"name1"]];
+            return [NSString stringWithFormat:@"%@",[_dataArray[row] objectForKey:@"name"]];
             
         }else
         {
             long Index = [self.myPickerView selectedRowInComponent:0];
             NSArray *arr =[[NSArray alloc]init];
-            arr =[_dataArray[Index] objectForKey:@"name2"];
-            return [NSString stringWithFormat:@"%@",arr[row]];
+            arr =[_dataArray[Index] objectForKey:@"detailArr"];
+            return [NSString stringWithFormat:@"%@",[arr[row] objectForKey:@"name" ] ];
             
         }
         
@@ -221,7 +228,9 @@
             long Index = [self.myPickerView selectedRowInComponent:0];
 
             indx =row;
-            _name =[_dataArray[Index]objectForKey:@"name1"];
+            _name =[_dataArray[Index]objectForKey:@"name"];
+            _nameId =[NSString stringWithFormat:@"%@",[_dataArray[Index] objectForKey:@"zipcode"]];
+
             [pickerView reloadComponent:1];
             [pickerView selectRow:0 inComponent:1 animated: YES];
             
@@ -234,8 +243,10 @@
                 NSArray *arr =[[NSArray alloc]init];
                 long Index = [self.myPickerView selectedRowInComponent:0];
 
-                arr =[_dataArray[Index] objectForKey:@"name2"];
-                _name =arr[row];
+                arr =[_dataArray[Index] objectForKey:@"detailArr"];
+                _name =[NSString stringWithFormat:@"%@",[arr[row] objectForKey:@"name" ] ];
+                _nameId =[NSString stringWithFormat:@"%@",[arr[row] objectForKey:@"zipcode"]];
+
                 
             }
         }

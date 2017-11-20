@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PostTalkCell : UITableViewCell
-@property (nonatomic,strong)EGOImageView  *topMCImage;
+@property (nonatomic,strong)UIImageView  *topMCImage;
 @property (nonatomic,strong) UILabel *nameLabel;
 @property (nonatomic,strong) UILabel *contentLabel;
 @property (nonatomic,strong) UILabel *timeLabel;

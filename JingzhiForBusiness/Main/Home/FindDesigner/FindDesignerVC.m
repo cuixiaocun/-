@@ -13,7 +13,22 @@
 @interface FindDesignerVC ()<MenuChooseDelegate,FindCesignerDelegate,UITextFieldDelegate>
 {
     MenuChooseVC *topView;
+    
+    NSMutableArray *typeArr;
+    NSMutableArray *typeStringArr;
+    
+    
+    NSString *cityId;
+    NSString *levelId;
+    NSString *jyId;
+    NSString *zwId;
+    NSString *sxId;
 
+    
+    
+    
+    
+    
 }
 @end
 
@@ -26,7 +41,12 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
+    typeArr =[[NSMutableArray alloc]init];
+    cityId = @"";
+    levelId = @"";
+    jyId = @"";
+    zwId = @"";
+    sxId = @"";
    
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
@@ -48,7 +68,7 @@
     bigShowImgV.image =[UIImage imageNamed:@"sf_icon_search"];
     [navBgView addSubview:bigShowImgV];
     UITextField *searchTextField = [[UITextField alloc] init];
-    [searchTextField setPlaceholder:@"请输入问题"];
+    [searchTextField setPlaceholder:@"请输入设计师"];
     [searchTextField setDelegate:self];
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
@@ -66,15 +86,13 @@
     [searchBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:searchBtn];
     
-    
     NSArray *btnArr =@[@"区域",@"等级",@"经验",@"职位",@"排序"];
     topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, 85*Width) buttonArr:btnArr];
     topView.backgroundColor =[UIColor redColor];
     topView.delegate =self;
     topView.level = 2;
-    
+
     [self.view addSubview:topView];
-    
     UIView *xianV =[[UIView alloc]initWithFrame:CGRectMake(0*Width,0*Width,CXCWidth,1.5*Width)];
     xianV.backgroundColor =BGColor;
     [topView addSubview:xianV];
@@ -96,20 +114,131 @@
     
     
     infoArray = [[NSMutableArray alloc] init];
-    //    [self performSelector:@selector(getInfoList)];
-    
-    
-    
+    [self performSelector:@selector(getInfoList)];
+    [self getType];
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
-    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+}
+- (void)getType
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-get_designer_cates.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [[NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil] objectForKey:@"data"];
+        NSLog(@"%@",dict);
+        //type列表
+        NSMutableArray  *cityArr =[[NSMutableArray alloc]init];
+        NSMutableArray  *levelArr =[[NSMutableArray alloc]init];
+        NSMutableArray  *jingyanArr =[[NSMutableArray alloc]init];
+        NSMutableArray  *zhiweiArr =[[NSMutableArray alloc]init];
+        NSMutableArray  *shunxuArr =[[NSMutableArray alloc]init];
+        cityArr = [dict objectForKey:@"area_list"];
+        levelArr=[dict objectForKey:@"group_list"];
+        jingyanArr=[[dict objectForKey:@"jy_list"] objectForKey:@"values"];
+        zhiweiArr=[[dict objectForKey:@"zw_list"] objectForKey:@"values"];
+        shunxuArr=[dict objectForKey:@"order_list"];
+        NSMutableArray  *cityArry =[[NSMutableArray alloc]init];
+        NSMutableArray  *levelArry =[[NSMutableArray alloc]init];
+        NSMutableArray  *jingyanArry =[[NSMutableArray alloc]init];
+        NSMutableArray  *zhiweiArry =[[NSMutableArray alloc]init];
+        NSMutableArray  *shunxuArry =[[NSMutableArray alloc]init];
+        
+        
+        NSMutableDictionary  *dictionary1 =[[NSMutableDictionary alloc]init];
+        [dictionary1 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+        [dictionary1 setValue:[NSString stringWithFormat:@"%@",@""] forKey:@"zipcode"];
+        [cityArry addObject:dictionary1];
+        for (NSDictionary *dicTwo in cityArr) {
+            NSMutableDictionary *dictionaryTwo  =[[NSMutableDictionary alloc]init];//新的字典
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"area_name"]] forKey:@"name"];
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"city_id"]] forKey:@"zipcode"];
+            [cityArry addObject:dictionaryTwo];
+            
+        }
+        [typeArr addObject:cityArry];
+        
+        
+
+        [levelArry addObject:dictionary1];
+        for (NSDictionary *dicTwo in levelArr) {
+            NSMutableDictionary *dictionaryTwo  =[[NSMutableDictionary alloc]init];//新的字典
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"group_name"]] forKey:@"name"];
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"group_id"]] forKey:@"zipcode"];
+            [levelArry addObject:dictionaryTwo];
+            
+        }
+        [typeArr addObject:levelArry];
+        
+        
+        [jingyanArry addObject:dictionary1];
+        for (NSDictionary *dicTwo in jingyanArr) {
+            NSMutableDictionary *dictionaryTwo  =[[NSMutableDictionary alloc]init];//新的字典
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"title"]] forKey:@"name"];
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"attr_value_id"]] forKey:@"zipcode"];
+            [jingyanArry addObject:dictionaryTwo];
+            
+        }
+        [typeArr addObject:jingyanArry];
+     
+        
+        
+        [zhiweiArry addObject:dictionary1];
+        for (NSDictionary *dicTwo in zhiweiArr) {
+            NSMutableDictionary *dictionaryTwo  =[[NSMutableDictionary alloc]init];//新的字典
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"title"]] forKey:@"name"];
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"attr_value_id"]] forKey:@"zipcode"];
+            [zhiweiArry addObject:dictionaryTwo];
+        }
+        [typeArr addObject:zhiweiArry];
+        
+        
+        [shunxuArry addObject:dictionary1];
+        for (NSDictionary *dicTwo in shunxuArr) {
+            NSMutableDictionary *dictionaryTwo  =[[NSMutableDictionary alloc]init];//新的字典
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"title"]] forKey:@"name"];
+            [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"title"]] forKey:@"zipcode"];
+            [shunxuArry addObject:dictionaryTwo];
+        }
+        [typeArr addObject:shunxuArry];
+   
+    } fail:^(NSError *error) {
+        
+    }];
+    
 }
 -(void)btnClickBtn:(UIButton *)cell
 {
+    UITextField *textF =[self.view viewWithTag:30];
+    [textF resignFirstResponder];
     
+    // cell.tag -230
+    topView.addressArr =typeArr[cell.tag -230] ;
+    topView.typeString =@"area_list";
+    topView.level = 1;
+    [topView.oneLinkageDropMenu dismiss];
     
+}
+-(void)chooseBtnReturn:(UIButton *)btn withStringId:(NSString *)stringId
+{
+    if (btn.tag==230) {
+        cityId =stringId;
+    }else if (btn.tag==231) {
+        levelId =stringId;
+    }else if (btn.tag==232) {
+        jyId =stringId;
+    }else if (btn.tag==233) {
+        zwId =stringId;
+    }else if (btn.tag==234) {
+        sxId =stringId;
+    }
+    NSLog(@"cityId=%@levelId=%@jyId=%@zwId=%@sxId=%@",cityId,levelId,jyId,zwId,sxId);
+    //刷新
+    currentPage=1;
+    
+    [self performSelector:@selector(getInfoList)];
 }
 - (void)changeStatuBtnOut:(UIButton *)btn
 {
@@ -118,7 +247,7 @@
 }
 - (void)withDrawlsBtnAction
 {
-    
+    [self getInfoList];
     
 }
 - (void)returnBtnAction
@@ -137,7 +266,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10 ;
+    return infoArray.count ;
 }
 
 
@@ -159,19 +288,37 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
     cell.delegate =self;
-    //    NSDictionary *dict = [infoArray objectAtIndex:row];
-    //    [cell setDic:dict];
+    NSDictionary *dict = [infoArray objectAtIndex:row];
+    [cell setDic:dict];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FindDesignerDetailVC *find =[[FindDesignerDetailVC alloc]init];
+    find.sjsUserId=[NSString stringWithFormat:@"%@",[infoArray[indexPath.row] objectForKey:@"uid"]];
     [self.navigationController pushViewController:find animated:YES];
-
 }
 -(void)btnClick:(UITableViewCell *)cell andBtnActionTag:(NSInteger)tag
 {
-    NSLog(@"免费预约");
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    NSString* uid  = [NSString stringWithFormat:@"%@",[infoArray[index.row] objectForKey:@"uid"]];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"uid":uid,
+                          }];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-yuyue.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            [MBProgressHUD showSuccess:@"预约成功" ToView:self.view];
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+
+
+
 }
 
 #pragma mark - Pull to Refresh
@@ -184,7 +331,7 @@
     [hv.activityIndicator startAnimating];
     hv.title.text = @"加载中...";
     [CATransaction begin];
-    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+85*Width, CXCWidth, CXCHeight-Frame_rectStatus)];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+85*Width, CXCWidth, CXCHeight-Frame_rectStatus-85*Width)];
     
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
     ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
@@ -208,7 +355,7 @@
     DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
     if (willRefreshOnRelease){
         hv.title.text = @"松开即可更新...";
-        currentPage = 0;
+        currentPage = 1;
         [CATransaction begin];
         [CATransaction setAnimationDuration:0.18f];
         ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -218,7 +365,7 @@
     else{
         
         if ([hv.title.text isEqualToString:@"松开即可更新..."]) {
-            currentPage = 0;
+            currentPage = 1;
             [CATransaction begin];
             [CATransaction setAnimationDuration:0.18f];
             ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
@@ -315,7 +462,7 @@
 - (void) addItemsOnTop
 {
     
-    currentPage=0;
+    currentPage=1;
     [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
     
     DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
@@ -358,37 +505,43 @@
 }
 - (void)getInfoList
 {
+    UITextField *textF =[self.view viewWithTag:30];
+    [textF resignFirstResponder];
     
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{@"page":[NSString stringWithFormat:@"%ld",(long)currentPage] ,
-                          //                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]]
+    [dic1 setDictionary:@{
+                          @"page":[NSString stringWithFormat:@"%ld",(long)currentPage],
+                          @"area_id":[NSString stringWithFormat:@"%@",cityId],
+                          @"group_id":[NSString stringWithFormat:@"%@",levelId],
+                          @"jy":[NSString stringWithFormat:@"%@",jyId],//经验
+                          @"xw":[NSString stringWithFormat:@"%@",zwId],//职位
+                          @"order":[NSString stringWithFormat:@"%@",sxId],//排序
+                          @"keywords":[NSString stringWithFormat:@"%@",textF.text],
                           }];
-    
-    [PublicMethod AFNetworkPOSTurl:@"Home/Member/recommend2" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?designer-items.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
-            if (currentPage==0) {
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
+            NSMutableArray *array =[[NSMutableArray alloc]init];
+            array=[[dict objectForKey:@"data"] objectForKey:@"items"];
+           
+            if (currentPage==1) {
                 [infoArray removeAllObjects];
-                
             }
-            NSMutableArray *array=[dict objectForKey:@"data"];
             if ([array isKindOfClass:[NSNull class]]) {
-                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
                 
+                [self.tableView reloadData];
                 return ;
             }
-            
-            
             [infoArray addObjectsFromArray:array];
-            
-            if ([infoArray count]==0 && currentPage==0) {
-                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-                
+
+            if ([infoArray count]==0 && currentPage==1) {
+
             }
-            pageCount =infoArray.count/20;
+            [infoArray addObjectsFromArray:array];
+
+            pageCount =infoArray.count/10;
             //判断是否加载更多
-            if (array.count==0 || array.count<20){
+            if (array.count==0 || array.count<10){
                 self.canLoadMore = NO; // signal that there won't be any more items to load
             }else{
                 self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
@@ -405,7 +558,7 @@
             
             
             [self.tableView reloadData];
-            if (currentPage==0) {
+            if (currentPage==1) {
                 [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
             }
             [self.tableView reloadData];
@@ -415,6 +568,12 @@
     } fail:^(NSError *error) {
         
     }];
+    
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self getInfoList];
+    [textField resignFirstResponder];
+    return YES;
     
 }
 /*

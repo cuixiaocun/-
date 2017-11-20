@@ -59,20 +59,20 @@
     _dic =Dict;
     _goodsImgView.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dic objectForKey:@"img"]]];
     _goodsTitleLab.text =[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"name"]];
-    NSInteger box =[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"num"]] integerValue]/[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"boxnum"]] integerValue];
-    NSInteger num =[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"num"]] integerValue]%[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"boxnum"]] integerValue];
-    if (box==0) {
-        _promptLabel.text   = [NSString stringWithFormat:@"%ld盒",num];
+//    NSInteger box =[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"num"]] integerValue]/[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"boxnum"]] integerValue];
+//    NSInteger num =[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"num"]] integerValue]%[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"boxnum"]] integerValue];
+//    if (box==0) {
+//        _promptLabel.text   = [NSString stringWithFormat:@"%ld盒",num];
+//
+//    }else if(box>0&&num>0)
+//    {
+//        _promptLabel.text  = [NSString stringWithFormat:@"%ld箱%ld盒",box,num];
+//
+//    }else if(box>0&&num==0)
+//    {
+    _promptLabel.text  = [NSString stringWithFormat:@"%ld件",(long)[[NSString  stringWithFormat:@"%@", [_dic objectForKey:@"goodsNum"]] integerValue]];
         
-    }else if(box>0&&num>0)
-    {
-        _promptLabel.text  = [NSString stringWithFormat:@"%ld箱%ld盒",box,num];
-        
-    }else if(box>0&&num==0)
-    {
-         _promptLabel.text  = [NSString stringWithFormat:@"%ld箱",box];
-        
-    }
+//    }
     _priceLab.text =[NSString stringWithFormat:@"¥%@",[_dic objectForKey:@"price"]];
 
         
@@ -82,16 +82,16 @@
     _dicForGoods =dicForGoods;
     _goodsImgView.imageURL =[NSURL URLWithString:[NSString stringWithFormat:@"%@",[_dicForGoods objectForKey:@"img"]]];
     _goodsTitleLab.text =[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"goodsTitle"]];
-    NSInteger box =[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"goodsNum"]] integerValue]/[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"boxnum"]] integerValue];
-    NSInteger num =[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"goodsNum"]] integerValue]%[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"boxnum"]] integerValue];
-    if (box==0) {
-        _promptLabel.text = [NSString stringWithFormat:@"%ld盒",num];
-        
-    }else
-    {
-        _promptLabel.text = [NSString stringWithFormat:@"%ld箱%ld盒",box,num];
-        
-    }
+//    NSInteger box =[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"goodsNum"]] integerValue]/[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"boxnum"]] integerValue];
+//    NSInteger num =[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"goodsNum"]] integerValue]%[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"boxnum"]] integerValue];
+//    if (box==0) {
+    _promptLabel.text =[NSString stringWithFormat:@"%ld件",(long)[[NSString  stringWithFormat:@"%@", [_dicForGoods objectForKey:@"goodsNum"]] integerValue]] ;
+//
+//    }else
+//    {
+//        _promptLabel.text = [NSString stringWithFormat:@"%ld箱%ld盒",box,num];
+//
+//    }
     _priceLab.text =[NSString stringWithFormat:@"¥%@",[_dicForGoods objectForKey:@"goodsPrice"]];
     
     

@@ -28,6 +28,8 @@
 @property (nonatomic, strong) DropMenuView *oneLinkageDropMenu;
 @property (nonatomic, strong) NSArray *addressArr;
 @property (nonatomic, strong) NSString *typeString;
+@property (nonatomic, strong) NSString *isZhuangxiu;
+
 @property (nonatomic, assign) NSInteger level;
 
 

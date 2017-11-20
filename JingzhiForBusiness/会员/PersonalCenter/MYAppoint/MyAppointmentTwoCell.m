@@ -19,9 +19,9 @@
         //        [self addSubview:xian];
         //        xian.frame =CGRectMake(0,0*Width, CXCWidth, 1.5*Width);
         
-        NSArray*leftArr =@[@"半小时前",@"ID",@"设计师",@"联系人",@"联系电话",@"",@"",@"",@"",];
+        NSArray*leftArr =@[@"2017-11-11",@"ID",@"设计师",@"联系人",@"联系电话",@"",@"",@"",@"",];
         
-        NSArray*rightArr =@[@"",@"22222222",@"李四",@"张三",@"18363267772",@"3",@"",@"",];
+        NSArray*rightArr =@[@"",@"1984949220130",@"李品",@"李品",@"1836321572",@"3",@"",@"",];
         for (int i=0; i<5; i++){
             //背景
             UIView *bgview =[[UIView alloc]init];

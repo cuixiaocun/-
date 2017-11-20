@@ -29,7 +29,7 @@
     NSArray*ImgsArr;//下边图片
     UITableView *goodsTableview;//中间商品
     NSDictionary *dataDict ;
-
+    UILabel *promlabel;
 
 
 
@@ -54,7 +54,6 @@
     inforArr =[[NSMutableArray alloc]init];
     NSArray* inforArray = [PublicMethod getObjectForKey:shopingCart];
     [inforArr addObjectsFromArray: inforArray];
-    
     [self mainView];
     [self getDetialInformation];
 
@@ -64,10 +63,7 @@
 {
 
     [[self rdv_tabBarController] setSelectedIndex:1];
-
     [self.navigationController popViewControllerAnimated:NO];
-    
-
 }
 - (void)mainView
 {
@@ -95,16 +91,17 @@
     
     //添加返回按钮
     UIButton *  returnBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    returnBtn.frame = CGRectMake(0, 20, 44, 44);
+    returnBtn.frame = CGRectMake(0, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
-    [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [returnBtn addTarget:self action:@selector(returnBtnAction)      forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
+    
     //右
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
-    shareBtn.backgroundColor = [UIColor clearColor];
-    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
-    [shareBtn setImage:[UIImage imageNamed:@"details_btn_white"] forState:UIControlStateNormal];
-    [topImageView addSubview:shareBtn];
+//    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-44, 20, 44, 44)];
+//    shareBtn.backgroundColor = [UIColor clearColor];
+//    [shareBtn addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
+//    [shareBtn setImage:[UIImage imageNamed:@"details_btn_white"] forState:UIControlStateNormal];
+//    [topImageView addSubview:shareBtn];
     
     
     topImageViewNomal= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
@@ -121,11 +118,11 @@
     [returnBtnNomal addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageViewNomal addSubview:returnBtnNomal];
 //    //右
-    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav)];
-    shareBtnNomal.backgroundColor = [UIColor clearColor];
-    [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
-    [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_cart"] forState:UIControlStateNormal];
-    [topImageViewNomal addSubview:shareBtnNomal];
+//    UIButton *shareBtnNomal = [[UIButton alloc] initWithFrame:CGRectMake( CXCWidth-Frame_rectNav, Frame_rectStatus, Frame_rectNav, Frame_rectNav)];
+//    shareBtnNomal.backgroundColor = [UIColor clearColor];
+//    [shareBtnNomal addTarget:self action:@selector(shateButton) forControlEvents:UIControlEventTouchUpInside];
+//    [shareBtnNomal setImage:[UIImage imageNamed:@"details_btn_cart"] forState:UIControlStateNormal];
+//    [topImageViewNomal addSubview:shareBtnNomal];
     
     cycleScrollView2 =[SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, CXCWidth,560*Width) delegate:self placeholderImage:[UIImage imageNamed:@"placeholder@2x"]];
     cycleScrollView2.backgroundColor =TextGrayGray3Color;
@@ -152,12 +149,7 @@
     
     UILabel *shanchu =[[UILabel alloc]initWithFrame:CGRectMake(pricesLabel.right+24*Width, nameLabel.bottom+15*Width, 200*Width, 60*Width)];
     shanchu.tag=301;
-    NSString *oldPrice = @"¥12345";
-    NSUInteger length = [oldPrice length];
     
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
-    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, length)];
-    [shanchu setAttributedText:attri];
     shanchu.font =[UIFont  systemFontOfSize:12];
     shanchu.textColor =TextGrayGrayColor;
     [bgScrollView addSubview:shanchu];
@@ -181,7 +173,7 @@
         [numberBgview addSubview:proLabel];
         //文字购买数量
         UILabel* rightLabel = [[UILabel alloc]initWithFrame:CGRectMake(300*Width, i*Width*82,390*Width , 82*Width)];
-               rightLabel.tag =20+i;
+        rightLabel.tag =20+i;
         rightLabel.textAlignment =NSTextAlignmentRight;
         rightLabel.font = [UIFont systemFontOfSize:16];
         rightLabel.textColor = BlackColor;
@@ -219,21 +211,31 @@
     [bgScrollView addSubview:xian2];
 
 //    //商品详情
-//    UILabel *promlabel=[[UILabel alloc]initWithFrame:CGRectMake(24*Width, xian2.bottom+20*Width, 520*Width, 60*Width)];
-//    promlabel.backgroundColor =[UIColor whiteColor];
-//    promlabel.text =@"商品详情";
-//    promlabel.font =[UIFont systemFontOfSize:16];
-//    promlabel.textColor =BlackColor;
-//    [bgScrollView addSubview:promlabel];
+    promlabel=[[UILabel alloc]initWithFrame:CGRectMake(24*Width, xian2.bottom+20*Width, 520*Width, 60*Width)];
+    promlabel.backgroundColor =[UIColor whiteColor];
+    promlabel.text =@"商品详情";
+    promlabel.font =[UIFont systemFontOfSize:16];
+    promlabel.textColor =BlackColor;
+    [bgScrollView addSubview:promlabel];
     
     
-    webView  = [[UIWebView alloc]initWithFrame:CGRectMake(0,xian2.bottom+20*Width,CXCWidth,0 )];
-    webView.scalesPageToFit = NO;
-    webView.delegate=self;
-    webView.scrollView.scrollEnabled =NO;
+//    webView  = [[UIWebView alloc]initWithFrame:CGRectMake(0,xian2.bottom+20*Width,CXCWidth,0 )];
+//    webView.scalesPageToFit = NO;
+//    webView.delegate=self;
+//    webView.scrollView.scrollEnabled =NO;
+    
+    
+    
+    
+    
+    
     
     [bgScrollView addSubview:webView];
+    
+    
+    
     goodsTableview  =[[UITableView alloc]init];
+    goodsTableview.frame =CGRectMake(0, promlabel.bottom, CXCWidth, 60*Width);
     [goodsTableview setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
     goodsTableview .showsVerticalScrollIndicator = NO;
     goodsTableview.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -383,15 +385,14 @@
 - (void)buyBtnAction:(UIButton *)btn
 {
     if (btn.tag==990) {
-        ShopStoreMainVC *shop =[[ShopStoreMainVC alloc]init];
+        ShopStoreMainVC *shop = [[ShopStoreMainVC alloc]init];
+        shop.shopId =[[dataDict objectForKey:@"detail"] objectForKey:@"shop_id"];
         [self.navigationController pushViewController:shop animated:YES];
-        
     }else if (btn.tag==991)
     {
-        
         if (![PublicMethod getDataStringKey:@"IsLogin"])
         {//若没登录请登录
-            LoginPage *loginPage =[[LoginPage     alloc]init];
+            LoginPage *loginPage =[[LoginPage  alloc]init];
             loginPage.status =@"present";
             [self.navigationController pushViewController:loginPage animated:YES];
             return;
@@ -402,20 +403,17 @@
         NSMutableArray* goodsMutableArr =[[NSMutableArray alloc]init];
         
         NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
-        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"name"]]forKey:@"goodsTitle"];
-        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"price"]] forKey:@"goodsPrice"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"name"]]forKey:@"goodsTitle"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"price"]] forKey:@"goodsPrice"];
         [infoDict setValue:[NSString stringWithFormat:@"NO"] forKey:@"selectState"];
-        [infoDict setValue:[NSString stringWithFormat:@"%.2f",([[[dataDict objectForKey:@"product"] objectForKey:@"price"] floatValue] *[num floatValue])] forKey:@"goodsTotalPrice"];
+        [infoDict setValue:[NSString stringWithFormat:@"%.2f",([[[dataDict objectForKey:@"detail"] objectForKey:@"price"] floatValue] *[num floatValue])] forKey:@"goodsTotalPrice"];
         [infoDict setValue:[NSNumber numberWithInt:[num intValue]] forKey:@"goodsNum"];
-        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"id"]] forKey:@"goodID"];
-        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"boxnum"]] forKey:@"boxnum"];
-        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"img"]] forKey:@"img"];
-        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"deductible"]] forKey:@"deductible"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"product_id"]] forKey:@"goodID"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",@"1"] forKey:@"boxnum"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"photo"]] forKey:@"img"];
+        [infoDict setValue:[NSString stringWithFormat:@"%@",@"0"] forKey:@"deductible"];
         [infoDict setValue:[NSString stringWithFormat:@"%@",@"1"] forKey:@"ishidden"];//@“1”是隐藏所有的x按钮
-        
-        
         [goodsMutableArr addObject:infoDict];
-        
         
         HYConfirmOrderVC *confirmOrderVC =[[HYConfirmOrderVC alloc]init];
         confirmOrderVC.googsArr =goodsMutableArr;
@@ -631,27 +629,47 @@
     NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
     [dic1 setDictionary:@{@"product_id":_goodsId}];
     NSLog(@"%@",dic1);
-     [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-detail.html" paraments:@{} addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+     [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-detail.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
          dataDict  =[dict objectForKey:@"data"];
         
-        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-            
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"]) {
             UILabel*nameLabel =[self.view viewWithTag:300];
             UILabel*jfLabel =[self.view viewWithTag:301];
             UILabel*pricesLabel =[self.view viewWithTag:302];
-//            UILabel*nameLabel =[self.view viewWithTag:303];
-            nameLabel.text =[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"name"]];
-            jfLabel.text =[NSString stringWithFormat:@"最高可抵扣积分：%@",[[dataDict objectForKey:@"product"] objectForKey:@"deductible"]];
-            pricesLabel.text =[NSString stringWithFormat:@"¥%@",[[dataDict objectForKey:@"product"] objectForKey:@"price"]];
-            cycleScrollView2.imageURLStringsGroup =@[ [NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"img"]]];
-            NSString *htmlString =[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"product"] objectForKey:@"html"]];
-            NSString *newBacnStr = [self htmlEntityDecode:htmlString];
             
+            UILabel*kcLabel =[self.view viewWithTag:20];
+            UILabel*flLabel =[self.view viewWithTag:21];
+
+            nameLabel.text =[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"name"]];
+            NSString *oldPrice = [NSString stringWithFormat:@"¥%@",[[dataDict objectForKey:@"detail"] objectForKey:@"market_price"]];
+            NSUInteger length = [oldPrice length];
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:oldPrice];
+            [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle) range:NSMakeRange(0, length)];
+            [jfLabel setAttributedText:attri];
+            
+            pricesLabel.text =[NSString stringWithFormat:@"¥%@",[[dataDict objectForKey:@"detail"] objectForKey:@"price"]];
+            cycleScrollView2.imageURLStringsGroup =@[ [NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"photo"]]];
+            kcLabel.text =[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"store"]];
+            flLabel.text =[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"cate_name"]];
+            
+            NSString *htmlString =[NSString stringWithFormat:@"%@",[[dataDict objectForKey:@"detail"] objectForKey:@"html"]];
+            NSString *newBacnStr = [self htmlEntityDecode:htmlString];
+            NSArray * imgArr =[[NSArray alloc]init];
+            imgArr = [[dict objectForKey:@"data"] objectForKey:@"product_photo_list"];
+            NSMutableArray *imagesArray =[[NSMutableArray alloc]init];
+            for (int i=0; i<imgArr.count; i++) {
+                
+                [imagesArray insertObject:[NSString stringWithFormat:@"%@%@",IMAGEURL,[imgArr[i] objectForKey:@"photo"]] atIndex:i];
+                
+            }
+            cycleScrollView2.imageURLStringsGroup = imagesArray;//放上图片
+            
+            ImgsArr =imagesArray;
+            [goodsTableview setFrame:CGRectMake(0,promlabel.bottom,CXCWidth,ImgsArr.count*400*Width+100*Width)];
             [webView loadHTMLString:newBacnStr baseURL:nil];
-            ImgsArr = [[dataDict objectForKey:@"product" ] objectForKey:@"imgs"];
             [goodsTableview reloadData];
-        
+            [bgScrollView setContentSize:CGSizeMake(CXCWidth, goodsTableview.bottom)];
             
         }
     } fail:^(NSError *error) {

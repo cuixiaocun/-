@@ -11,33 +11,45 @@
 #import "MJRefresh.h"
 #import "ComCompanyCell.h"
 #import "ShopStoreMainVC.h"
+#import "ComcompanyTableviewCell.h"
 @interface ComCompanyList ()<UITextFieldDelegate,MenuChooseDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
 {
     
     NSInteger currentPage; //当前页
     UIScrollView*topView;
-    NSArray *goodsArr;
     
     NSString *statuString;
     NSIndexPath *index;
     NSString *typeStr;
-
+    NSMutableArray *typeArr;
+    BOOL isMore;
+    //横线
+    UIImageView*xian;
     
 }
-@property (nonatomic,retain) UICollectionView *mainCMallCollectionView;//按钮视图
 
 @end
 
 @implementation ComCompanyList
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden =YES;
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view setBackgroundColor:BGColor];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    currentPage =0;
-    
+    currentPage =1;
+    infoArray =[[NSMutableArray alloc]init];
+    typeArr =[[NSMutableArray alloc]init];
+    isMore =YES;
+
+    [self allType];
+  
+
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
@@ -58,7 +70,7 @@
     bigShowImgV.image =[UIImage imageNamed:@"sf_icon_search"];
     [navBgView addSubview:bigShowImgV];
     UITextField *searchTextField = [[UITextField alloc] init];
-    [searchTextField setPlaceholder:@"请输入问题"];
+    [searchTextField setPlaceholder:@"请输入店铺"];
     [searchTextField setDelegate:self];
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
@@ -72,13 +84,13 @@
     
     //搜索按钮
     UIButton *  searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
+    searchBtn.frame = CGRectMake(CXCWidth-60,Frame_rectStatus, Frame_rectNav, Frame_rectNav);
+    
     searchBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [searchBtn addTarget:self action:@selector(withDrawlsBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:searchBtn];
-    NSArray *btnArr =@[@"全部",@"基础建材",@"家居定制",@"家电",@"配饰",@"其他"];
     topView =[[UIScrollView alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus, CXCWidth, 85*Width)];
     topView.backgroundColor =[UIColor whiteColor];
     topView.showsVerticalScrollIndicator = FALSE;
@@ -86,57 +98,35 @@
     topView.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:topView];
     
-
-    for (int i=0; i<btnArr.count; i++) {
-        UIButton *  statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        statuBtn.frame = CGRectMake(CXCWidth/4*i, 0,CXCWidth/4-2*Width ,85*Width);
-        if (i==0) {
-            statuBtn.selected =YES;
-        }
-        
-        statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
-        [statuBtn setTitle:btnArr[i] forState:UIControlStateNormal];
-        [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
-        [statuBtn setTitleColor:NavColor forState:UIControlStateSelected];
-        statuBtn.tag =220+i;
-        [statuBtn addTarget:self action:@selector(changeStatuBtn:) forControlEvents:UIControlEventTouchUpInside];
-        [topView addSubview:statuBtn];
-    }
-    [topView setContentSize:CGSizeMake(CXCWidth/4*btnArr.count, 85*Width)];
-
-  
-    //横线
-    UIImageView*xian =[[UIImageView alloc]init];
+    xian =[[UIImageView alloc]init];
     xian.backgroundColor =BGColor;
     [topView addSubview:xian];
     xian.frame =CGRectMake(0,83*Width, CXCWidth, 2*Width);
     //1\初始化layout
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    
-    //3\初始化collextionVIewCell
-    _mainCMallCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, Frame_NavAndStatus+1+85*Width, CXCWidth,CXCHeight-Frame_NavAndStatus-85*Width) collectionViewLayout:layout];
-    [self.view addSubview:_mainCMallCollectionView];
-    [_mainCMallCollectionView setBackgroundColor:BGColor];
-    //注册collectionViewCell
-    //注意，此处的ReuseIdentifier必须和cellForItemAtIndexPath方法中一致，必须为cellId
-    [_mainCMallCollectionView registerClass:[ComCompanyCell     class] forCellWithReuseIdentifier:NSStringFromClass([ComCompanyCell class])];
-    
-    //注册headerView 此处的ReuseiDentifier必须个cellForItemAtIndexPath方法中一致，均为reusableView
-    //    [_mainCMallCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView"];
-    //    [_mainCMallCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footerView"];
-    _mainCMallCollectionView.backgroundColor =[UIColor whiteColor];
-    
-    //设置代理
-    _mainCMallCollectionView.delegate = self;
-    _mainCMallCollectionView.dataSource = self;
-    [_mainCMallCollectionView reloadData];
-    [self addFooter];
-    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+85*Width, CXCWidth, CXCHeight-Frame_rectStatus-85*Width-49)];
+    [self.tableView setDelegate:self];
+    [self.tableView setDataSource:self];
+    self.tableView .showsVerticalScrollIndicator = NO;
+    [self.tableView setBackgroundColor:[UIColor clearColor]];
+    // 下拉刷新
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableHeaderView" owner:self options:nil];
+    DemoTableHeaderView *headerView = (DemoTableHeaderView *)[nib objectAtIndex:0];
+    self.headerView = headerView;
+    // 上拉加载
+    nib = [[NSBundle mainBundle] loadNibNamed:@"DemoTableFooterView" owner:self options:nil];
+    DemoTableFooterView *footerView = (DemoTableFooterView *)[nib objectAtIndex:0];
+    self.footerView = footerView;
+    currentPage =1;
+    infoArray =[[NSMutableArray alloc]init];
+    [self getInfoList];
     
     
 }
+
 - (void)changeStatuBtn:(UIButton *)btn
 {
+   
 //    UIImageView *imageview =(UIImageView *)[self.view viewWithTag:14];
     
     [UIView animateWithDuration:0.15 animations:^{
@@ -146,36 +136,101 @@
         
     }];
     
-    typeStr =[NSString stringWithFormat:@"%ld",btn.tag];
-    
-    
-    
-    for (int i=0; i<6; i++) {
+    for (int i=0; i<typeArr.count; i++) {
         UIButton *statuBtn =[self.view viewWithTag:220+i];
         statuBtn.selected=NO;
     }
-    statuString =[NSString stringWithFormat:@"%ld",btn.tag-220];
     btn.selected =YES;
-    
-    currentPage=0;
+    typeStr =[typeArr[btn.tag-220] objectForKey:@"cat_id"];
+    NSLog(@"typeStrtypeStr=%@",typeStr);
+    currentPage=1;
     [self getInfoList];
-    [_mainCMallCollectionView reloadData];
 
 
 
 }
 - (void)getInfoList
 {
+    
+    UITextField *textf =[self.view viewWithTag:30];
+    [textf resignFirstResponder];
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"page":[NSString stringWithFormat:@"%ld",(long)currentPage],
+                          @"keywords":[NSString stringWithFormat:@"%@",textf.text],
+                          @"cat_id":[NSString stringWithFormat:@"%@",typeStr],
+                          }];
+    
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-f.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
 
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"])
+        {
+            NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"ite"];
+            
+            if (currentPage==1) {
+                [infoArray removeAllObjects];
+            }
+            if ([array isKindOfClass:[NSNull class]]) {
+                
+                [self.tableView reloadData];
+                return ;
+            }
+            [infoArray addObjectsFromArray:array];
+            
+            if ([infoArray count]==0 && currentPage==1) {
+                
+            }
+            
+            pageCount =infoArray.count/10;
+            //判断是否加载更多
+            if (array.count==0 || array.count<10){
+                self.canLoadMore = NO; // signal that there won't be any more items to load
+            }else{
+                self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
+            }
+            
+            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+            [fv.activityIndicator stopAnimating];
+            
+            if (!self.canLoadMore) {
+                fv.infoLabel.hidden = YES;
+            }else{
+                fv.infoLabel.hidden = NO;
+            }
+            
+            
+            [self.tableView reloadData];
+            if (currentPage==1) {
+                [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+            }
+            [self.tableView reloadData];
+            
+        }
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
 }
 -(void)btnClickBtn:(UIButton *)cell
 {
-    
-    
 }
 
 - (void)withDrawlsBtnAction
 {
+    UITextField *searchTextField =[self.view viewWithTag:30];
+    [searchTextField resignFirstResponder];
+    if ([[NSString stringWithFormat:@"%@",searchTextField.text] isEqualToString:@""]) {
+        [MBProgressHUD showSuccess:@"请输入内容" ToView:self.view];
+        return;
+    }
+    currentPage=1;
+    [self getInfoList];
     
 }
 - (void)returnBtnAction
@@ -184,107 +239,296 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
-//返回section的item个数
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return 30;
-}
-//设置每个方块的尺寸
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    return CGSizeMake(CXCWidth,250*Width);
-}
-//两个cell之间的间距（同一行的cell的间距）
--(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 0*Width;
-}
-//这个是两行cell之间的间距（上下行cell的间距）
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 0*Width;
-    
-    
 }
 
-////设置每个item四周的边距
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
+
+- (void)allType{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          @"cat_id":@"",
+                          }];
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-cate.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"])
+        {
+            
+            NSArray *typeArry =[[dict objectForKey:@"data"] objectForKey:@"cate"];
+            NSMutableDictionary *dic1 =[[NSMutableDictionary alloc]init];
+            [dic1 setValue:@"全部" forKey:@"title"];
+            [dic1 setValue:@"" forKey:@"cat_id"];
+            [typeArr addObject:dic1];
+
+            for (int i=0; i<typeArry.count; i++) {
+                NSMutableDictionary *dic =[[NSMutableDictionary alloc]init];
+                [dic setValue:[typeArry[i] objectForKey:@"title"] forKey:@"title"];
+                [dic setValue:[typeArry[i] objectForKey:@"cat_id"] forKey:@"cat_id"];
+                [typeArr addObject:dic];
+                
+            }
+            
+            for (int i=0; i<typeArr.count; i++) {
+                UIButton * statuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                statuBtn.frame = CGRectMake(CXCWidth/4*i, 0,CXCWidth/4-2*Width ,85*Width);
+                [statuBtn setTitle:[typeArr[i] objectForKey:@"title"] forState:UIControlStateNormal];
+                statuBtn.titleLabel.font =[UIFont boldSystemFontOfSize:14];
+                [statuBtn setTitleColor:TextGrayColor forState:UIControlStateNormal];
+                [statuBtn setTitleColor:NavColor forState:UIControlStateSelected];
+                statuBtn.tag =220+i;
+                [statuBtn addTarget:self action:@selector(changeStatuBtn:) forControlEvents:UIControlEventTouchUpInside];
+                [topView addSubview:statuBtn];
+                
+                if(i==0)
+                {
+                    statuBtn.selected = YES;
+                }
+            }
+            
+            [topView setContentSize:CGSizeMake(CXCWidth/4*typeArr.count, 85*Width)];
+            //横线
+            xian.frame =CGRectMake(0,83*Width, CXCWidth/4*typeArr.count, 2*Width);
+
+            
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
     
-    return UIEdgeInsetsMake(10*Width, 23.33*Width,10*Width,23.33*Width);
     
     
 }
-//每个cell的数据
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    ComCompanyCell* onecell = (ComCompanyCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ComCompanyCell class]) forIndexPath:indexPath];
-    
-    onecell.backgroundColor = [UIColor whiteColor];
-    //    _cell.dic =goodsArr[indexPath.row];
-    return onecell;
-    
+    return infoArray.count;
 }
-//点击方法
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 280*Width;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView1 cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger row =[indexPath row];
+    static NSString *CellIdentifier = @"Cell";
+    ComcompanyTableviewCell *cell =[tableView1 dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[ComcompanyTableviewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                    reuseIdentifier:CellIdentifier ];
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    }
+    NSDictionary *dict = [infoArray objectAtIndex:row];
+    [cell setDic:dict];
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ShopStoreMainVC*goode =[[ShopStoreMainVC alloc]init];
-//    goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+    goode.shopId =[NSString stringWithFormat:@"%@",[infoArray[indexPath.row] objectForKey:@"shop_id"]];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     [self.navigationController  pushViewController:goode animated:YES];
     
 }
 
-- (void)addFooter
+
+#pragma mark - Pull to Refresh
+- (void) pinHeaderView
 {
-    __unsafe_unretained typeof(self) vc = self;
-    // 添加上拉刷新尾部控件
-    [_mainCMallCollectionView addFooterWithCallback:^{
-        // 进入刷新状态就会回调这个Block
-        
-        // 增加5条假数据
-        //        for (int i = 0; i<5; i++) {
-        //           [vc.fakeColors addObject:MJRandomColor];
-        //        }
-        
-        // 模拟延迟加载数据，因此2秒后才调用（真实开发中，可以移除这段gcd代码）
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [vc.mainCMallCollectionView reloadData];
-            // 结束刷新
-            [vc.mainCMallCollectionView footerEndRefreshing];
-        });
-    }];
-}
-- (void)addHeader
-{
-    __unsafe_unretained typeof(self) vc = self;
-    // 添加下拉刷新头部控件
-    [_mainCMallCollectionView addHeaderWithCallback:^{
-        // 进入刷新状态就会回调这个Block
-        
-        //        // 增加5条假数据
-        //        for (int i = 0; i<5; i++) {
-        //            [vc.fakeColors insertObject:MJRandomColor atIndex:0];
-        //        }
-        
-        // 模拟延迟加载数据，因此2秒后才调用（真实开发中，可以移除这段gcd代码）
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [vc.mainCMallCollectionView reloadData];
-            // 结束刷新
-            [vc.mainCMallCollectionView headerEndRefreshing];
-        });
-    } dateKey:@"collection"];
-    // dateKey用于存储刷新时间，也可以不传值，可以保证不同界面拥有不同的刷新时间
+    [super pinHeaderView];
     
-#warning 自动刷新(一进入程序就下拉刷新)
-    [_mainCMallCollectionView headerBeginRefreshing];
+    // do custom handling for the header view
+    DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
+    [hv.activityIndicator startAnimating];
+    hv.title.text = @"加载中...";
+    [CATransaction begin];
+    [self.tableView setFrame:CGRectMake(0,Frame_NavAndStatus+85*Width, CXCWidth, CXCHeight-Frame_rectStatus-85*Width)];
+    
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+    ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = YES;
+    [CATransaction commit];;
+    
 }
+- (void) unpinHeaderView
+{
+    [super unpinHeaderView];
+    
+    // do custom handling for the header view
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setAMSymbol:@"AM"];
+    [formatter setPMSymbol:@"PM"];
+    [formatter setDateFormat:@"yyyy/MM/dd hh:mm:ss a"];
+    ((DemoTableHeaderView *)self.headerView).time.text = [NSString stringWithFormat:@"最后更新: %@", [formatter stringFromDate:[NSDate date]]];
+    [[(DemoTableHeaderView *)self.headerView activityIndicator] stopAnimating];
+    self.headerView.hidden =YES;
+}
+
+- (void) headerViewDidScroll:(BOOL)willRefreshOnRelease scrollView:(UIScrollView *)scrollView
+{
+    self.headerView.hidden =NO;
+    
+    DemoTableHeaderView *hv = (DemoTableHeaderView *)self.headerView;
+    if (willRefreshOnRelease){
+        hv.title.text = @"松开即可更新...";
+        currentPage = 1;
+        [CATransaction begin];
+        [CATransaction setAnimationDuration:0.18f];
+        ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
+        [CATransaction commit];
+    }
+    
+    else{
+        
+        if ([hv.title.text isEqualToString:@"松开即可更新..."]) {
+            currentPage = 1;
+            [CATransaction begin];
+            [CATransaction setAnimationDuration:0.18f];
+            ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
+            [CATransaction commit];
+        }
+        
+        hv.title.text = @"下拉即可刷新...";
+        [CATransaction begin];
+        [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+        ((DemoTableHeaderView *)self.headerView).arrowImage.hidden = NO;
+        ((DemoTableHeaderView *)self.headerView).arrowImage.transform = CATransform3DIdentity;
+        [CATransaction commit];
+    }
+    
+}
+//
+- (BOOL) refresh
+{
+    if (![super refresh])
+        return NO;
+    
+    // Do your async call here
+    // This is just a dummy data loader:
+    [self performSelector:@selector(addItemsOnTop) withObject:nil afterDelay:0];
+    
+    
+    // See -addItemsOnTop for more info on how to finish loading
+    return YES;
+}
+#pragma mark - Load More
+
+- (void) willBeginLoadingMore
+{
+    DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+    [fv.activityIndicator startAnimating];
+}
+
+- (void) loadMoreCompleted
+{
+    [super loadMoreCompleted];
+    
+    DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+    [fv.activityIndicator stopAnimating];
+    
+    if (!self.canLoadMore) {
+        // Do something if there are no more items to load
+        
+        // We can hide the footerView by: [self setFooterViewVisibility:NO];
+        
+        // Just show a textual info that there are no more items to load
+        fv.infoLabel.hidden = YES;
+    }else{
+        fv.infoLabel.hidden = NO;
+    }
+}
+- (BOOL) loadMore
+{
+    if (![super loadMore])
+        return NO;
+    
+    
+    [self performSelector:@selector(addItemsOnBottom) withObject:nil afterDelay:0];
+    
+    
+    // Inform STableViewController that we have finished loading more items
+    
+    return YES;
+}
+
+
+- (void) scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+    
+    if (!isRefreshing && isDragging && scrollView.contentOffset.y < 0) {
+        [self headerViewDidScroll:scrollView.contentOffset.y < 0 - [self headerRefreshHeight]
+                       scrollView:scrollView];
+    } else if (!isLoadingMore && self.canLoadMore) {
+        CGFloat scrollPosition = scrollView.contentSize.height - scrollView.frame.size.height - scrollView.contentOffset.y;
+        //NSLog(@"%f====%f",scrollPosition,[self footerLoadMoreHeight]);
+        if (scrollPosition < [self footerLoadMoreHeight] && scrollPosition > 20) {
+            
+            [fv.infoLabel setText:@"上拉加载更多..."];
+        }else if(scrollPosition < 20){
+            //[fv.infoLabel setText:@"释放开始加载..."];
+            [fv.infoLabel setText:@"正在加载..."];
+            [self loadMore];
+        }
+        
+    }
+}
+
+#pragma mark - Dummy data methods
+- (void) addItemsOnTop
+{
+    
+    currentPage=1;
+    [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
+    
+    DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+    
+    if (currentPage >= pageCount-1){
+        self.canLoadMore = NO; // signal that there won't be any more items to load
+    }else{
+        self.canLoadMore = YES;
+    }
+    
+    
+    
+    
+    if (!self.canLoadMore) {
+        fv.infoLabel.hidden = YES;
+    }else{
+        fv.infoLabel.hidden = NO;
+    }
+    
+    
+    // Call this to indicate that we have finished "refreshing".
+    // This will then result in the headerView being unpinned (-unpinHeaderView will be called).
+    [self refreshCompleted];
+}
+
+
+- (void) addItemsOnBottom
+{
+    currentPage++;
+    [self performSelector:@selector(getInfoList) withObject:nil afterDelay:0];
+    
+    
+    if (currentPage >= pageCount-1)
+        self.canLoadMore = NO; // signal that there won't be any more items to load
+    else
+        self.canLoadMore = YES;
+    
+    // Inform STableViewController that we have finished loading more items
+    [self loadMoreCompleted];
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    currentPage=1;
+    [self getInfoList];
+    return YES;
+}
+
 
 /*
 #pragma mark - Navigation

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ShopStoreMainVC : UIViewController
+@property(strong,nonatomic)NSString *shopId;
 
 @end

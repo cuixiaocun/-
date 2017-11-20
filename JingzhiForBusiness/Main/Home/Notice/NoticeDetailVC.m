@@ -20,7 +20,6 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
@@ -32,7 +31,7 @@
     [returnBtn setImage:[UIImage imageNamed:navBackarrow] forState:UIControlStateNormal];
     [returnBtn addTarget:self action:@selector(returnBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:returnBtn];
-    
+
     //注册标签
     UILabel *navTitle =[[UILabel alloc] initWithFrame:CGRectMake(200*Width, Frame_rectStatus, 350*Width, Frame_rectNav)];
     [navTitle setText:_titleString];
@@ -40,27 +39,20 @@
     [navTitle setBackgroundColor:[UIColor clearColor]];
     [navTitle setFont:[UIFont boldSystemFontOfSize:18]];
     [navTitle setNumberOfLines:0];
-    [navTitle setTextColor:[UIColor whiteColor]];
+    [navTitle setTextColor:TextColor];
     [self.view addSubview:navTitle];
     [self mainView];
 }
 -(void)mainView
 {
     self.view.backgroundColor =BGColor;
-    
 //    _contentString =[self htmlEntityDecode:_contentString];
     NSString *newBacnStr = [_contentString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
     UIWebView * webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus,CXCWidth ,CXCHeight-Frame_NavAndStatus )];
 //    webView.scalesPageToFit=YES;
-
     [webView loadHTMLString:newBacnStr baseURL:nil];
     [self.view addSubview:webView];
 }
-    
-    
-
-
 -(void)returnBtnAction
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -82,8 +74,6 @@
     
     return string;
 }
-
-
 //将HTML字符串转化为NSAttributedString富文本字符串
 - (NSAttributedString *)attributedStringWithHTMLString:(NSString *)htmlString
 {

@@ -19,6 +19,10 @@
     UIView *topView;
     NSInteger indx;
     
+    NSMutableArray *typeArr;
+    NSMutableArray *typeStringArr;
+    NSString *typeId;
+    
 }
 @property(strong, nonatomic) CXCPickView*myPickerView;
 @property(nonatomic,strong)NSArray*oneDataArray;
@@ -35,6 +39,9 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
+    typeArr =[[NSMutableArray alloc]init];
+    typeStringArr =[[NSMutableArray alloc]init];
+    typeId =@"";
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
@@ -64,6 +71,7 @@
     _picUrlArr =[[NSMutableArray alloc]init];
     _picIdArr =[[NSMutableArray alloc]init];
     [self mainView];
+    [self getTieziType];
     }
 -(void)tureBtnAction:(NSString *)componentstring forRow:(NSString *)rowString
 {
@@ -71,6 +79,7 @@
     UILabel *typeLabel =[self.view viewWithTag:41];
     typeLabel.text =componentstring;
     typeLabel.textColor =[UIColor blackColor];
+    typeId =rowString;
 
 }
 - (void)cancelBtnAction:(NSString *)componentstring forRow:(NSString *)rowString
@@ -79,8 +88,7 @@
     UILabel *typeLabel =[self.view viewWithTag:41];
     typeLabel.text =componentstring;
     typeLabel.textColor =[UIColor blackColor];
-
-
+    typeId =@"";
 }
 - (void)returnBtnAction
 {
@@ -196,7 +204,7 @@
     btn.tag =200;
     [zhongView addSubview:btn];
     
-    //地址及以下
+    //下
     bottomView =[[UIView alloc]initWithFrame:CGRectMake(0,zhongView.bottom,CXCWidth, 520*CXCWidth)];
     [bgScrollView addSubview:bottomView];
     
@@ -219,23 +227,11 @@
     [nextBtn.titleLabel setTextColor:[UIColor whiteColor]];
     
     [nextBtn.titleLabel setFont:[UIFont boldSystemFontOfSize:18]];
-    [nextBtn addTarget:self action:@selector(sureDrawls) forControlEvents:UIControlEventTouchUpInside];
+    [nextBtn addTarget:self action:@selector(launchedDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:nextBtn];
     
     
 }
-
-
-
-
-- (void)sureDrawls
-{
-    
-    
-}
-
-
-
 
 
 
@@ -314,6 +310,7 @@
 - (void)xuanzhong
 {
     YBImgPickerViewController * next = [[YBImgPickerViewController alloc]init];
+    next.photoCount =1;
     [next showInViewContrller:self choosenNum:0 delegate:self withArr:_picIdArr];
     
     
@@ -326,6 +323,7 @@
 }
 -(void)shanchu:(UIButton *)btn
 {
+    [_picUrlArr removeObjectAtIndex:btn.tag-44400];
     [_picIdArr removeObjectAtIndex:btn.tag-44400];
     [self xianshi];
     
@@ -336,6 +334,60 @@
     
     
 }
+- (void)getTieziType
+{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?luntan-get_ask_cate" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"%@",dict);
+        //type列表
+        NSArray *typeArry =[dict objectForKey:@"data"] ;
+        
+        
+        for (NSDictionary*dic in typeArry) {
+            NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+            [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]] forKey:@"name"];
+            [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"cat_id"]] forKey:@"zipcode"];
+            NSMutableArray *detailTwo =[[NSMutableArray alloc]init];
+            detailTwo =[dic objectForKey:@"children"];
+            NSMutableArray *detailArr =[[NSMutableArray alloc]init];//存储新的arr（child）
+            [typeStringArr addObject:[dic objectForKey:@"title"]];
+            
+            //
+            NSMutableDictionary  *dictionary1 =[[NSMutableDictionary alloc]init];
+            [dictionary1 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary1 setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"cat_id"]] forKey:@"zipcode"];
+            [detailArr addObject:dictionary1];
+            
+            for (NSDictionary *dicTwo in detailTwo) {
+                
+                
+                NSMutableDictionary *dictionaryTwo  =[[NSMutableDictionary alloc]init];//新的字典
+                [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"title"]] forKey:@"name"];
+                [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"cat_id"]] forKey:@"zipcode"];
+                [detailArr addObject:dictionaryTwo];
+                
+                
+            }
+            [dictionary setValue:detailArr forKey:@"detailArr"];
+            
+            [typeArr addObject:dictionary];
+            
+            NSLog(@"typeArr = %@",typeArr);
+            NSLog(@"%@",[dic objectForKey:@"title"]);
+          
+            
+        }
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+}
+- (void)pinglunSuccess
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)choose:(UIButton*)btn{
     [_pickview remove];
 //    _pickview =[[ZHPickView alloc]initPickviewWithArray:@[@"开工大吉",@"水电改造",@"泥瓦工阶段",@"木工阶段",@"油漆阶段",@"安装",@"验收完成",@"",@"",@""] isHaveNavControler:NO];
@@ -343,18 +395,7 @@
 //    _pickview .tag = 103;
 //    [_pickview show];
     [_myPickerView removeFromSuperview];
-    _myPickerView =[[CXCPickView alloc ]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight)withArr:@[@{@"name1":@"不限",@"name2":@[@"不限"]},
-                            @{@"name1":@"家居设计",@"name2":@[@"不限",@"装修枫树",@"检品",@"风格",@"检品",@"客厅"]},
-  @{@"name1":@"家居设计",@"name2":@[@"不限",@"装修枫树",@"检品"]},
-  @{@"name1":@"材料设计",@"name2":@[@"不限",@"装修枫树",@"检品"]},
-  @{@"name1":@"产品设计",@"name2":@[@"不限",@"风格",@"检品",@"客厅"]},
-  @{@"name1":@"家居设计",@"name2":@[@"不限",@"风格",@"检品",@"客厅",@"装修枫树",@"检品"]},
-
-                                                                
-                                                                                                     
-                                                                                                     
-                                                                                                     
-                                                                                                     ]];
+    _myPickerView =[[CXCPickView alloc ]initWithFrame:CGRectMake(0, 0, CXCWidth, CXCHeight)withArr:typeArr];
 
     _myPickerView.delegate=self;
     [self.view addSubview:_myPickerView];
@@ -463,42 +504,93 @@
 - (void)LaunchedCampaignRequest
 {
     timeCount=1;
-    for(NSInteger i = 0; i < self.picUrlArr.count; i++)
-    {
-        NSData * imageData = [self.picUrlArr objectAtIndex: i];
-        [_uploadImageVArray addObject:@""];
-        
-        [self uploadImage:imageData withInt:i];
-        
-    }
-    if(_picIdArr.count==0)
-    {
-        [self postTheAction ];
-        
-    }
+   
+    [self uploadImage];
+    
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+
+    
+//    for(NSInteger i = 0; i < self.picUrlArr.count; i++)
+//    {
+//        NSData * imageData = [self.picUrlArr objectAtIndex: i];
+//        [_uploadImageVArray addObject:@""];
+//
+//        [self uploadImage:imageData withInt:i];
+//
+//    }
+//    if(_picIdArr.count==0)
+//    {
+//        [self postTheAction ];
+//
+//    }
     
 }
 
 
 #pragma mark 图片上传请求
-//上传图片
-- (void) uploadImage:(NSData *)imageDate withInt:(NSInteger)index
+//上传图片及内容
+- (void) uploadImage
 {
-    
-    NSString *postUrl = [NSString stringWithFormat:@"%@/api/upload/uploadImg",@""];
+    UITextField *inputText = [self.view viewWithTag:70];
+    UILabel*rightLabel  =[self.view viewWithTag:41];
+    if ([self.contentTextView.text isEqualToString:@"发帖内容"]||[[NSString stringWithFormat:@"%@",self.contentTextView.text] isEqualToString:@""]) {
+        [MBProgressHUD showWarn:@"请输入发帖内容" ToView:self.view];
+        return;
+    }
+    if([[NSString stringWithFormat:@"%@",inputText.text] isEqualToString:@""])
+    {
+        
+        [MBProgressHUD showWarn:@"请输入标题" ToView:self.view];
+        return;
+    }
+    if ([rightLabel.text isEqualToString:@"选择分类"]||[[NSString stringWithFormat:@"%@",rightLabel.text] isEqualToString:@""]) {
+        [MBProgressHUD showWarn:@"请选择分类" ToView:self.view];
+        return;
+    }
+    NSString *postUrl = [NSString stringWithFormat:@"%@/mobileapi/?luntan-save",SERVERURL];
     NSLog(@"postUrl = %@",postUrl);
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:@"account" forKey:@"12345678912"];
-    [manager POST:postUrl parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        NSData *eachImgData = UIImageJPEGRepresentation(_picIdArr[index], 0.3);
-        //        使用日期生成图片名称
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"yyyyMMddHHmmss";
-        NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
-        //
-        [formData appendPartWithFileData :eachImgData name : @"file" fileName : fileName mimeType : @"image/jpg/png/jpeg" ];
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",@"image/jpeg", @"image/png",nil];
+    [dic1 setDictionary:@{
+                          @"data[title]":[NSString stringWithFormat:@"%@",inputText.text] ,
+                          @"data[intro]":[NSString stringWithFormat:@"%@",_contentTextView.text] ,
+                          @"cat_id":[NSString stringWithFormat:@"%@",typeId],
+//                          @"data[thumb]":_picUrlArr[0]
+                          }
+     
+          ];
+
+    
+    [dic1 setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"token"]] forKey:@"token"];
+    [dic1 setObject:[NSString stringWithFormat:@"%@",[PublicMethod getObjectForKey:@"city_id"]] forKey:@"city_id"];
+
+    [manager POST:postUrl parameters:dic1 constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        if(_picUrlArr.count!=0)
+        {
+//            for (int i=0; i<_picIdArr.count; i++) {
+            UIButton *btn =[self.view viewWithTag:400];
+            
+            NSData *eachImgData = UIImageJPEGRepresentation( btn.currentImage, 0.3);
+            NSLog(@"eachImgData ====%@",eachImgData);
+            NSLog(@"_picIdArr ====%@",_picIdArr);
+//        使用日期生成图片名称
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            formatter.dateFormat = @"yyyyMMddHHmmss";
+            NSString *fileName = [NSString stringWithFormat:@"%@.jpg",[formatter stringFromDate:[NSDate date]]];
+
+            [formData appendPartWithFileData :eachImgData
+                                        name : @"data[thumb]"
+                                    fileName : fileName
+                                    mimeType : @"image/jpg" ];
+            NSLog(@"formDataformDataformDataformDataformData =%@",formData);
+
+//            }
+        }
+       
+       
         
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -507,24 +599,22 @@
         NSLog(@"请求成功:%@", responseObject);
         NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"图片请求成功JSON:%@", JSON);
-        if ([[JSON objectForKey:@"success"] integerValue] == 1)
+        NSString *result =[[ NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSLog(@"图片请求成功JSON:%@", result);
+
+        if ([[JSON objectForKey:@"error"] integerValue] == 1)
         {
-            [_uploadImageVArray replaceObjectAtIndex:index withObject:[[JSON objectForKey:@"param"] objectForKey:@"url"]];
             
-            NSLog(@"%@",self.uploadImageVArray);
+        }else if ([[JSON objectForKey:@"error"] integerValue] == -101)
+        {
+            [PublicMethod NavgationController:self.navigationController];
             
-            if (timeCount==_picIdArr.count) {
-                
-                
-                [self postTheAction];
-                
-                
-            }
-            timeCount++;
+        }else if ([[JSON objectForKey:@"error"] integerValue] == 100)
+        {
             
         }
-        else
-            [MBProgressHUD showError:[JSON objectForKey:@"error"] ToView:self.view];
+        
+            [MBProgressHUD showError:[JSON objectForKey:@"msg"] ToView:self.view];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [MBProgressHUD hideHUDForView:self.view];
         [MBProgressHUD showError:@"加载出错" ToView:self.view];
@@ -585,9 +675,7 @@
         if ([buton isKindOfClass:[UIButton class]]) {
             [buton removeFromSuperview];
         }
-        
     }
-    
     NSLog(@"%lu",(unsigned long)_picIdArr.count);
     for (int i=0; i<_picIdArr.count+1; i++) {
         if (i<3) {
@@ -631,14 +719,15 @@
             
         }else
         {
-            if (i<9) {
+        //i<1  表示一张  i<9表示最多9张
+            if (i<1) {
                 UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(45*Width+i%3*Width*235,  i/3*220*Width+30*Width, 190*Width, 190*Width)];
                 [btn setImage:[UIImage imageNamed:@"icon_addpic"] forState:UIControlStateNormal];
                 [btn addTarget:self action:@selector(xuanzhong) forControlEvents:UIControlEventTouchUpInside];
                 btn.tag =400+i;
                 [ zhong  addSubview:btn];
-                
-                
+
+
             }
             
         }

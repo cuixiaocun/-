@@ -49,7 +49,6 @@
  @li NSString
  @li NSNumber (also used for booleans)
  @li NSNull 
- 
  @deprecated Given we bill ourselves as a "strict" JSON library, this method should be removed.
  */
 - (NSString *)JSONFragment;

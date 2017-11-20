@@ -63,13 +63,82 @@
     [withDrawlsBtn setTitle:@"保存" forState:UIControlStateNormal];
     [withDrawlsBtn addTarget:self action:@selector(saveBtnAction) forControlEvents:UIControlEventTouchUpInside];
     [topImageView addSubview:withDrawlsBtn];
-
     [self mainView];
+    [self getInfor];
+    
 
 
 
 
-
+}
+- (void)getInfor{
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    [dic1 setDictionary:@{
+//                          }];
+//
+//    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?ucenter-index.html" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//        if([[NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]] isEqualToString:@"212"]){
+//            [self.navigationController popViewControllerAnimated:YES];
+//        }
+//
+////        else{
+////            NSArray *arr =@[[NSString stringWithFormat:@"%@",]
+////
+////
+////                            ];
+////
+////
+////            for (int i=0; i<11; i++) {
+////
+////                if (i==1||i==4||i==5){
+////                    UITextField *inputText =[self.view viewWithTag:10+i];
+////
+////                }else{
+////                    UILabel *labl =[self.view viewWithTag:20+i];
+////
+////                }
+////
+////            }
+////
+////
+////
+////
+////
+////
+////
+////            detailDic =[[dict objectForKey:@"data"] objectForKey:@"shop"];
+////            [_phoneImageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",IMAGEURL,[detailDic objectForKey:@"logo"]]]];
+////            _nameLabel.text =[detailDic objectForKey:@"name"];
+////            UILabel *gzLabel =[self.view viewWithTag:4800];
+////            gzLabel.text =[NSString stringWithFormat:@"电话:%@", IsNilString([detailDic  objectForKey:@"phone"])?@"":[detailDic objectForKey:@"phone"]];
+////            UILabel *yysLabel =[self.view viewWithTag:4801];
+////
+////            yysLabel.text =[NSString stringWithFormat:@"入驻时间:%@",[PublicMethod timeWithTimeIntervalString:[detailDic objectForKey:@"dateline"]]];
+////
+////
+////            UIImageView *img =[self.view viewWithTag:1200];
+////            UIImage *heartImg =[UIImage imageNamed:@"mall_icon_xinyu"];
+////            NSString *score =[NSString stringWithFormat:@"%@",[detailDic  objectForKey:@"audit"]];
+////            img.frame =CGRectMake(100*Width,_phoneImageV.bottom+30*Width+(90*Width-heartImg.size.height-2)/2,heartImg.size.width*[score integerValue], heartImg.size.height-1);
+////
+////            UILabel *sjLabel =[self.view viewWithTag:190];
+////            sjLabel.text =[NSString stringWithFormat:@"口碑:%@",[detailDic  objectForKey:@"avg_score"]];
+////
+////            UILabel *fwLabel =[self.view viewWithTag:191];
+////            fwLabel.text =[NSString stringWithFormat:@"关注:%@", [detailDic  objectForKey:@"views"] ];
+////
+////            indexHeightAll = 0.0;
+////            [self reloadCollectionViewData];
+////
+////
+////
+////        }
+//
+//    } fail:^(NSError *error) {
+//
+//    }];
+    
 }
 - (void)saveBtnAction
 {
@@ -178,13 +247,14 @@
     bgScrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:bgScrollView];
     [bgScrollView setContentSize:CGSizeMake(CXCWidth, 1610*Width)];
-    NSArray*leftArr =@[@"头像",@"姓名",@"性别",@"生日",@"手机号",@"邮箱",@"城市",@"地址管理",@"修改密码",@"关于",@"",@"",] ;
-    NSArray *rightArr =@[@"头像",@"姓名",@"性别",@"生日",@"手机号",@"邮箱",@"城市",@"",@"",@"",@"",];
+    NSArray*leftArr =@[@"头像",@"姓名",@"性别",@"生日",@"手机号",@"邮箱",@"城市",@"地址管理",@"更换用户类型",@"修改密码",@"关于",@"",@"",] ;
+    NSArray *rightArr =@[@"头像",@"姓名",@"性别",@"生日",@"手机号",@"邮箱",@"城市",@"",@"业主可修改1次",@"",@"",];
     //列表
-    for (int i=0; i<10; i++) {
+    for (int i=0; i<11; i++) {
         UIView *bgview =[[UIView alloc]init];
         bgview.backgroundColor =[UIColor whiteColor];
         [bgScrollView addSubview:bgview];
+        bgview.tag=70+i;
         
         UILabel* labe = [[UILabel alloc]initWithFrame:CGRectMake(32*Width, 0,200*Width , 106*Width)];
         labe.text = leftArr[i];
@@ -219,7 +289,7 @@
             if (i==0) {
                 //头像
                 UIImageView* photoImgV = [[UIImageView alloc]initWithFrame:CGRectMake(324*Width, 22*Width,64*Width , 64*Width)];
-                photoImgV.tag =20+i;
+                photoImgV.tag =30+i;
                 photoImgV.layer.cornerRadius =32*Width;
                 photoImgV.layer.masksToBounds = YES;
 
@@ -275,7 +345,20 @@
 //    [nextBtn addTarget:self action:@selector(nextStep) forControlEvents:UIControlEventTouchUpInside];
 //    [bgScrollView addSubview:nextBtn];
     
-
+    //若是业主（不修改）
+    
+    
+    //若是其他
+    for (int i=8; i<11;i++ ) {
+        UIView *view =[self.view viewWithTag:70+i];
+        if (i==8) {
+            view.hidden =YES;
+        }else
+        {
+        view.top =view.top-100*Width;
+        }
+        
+    }
 
 }
 - (void)didReceiveMemoryWarning {
@@ -373,12 +456,16 @@
         [self.navigationController pushViewController:mange animated:YES];
         
     }else if (btn.tag==18)
-    {//密码
-
+    {//更换用户
+        
         
     }else if (btn.tag==19)
+    {//密码
+        
+        
+    }else if (btn.tag==20)
     {//关于
-
+        
         
     }
         
@@ -400,9 +487,7 @@
             NSLog(@"%@",cellDate);
             [dateFormatter setDateFormat:@"yyyy-MM-dd"];
             NSTimeInterval timr  = [cellDate timeIntervalSince1970];
-            
             NSInteger time1 = timr;
-            
             //当前时间
             NSDate *  senddate=[NSDate date];
             NSDateFormatter  *dateformat=[[NSDateFormatter alloc] init];
@@ -582,7 +667,7 @@
     
     UIImage *img =[[UIImage alloc] initWithContentsOfFile:filePath];
     UIImage *savedImage =[self image:img rotation:(img.imageOrientation) ] ;
-    UIImageView *photoImg =[self.view viewWithTag:20];
+    UIImageView *photoImg =[self.view viewWithTag:30];
     [photoImg setImage:savedImage];
     
     imgToFWD =savedImage;
@@ -647,47 +732,47 @@
 }
 - (void)photoUpLoadToFWQ
 {
-    if (imgToFWD==nil) {
-        [MBProgressHUD  showError:@"请上传图片或选择文字信息" ToView:self.view];
-        return;
-    }
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
-    NSString *url=[NSString stringWithFormat:@"%@/%@",SERVERURL,@"index.php/Home/Login/upidcard"];
-    
-    [manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        NSData *imageData = UIImageJPEGRepresentation(imgToFWD, 0.5);
-        //使用日期生成图片名称
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"yyyyMMddHHmmss";
-        NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
-        [formData appendPartWithFileData :imageData name :@"upimg" fileName : fileName mimeType : @"image/jpg/png/jpeg" ];
-        
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        [MBProgressHUD hideHUDForView:self.view];
-        
-        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"图片请求成功JSON:%@", JSON);
-        if ([ [NSString stringWithFormat:@"%@",[JSON objectForKey:@"code"]]isEqualToString:@"0"])
-        {
-            
-        }else
-        {
-            [ProgressHUD dismiss];
-            [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[JSON objectForKey:@"msg"]] ToView:self.view];
-        }
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [MBProgressHUD hideHUDForView:self.view];
-        [MBProgressHUD showError:@"加载出错" ToView:self.view];
-        NSLog(@"请求失败:%@", error.description);
-    }];
-    
-    
+//    if (imgToFWD==nil) {
+//        [MBProgressHUD  showError:@"请上传图片或选择文字信息" ToView:self.view];
+//        return;
+//    }
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"html/text",@"text/json", @"text/html", @"text/plain",nil];
+//    NSString *url=[NSString stringWithFormat:@"%@/%@",SERVERURL,@"index.php/Home/Login/upidcard"];
+//
+//    [manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+//        NSData *imageData = UIImageJPEGRepresentation(imgToFWD, 0.5);
+//        //使用日期生成图片名称
+//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//        formatter.dateFormat = @"yyyyMMddHHmmss";
+//        NSString *fileName = [NSString stringWithFormat:@"%@.png",[formatter stringFromDate:[NSDate date]]];
+//        [formData appendPartWithFileData :imageData name :@"upimg" fileName : fileName mimeType : @"image/jpg/png/jpeg" ];
+//
+//    } progress:^(NSProgress * _Nonnull uploadProgress) {
+//
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        [MBProgressHUD hideHUDForView:self.view];
+//
+//        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+//        NSLog(@"图片请求成功JSON:%@", JSON);
+//        if ([ [NSString stringWithFormat:@"%@",[JSON objectForKey:@"code"]]isEqualToString:@"0"])
+//        {
+//
+//        }else
+//        {
+//            [ProgressHUD dismiss];
+//            [MBProgressHUD showError:[NSString stringWithFormat:@"%@",[JSON objectForKey:@"msg"]] ToView:self.view];
+//        }
+//
+//
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        [MBProgressHUD hideHUDForView:self.view];
+//        [MBProgressHUD showError:@"加载出错" ToView:self.view];
+//        NSLog(@"请求失败:%@", error.description);
+//    }];
+//
+//
     
 }
 

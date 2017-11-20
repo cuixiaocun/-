@@ -18,6 +18,13 @@
     NSInteger currentPage; //当前页
     MenuChooseVC*topView;
     NSArray *goodsArr;
+    NSMutableArray *typeArry;//分类
+    NSMutableArray *orderArry;//排序
+    NSMutableArray *infoArray;//数据
+    BOOL isMore;
+    NSString *orderString;
+    NSString *cateId;
+    
 
 
 }
@@ -33,8 +40,13 @@
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
-    currentPage =0;
-
+    currentPage =1;
+    isMore =YES;
+    orderString =@"";
+    cateId =@"";
+    orderArry =[[NSMutableArray alloc]init];
+    infoArray  =[[NSMutableArray alloc]init];
+    cateId =_typeIdString;
     //替代导航栏的imageview
     UIImageView *topImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, CXCWidth, Frame_NavAndStatus)];
     topImageView.userInteractionEnabled = YES;
@@ -55,7 +67,7 @@
     bigShowImgV.image =[UIImage imageNamed:@"sf_icon_search"];
     [navBgView addSubview:bigShowImgV];
     UITextField *searchTextField = [[UITextField alloc] init];
-    [searchTextField setPlaceholder:@"请输入房产"];
+    [searchTextField setPlaceholder:@"请输入商品"];
     [searchTextField setDelegate:self];
     searchTextField.tag =30;
     [searchTextField setFont:[UIFont systemFontOfSize:14]];
@@ -68,8 +80,9 @@
     
     
     //搜索按钮
+    
     UIButton *  searchBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    searchBtn.frame = CGRectMake(CXCWidth-60, 20, 44, 44);
+    searchBtn.frame = CGRectMake(CXCWidth-60, Frame_rectStatus, Frame_rectNav, Frame_rectNav);
     searchBtn.titleLabel.font =[UIFont boldSystemFontOfSize:15];
     [searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     [searchBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -85,8 +98,9 @@
         btnArr =@[@"类型",@"排序"];
 
     }
+    
     topView =[[MenuChooseVC alloc]initWithFrame:CGRectMake(0, Frame_NavAndStatus+1, CXCWidth, 85*Width) buttonArr:btnArr];
-    topView.level = 1;
+    topView.level = 3;
     topView.backgroundColor =[UIColor redColor];
     topView.delegate =self;
     [self.view addSubview:topView];
@@ -110,25 +124,47 @@
 //    [_mainCMallCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headerView"];
 //    [_mainCMallCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footerView"];
     _mainCMallCollectionView.backgroundColor =[UIColor whiteColor];
-    
     //设置代理
     _mainCMallCollectionView.delegate = self;
     _mainCMallCollectionView.dataSource = self;
     [_mainCMallCollectionView reloadData];
     [self addFooter];
-    
-
+    [self addHeader];
+    typeArry =[[NSMutableArray alloc]init];
+    [self type];
+    [self getInfoList];
 
 }
 -(void)btnClickBtn:(UIButton *)cell
 {
-    
+    if (cell.tag==230) {
+        topView.addressArr =typeArry;
+        topView.typeString =@"area_list";
+        topView.level = 3;
+        NSLog(@"cityArr = %@",typeArry[cell.tag-230]);
+    }else
+    {
+        topView.addressArr =orderArry;
+        topView.typeString =@"area_list";
+        topView.level = 1;
+        NSLog(@"cityArr = %@",orderArry[cell.tag-230]);
+    }
     
 }
-
+-(void)chooseBtnReturn:(UIButton *)btn withStringId:(NSString *)stringId
+{
+    if (btn.tag==230) {
+        cateId =stringId;
+    }else{
+        orderString =stringId;
+    }
+    currentPage=1;
+    [self performSelector:@selector(getInfoList)];
+}
 - (void)withDrawlsBtnAction
 {
-
+    currentPage=1;
+    [self getInfoList];
 }
 - (void)returnBtnAction
 {
@@ -146,7 +182,7 @@
 //返回section的item个数
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 30;
+    return infoArray.count;
 }
 //设置每个方块的尺寸
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -179,7 +215,7 @@
 {
     ComMallCollectionViewCell* onecell = (ComMallCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([ComMallCollectionViewCell class]) forIndexPath:indexPath];
     onecell.backgroundColor = [UIColor whiteColor];
-    //    _cell.dic =goodsArr[indexPath.row];
+    onecell.dic =infoArray[indexPath.row];
     return onecell;
     
 }
@@ -187,10 +223,9 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     GoodsDetailVC*goode =[[GoodsDetailVC alloc]init];
-    goode.goodsId =[NSString stringWithFormat:@"%@",[goodsArr[indexPath.row] objectForKey:@"id"]];
+    goode.goodsId =[NSString stringWithFormat:@"%@",[infoArray[indexPath.row] objectForKey:@"product_id"]];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     [self.navigationController  pushViewController:goode animated:YES];
-    
 }
 
 - (void)addFooter
@@ -198,19 +233,10 @@
     __unsafe_unretained typeof(self) vc = self;
     // 添加上拉刷新尾部控件
     [_mainCMallCollectionView addFooterWithCallback:^{
-        // 进入刷新状态就会回调这个Block
-        
-        // 增加5条假数据
-        //        for (int i = 0; i<5; i++) {
-        //           [vc.fakeColors addObject:MJRandomColor];
-        //        }
-        
-        // 模拟延迟加载数据，因此2秒后才调用（真实开发中，可以移除这段gcd代码）
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [vc.mainCMallCollectionView reloadData];
-            // 结束刷新
-            [vc.mainCMallCollectionView footerEndRefreshing];
-        });
+        if (isMore==YES) {
+            [vc getInfoList];
+        }else{
+        }
     }];
 }
 - (void)addHeader
@@ -219,26 +245,199 @@
     // 添加下拉刷新头部控件
     [_mainCMallCollectionView addHeaderWithCallback:^{
         // 进入刷新状态就会回调这个Block
-        
-//        // 增加5条假数据
-//        for (int i = 0; i<5; i++) {
-//            [vc.fakeColors insertObject:MJRandomColor atIndex:0];
-//        }
-        
-        // 模拟延迟加载数据，因此2秒后才调用（真实开发中，可以移除这段gcd代码）
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [vc.mainCMallCollectionView reloadData];
-            // 结束刷新
-            [vc.mainCMallCollectionView headerEndRefreshing];
-        });
+        isMore =YES;
+        currentPage=1;
+        [vc getInfoList];
     } dateKey:@"collection"];
-    // dateKey用于存储刷新时间，也可以不传值，可以保证不同界面拥有不同的刷新时间
-    
 #warning 自动刷新(一进入程序就下拉刷新)
-    [_mainCMallCollectionView headerBeginRefreshing];
+//    [_mainCMallCollectionView headerBeginRefreshing];
 }
+- (void)type{
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+    [dic1 setDictionary:@{
+                          }];
+    
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-big_cat_list.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"])
+        {
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"%@",dict);
+            //type列表
+            NSArray *typeArr =[dict objectForKey:@"data"] ;
+            //第一层
+            for (NSDictionary*dic in typeArr) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"cat_id"]] forKey:@"zipcode"];
+                NSMutableArray *detailTwo =[[NSMutableArray alloc]init];
+                detailTwo =[dic objectForKey:@"child"];
+                NSMutableArray *detailArr =[[NSMutableArray alloc]init];//存储新的arr（child）
+                NSMutableDictionary  *dictionary1 =[[NSMutableDictionary alloc]init];
+                [dictionary1 setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]] forKey:@"name"];//不限
+                [dictionary1 setValue:[NSString stringWithFormat:@"%@",[dic objectForKey:@"cat_id"]] forKey:@"zipcode"];
+                [dictionary1 setValue:@[@{
+                                        @"name":[NSString stringWithFormat:@"%@",[dic objectForKey:@"title"]],
+                                        @"zipcode":[NSString stringWithFormat:@"%@",[dic objectForKey:@"cat_id"]],
+                                        
+                                        }] forKey:@"sub"];
 
+                [detailArr addObject:dictionary1];
+                
+                //第二层
+                for (NSDictionary *dicTwo in detailTwo) {
 
+                    NSMutableDictionary *dictionaryTwo  =[[NSMutableDictionary alloc]init];//新的字典
+                    [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"title"]] forKey:@"name"];
+                    [dictionaryTwo setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"cat_id"]] forKey:@"zipcode"];
+                    [detailArr addObject:dictionaryTwo];
+                    NSMutableArray *detailTwo =[[NSMutableArray alloc]init];
+                    detailTwo =[dicTwo objectForKey:@"child"];
+                    NSMutableArray *detailtwoArr =[[NSMutableArray alloc]init];//存储新的arr（child）
+//不限
+                    NSMutableDictionary  *dictionary1 =[[NSMutableDictionary alloc]init];
+                    [dictionary1 setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"title"]] forKey:@"name"];
+                    [dictionary1 setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"cat_id"]] forKey:@"zipcode"];
+
+                    [detailtwoArr addObject:dictionary1];
+                    //第三层
+                    for (NSDictionary *dicTwo in detailTwo) {
+                        
+                        NSMutableDictionary *dictionaryThree  =[[NSMutableDictionary alloc]init];//新的字典
+                        [dictionaryThree setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"title"]] forKey:@"name"];
+                        [dictionaryThree setValue:[NSString stringWithFormat:@"%@",[dicTwo objectForKey:@"cat_id"]] forKey:@"zipcode"];
+                        [detailtwoArr addObject:dictionaryThree];
+                        
+                    
+                    }
+                    
+                    [dictionaryTwo setValue:detailtwoArr forKey:@"sub"];
+                }
+                [dictionary setValue:detailArr forKey:@"sub"];
+                
+                [typeArry addObject:dictionary];
+                
+                
+            }
+        }
+
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+}
+- (void)getInfoList
+{
+    
+    UITextField *textF =[self.view viewWithTag:30];
+    [textF resignFirstResponder];
+    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+
+    if (_shop_id) {
+        [dic1 setDictionary:@{
+                              @"shop_id":[NSString stringWithFormat:@"%@",cateId],
+                              @"page":[NSString stringWithFormat:@"%@",orderString],
+                              @"limit":[NSString stringWithFormat:@"%ld",(long)currentPage],
+                              @"keywords":[NSString stringWithFormat:@"%@",textF.text]
+                              }];
+    }
+       [dic1 setDictionary:@{
+                          @"cat_id":[NSString stringWithFormat:@"%@",cateId],
+                          @"order":[NSString stringWithFormat:@"%@",orderString],
+                          @"page":[NSString stringWithFormat:@"%ld",(long)currentPage],
+                          @"keywords":[NSString stringWithFormat:@"%@",textF.text]
+                          }];
+    
+    NSLog(@"%@",dic1);
+    [PublicMethod AFNetworkPOSTurl:@"mobileapi/?product-items.html" paraments:dic1 addView:self.view addNavgationController:self.navigationController    success:^(id responseDic) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"error"]]isEqualToString:@"0"])
+        {
+            orderArry =[[NSMutableArray alloc] init];
+            //Order
+            NSArray *orderArr =[[dict objectForKey:@"data"] objectForKey:@"order_list"];
+            NSMutableDictionary  *dictionary3 =[[NSMutableDictionary alloc]init];
+            [dictionary3 setValue:[NSString stringWithFormat:@"%@",@"不限"] forKey:@"name"];
+            [dictionary3 setValue:[NSString stringWithFormat:@"%@",@"0"] forKey:@"zipcode"];
+            [orderArry addObject:dictionary3];
+            for (int i=0;i<orderArr.count; i++) {
+                NSMutableDictionary *dictionary =[[NSMutableDictionary alloc]init];
+                [dictionary setValue:[NSString stringWithFormat:@"%@",orderArr[i]] forKey:@"name"];
+                [dictionary setValue:[NSString stringWithFormat:@"%d",i+1] forKey:@"zipcode"];
+                [orderArry addObject:dictionary];
+            }
+            {
+                if (currentPage==1) {
+                    [infoArray removeAllObjects];
+                }
+                NSMutableArray *array=[[dict objectForKey:@"data"] objectForKey:@"items"];
+                if ([infoArray isKindOfClass:[NSNull class]]) {
+                    [MBProgressHUD  showSuccess:@"没有更多了" ToView:self.view];
+
+                    [_mainCMallCollectionView reloadData];
+                    return ;
+                }
+                
+                    [infoArray addObjectsFromArray:array];
+                if ([infoArray count]==0 && currentPage==1) {
+                    [MBProgressHUD  showSuccess:@"没有更多了" ToView:self.view];
+                }
+                
+                if (currentPage==1) {
+                    [self.mainCMallCollectionView headerEndRefreshing];
+                    [_mainCMallCollectionView setContentOffset:CGPointMake(0, 0) animated:YES];
+                }else{
+                    
+                    
+                    // 结束刷新
+                    [self.mainCMallCollectionView footerEndRefreshing];
+
+                }
+                if (array.count==10) {
+                    [self.mainCMallCollectionView setFooterHidden:NO];
+                    isMore =YES;
+                    currentPage++;
+                }else{
+                    isMore =NO;
+                    [MBProgressHUD  showSuccess:@"没有更多了" ToView:self.view];
+                    [self.mainCMallCollectionView setFooterHidden:YES];
+                }
+                
+                [_mainCMallCollectionView reloadData];
+
+            }
+            
+            
+            
+            
+            
+            
+          
+
+            
+        }
+        
+        
+    } fail:^(NSError *error) {
+        
+    }];
+    
+    
+    
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    currentPage=1;
+    [self getInfoList];
+    [textField resignFirstResponder];
+    
+    return YES;
+    
+}
 /*
 #pragma mark - Navigation
 

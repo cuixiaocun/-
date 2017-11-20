@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PostMessageVC : UIViewController
+@property(nonatomic,strong)NSString *askId;
 
 @end

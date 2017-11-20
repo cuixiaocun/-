@@ -64,16 +64,12 @@
                 self.contentLabel.numberOfLines =0;
                 self.contentLabel.textColor = TextColor;
                 self.contentLabel.tag =200;
+                _contentLabel.textAlignment =NSTextAlignmentRight;
                 //self.rightLabel.backgroundColor =BGColor;
                 self.contentLabel.font = [UIFont systemFontOfSize:14];
                 self.contentLabel.allowLineBreakInsideLinks = YES;
-                [self addSubview:self.contentLabel];
-                _contentLabel.text =@"看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。";
-                CGSize titleSize;//通过文本得到高度
-                titleSize = [_contentLabel.text boundingRectWithSize:CGSizeMake(680*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-                _contentLabel.frame =CGRectMake(24*Width ,20*Width, 700*Width,titleSize.height+40*Width);
-                _contentLabel.numberOfLines =0;
-                bgview.frame =CGRectMake(0, i*82*Width, CXCWidth, 82*Width*2);
+                [bgview addSubview:self.contentLabel];
+              
                 //查看物流
                 _seeLogBtn = [[UIButton alloc]init];
                 [_seeLogBtn setBackgroundColor:[UIColor whiteColor]];
@@ -83,7 +79,17 @@
                 [_seeLogBtn setTitleColor:NavColor forState:UIControlStateNormal];
                 [_seeLogBtn setTitle:@"设为中标" forState:UIControlStateNormal];
                 _seeLogBtn.tag=133;
-                [_seeLogBtn setFrame:CGRectMake(580*Width,13.5*Width+_contentLabel.bottom , 150*Width, 55*Width)];
+                _contentLabel.text =@"看了一段时间后的第一个感受-水真深！因为喜欢摄影的原因，自己喜欢的摄影师又都有着小清新，日系情操。";
+                CGSize titleSize;//通过文本得到高度
+                titleSize = [_contentLabel.text boundingRectWithSize:CGSizeMake(610*Width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
+                _contentLabel.frame =CGRectMake(125*Width ,20*Width, 600*Width,titleSize.height);
+                _contentLabel.numberOfLines =0;
+                bgview.frame =CGRectMake(0, i*82*Width, CXCWidth, 82*Width+_contentLabel.height);
+                xian.frame =CGRectMake(0,_contentLabel.bottom+20*Width-1.5*Width, CXCWidth, 1.5*Width);
+                [_seeLogBtn setFrame:CGRectMake(580*Width,13.5*Width+_contentLabel.bottom+20*Width , 150*Width, 55*Width)];
+
+                
+                
                 [_seeLogBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
                 [_seeLogBtn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
                 _seeLogBtn.layer.borderColor =NavColor.CGColor;

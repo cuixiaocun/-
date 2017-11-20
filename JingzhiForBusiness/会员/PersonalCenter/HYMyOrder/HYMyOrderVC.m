@@ -149,7 +149,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 //        return infoArray.count ;
-    return 10;
+    return 1;
 
 }
 
@@ -513,7 +513,6 @@
 //    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/receive" paraments:dic1  addView:self.view success:^(id responseDic) {
 //        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
 //        if ([ [NSString stringWithFormat:@"%@",[dict objectForKey:@"code"]]isEqualToString:@"0"]) {
-//            
             [MBProgressHUD showSuccess:@"收货成功" ToView:self.view];
 //            currentPage =0;
 //            [self getInfoList ];
@@ -529,68 +528,67 @@
 }
 - (void)getInfoList
 {
-    
-    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
-    [dic1 setDictionary:@{
-                          @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
-//                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]],
-                          @"status":statuString
-//                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
-}
-     ];
-    
-    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/myOrderList" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
-        
-            if (currentPage==0) {
-                [infoArray removeAllObjects];
-                
-            }
-            NSMutableArray *array=[dict objectForKey:@"data"];
-            if ([array isKindOfClass:[NSNull class]]) {
-//                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-                [self.tableView reloadData];
-
-                return ;
-            }
-            
-            
-            [infoArray addObjectsFromArray:array];
-            
-            if ([infoArray count]==0 && currentPage==0) {
-//                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
-                
-            }
-            pageCount =infoArray.count/20;
-            //判断是否加载更多
-            if (array.count==0 || array.count<20){
-                self.canLoadMore = NO; // signal that there won't be any more items to load
-            }else{
-                self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
-            }
-            
-            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
-            [fv.activityIndicator stopAnimating];
-            
-            if (!self.canLoadMore) {
-                fv.infoLabel.hidden = YES;
-            }else{
-                fv.infoLabel.hidden = NO;
-            }
-            
-            
-            [self.tableView reloadData];
-            if (currentPage==0) {
-                //                [self.tableView setScrollsToTop:YES];
-                [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
-            }
-        
-        [self.tableView reloadData];
-
-    } fail:^(NSError *error) {
-        
-    }];
-    
+//    NSMutableDictionary *dic1 = [NSMutableDictionary dictionary];
+//    [dic1 setDictionary:@{
+//                          @"currentPage":[NSString stringWithFormat:@"%ld",currentPage] ,
+////                          @"uid":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"id"]],
+//                          @"status":statuString
+////                          @"token":[NSString stringWithFormat:@"%@",[[PublicMethod getDataKey:member] objectForKey:@"token"]]
+//}
+//     ];
+//
+//    [PublicMethod AFNetworkPOSTurl:@"Home/OnlineOrder/myOrderList" paraments:dic1  addView:self.view addNavgationController:self.navigationController success:^(id responseDic) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseDic options:NSJSONReadingMutableContainers error:nil];
+//
+//            if (currentPage==0) {
+//                [infoArray removeAllObjects];
+//
+//            }
+//            NSMutableArray *array=[dict objectForKey:@"data"];
+//            if ([array isKindOfClass:[NSNull class]]) {
+////                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+//                [self.tableView reloadData];
+//
+//                return ;
+//            }
+//
+//
+//            [infoArray addObjectsFromArray:array];
+//
+//            if ([infoArray count]==0 && currentPage==0) {
+////                [PublicMethod setAlertInfo:@"暂无信息" andSuperview:self.view];
+//
+//            }
+//            pageCount =infoArray.count/20;
+//            //判断是否加载更多
+//            if (array.count==0 || array.count<20){
+//                self.canLoadMore = NO; // signal that there won't be any more items to load
+//            }else{
+//                self.canLoadMore = YES;//要是分页的话就要改成yes并且把上面的currentPage=1注掉
+//            }
+//
+//            DemoTableFooterView *fv = (DemoTableFooterView *)self.footerView;
+//            [fv.activityIndicator stopAnimating];
+//
+//            if (!self.canLoadMore) {
+//                fv.infoLabel.hidden = YES;
+//            }else{
+//                fv.infoLabel.hidden = NO;
+//            }
+//
+//
+//            [self.tableView reloadData];
+//            if (currentPage==0) {
+//                //                [self.tableView setScrollsToTop:YES];
+//                [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+//            }
+//
+//        [self.tableView reloadData];
+//
+//    } fail:^(NSError *error) {
+//
+//    }];
+//
 }
 
 /*
